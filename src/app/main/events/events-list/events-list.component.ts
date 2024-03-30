@@ -251,7 +251,7 @@ export class EventsListComponent implements OnInit {
   }
   updateEventList(newEvent: any) {
     this.loading=true;
-    this.rows.push(newEvent);
+    // this.rows.push(newEvent);
     this.getEvents(); 
   }
 
