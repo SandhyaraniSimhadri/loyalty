@@ -16,12 +16,12 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 // UserListService
 
 @Component({
-  selector: "app-company-management-list",
-  templateUrl: "./company-management-list.component.html",
-  styleUrls: ["./company-management-list.component.scss"],
+  selector: "app-company-list",
+  templateUrl: "./company-list.component.html",
+  styleUrls: ["./company-list.component.scss"],
   encapsulation: ViewEncapsulation.None,
 })
-export class CompanyManagementListComponent implements OnInit {
+export class CompanyListComponent implements OnInit {
   // Public
   public sidebarToggleRef = false;
   public rows;

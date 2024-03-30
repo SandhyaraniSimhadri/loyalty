@@ -7,12 +7,12 @@ import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 @Component({
-  selector: 'app-company-management-view',
-  templateUrl: './company-management-view.component.html',
-  styleUrls: ['./company-management-view.component.scss'],
+  selector: 'app-company-view',
+  templateUrl: './company-view.component.html',
+  styleUrls: ['./company-view.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class CompanyManagementViewComponent implements OnInit, OnDestroy {
+export class CompanyViewComponent implements OnInit, OnDestroy {
   // public
   public url = this.router.url;
   public lastValue;
@@ -97,7 +97,7 @@ export class CompanyManagementViewComponent implements OnInit, OnDestroy {
               toastClass: "toast ngx-toastr",
               closeButton: true,
             });
-            this.router.navigate(["../company-management"]);
+            this.router.navigate(["../company"]);
           }
         }
     this.buttonLoading=false;

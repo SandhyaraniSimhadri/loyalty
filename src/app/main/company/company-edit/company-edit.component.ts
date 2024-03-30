@@ -20,11 +20,11 @@ import { ToastrService } from "ngx-toastr";
 import { isEqual } from "lodash";
 
 @Component({
-  selector: "app-company-management-edit",
-  templateUrl: "./company-management-edit.component.html",
-  styleUrls: ["./company-management-edit.component.scss"],
+  selector: "app-company-edit",
+  templateUrl: "./company-edit.component.html",
+  styleUrls: ["./company-edit.component.scss"],
 })
-export class CompanyManagementEditComponent implements OnInit, OnDestroy {
+export class CompanyEditComponent implements OnInit, OnDestroy {
   // Public
   public url = this.router.url;
   public urlLastValue;
@@ -172,7 +172,7 @@ export class CompanyManagementEditComponent implements OnInit, OnDestroy {
                   toastClass: "toast ngx-toastr",
                   closeButton: true,
                 });
-                this._router.navigate(["../company-management"]);
+                this._router.navigate(["../company"]);
               }
             }
             this.buttonLoading = false;

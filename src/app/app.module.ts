@@ -44,8 +44,8 @@ const appRoutes: Routes = [
   {
     path: "company",
     loadChildren: () =>
-      import("./main/company-management/company-management.module").then(
-        (m) => m.CompanyManagementModule
+      import("./main/company/company.module").then(
+        (m) => m.CompanyModule
       ),
     canActivate: [AuthGuard],
   },

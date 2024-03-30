@@ -16,50 +16,50 @@ import { CoreSidebarModule } from "@core/components";
 import { InvoiceListService } from "app/main/apps/invoice/invoice-list/invoice-list.service";
 import { InvoiceModule } from "app/main/apps/invoice/invoice.module";
 
-import { CompanyManagementEditComponent } from "./company-management-edit/company-management-edit.component";
-import { UserEditService } from "./company-management-edit/user-edit.service";
-import { CompanyManagementListComponent } from "./company-management-list/company-management-list.component";
-import { UserListService } from "./company-management-list/user-list.service";
-import { CompanyManagementViewComponent } from "./company-management-view/company-management-view.component";
-import { UserViewService } from "./company-management-view/user-view.service";
-import { NewUserSidebarComponent } from "./company-management-list/new-user-sidebar/new-user-sidebar.component";
+import { CompanyEditComponent } from "./company-edit/company-edit.component";
+import { UserEditService } from "./company-edit/user-edit.service";
+import { CompanyListComponent } from "./company-list/company-list.component";
+import { UserListService } from "./company-list/user-list.service";
+import { CompanyViewComponent } from "./company-view/company-view.component";
+import { UserViewService } from "./company-view/user-view.service";
+import { NewUserSidebarComponent } from "./company-list/new-user-sidebar/new-user-sidebar.component";
 
 import { SharedModule } from "../shared.module";
 
 // routing
 const routes: Routes = [
   {
-    path: "company-management",
-    component: CompanyManagementListComponent,
+    path: "company",
+    component: CompanyListComponent,
     resolve: {
       uls: UserListService,
     },
-    data: { animation: "CompanyManagementListComponent" },
+    data: { animation: "CompanyListComponent" },
   },
   {
     path: "",
-    component: CompanyManagementListComponent,
+    component: CompanyListComponent,
     resolve: {
       uls: UserListService,
     },
-    data: { animation: "CompanyManagementListComponent" },
+    data: { animation: "CompanyListComponent" },
   },
   {
-    path: "company-management-view/:id",
-    component: CompanyManagementViewComponent,
+    path: "company-view/:id",
+    component: CompanyViewComponent,
     resolve: {
       data: UserViewService,
       InvoiceListService,
     },
-    data: { path: "view/:id", animation: "CompanyManagementViewComponent" },
+    data: { path: "view/:id", animation: "CompanyViewComponent" },
   },
   {
-    path: "company-management-edit/:id",
-    component: CompanyManagementEditComponent,
+    path: "company-edit/:id",
+    component: CompanyEditComponent,
     resolve: {
       ues: UserEditService,
     },
-    data: { animation: "CompanyManagementEditComponent" },
+    data: { animation: "CompanyEditComponent" },
   },
   {
     path: "user-view",
@@ -73,9 +73,9 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    CompanyManagementListComponent,
-    CompanyManagementViewComponent,
-    CompanyManagementEditComponent,
+    CompanyListComponent,
+    CompanyViewComponent,
+    CompanyEditComponent,
     NewUserSidebarComponent,
   ],
   imports: [
@@ -95,4 +95,4 @@ const routes: Routes = [
   ],
   providers: [UserListService, UserViewService, UserEditService],
 })
-export class CompanyManagementModule {}
+export class CompanyModule {}
