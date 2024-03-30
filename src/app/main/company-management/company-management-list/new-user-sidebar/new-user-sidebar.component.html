@@ -1,0 +1,670 @@
+<div class="slideout-content" *ngIf="status">
+  <!-- Modal to add new user starts-->
+  <div
+    class="modalsd modal-slide-in sdfade new-user-modal"
+    id="modals-slide-in"
+  >
+    <div class="modal-dialog">
+      <form
+        class="add-new-user modal-content pt-0"
+        (ngSubmit)="(newUserForm.form.valid)"
+        #newUserForm="ngForm"
+      >
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+          (click)="toggleSidebar('new-user-sidebar')"
+        >
+          ×
+        </button>
+        <div class="modal-header mb-1">
+          <h5 class="modal-title" id="exampleModalLabel">New Company</h5>
+        </div>
+        <div class="modal-body flex-grow-1">
+          <label class="group-label" style="font-size: 12px;"><b>Company Information:</b></label>
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label class="form-label" for="basic-icon-default-companyname"
+                  >Company name
+                  <span
+                    *ngIf="newUserForm.submitted && CNameRef.invalid"
+                    class="text-danger"
+                    >*</span
+                  >
+                  <span *ngIf="!newUserForm.submitted || !CNameRef.invalid"
+                    >*</span
+                  ></label
+                >
+                <input
+                  type="text"
+                  class="form-control dt-company-name"
+                  id="basic-icon-default-companyname"
+                  placeholder=""
+                  name="user-companyname"
+                  [(ngModel)]="company_name"
+                  [class.error]="newUserForm.submitted && CNameRef.invalid"
+                  #CNameRef="ngModel"
+                  required
+                  aria-label=""
+                  aria-describedby="basic-icon-default-companyname"
+                />
+                <span
+                  *ngIf="newUserForm.submitted && CNameRef.invalid"
+                  class="invalid-form"
+                >
+                  <small
+                    class="form-text text-danger"
+                    *ngIf="CNameRef.errors.required"
+                    >This field is required!</small
+                  >
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label
+                  class="form-label"
+                  for="basic-icon-default-business-entity"
+                  >Select Business Entity Type <span
+                  *ngIf="newUserForm.submitted && EntTypeRef.invalid"
+                  class="text-danger"
+                  >*</span
+                >
+                <span *ngIf="!newUserForm.submitted || !EntTypeRef.invalid"
+                  >*</span
+                ></label
+                >
+                <select
+                  [(ngModel)]="business_entity"
+                  [ngModelOptions]="{ standalone: true }"
+                  id="basic-icon-default-business-entity"
+                  class="form-control dt-business-entity"
+                  aria-label=""
+                  aria-describedby="basic-icon-default-business-entity"
+                  name="business-entity"
+                  [class.error]="newUserForm.submitted && EntTypeRef.invalid"
+                  #EntTypeRef="ngModel"
+                  required
+                >
+                  <option value="Corporation">Corporation</option>
+                  <option value="Limited Liability Company (LLC)">
+                    Limited Liability Company (LLC)
+                  </option>
+                  <option value="Partnership">Partnership</option>
+                  <option value="Sole Proprietorship">
+                    Sole Proprietorship
+                  </option>
+                  <option value="Others">Others</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label
+                  class="form-label"
+                  for="basic-icon-default-business-address"
+                  >Business Address<span
+                    *ngIf="newUserForm.submitted && BAddRef.invalid"
+                    class="text-danger"
+                    >*</span
+                  >
+                  <span *ngIf="!newUserForm.submitted || !BAddRef.invalid"
+                    >*</span
+                  ></label
+                >
+                <input
+                  type="text"
+                  class="form-control dt-business-address"
+                  id="basic-icon-default-business-address"
+                  placeholder=""
+                  name="user-business-address"
+                  [(ngModel)]="business_address"
+                  [class.error]="newUserForm.submitted && BAddRef.invalid"
+                  #BAddRef="ngModel"
+                  required
+                  aria-label=""
+                  aria-describedby="basic-icon-default-business-address"
+                />
+                <span
+                  *ngIf="newUserForm.submitted && BAddRef.invalid"
+                  class="invalid-form"
+                >
+                  <small
+                    class="form-text text-danger"
+                    *ngIf="BAddRef.errors.required"
+                    >This field is required!</small
+                  >
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label
+                  class="form-label"
+                  for="basic-icon-default-mailing-address"
+                  >Mailing Address (if different)<span
+                    *ngIf="newUserForm.submitted && MaddRef.invalid"
+                    class="text-danger"
+                    >*</span
+                  >
+                  <span *ngIf="!newUserForm.submitted || !MaddRef.invalid"
+                    >*</span
+                  ></label
+                >
+                <input
+                  type="text"
+                  class="form-control dt-mailing-address"
+                  id="basic-icon-default-mailing-address"
+                  placeholder=""
+                  name="user-mailing-address"
+                  [(ngModel)]="mailing_address"
+                  [class.error]="newUserForm.submitted && MaddRef.invalid"
+                  #MaddRef="ngModel"
+                  required
+                  aria-label=""
+                  aria-describedby="basic-icon-default-mailing-address"
+                />
+                <span
+                  *ngIf="newUserForm.submitted && MaddRef.invalid"
+                  class="invalid-form"
+                >
+                  <small
+                    class="form-text text-danger"
+                    *ngIf="MaddRef.errors.required"
+                    >This field is required!</small
+                  >
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label
+                  class="form-label"
+                  for="basic-icon-default-contact-number"
+                  >Business Phone Number
+                  <span
+                    *ngIf="newUserForm.submitted && CNlRef.invalid"
+                    class="text-danger"
+                    >*</span
+                  >
+                  <span *ngIf="!newUserForm.submitted || !CNlRef.invalid"
+                    >*</span
+                  ></label
+                >
+                <input
+                  type="text"
+                  id="basic-icon-default-contact-number"
+                  class="form-control dt-contact-number"
+                  placeholder=""
+                  aria-label=""
+                  aria-describedby="basic-icon-default-contact-number"
+                  name="user-contact-number"
+                  [(ngModel)]="bus_contact_number"
+                  [class.error]="newUserForm.submitted && CNlRef.invalid"
+                  #CNlRef="ngModel"
+                  required
+                />
+                <span
+                  *ngIf="newUserForm.submitted && CNlRef.invalid"
+                  class="invalid-form"
+                >
+                  <small
+                    class="form-text text-danger"
+                    *ngIf="CNlRef.errors.required"
+                    >This field is required!</small
+                  >
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label class="form-label" for="basic-icon-default-email"
+                  >Email Address<span
+                    *ngIf="newUserForm.submitted && FEmailRef.invalid"
+                    class="text-danger"
+                    >*</span
+                  >
+                  <span *ngIf="!newUserForm.submitted || !FEmailRef.invalid"
+                    >*</span
+                  ></label
+                >
+                <input
+                  type="text"
+                  id="basic-icon-default-email"
+                  class="form-control dt-email"
+                  placeholder=""
+                  aria-label=""
+                  aria-describedby="basic-icon-default-email2"
+                  name="user-email"
+                  [(ngModel)]="email"
+                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                  [class.error]="newUserForm.submitted && FEmailRef.invalid"
+                  #FEmailRef="ngModel"
+                  required
+                />
+                <span
+                  *ngIf="newUserForm.submitted && FEmailRef.invalid"
+                  class="invalid-form"
+                >
+                  <small
+                    class="form-text text-danger"
+                    *ngIf="FEmailRef.invalid && newUserForm.submitted"
+                    >Must be a valid email!</small
+                  >
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-address"
+              >Website (if applicable)<span
+                *ngIf="newUserForm.submitted && WebRef.invalid"
+                class="text-danger"
+                >*</span
+              >
+              <span *ngIf="!newUserForm.submitted || !WebRef.invalid"
+                >*</span
+              ></label
+            >
+            <input
+              type="text"
+              id="basic-icon-default-website"
+              class="form-control dt-website"
+              placeholder=""
+              aria-label=""
+              aria-describedby="basic-icon-default-website"
+              name="user-website"
+              [(ngModel)]="website"
+              [class.error]="newUserForm.submitted && WebRef.invalid"
+              #WebRef="ngModel"
+              required
+            />
+            <span
+              *ngIf="newUserForm.submitted && WebRef.invalid"
+              class="invalid-form"
+            >
+              <small
+                class="form-text text-danger"
+                *ngIf="WebRef.errors.required"
+                >This field is required!</small
+              >
+            </span>
+          </div>
+          <br/>
+          <label class="group-label" style="font-size: 12px;"><b>Primary Contact Information:</b></label>
+         
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label class="form-label" for="basic-icon-default-fullname"
+                  >Full Name
+                  <span
+                    *ngIf="newUserForm.submitted && FNameRef.invalid"
+                    class="text-danger"
+                    >*</span
+                  >
+                  <span *ngIf="!newUserForm.submitted || !FNameRef.invalid"
+                    >*</span
+                  ></label
+                >
+                <input
+                  type="text"
+                  class="form-control dt-fullname"
+                  id="basic-icon-default-fullname"
+                  placeholder=""
+                  name="user-fullname"
+                  [(ngModel)]="full_name"
+                  [class.error]="newUserForm.submitted && FNameRef.invalid"
+                  #FNameRef="ngModel"
+                  required
+                  aria-label=""
+                  aria-describedby="basic-icon-default-fullname"
+                />
+                <span
+                  *ngIf="newUserForm.submitted && FNameRef.invalid"
+                  class="invalid-form"
+                >
+                  <small
+                    class="form-text text-danger"
+                    *ngIf="FNameRef.errors.required"
+                    >This field is required!</small
+                  >
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label class="form-label" for="basic-icon-default-title"
+                  >Title/Position
+                  <span
+                    *ngIf="newUserForm.submitted && TNameRef.invalid"
+                    class="text-danger"
+                    >*</span
+                  >
+                  <span *ngIf="!newUserForm.submitted || !TNameRef.invalid"
+                    >*</span
+                  ></label
+                >
+                <input
+                  type="text"
+                  class="form-control dt-title"
+                  id="basic-icon-default-title"
+                  placeholder=""
+                  name="user-title"
+                  [(ngModel)]="title"
+                  [class.error]="newUserForm.submitted && TNameRef.invalid"
+                  #TNameRef="ngModel"
+                  required
+                  aria-label=""
+                  aria-describedby="basic-icon-default-title"
+                />
+                <span
+                  *ngIf="newUserForm.submitted && TNameRef.invalid"
+                  class="invalid-form"
+                >
+                  <small
+                    class="form-text text-danger"
+                    *ngIf="TNameRef.errors.required"
+                    >This field is required!</small
+                  >
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label class="form-label" for="basic-icon-default-pemail"
+                  >Email Address<span
+                  *ngIf="newUserForm.submitted && PEmailRef.invalid"
+                  class="text-danger"
+                  >*</span
+                >
+                <span *ngIf="!newUserForm.submitted || !PEmailRef.invalid"
+                  >*</span
+                ></label
+                >
+                <input
+                  type="text"
+                  id="basic-icon-default-pemail"
+                  class="form-control dt-pemail"
+                  placeholder=""
+                  aria-label=""
+                  aria-describedby="basic-icon-default-pemail"
+                  name="user-pemail"
+                  [(ngModel)]="primary_email"
+                  [class.error]="newUserForm.submitted && PEmailRef.invalid"
+                  #PEmailRef="ngModel"
+                  required
+                />
+                <span
+                *ngIf="newUserForm.submitted && PEmailRef.invalid"
+                class="invalid-form"
+              >
+                <small
+                  class="form-text text-danger"
+                  *ngIf="PEmailRef.errors.required"
+                  >This field is required!</small
+                >
+              </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label
+                  class="form-label"
+                  for="basic-icon-default-primary-contact-number"
+                  >Contact number
+                  <span
+                    *ngIf="newUserForm.submitted && PCNlRef.invalid"
+                    class="text-danger"
+                    >*</span
+                  >
+                  <span *ngIf="!newUserForm.submitted || !PCNlRef.invalid"
+                    >*</span
+                  ></label
+                >
+                <input
+                  type="text"
+                  id="basic-icon-default-primary-contact-number"
+                  class="form-control dt-primary-contact-number"
+                  placeholder=""
+                  aria-label=""
+                  aria-describedby="basic-icon-default-primary-contact-number"
+                  name="user-primary-contact-number"
+                  [(ngModel)]="primary_contact_number"
+                  [class.error]="newUserForm.submitted && PCNlRef.invalid"
+                  #PCNlRef="ngModel"
+                  required
+                />
+                <span
+                  *ngIf="newUserForm.submitted && PCNlRef.invalid"
+                  class="invalid-form"
+                >
+                  <small
+                    class="form-text text-danger"
+                    *ngIf="PCNlRef.errors.required"
+                    >This field is required!</small
+                  >
+                </span>
+              </div>
+            </div>
+          </div>
+          <br/>
+          <label class="group-label" style="font-size: 12px;"><b>Business Activity:</b></label>
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label
+                  class="form-label"
+                  for="basic-icon-default-business-nature"
+                  >Describe the nature of your business<span
+                    *ngIf="newUserForm.submitted && BusNatureRef.invalid"
+                    class="text-danger"
+                    >*</span
+                  >
+                  <span *ngIf="!newUserForm.submitted || !BusNatureRef.invalid"
+                    >*</span
+                  ></label
+                >
+                <input
+                  type="text"
+                  class="form-control dt-business-nature"
+                  id="basic-icon-default-business-nature"
+                  placeholder=""
+                  name="user-business-nature"
+                  [(ngModel)]="business_nature"
+                  [class.error]="newUserForm.submitted && BusNatureRef.invalid"
+                  #BusNatureRef="ngModel"
+                  required
+                  aria-label=""
+                  aria-describedby="basic-icon-default-business-nature"
+                />
+                <span
+                  *ngIf="newUserForm.submitted && BusNatureRef.invalid"
+                  class="invalid-form"
+                >
+                  <small
+                    class="form-text text-danger"
+                    *ngIf="BusNatureRef.errors.required"
+                    >This field is required!</small
+                  >
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label class="form-label" for="basic-icon-default-industry"
+                  >Industry Sector (e.g., Retail, Technology, Healthcare):
+                  <span
+                    *ngIf="newUserForm.submitted && IndSecRef.invalid"
+                    class="text-danger"
+                    >*</span
+                  >
+                  <span *ngIf="!newUserForm.submitted || !IndSecRef.invalid"
+                    >*</span
+                  ></label
+                >
+                <input
+                  type="text"
+                  id="basic-icon-default-industry"
+                  class="form-control dt-industry"
+                  placeholder=""
+                  aria-label=""
+                  aria-describedby="basic-icon-default-industry"
+                  name="user-industry"
+                  [(ngModel)]="industry_sector"
+                  [class.error]="newUserForm.submitted && IndSecRef.invalid"
+                  #IndSecRef="ngModel"
+                  required
+                />
+                <span
+                  *ngIf="newUserForm.submitted && IndSecRef.invalid"
+                  class="invalid-form"
+                >
+                  <small
+                    class="form-text text-danger"
+                    *ngIf="IndSecRef.errors.required"
+                    >This field is required!</small
+                  >
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label class="form-label" for="basic-icon-default-revenue"
+                  >Estimated Annual Revenue
+                  <span
+                    *ngIf="newUserForm.submitted && RevRef.invalid"
+                    class="text-danger"
+                    >*</span
+                  >
+                  <span *ngIf="!newUserForm.submitted || !RevRef.invalid"
+                    >*</span
+                  ></label
+                >
+                <input
+                  type="text"
+                  class="form-control dt-revenue"
+                  id="basic-icon-default-revenue"
+                  placeholder=""
+                  name="user-revenue"
+                  [(ngModel)]="revenue"
+                  [class.error]="newUserForm.submitted && RevRef.invalid"
+                  #RevRef="ngModel"
+                  required
+                  aria-label=""
+                  aria-describedby="basic-icon-default-revenue"
+                />
+                <span
+                  *ngIf="newUserForm.submitted && RevRef.invalid"
+                  class="invalid-form"
+                >
+                  <small
+                    class="form-text text-danger"
+                    *ngIf="RevRef.errors.required"
+                    >This field is required!</small
+                  >
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label class="form-label" for="basic-icon-default-employees"
+                  >Number of Employees
+                  <span
+                    *ngIf="newUserForm.submitted && EmpRef.invalid"
+                    class="text-danger"
+                    >*</span
+                  >
+                  <span *ngIf="!newUserForm.submitted || !EmpRef.invalid"
+                    >*</span
+                  ></label
+                >
+                <input
+                  type="text"
+                  class="form-control dt-employees"
+                  id="basic-icon-default-employees"
+                  placeholder=""
+                  name="user-employees"
+                  [(ngModel)]="employees"
+                  [class.error]="newUserForm.submitted && EmpRef.invalid"
+                  #EmpRef="ngModel"
+                  required
+                  aria-label=""
+                  aria-describedby="basic-icon-default-users"
+                />
+                <span
+                  *ngIf="newUserForm.submitted && EmpRef.invalid"
+                  class="invalid-form"
+                >
+                  <small
+                    class="form-text text-danger"
+                    *ngIf="EmpRef.errors.required"
+                    >This field is required!</small
+                  >
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-between mt-2">
+            <button
+              [disabled]="loading"
+              type="submit"
+              class="btn btn-primary"
+              (click)="submit(newUserForm)"
+              rippleEffect
+            >
+              <span
+                *ngIf="loading"
+                class="spinner-border spinner-border-sm mr-1"
+              ></span>
+              Submit
+            </button>
+            <button
+              type="reset"
+              class="btn btn-outline-secondary"
+              (click)="toggleSidebar('new-user-sidebar')"
+              rippleEffect
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Modal to add new user Ends-->
+</div>

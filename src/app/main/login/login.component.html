@@ -7,10 +7,12 @@
     <!-- /Brand logo-->
     <!-- Left Text-->
     <div class="d-none d-lg-flex col-lg-8 align-items-center img-class">
-      <div class="d-lg-flex align-items-center justify-content-center image-container">
+      <div
+        class="d-lg-flex align-items-center justify-content-center image-container"
+      >
         <img
           class="img-fluid dynamic-image"
-          src="../../../../../assets/images/login/Group 555.png"
+          src="../../../../../assets/images/login/SPLASH PAGE.png"
           alt="Login V2"
         />
       </div>
@@ -24,7 +26,7 @@
             <div class="col-3">
               <div class="avatar">
                 <img
-                  src="../../../../../assets/images/login/Group 464@2x.png"
+                  src="../../../../../assets/images/login/person.png"
                   alt="avatar"
                   width="60"
                 />
@@ -41,17 +43,17 @@
             [formGroup]="loginForm"
             (ngSubmit)="onSubmit()"
           >
-          
             <div class="input-group align-items-center">
               <i data-feather="mail" class="mr-1 mt-0 icon-cls"></i>
               <input
                 type="text"
                 formControlName="email"
-                class=""
-                [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
                 placeholder="Username"
-                aria-describedby="login-email"
+                [ngClass]="{
+                  'is-invalid': submitted && loginForm.get('email').errors
+                }"
               />
+
               <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                 <div *ngIf="f.email.errors.required">Email is required</div>
                 <div *ngIf="f.email.errors.email">

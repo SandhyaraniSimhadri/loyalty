@@ -12,26 +12,29 @@ import { AuthenticationService } from "app/auth/service";
 import { CoreConfigService } from "@core/services/config.service";
 import { CoreHttpService } from "@core/services/http.service";
 import { ToastrService } from "ngx-toastr";
+import { FormBuilder, FormGroup } from '@angular/forms';
 @Component({
-  selector: "app-auth-login-v2",
-  templateUrl: "./auth-login-v2.component.html",
-  styleUrls: ["./auth-login-v2.component.scss"],
+  selector: "app-login",
+  templateUrl: "./login.component.html",
+  styleUrls: ["./login.component.scss"],
+  encapsulation: ViewEncapsulation.None,
+
 
 })
-export class AuthLoginV2Component implements OnInit {
+export class LoginComponent implements OnInit {
   /**
    *
    * @param {HttpClient} _http
    * @param {ToastrService} _toastrService
    */
   public coreConfig: any;
-  public loginForm: UntypedFormGroup;
+  loginForm: FormGroup;
   public loading = false;
   public submitted = false;
   public returnUrl: string;
   public error = "";
   public passwordTextType: boolean;
-
+  public role_data:any;
   // Private
   private _unsubscribeAll: Subject<any>;
 
@@ -51,7 +54,7 @@ export class AuthLoginV2Component implements OnInit {
   ) {
     // redirect to home if already logged in
     if (this._authenticationService.currentUserValue) {
-      this._router.navigate(["/"]);
+      this._router.navigate(["/company-management"]);
     }
 
     this._unsubscribeAll = new Subject();
@@ -108,15 +111,22 @@ export class AuthLoginV2Component implements OnInit {
           const user = data;
           if (data.status) {
             localStorage.setItem("currentUser", JSON.stringify(user.data));
-
+            let user_data = JSON.parse(localStorage.getItem('currentUser'));
+            this.httpService.USERINFO = user_data;
+            this.httpService.APIToken = user_data.token;
+            this.httpService.loginuserid = user_data.user_id;
+           
             setTimeout(() => {
               this._toastrService.success(
                 "You have successfully logged in. Now you can start to explore. Enjoy! 🎉",
                 "👋 Welcome !",
                 { toastClass: "toast ngx-toastr", closeButton: true }
               );
-            }, 2500);
+            }, 4500);
+            
+            // setTimeout(() => {
             this._router.navigate([this.returnUrl]);
+          // }, 3000);
           } else {
             setTimeout(() => {
               this._toastrService.error(
@@ -142,7 +152,7 @@ export class AuthLoginV2Component implements OnInit {
         "",
         [Validators.required, Validators.email],
       ],
-      password: ["", Validators.required],
+      password: ["123456", Validators.required],
       // username: ["", Validators.required],
     });
 
@@ -171,4 +181,5 @@ export class AuthLoginV2Component implements OnInit {
       closeButton: true,
     });
   }
+ 
 }

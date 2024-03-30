@@ -2,11 +2,19 @@ export const locale = {
   lang: 'en',
   data: {
     MENU: {
-      DASHBOARD: {
-        COLLAPSIBLE: 'Dashboards',
+     
+      COMPANY_MANAGEMENT: {
+        COMPANY_MANAGEMENT:'Company Management'    
+      },
+      EVENTS: {
+        EVENTS:'Events'    
+      },
+   
+      LEAGUES: {
+        COLLAPSIBLE: 'Leagues',
         BADGE: '2',
-        ANALYTICS: 'Analytics',
-        ECOMMERCE: 'eCommerce'
+        ADD_LEAGUE: 'Add League',
+        LEAGUES_LIST: 'Leagues List'
       },
       APPS: {
         SECTION: 'Apps & Pages',
@@ -35,47 +43,47 @@ export const locale = {
           EDIT: 'Edit'
         }
       },
-      PAGES: {
-        SECTION: 'Pages',
-        AUTH: {
-          COLLAPSIBLE: 'Authentication',
-          LOGIN1: 'Login V1',
-          LOGIN2: 'Login V2',
-          REGISTER1: 'Register V1',
-          REGISTER2: 'Register V2',
-          FORGOTPASSWORD1: 'Forgot Password V1',
-          FORGOTPASSWORD2: 'Forgot Password V2',
-          RESETPASSWORD1: 'Reset Password V1',
-          RESETPASSWORD2: 'Reset Password V2'
-        },
-        ACCOUNTSETTINGS: 'Account Settings',
-        PROFILE: 'Profile',
-        FAQ: 'FAQ',
-        KB: 'Knowledge Base',
-        PRICING: 'Pricing',
-        BLOG: {
-          COLLAPSIBLE: 'Blog',
-          LIST: 'List',
-          DETAILS: 'Details',
-          EDIT: 'Edit'
-        },
-        MAIL: {
-          COLLAPSIBLE: 'Mail Template',
-          WELCOME: 'Welcome',
-          RESET: 'Reset Password',
-          VERIFY: 'Verify',
-          DEACTIVATE: 'Deactivate',
-          INVOICE: 'Invoice',
-          PROMOTIONAL: 'Promotional'
-        },
-        MISC: {
-          COLLAPSIBLE: 'Miscellaneous',
-          COMINGSOON: 'Coming Soon',
-          NOTAUTH: 'Not Authorized',
-          MAINTENANCE: 'Maintenance',
-          ERROR: 'Error'
-        }
-      },
+      // PAGES: {
+      //   SECTION: 'Pages',
+      //   AUTH: {
+      //     COLLAPSIBLE: 'Authentication',
+      //     LOGIN1: 'Login V1',
+      //     LOGIN2: 'Login V2',
+      //     REGISTER1: 'Register V1',
+      //     REGISTER2: 'Register V2',
+      //     FORGOTPASSWORD1: 'Forgot Password V1',
+      //     FORGOTPASSWORD2: 'Forgot Password V2',
+      //     RESETPASSWORD1: 'Reset Password V1',
+      //     RESETPASSWORD2: 'Reset Password V2'
+      //   },
+      //   ACCOUNTSETTINGS: 'Account Settings',
+      //   PROFILE: 'Profile',
+      //   FAQ: 'FAQ',
+      //   KB: 'Knowledge Base',
+      //   PRICING: 'Pricing',
+      //   BLOG: {
+      //     COLLAPSIBLE: 'Blog',
+      //     LIST: 'List',
+      //     DETAILS: 'Details',
+      //     EDIT: 'Edit'
+      //   },
+      //   MAIL: {
+      //     COLLAPSIBLE: 'Mail Template',
+      //     WELCOME: 'Welcome',
+      //     RESET: 'Reset Password',
+      //     VERIFY: 'Verify',
+      //     DEACTIVATE: 'Deactivate',
+      //     INVOICE: 'Invoice',
+      //     PROMOTIONAL: 'Promotional'
+      //   },
+      //   MISC: {
+      //     COLLAPSIBLE: 'Miscellaneous',
+      //     COMINGSOON: 'Coming Soon',
+      //     NOTAUTH: 'Not Authorized',
+      //     MAINTENANCE: 'Maintenance',
+      //     ERROR: 'Error'
+      //   }
+      // },
       UI: {
         SECTION: 'User Interface',
         TYPOGRAPHY: 'Typography',

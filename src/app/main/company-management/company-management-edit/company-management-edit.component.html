@@ -1,0 +1,506 @@
+<div class="loading" *ngIf="loading">
+  <div class="effect-1 effects"></div>
+  <div class="effect-2 effects"></div>
+  <div class="effect-3 effects"></div>
+</div>
+
+<div class="content-wrapper container-xxl p-0" *ngIf="!loading">
+  <div class="content-body">
+    <!-- users edit start -->
+    <section class="app-user-edit">
+      <div class="card">
+        <div class="card-body">
+          <ul ngbNav #nav="ngbNav" class="nav nav-pills">
+            <li ngbNavItem>
+              <!-- <a ngbNavLink class="d-flex align-items-center"
+                ><i data-feather="user" class="mr-sm-50"></i
+                ><span class="d-none d-sm-block">Account</span></a
+              > -->
+              <ng-template ngbNavContent>
+                <!-- Account Tab starts -->
+                <div
+                  class="tab-pane active"
+                  id="account"
+                  aria-labelledby="account-tab"
+                  role="tabpanel"
+                >
+                  <!-- users edit media object start -->
+                  <div class="media mb-2">
+                    <div
+                      *ngIf="
+                        currentRow.image != NULL &&
+                          currentRow.image.length > 0;
+                        else customAvatar
+                      "
+                    >
+                      <img
+                        class="user-avatar users-avatar-shadow rounded mr-2 my-25 cursor-pointer"
+                        [src]="avatarImage"
+                        height="90"
+                        width="90"
+                        alt="User avatar"
+                      />
+                    </div>
+                    <ng-template #customAvatar>
+                      <div
+                        class="mr-1 ml-0"
+                        [ngClass]="{
+                          'bg-light-success': currentRow.status == 'active',
+                          'bg-light-secondary': currentRow.status == 'inactive',
+                          'bg-light-warning': currentRow.status == 'pending'
+                        }"
+                      >
+                        <div class="rounded p-3">
+                          {{ currentRow.company_name | initials }}
+                        </div>
+                      </div>
+                    </ng-template>
+                    <div class="media-body mt-50" >
+                        <h4 style="word-break: break-all;">{{ currentRow.company_name }}</h4>
+                      <div class="col-12 d-flex mt-1 px-0">
+                        <label
+                          class="btn btn-primary mr-75 mb-0"
+                          for="change-picture"
+                        >
+                          <span class="d-none d-sm-block">Change</span>
+                          <input
+                            class="form-control"
+                            type="file"
+                            id="change-picture"
+                            hidden
+                            accept="image/png, image/jpeg, image/jpg"
+                            (change)="uploadImage($event)"
+                            
+                          />
+                          <span class="d-block d-sm-none">
+                            <i class="mr-0" data-feather="edit"></i>
+                          </span>
+                        </label>
+                        <!-- <button class="btn btn-outline-secondary d-none d-sm-block" rippleEffect>Remove</button> -->
+                        <button
+                          class="btn btn-outline-secondary d-block d-sm-none"
+                        >
+                          <i class="mr-0" data-feather="trash-2"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- users edit media object ends -->
+                  <!-- users edit account form start -->
+                  <form
+                    class="form-validate"
+                    (ngSubmit)="(accountForm.form.valid)"
+                    #accountForm="ngForm"
+                  >
+                    <div class="row">
+                      
+
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="company">Company Name <span *ngIf="accountForm.submitted && CNameRef.invalid" class="text-danger">*</span>
+                            <span *ngIf="!accountForm.submitted || !CNameRef.invalid">*</span></label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="currentRow.company_name"
+                            placeholder="Company name"
+                            id="company_name"
+                            name="company_name"
+                            [class.error]="accountForm.submitted && CNameRef.invalid"
+                            #CNameRef="ngModel"
+                            required (ngModelChange)="checkFormModified()"
+                          />
+                          <span *ngIf="accountForm.submitted && CNameRef.invalid" class="invalid-form">
+                            <small class="form-text text-danger" *ngIf="CNameRef.errors.required"
+                              >This field is required!</small
+                            >
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="form-label" for="basic-icon-default-business-entity"
+                            >Select Business Entity Type <span *ngIf="accountForm.submitted && BusEntRef.invalid" class="text-danger">*</span>
+                            <span *ngIf="!accountForm.submitted || !BusEntRef.invalid">*</span></label
+                          >
+                          <select
+                            [(ngModel)]="currentRow.business_entity_type"
+                            [ngModelOptions]="{ standalone: true }"
+                            id="basic-icon-default-business-entity"
+                            class="form-control dt-business-entity"
+                            aria-label=""
+                            aria-describedby="basic-icon-default-business-entity"
+                            name="business-entity" [class.error]="accountForm.submitted && BusEntRef.invalid"
+                            #BusEntRef="ngModel"
+                            required (ngModelChange)="checkFormModified()"
+                          >
+                            <option value="Corporation">Corporation</option>
+                            <option value="Limited Liability Company (LLC)">Limited Liability Company (LLC)</option>
+                            <option value="Partnership">Partnership</option>
+                            <option value="Sole Proprietorship">Sole Proprietorship</option>
+                            <option value="Others">Others</option>
+                          </select>
+                          <span *ngIf="accountForm.submitted && BusEntRef.invalid" class="invalid-form">
+                            <small class="form-text text-danger" *ngIf="BusEntRef.errors.required"
+                              >This field is required!</small
+                            >
+                          </span>
+                          </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="company">Business Address <span *ngIf="accountForm.submitted && BAddRef.invalid" class="text-danger">*</span>
+                            <span *ngIf="!accountForm.submitted || !BAddRef.invalid">*</span></label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="currentRow.business_address"
+                            placeholder="Business address"
+                            id="business address"
+                            name="business address"
+                            [class.error]="accountForm.submitted && BAddRef.invalid"
+                            #BAddRef="ngModel"
+                            required (ngModelChange)="checkFormModified()"
+                          />
+                          <span *ngIf="accountForm.submitted && BAddRef.invalid" class="invalid-form">
+                            <small class="form-text text-danger" *ngIf="BAddRef.errors.required"
+                              >This field is required!</small
+                            >
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="company">Mailing Address <span *ngIf="accountForm.submitted && MaddRef.invalid" class="text-danger">*</span>
+                            <span *ngIf="!accountForm.submitted || !MaddRef.invalid">*</span></label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="currentRow.mailing_address"
+                            placeholder="Mailing address"
+                            id="mailing-address"
+                            name="mailing-address"
+                            [class.error]="accountForm.submitted && MaddRef.invalid"
+                            #MaddRef="ngModel"
+                            required (ngModelChange)="checkFormModified()"
+                          />
+                          <span *ngIf="accountForm.submitted && MaddRef.invalid" class="invalid-form">
+                            <small class="form-text text-danger" *ngIf="MaddRef.errors.required"
+                              >This field is required!</small
+                            >
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="company">Business Phone Number <span *ngIf="accountForm.submitted && CNlRef.invalid" class="text-danger">*</span>
+                            <span *ngIf="!accountForm.submitted || !CNlRef.invalid">*</span></label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="currentRow.business_phone_number"
+                            placeholder="Business phone number"
+                            id="business-phone-number"
+                            name="business-phone-number"
+                            [class.error]="accountForm.submitted && CNlRef.invalid"
+                            #CNlRef="ngModel"
+                            required (ngModelChange)="checkFormModified()"
+                          />
+                          <span *ngIf="accountForm.submitted && CNlRef.invalid" class="invalid-form">
+                            <small class="form-text text-danger" *ngIf="CNlRef.errors.required"
+                              >This field is required!</small
+                            >
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="company">Email Address <span *ngIf="accountForm.submitted && FEmailRef.invalid" class="text-danger">*</span>
+                            <span *ngIf="!accountForm.submitted || !FEmailRef.invalid">*</span></label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="currentRow.email_address"
+                            placeholder="Email address"
+                            id="email-address"
+                            name="email-address"
+                            [class.error]="accountForm.submitted && FEmailRef.invalid"
+                            #FEmailRef="ngModel"
+                            required (ngModelChange)="checkFormModified()"
+                          />
+                          <span *ngIf="accountForm.submitted && FEmailRef.invalid" class="invalid-form">
+                            <small class="form-text text-danger" *ngIf="FEmailRef.errors.required"
+                              >This field is required!</small
+                            >
+                          </span>
+                        </div>
+                      </div>
+
+                    
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="company">Website (if applicable) <span *ngIf="accountForm.submitted && WebRef.invalid" class="text-danger">*</span>
+                            <span *ngIf="!accountForm.submitted || !WebRef.invalid">*</span></label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="currentRow.website"
+                            placeholder="Website"
+                            id="website"
+                            name="website"
+                            [class.error]="accountForm.submitted && WebRef.invalid"
+                            #WebRef="ngModel"
+                            required (ngModelChange)="checkFormModified()"
+                          />
+                          <span *ngIf="accountForm.submitted && WebRef.invalid" class="invalid-form">
+                            <small class="form-text text-danger" *ngIf="WebRef.errors.required"
+                              >This field is required!</small
+                            >
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="form-label" for="basic-icon-default-fullname"
+                            >Full Name <span *ngIf="accountForm.submitted && FNameRef.invalid" class="text-danger">*</span>
+                            <span *ngIf="!accountForm.submitted || !FNameRef.invalid">*</span></label
+                          >
+                          <input
+                            type="text"
+                            class="form-control dt-fullname"
+                            id="basic-icon-default-fullname"
+                            placeholder="Full name"
+                            name="user-fullname"
+                            [(ngModel)]="currentRow.full_name"
+                            [class.error]="accountForm.submitted && FNameRef.invalid"
+                            #FNameRef="ngModel"
+                            required
+                            aria-label=""
+                            aria-describedby="basic-icon-default-fullname"
+                          />
+                          <span
+                            *ngIf="accountForm.submitted && FNameRef.invalid"
+                            class="invalid-form"
+                          >
+                            <small
+                              class="form-text text-danger"
+                              *ngIf="FNameRef.errors.required"
+                              >This field is required!</small
+                            >
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                      <div class="form-group">
+                        <label class="form-label" for="basic-icon-default-title"
+                          >Title/Position <span *ngIf="accountForm.submitted && TNameRef.invalid" class="text-danger">*</span>
+                          <span *ngIf="!accountForm.submitted || !TNameRef.invalid">*</span></label
+                        >
+                        <input
+                          type="text"
+                          class="form-control dt-title"
+                          id="basic-icon-default-title"
+                          placeholder="Title"
+                          name="user-title"
+                          [(ngModel)]="currentRow.title"
+                          [class.error]="accountForm.submitted && TNameRef.invalid"
+                          #TNameRef="ngModel"
+                          required
+                          aria-label=""
+                          aria-describedby="basic-icon-default-title"
+                        />
+                        <span
+                          *ngIf="accountForm.submitted && TNameRef.invalid"
+                          class="invalid-form"
+                        >
+                          <small
+                            class="form-text text-danger"
+                            *ngIf="TNameRef.errors.required"
+                            >This field is required!</small
+                          >
+                        </span>
+                      </div>
+                      </div>
+
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="company">Email address <span *ngIf="accountForm.submitted && PEmailRef.invalid" class="text-danger">*</span>
+                            <span *ngIf="!accountForm.submitted || !PEmailRef.invalid">*</span></label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="currentRow.primary_email"
+                            placeholder="Email address"
+                            id="users"
+                            name="users"
+                            [class.error]="accountForm.submitted && PEmailRef.invalid"
+                            #PEmailRef="ngModel"
+                            required (ngModelChange)="checkFormModified()"
+                          />
+                          <span *ngIf="accountForm.submitted && PEmailRef.invalid" class="invalid-form">
+                            <small class="form-text text-danger" *ngIf="PEmailRef.errors.required"
+                              >This field is required!</small
+                            >
+                          </span>
+                          
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="company">contact number <span *ngIf="accountForm.submitted && PCNlRef.invalid" class="text-danger">*</span>
+                            <span *ngIf="!accountForm.submitted || !PCNlRef.invalid">*</span></label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="currentRow.primary_phone_number"
+                            placeholder="Primary contact number"
+                            id="primary-phone-number"
+                            name="primary-phone-number"
+                            [class.error]="accountForm.submitted && PCNlRef.invalid"
+                            #PCNlRef="ngModel"
+                            required (ngModelChange)="checkFormModified()"
+                          />
+                          <span *ngIf="accountForm.submitted && PCNlRef.invalid" class="invalid-form">
+                            <small class="form-text text-danger" *ngIf="PCNlRef.errors.required"
+                              >This field is required!</small
+                            >
+                          </span>
+                        </div>
+                      </div>
+
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="company">Describe the nature of your business <span *ngIf="accountForm.submitted && LangRef.invalid" class="text-danger">*</span>
+                            <span *ngIf="!accountForm.submitted || !LangRef.invalid">*</span></label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="currentRow.business_nature"
+                            placeholder="Language"
+                            id="language"
+                            name="language"
+                            [class.error]="accountForm.submitted && LangRef.invalid"
+                            #LangRef="ngModel"
+                            required (ngModelChange)="checkFormModified()"
+                          />
+                          <span *ngIf="accountForm.submitted && LangRef.invalid" class="invalid-form">
+                            <small class="form-text text-danger" *ngIf="LangRef.errors.required"
+                              >This field is required!</small
+                            >
+                          </span>
+                        </div>
+                      </div>
+
+                   
+                  
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="company">Industry Sector (e.g., Retail, Technology, Healthcare) <span *ngIf="accountForm.submitted && IndSecRef.invalid" class="text-danger">*</span>
+                            <span *ngIf="!accountForm.submitted || !IndSecRef.invalid">*</span></label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="currentRow.industry_sector"
+                            placeholder="Address"
+                            id="address"
+                            name="address"
+                            [class.error]="accountForm.submitted && IndSecRef.invalid"
+                            #IndSecRef="ngModel"
+                            required (ngModelChange)="checkFormModified()"
+                          />
+                          <span *ngIf="accountForm.submitted && IndSecRef.invalid" class="invalid-form">
+                            <small class="form-text text-danger" *ngIf="IndSecRef.errors.required"
+                              >This field is required!</small
+                            >
+                          </span>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="company">Estimated Annual Revenue <span *ngIf="accountForm.submitted && RevRef.invalid" class="text-danger">*</span>
+                            <span *ngIf="!accountForm.submitted || !RevRef.invalid">*</span></label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="currentRow.revenue"
+                            placeholder="Annual Revenue"
+                            id="revenue"
+                            name="revenue"
+                            [class.error]="accountForm.submitted && RevRef.invalid"
+                            #RevRef="ngModel"
+                            required (ngModelChange)="checkFormModified()"
+                          />
+                          <span *ngIf="accountForm.submitted && RevRef.invalid" class="invalid-form">
+                            <small class="form-text text-danger" *ngIf="RevRef.errors.required"
+                              >This field is required!</small
+                            >
+                          </span>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label >Number of Employees <span *ngIf="accountForm.submitted && EmpRef.invalid" class="text-danger">*</span>
+                            <span *ngIf="!accountForm.submitted || !EmpRef.invalid">*</span></label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="currentRow.employees"
+                            placeholder="Employees"
+                            id="employees"
+                            name="employees"
+                            [class.error]="accountForm.submitted && EmpRef.invalid"
+                            #EmpRef="ngModel"
+                            required (ngModelChange)="checkFormModified()"
+                          />
+                          <span *ngIf="accountForm.submitted && EmpRef.invalid" class="invalid-form">
+                            <small class="form-text text-danger" *ngIf="EmpRef.errors.required"
+                              >This field is required!</small
+                            >
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="col-12 d-flex flex-sm-row flex-column mt-2">
+                        <button [disabled]="!formModified || buttonLoading"
+                          type="submit"
+                          (click)="submit(accountForm)"
+                          class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1"
+                          rippleEffect
+                        >
+                        <span *ngIf="buttonLoading" class="spinner-border spinner-border-sm mr-1"></span>
+                          Save Changes
+                        </button>
+                        <button
+                          (click)="resetFormWithDefaultValues()"
+                          class="btn btn-outline-secondary"
+                          rippleEffect
+                        >
+                          Reset
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                  <!-- users edit account form ends -->
+                </div>
+                <!-- Account Tab ends -->
+              </ng-template>
+            </li>
+          </ul>
+          <div [ngbNavOutlet]="nav" class="mt-2"></div>
+        </div>
+      </div>
+    </section>
+    <!-- users edit ends -->
+  </div>
+</div>
