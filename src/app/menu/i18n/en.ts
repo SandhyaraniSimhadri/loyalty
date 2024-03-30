@@ -3,8 +3,8 @@ export const locale = {
   data: {
     MENU: {
      
-      COMPANY_MANAGEMENT: {
-        COMPANY_MANAGEMENT:'Company Management'    
+      COMPANY: {
+        COMPANY:'Company'    
       },
       EVENTS: {
         EVENTS:'Events'    

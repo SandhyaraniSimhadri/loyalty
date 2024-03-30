@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
   ) {
     // redirect to home if already logged in
     if (this._authenticationService.currentUserValue) {
-      this._router.navigate(["/company-management"]);
+      this._router.navigate(["/"]);
     }
 
     this._unsubscribeAll = new Subject();
@@ -125,7 +125,7 @@ export class LoginComponent implements OnInit {
             }, 4500);
             
             // setTimeout(() => {
-            this._router.navigate([this.returnUrl]);
+            this._router.navigate(["/company"]);
           // }, 3000);
           } else {
             setTimeout(() => {

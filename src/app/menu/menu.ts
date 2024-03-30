@@ -7,12 +7,12 @@ let user_data = JSON.parse(localStorage.getItem("currentUser"));
 const menuList: CoreMenu[] = [
 
   {
-    id: "company-management",
+    id: "company",
     title: "Company",
-    translate: "MENU.COMPANY_MANAGEMENT.COMPANY_MANAGEMENT",
+    translate: "MENU.COMPANY.COMPANY",
     type: "item",
     icon: "life-buoy",
-    url: "company-management",
+    url: "company",
   },
   {
     id: "events-management",

@@ -42,7 +42,7 @@ import { LoginComponent } from "./main/login/login.component";
 const appRoutes: Routes = [
 
   {
-    path: "company-management",
+    path: "company",
     loadChildren: () =>
       import("./main/company-management/company-management.module").then(
         (m) => m.CompanyManagementModule
