@@ -9,6 +9,9 @@ export const locale = {
       EVENTS: {
         EVENTS:'Events'    
       },
+      USERS: {
+        USERS:'Users'    
+      },
    
       LEAGUES: {
         COLLAPSIBLE: 'Leagues',

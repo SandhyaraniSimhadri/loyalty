@@ -15,12 +15,21 @@ const menuList: CoreMenu[] = [
     url: "company",
   },
   {
-    id: "events-management",
+    id: "events",
     title: "Events",
     translate: "MENU.EVENTS.EVENTS",
     type: "item",
     icon: "life-buoy",
     url: "events",
+  },
+
+  {
+    id: "users",
+    title: "Users",
+    translate: "MENU.USERS.USERS",
+    type: "item",
+    icon: "life-buoy",
+    url: "users",
   },
   
 ];
