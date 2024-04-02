@@ -31,6 +31,14 @@ const menuList: CoreMenu[] = [
     icon: "life-buoy",
     url: "users",
   },
+  {
+    id: "campaigns",
+    title: "Campaigns",
+    translate: "MENU.CAMPAIGNS.CAMPAIGNS",
+    type: "item",
+    icon: "life-buoy",
+    url: "campaigns",
+  },
   
 ];
 

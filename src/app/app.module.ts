@@ -38,7 +38,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CoreTouchspinModule } from "@core/components/core-touchspin/core-touchspin.module";
 import { LoginComponent } from "./main/login/login.component";
 
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 const appRoutes: Routes = [
 
   {
@@ -64,6 +64,15 @@ const appRoutes: Routes = [
     loadChildren: () =>
       import("./main/users/users.module").then(
         (m) => m.UsersModule
+      ),
+    canActivate: [AuthGuard],
+  },
+
+  {
+    path: "campaigns",
+    loadChildren: () =>
+      import("./main/campaigns/campaigns.module").then(
+        (m) => m.CampaignsModule
       ),
     canActivate: [AuthGuard],
   },
@@ -151,6 +160,7 @@ const appRoutes: Routes = [
     SubMenuCustomContextMenuComponent,
   ],
   imports: [
+    NgbModule,
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,

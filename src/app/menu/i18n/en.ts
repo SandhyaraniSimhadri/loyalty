@@ -12,6 +12,9 @@ export const locale = {
       USERS: {
         USERS:'Users'    
       },
+      CAMPAIGNS: {
+        CAMPAIGNS:'Campaigns'    
+      },
    
       LEAGUES: {
         COLLAPSIBLE: 'Leagues',
