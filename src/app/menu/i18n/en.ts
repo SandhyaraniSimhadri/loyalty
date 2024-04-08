@@ -4,18 +4,39 @@ export const locale = {
     MENU: {
      
       COMPANY: {
-        COMPANY:'Company'    
+        COLLAPSIBLE:'Company' ,
+        BADGE: '2',
+        COMPANY_LIST: 'Company list',
+        NEW_COMPANY: 'New Company'   
       },
+      // EVENTS: {
+      //   EVENTS:'Events'    
+      // },
+
       EVENTS: {
-        EVENTS:'Events'    
+        COLLAPSIBLE: 'Events',
+        BADGE: '2',
+        EVENTS_LIST: 'Events list',
+        NEW_EVENT: 'New Event'
       },
+
       USERS: {
-        USERS:'Users'    
+        COLLAPSIBLE:'Users',
+        BADGE: '2',
+        USERS_LIST: 'Users list',
+        NEW_USER: 'New User'
       },
-      CAMPAIGNS: {
-        CAMPAIGNS:'Campaigns'    
-      },
+      // CAMPAIGNS: {
+      //   CAMPAIGNS:'Campaigns'    
+      // },
    
+      CAMPAIGNS: {
+        COLLAPSIBLE: 'Campaigns',
+        BADGE: '2',
+        CAMPAIGNS_LIST: 'Campaigns list',
+        NEW_CAMPAIGN: 'New Campaign'
+      },
+
       LEAGUES: {
         COLLAPSIBLE: 'Leagues',
         BADGE: '2',

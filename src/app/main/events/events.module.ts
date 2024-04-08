@@ -25,6 +25,7 @@ import { UserViewService } from "./events-view/user-view.service";
 import { NewUserSidebarComponent } from "./events-list/new-user-sidebar/new-user-sidebar.component";
 
 import { SharedModule } from "../shared.module";
+import { EventsNewComponent } from "./events-new/events-new.component";
 // routing
 const routes: Routes = [
   {
@@ -42,6 +43,14 @@ const routes: Routes = [
       uls: UserListService,
     },
     data: { animation: "EventsListComponent" },
+  },
+  {
+    path: "events-new",
+    component: EventsNewComponent,
+    resolve: {
+      uls: UserListService,
+    },
+    data: { animation: "EventsNewComponent" },
   },
   {
     path: "events-view/:id",
@@ -78,6 +87,7 @@ const routes: Routes = [
     EventsListComponent,
     EventsViewComponent,
     EventsEditComponent,
+    EventsNewComponent,
     NewUserSidebarComponent
   ],
   imports: [

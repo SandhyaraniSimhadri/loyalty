@@ -92,7 +92,7 @@ export class CampaignsListComponent implements OnInit {
 
     // Filter Our Data
     const temp = this.tempData.filter(function (d) {
-      return d.title.toLowerCase().indexOf(val) !== -1 || !val;
+      return d.campaign_title.toLowerCase().indexOf(val) !== -1 || !val;
     });
 
     // Update The Rows

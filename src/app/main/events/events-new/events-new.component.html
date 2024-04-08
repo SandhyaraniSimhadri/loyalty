@@ -1,0 +1,111 @@
+<div >
+  <!-- Modal to add new user starts-->
+  <div
+    
+  >
+    <div class="modal-dialog">
+      <form
+        class="add-new-user modal-content pt-0"
+        (ngSubmit)="(newUserForm.form.valid)"
+        #newUserForm="ngForm"
+      >
+   
+        <div class="modal-header mb-1">
+          <h5 class="modal-title" id="exampleModalLabel">New Event</h5>
+        </div>
+        <div class="modal-body flex-grow-1">
+        
+
+
+         
+
+       
+            <div class="form-group">
+              <label class="form-label" for="user-plan"
+              >Event Title<span *ngIf="newUserForm.submitted && TitleRef.invalid" class="text-danger">*</span>
+              <span *ngIf="!newUserForm.submitted || !TitleRef.invalid ">*</span></label
+            >
+              <input
+                type="text"
+                id="basic-icon-default-title"
+                class="form-control dt-title"
+                placeholder=""
+                aria-label=""
+                aria-describedby="basic-icon-default-title"
+                name="title"
+                [(ngModel)]="title"
+                [class.error]="newUserForm.submitted && TitleRef.invalid"
+                #TitleRef="ngModel"
+                required
+              />
+              <span
+                *ngIf="newUserForm.submitted && TitleRef.invalid"
+                class="invalid-form"
+              >
+                <small
+                  class="form-text text-danger"
+                  *ngIf="TitleRef.errors.required"
+                  >This field is required!</small
+                >
+              </span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="user-plan"
+              >Description<span *ngIf="newUserForm.submitted && DesRef.invalid" class="text-danger">*</span>
+              <span *ngIf="!newUserForm.submitted || !DesRef.invalid ">*</span></label
+            >
+              <textarea
+                type="text"
+                id="basic-icon-default-description"
+                class="form-control dt-description"
+                placeholder=""
+                aria-label=""
+                aria-describedby="basic-icon-default-description"
+                name="description"
+                [(ngModel)]="description"
+                [class.error]="newUserForm.submitted && DesRef.invalid"
+                #DesRef="ngModel"
+                required
+              ></textarea>
+              <span
+                *ngIf="newUserForm.submitted && DesRef.invalid"
+                class="invalid-form"
+              >
+                <small
+                  class="form-text text-danger"
+                  *ngIf="DesRef.errors.required"
+                  >This field is required!</small
+                >
+              </span>
+            </div>
+         
+          <div class="d-flex justify-content-between mt-2">
+          <button
+            [disabled]="loading"
+            type="submit"
+            class="btn btn-primary"
+            (click)="submit(newUserForm)"
+            rippleEffect
+          >
+            <span
+              *ngIf="loading"
+              class="spinner-border spinner-border-sm mr-1"
+            ></span>
+            Submit
+          </button>
+          <button
+            type="reset"
+            class="btn btn-outline-secondary"
+            (click)="toggleSidebar('new-user-sidebar')"
+            rippleEffect
+          >
+            Cancel
+          </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Modal to add new user Ends-->
+</div>

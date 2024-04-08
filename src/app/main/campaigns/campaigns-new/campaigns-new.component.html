@@ -1,0 +1,256 @@
+<div class="slideout-content">
+  <!-- Modal to add new user starts-->
+  <div
+   
+  >
+    <div class="modal-dialog">
+      <form
+        class="add-new-user modal-content pt-0"
+        (ngSubmit)="(newUserForm.form.valid)"
+        #newUserForm="ngForm"
+      >
+     
+        <div class="modal-header mb-1">
+          <h5 class="modal-title" id="exampleModalLabel">New Campaign</h5>
+        </div>
+        <div class="modal-body flex-grow-1">
+        
+
+
+         
+
+       
+            <div class="form-group">
+              <label class="form-label" for="user-plan"
+              >Campaign Name<span *ngIf="newUserForm.submitted && TitleRef.invalid" class="text-danger">*</span>
+              <span *ngIf="!newUserForm.submitted || !TitleRef.invalid ">*</span></label
+            >
+              <input
+                type="text"
+                id="basic-icon-default-title"
+                class="form-control dt-title"
+                placeholder=""
+                aria-label=""
+                aria-describedby="basic-icon-default-title"
+                name="title"
+                [(ngModel)]="campaign_title"
+                [class.error]="newUserForm.submitted && TitleRef.invalid"
+                #TitleRef="ngModel"
+                required
+              />
+              <span
+                *ngIf="newUserForm.submitted && TitleRef.invalid"
+                class="invalid-form"
+              >
+                <small
+                  class="form-text text-danger"
+                  *ngIf="TitleRef.errors.required"
+                  >This field is required!</small
+                >
+              </span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="user-plan"
+              >Start Date<span *ngIf="newUserForm.submitted && SDateRef.invalid" class="text-danger">*</span>
+              <span *ngIf="!newUserForm.submitted || !SDateRef.invalid ">*</span></label
+            >
+              <input
+                type="date"
+                id="basic-icon-default-start-date"
+                class="form-control dt-start-date"
+                placeholder=""
+                aria-label=""
+                aria-describedby="basic-icon-default-start-date"
+                name="start-date"
+                [(ngModel)]="start_date"
+                [class.error]="newUserForm.submitted && SDateRef.invalid"
+                #SDateRef="ngModel"
+                required
+              />
+              <span
+                *ngIf="newUserForm.submitted && SDateRef.invalid"
+                class="invalid-form"
+              >
+                <small
+                  class="form-text text-danger"
+                  *ngIf="SDateRef.errors.required"
+                  >This field is required!</small
+                >
+              </span>
+            </div>
+
+
+            <div class="form-group">
+              <label class="form-label" for="user-plan"
+              >End Date<span *ngIf="newUserForm.submitted && EDateRef.invalid" class="text-danger">*</span>
+              <span *ngIf="!newUserForm.submitted || !EDateRef.invalid ">*</span></label
+            >
+              <input
+                type="date"
+                id="basic-icon-default-end-date"
+                class="form-control dt-end-date"
+                placeholder=""
+                aria-label=""
+                aria-describedby="basic-icon-default-end-date"
+                name="end-date"
+                [(ngModel)]="end_date"
+                [class.error]="newUserForm.submitted && EDateRef.invalid"
+                #EDateRef="ngModel"
+                required
+              />
+              <span
+                *ngIf="newUserForm.submitted && EDateRef.invalid"
+                class="invalid-form"
+              >
+                <small
+                  class="form-text text-danger"
+                  *ngIf="EDateRef.errors.required"
+                  >This field is required!</small
+                >
+              </span>
+            </div>
+
+
+
+
+
+            <div class="form-group">
+              <label class="form-label">Select Event Type <span *ngIf="newUserForm.submitted && EventTypeRef.invalid" class="text-danger">*</span>
+                <span *ngIf="!newUserForm.submitted || !EventTypeRef.invalid">*</span></label>
+              <select
+                id="basic-icon-default-event-type"
+                class="form-control dt-event-type"
+                aria-label=""
+                aria-describedby="basic-icon-default-event-type"
+                name="event-type"
+                [class.error]="newUserForm.submitted && EventTypeRef.invalid"
+                #EventTypeRef="ngModel"
+                required
+                [(ngModel)]="event_id"
+                [ngModelOptions]="{ standalone: true }"
+              >
+                <option *ngFor="let event of eventsData" [value]="event.id">
+                  {{ event.title }}
+                </option>
+              </select>
+              <span
+                *ngIf="newUserForm.submitted && EventTypeRef.invalid"
+                class="invalid-form"
+              >
+                <small
+                  class="form-text text-danger"
+                  *ngIf="EventTypeRef.errors.required"
+                  >This field is required!</small
+                >
+              </span>
+            </div>
+         
+            <div class="form-group" *ngIf="event_id==1">
+              <div class="card-body">
+                <form action="#" class="invoice-repeater">
+                  <div *ngFor="let item of games; let i = index" @heightIn>
+                    <div class="row d-flex align-items-end">
+                      <div class="col-md-4 col-12">
+                        <div class="form-group">
+                          <label for="name{{ i }}">Game Name</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="item.name"
+                            name="name{{ i }}"
+                            id="name{{ i }}"
+                            placeholder="Game name"
+                          />
+                        </div>
+                      </div>
+  
+                      <div class="col-md-2 col-12">
+                        <div class="form-group">
+                          <label for="itemCost">Team A</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="teama"
+                            [(ngModel)]="item.team_a"
+                            name="teama{{ i }}"
+                            id="teama{{ i }}"
+                            placeholder="Team A"
+                          />
+                        </div>
+                      </div>
+  
+                      <div class="col-md-2 col-12">
+                        <div class="form-group">
+                          <label for="teamb{{ i }}">Team B</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="teamb{{ i }}"
+                            name="teamb{{ i }}"
+                            [(ngModel)]="item.team_b"
+                            placeholder="Team B"
+                          />
+                        </div>
+                      </div>
+  
+                     
+                      <div class="col-md-2 col-12 mb-50">
+                        <div class="form-group">
+                          <button class="btn btn-outline-danger text-nowrap px-1" (click)="deleteItem(i)" rippleEffect>
+                            <i data-feather="x" class="mr-25"></i>
+                            <span>Delete</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <hr />
+                  </div>
+                </form>
+                <div class="row">
+                  <div class="col-12">
+                    <button class="btn btn-icon btn-primary" type="button" (click)="addItem()" rippleEffect>
+                      <i data-feather="plus" class="mr-25"></i>
+                      <span>Add New</span>
+                    </button>
+                  </div>
+                </div>
+                <!-- <pre class="p-1 text-white mt-1">
+                  <div  *ngFor="let item of items; let i = index">
+      Index: {{ i }}
+      Item Name: {{ item.itemName }}
+      Cost: {{ item.itemCost }}
+      Quantity: {{ item.itemQuantity }}</div>
+                </pre> -->
+              </div>
+
+            </div>
+          <div class="d-flex justify-content-between mt-2">
+          <button
+            [disabled]="loading"
+            type="submit"
+            class="btn btn-primary"
+            (click)="submit(newUserForm)"
+            rippleEffect
+          >
+            <span
+              *ngIf="loading"
+              class="spinner-border spinner-border-sm mr-1"
+            ></span>
+            Submit
+          </button>
+          <button
+            type="reset"
+            class="btn btn-outline-secondary"
+            (click)="toggleSidebar('new-user-sidebar')"
+            rippleEffect
+          >
+            Cancel
+          </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Modal to add new user Ends-->
+</div>

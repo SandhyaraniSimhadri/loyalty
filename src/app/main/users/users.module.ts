@@ -25,6 +25,7 @@ import { UserViewService } from "./users-view/user-view.service";
 import { NewUserSidebarComponent } from "./users-list/new-user-sidebar/new-user-sidebar.component";
 
 import { SharedModule } from "../shared.module";
+import { UsersNewComponent } from "./users-new/users-new.component";
 // routing
 const routes: Routes = [
   {
@@ -42,6 +43,14 @@ const routes: Routes = [
       uls: UserListService,
     },
     data: { animation: "UsersListComponent" },
+  },
+  {
+    path: "users-new",
+    component: UsersNewComponent,
+    resolve: {
+      uls: UserListService,
+    },
+    data: { animation: "UsersNewComponent" },
   },
   {
     path: "users-view/:id",
@@ -78,7 +87,8 @@ const routes: Routes = [
     UsersListComponent,
     UsersViewComponent,
     UsersEditComponent,
-    NewUserSidebarComponent
+    NewUserSidebarComponent,
+    UsersNewComponent
   ],
   imports: [
     SharedModule,

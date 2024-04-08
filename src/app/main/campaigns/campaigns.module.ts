@@ -25,6 +25,7 @@ import { UserViewService } from "./campaigns-view/user-view.service";
 import { NewUserSidebarComponent } from "./campaigns-list/new-user-sidebar/new-user-sidebar.component";
 
 import { SharedModule } from "../shared.module";
+import { CampaignsNewComponent } from "./campaigns-new/campaigns-new.component";
 // routing
 const routes: Routes = [
   {
@@ -64,6 +65,14 @@ const routes: Routes = [
     data: { animation: "CampaignsEditComponent" },
   },
   {
+    path: "campaigns-new",
+    component: CampaignsNewComponent,
+    resolve: {
+      uls: UserListService,
+    },
+    data: { animation: "CampaignsNewComponent" },
+  },
+  {
     path: "user-view",
     redirectTo: "/apps/user/user-view/2", // Redirection
   },
@@ -78,7 +87,8 @@ const routes: Routes = [
     CampaignsListComponent,
     CampaignsViewComponent,
     CampaignsEditComponent,
-    NewUserSidebarComponent
+    NewUserSidebarComponent,
+    CampaignsNewComponent
   ],
   imports: [
     SharedModule,
