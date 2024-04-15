@@ -24,6 +24,7 @@ export class EventsNewComponent implements OnInit {
   public imageval: any;
   public title: any;
   public description: any;
+  public terms_conditions:any
 
   /**
    * Constructor
@@ -62,6 +63,8 @@ export class EventsNewComponent implements OnInit {
 
     formData.append("title", this.title);
     formData.append("description", this.description);
+    formData.append("terms_conditions", this.terms_conditions);
+
     if (form.valid) {
 
       this.http.post<any>(this.apiUrl + "api/add_event", formData).subscribe(

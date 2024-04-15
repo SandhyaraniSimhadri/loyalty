@@ -26,6 +26,7 @@ import { NewUserSidebarComponent } from "./campaigns-list/new-user-sidebar/new-u
 
 import { SharedModule } from "../shared.module";
 import { CampaignsNewComponent } from "./campaigns-new/campaigns-new.component";
+import { CampaignsReportComponent } from "./campaigns-report/campaigns-report.component";
 // routing
 const routes: Routes = [
   {
@@ -65,6 +66,14 @@ const routes: Routes = [
     data: { animation: "CampaignsEditComponent" },
   },
   {
+    path: "campaigns-report/:id",
+    component: CampaignsReportComponent,
+    resolve: {
+      ues: UserEditService,
+    },
+    data: { animation: "CampaignsReportComponent" },
+  },
+  {
     path: "campaigns-new",
     component: CampaignsNewComponent,
     resolve: {
@@ -88,7 +97,8 @@ const routes: Routes = [
     CampaignsViewComponent,
     CampaignsEditComponent,
     NewUserSidebarComponent,
-    CampaignsNewComponent
+    CampaignsNewComponent,
+    CampaignsReportComponent
   ],
   imports: [
     SharedModule,

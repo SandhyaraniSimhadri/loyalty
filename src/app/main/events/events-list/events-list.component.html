@@ -212,7 +212,7 @@
                 </ng-template>
                 <div class="cell-line-height">
                   <a
-                    routerLink="./events-view/{{ row.id }}"
+                    routerLink="./../events-view/{{ row.id }}"
                     class="font-medium-1 d-block"
                     ><span class="font-weight-bold white-space">{{
                       name | truncate: 20
@@ -256,7 +256,7 @@
                 </button>
                 <div ngbDropdownMenu>
                   <a
-                    routerLink="./events-view/{{ row.id }}"
+                    routerLink="./../events-view/{{ row.id }}"
                     ngbDropdownItem
                     ><span
                       [data-feather]="'file-text'"
@@ -266,7 +266,7 @@
                     Details</a
                   >
                   <a
-                    routerLink="./events-edit/{{ row.id }}"
+                    routerLink="./../events-edit/{{ row.id }}"
                     ngbDropdownItem
                     ><span
                       [data-feather]="'edit'"

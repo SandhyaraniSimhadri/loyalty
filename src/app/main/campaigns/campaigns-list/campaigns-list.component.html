@@ -212,7 +212,7 @@
                 </ng-template>
                 <div class="cell-line-height">
                   <a
-                    routerLink="./campaigns-view/{{ row.id }}"
+                    routerLink="./../campaigns-view/{{ row.id }}"
                     class="font-medium-1 d-block"
                     ><span class="font-weight-bold white-space">{{
                       name | truncate: 20
@@ -234,6 +234,22 @@
               <div class="d-flex align-items-center">
                 <div class="cell-line-height d-block">
                   <span class="font-weight-bold white-space">{{row.start_date | truncate: 20
+                  }}</span>
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+
+          <ngx-datatable-column name="Company Name" prop="company_name">
+            <ng-template
+              let-row="row"
+              let-name="value"
+              ngx-datatable-cell-template
+            >
+              <div class="d-flex align-items-center">
+                <div class="cell-line-height d-block">
+                  <span class="font-weight-bold white-space">{{row.company_name | truncate: 20
                   }}</span>
                 </div>
               </div>
@@ -272,6 +288,31 @@
             </ng-template>
           </ngx-datatable-column>
 
+          <ngx-datatable-column name="Reports" prop="">
+            <ng-template
+              let-row="row"
+              let-name="value"
+              ngx-datatable-cell-template
+            >
+              <div class="d-flex align-items-center">
+                <div class="cell-line-height d-block">
+              
+
+                <a
+                    routerLink="./../campaigns-report/{{ row.id }}"
+                    class="font-medium-1 d-block"
+                    ><span
+                    [data-feather]="'eye'"
+                    [class]="'cursor-pointer'" 
+                  ></span></a
+                  >
+
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+
 
           <ngx-datatable-column name="Actions" [width]="40" [sortable]="false">
             <ng-template ngx-datatable-cell-template let-row="row">
@@ -289,7 +330,7 @@
                 </button>
                 <div ngbDropdownMenu>
                   <a
-                    routerLink="./campaigns-view/{{ row.id }}"
+                    routerLink="./../campaigns-view/{{ row.id }}"
                     ngbDropdownItem
                     ><span
                       [data-feather]="'file-text'"
@@ -299,7 +340,7 @@
                     Details</a
                   >
                   <a
-                    routerLink="./campaigns-edit/{{ row.id }}"
+                    routerLink="./../campaigns-edit/{{ row.id }}"
                     ngbDropdownItem
                     ><span
                       [data-feather]="'edit'"

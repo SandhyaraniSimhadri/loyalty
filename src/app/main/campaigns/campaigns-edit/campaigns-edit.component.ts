@@ -46,12 +46,14 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
   public birthDateOptions: FlatpickrOptions = {
     altInput: true,
   };
-  public games = [{ id: 0, name: '', team_a: '', team_b: '' }];
+  public games = [{ id: 0, name: '', team_a: '', team_b: '', points:'' }];
+  public companyData:any;
 
   public game = {
     name: '',
     team_a: '',
-    team_b: ''
+    team_b: '',
+    points:''
   };
   public eventsData:any;
 
@@ -105,7 +107,7 @@ if(event_id==1){
 this.currentRow.games=this.games;
 }
 else{
-  this.currentRow.games= [{ id: 0, name: '', team_a: '', team_b: '' }];
+  this.currentRow.games= [{ id: 0, name: '', team_a: '', team_b: '', points:'' }];
 }
   }
 
@@ -142,6 +144,7 @@ else{
       name: '',
       team_a: '',
       team_b: '',
+      points:''
     });
     this.checkFormModified();
   }
@@ -167,6 +170,8 @@ else{
       formData.append("start_date", this.currentRow.start_date);
       formData.append("end_date", this.currentRow.end_date);
       formData.append("event_id", this.currentRow.event_id);
+      formData.append("company_id", this.currentRow.company_id);
+
       formData.append('games', JSON.stringify(games_data));
 
 
@@ -189,7 +194,7 @@ else{
                   'Success',
                   { toastClass: 'toast ngx-toastr', closeButton: true }
                 );
-                this._router.navigate(["../campaigns"]);
+                this._router.navigate(["/campaigns/campaigns"]);
               }
             }
             this.buttonLoading=false;
@@ -212,8 +217,29 @@ else{
    */
   ngOnInit(): void {
     this.apiUrl = environment.apiUrl;
+    this.getEvents();
     this.getData();
+
     this.getSingleRequest();
+  }
+  getData() {
+    let request = {
+      params: null,
+      action_url: "get_companies",
+      method: "GET",
+    };
+    this.httpService.doHttp(request).subscribe(
+      (res: any) => {
+        if (res == "nonet") {
+        } else {
+          if (res.status == false) {
+          } else if (res.status == true) {
+            this.companyData = res.data;
+          }
+        }
+      },
+      (error: any) => {}
+    );
   }
   getSingleRequest() {
   
@@ -248,7 +274,7 @@ else{
       }
     );
   }
-  getData() {
+  getEvents() {
     let request = {
       params: null,
       action_url: "get_events",

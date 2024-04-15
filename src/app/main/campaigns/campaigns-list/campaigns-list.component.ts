@@ -274,4 +274,5 @@ export class CampaignsListComponent implements OnInit {
   }
  
  
+ 
 }

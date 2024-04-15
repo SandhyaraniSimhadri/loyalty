@@ -34,17 +34,22 @@ export class CampaignsNewComponent implements OnInit {
   public end_date: any;
   public event_id: any;
   public eventsData:any;
+  public company_id:any;
+  public errorMsg:any=false;
   // public games:any=[];
   // public game:any={'name':'','team_a':'','team_b':''};
   public basicTP = { hour: 13, minute: 30 };
   public end_time = { hour: 13, minute: 30 };
-  public games = [{ id: '', name: '', team_a: '', team_b: '' }];
+  public games = [{ id: '', name: '', team_a: '', team_b: '', points:''}];
 
   public game = {
     name: '',
     team_a: '',
-    team_b: ''
+    team_b: '',
+    points:'',
   };
+  public companyData: any;
+
 
   /**
    * Constructor
@@ -70,6 +75,8 @@ export class CampaignsNewComponent implements OnInit {
    */
   toggleSidebar(name): void {
     this.getData();
+    this.getEvents();
+
     this._coreSidebarService.getSidebarRegistry(name).toggleOpen();
   }
 
@@ -84,6 +91,7 @@ export class CampaignsNewComponent implements OnInit {
       name: '',
       team_a: '',
       team_b: '',
+      points:'',
     });
   }
   deleteItem(id) {
@@ -96,6 +104,14 @@ export class CampaignsNewComponent implements OnInit {
   }
 
   submit(form) {
+    const hasEmptyFields = this.games.some(game => !game.name || !game.team_a || !game.team_b || !game.points);
+    if (hasEmptyFields) {
+      this.errorMsg=true;
+      return;
+    }
+    this.errorMsg=false;
+    // If no empty fields, proceed with form submission
+    // this.loading = true;
     console.log("basicTP",this.basicTP);
     this.loading = true;
     const formData = new FormData();
@@ -108,6 +124,8 @@ export class CampaignsNewComponent implements OnInit {
     // formData.append("start_time", startTimeString);
     formData.append("end_time",endTimeString);
     formData.append("event_id", this.event_id);
+    formData.append("company_id", this.company_id);
+
     formData.append('games', JSON.stringify(games_data));
 
     if (form.valid) {
@@ -143,7 +161,7 @@ export class CampaignsNewComponent implements OnInit {
     }
     this.loading=false;
   }
-  getData() {
+  getEvents() {
     let request = {
       params: null,
       action_url: "get_events",
@@ -163,6 +181,7 @@ export class CampaignsNewComponent implements OnInit {
     );
   }
   ngOnInit(): void {
+    this.getEvents();
     this.getData();
     this.apiUrl = environment.apiUrl;
    
@@ -173,5 +192,43 @@ export class CampaignsNewComponent implements OnInit {
     this.image = event.target.files[0];
     this.loading = false;
   }
-
+  getData() {
+    let request = {
+      params: null,
+      action_url: "get_companies",
+      method: "GET",
+    };
+    this.httpService.doHttp(request).subscribe(
+      (res: any) => {
+        if (res == "nonet") {
+        } else {
+          if (res.status == false) {
+          } else if (res.status == true) {
+            this.companyData = res.data;
+          }
+        }
+      },
+      (error: any) => {}
+    );
+  }
+  validateDates() {
+    if (this.start_date >= this.end_date) {
+      // If start date is greater than or equal to end date, reset both dates and form
+      this.start_date = null;
+      this.end_date = null;
+      this._toastrService.error("Start date must be less than end date. Both dates have been reset.", "Error", {
+        toastClass: "toast ngx-toastr",
+        closeButton: true,
+      });
+     
+    }
+  }
+  validateInputs(gameIndex: number) {
+    const game = this.games[gameIndex];
+    if (!game.name || !game.team_a || !game.team_b || !game.points) {
+      return false;
+    }
+    return true;
+  }
+  
 }

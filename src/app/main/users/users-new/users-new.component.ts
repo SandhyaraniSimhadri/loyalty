@@ -3,6 +3,7 @@ import { Component, EventEmitter, OnInit, Output, ViewEncapsulation } from "@ang
 import { Router } from "@angular/router";
 import { CoreSidebarService } from "@core/components/core-sidebar/core-sidebar.service";
 import { CoreHttpService } from "@core/services/http.service";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { environment } from "environments/environment";
 import { ToastrService } from "ngx-toastr";
 
@@ -30,6 +31,9 @@ export class UsersNewComponent implements OnInit {
   public companyData: any;
 
   public description: any;
+  public file:any;
+  public api_url: any;
+
 
   /**
    * Constructor
@@ -43,7 +47,10 @@ export class UsersNewComponent implements OnInit {
     private _toastrService: ToastrService,
     private http: HttpClient,
     private _router: Router,
+    public modalService: NgbModal,
+
   ) {
+    this.api_url = environment.apiUrl+'api/';
     if (this.httpService.USERINFO.role == "Sub Admin") {
     }
   }
@@ -130,7 +137,38 @@ export class UsersNewComponent implements OnInit {
 
   uploadImage(event: any) {
     this.loading = true;
-    this.image = event.target.files[0];
+    this.file = event.target.files[0];
     this.loading = false;
+  }
+  modalOpenForm(modalForm) {
+    this.modalService.open(modalForm);
+  }
+  uploadFile() {
+    const formData = new FormData();
+    formData.append('file', this.file);
+
+    this.http.post(this.apiUrl + "api/users_file_import", formData).subscribe(
+      (res:any) => {
+        if (res == "nonet") {
+        }else{
+          if (res.status == false) {
+            this._toastrService.error(res.msg, "Failed", {
+              toastClass: "toast ngx-toastr",
+              closeButton: true,
+            });
+          } else if (res.status == true) {
+            this._toastrService.success(res.msg+ ', '+res.count+ ' feeds added', "Success", {
+              toastClass: "toast ngx-toastr",
+              closeButton: true,
+            });
+            this.modalService.dismissAll();
+            this._router.navigate(["../users"]);
+          }}
+      },
+      (error) => {
+        console.error('Error uploading file', error);
+        // Handle error, e.g., show an error message
+      }
+    );
   }
 }

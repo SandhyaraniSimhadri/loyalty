@@ -129,6 +129,8 @@ export class EventsEditComponent implements OnInit, OnDestroy {
    
       formData.append("title", this.currentRow.title);
       formData.append("description", this.currentRow.description);
+      formData.append("terms_conditions", this.currentRow.terms_conditions);
+
 
       this.currentRow.image = this.image;
       this.http
@@ -148,7 +150,7 @@ export class EventsEditComponent implements OnInit, OnDestroy {
                   'Success',
                   { toastClass: 'toast ngx-toastr', closeButton: true }
                 );
-                this._router.navigate(["../events"]);
+                this._router.navigate(["/events/events"]);
               }
             }
             this.buttonLoading=false;

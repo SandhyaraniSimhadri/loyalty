@@ -9,13 +9,13 @@
     <!-- User List -->
     <section class="users-list-wrapper">
       <!-- users filter start -->
-      <!-- <div class="card">
-        <h5 class="card-header">Search Filter</h5>
+      <div class="card">
+        <!-- <h5 class="card-header">Search Filter</h5> -->
         <div class="card-body">
           <div class="users-list-filter">
             <form>
               <div class="row">
-                <div class="col-12 col-md-6">
+                <!-- <div class="col-12 col-md-6">
                   <fieldset class="form-group">
                     <ng-select
                       [items]="selectChurch"
@@ -26,7 +26,7 @@
                       (change)="filterByChurch($event)"
                     ></ng-select>
                   </fieldset>
-                </div>
+                </div> -->
                 <div class="col-12 col-md-3">
                
                   <button
@@ -41,7 +41,7 @@
             </form>
           </div>
         </div>
-      </div> -->
+      </div> 
       <!-- users filter end -->
 
       <div class="card">
@@ -76,84 +76,7 @@
                 (keyup)="filterUpdate($event)"
                 (search)="filterUpdate($event)"
               />
-              <!-- <button
-              class="btn btn-primary ml-1 d-flex w-100 justify-content-center align-items-center"
-              rippleEffect (click)="modalOpenForm(modalForm)"
              
-            >
-           <span class="">Bulk Upload</span>
-            </button> -->
-            <ng-template #modalForm let-modal>
-              <div class="modal-header">
-               
-                <h4 class="modal-title" id="myModalLabel1">Upload CSV</h4>
-                <!-- <button  class="btn btn-primary ml-1 d-flex w-100 justify-content-center align-items-center"
-                rippleEffect >
-                
-                
-                </button> -->
-                <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body" tabindex="0" ngbAutofocus>
-                <form >
-                
-                  
-                  <div class="form-group">
-                    <label class="form-label" for="basic-icon-default-author"
-                      >Select the file to upload:</label
-                    >
-                    <input
-                      type="file"
-                      class="form-control dt-author"
-                      id="basic-icon-default-author"
-                      placeholder=""
-                      name="author"
-                      [(ngModel)]="imageval"
-                      (change)="uploadImage($event)"
-                     
-                    
-                    />
-                   
-                  </div>
-                  <!-- <br/>
-                  <p><b>Members data</b></p>
-                  <div class="table-responsive">
-                    <table class="table">
-                     <tr>
-                      <th>
-                        Sno.
-                      </th>
-                      <th>
-                       ID
-                      </th>
-                      <th>
-                      Member
-                      </th>
-                     </tr>
-                     <tr *ngFor="let member of members_data;let i = index">
-                      <td>
-                        {{i+1}}
-                      </td>
-                      <td>
-                        {{member.id}}
-                      </td>
-                      <td>
-                        {{member.user_name}}
-                      </td>
-                     </tr>
-                    </table>
-                  </div> -->
-                  
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-primary" (click)="uploadFile()" rippleEffect>
-                  Upload
-                </button>
-              </div>
-            </ng-template>
               <!-- <button
                 class="btn btn-primary ml-1 d-flex w-100 justify-content-center align-items-center"
                 rippleEffect
@@ -177,7 +100,7 @@
           [scrollbarH]="true"
           style="width: 100%; overflow-x: auto"
         >
-          <ngx-datatable-column name="Name" prop="name" [width]="200">
+          <ngx-datatable-column name="Name" prop="user_name" [width]="200">
             <ng-template
               let-row="row"
               let-name="value"
@@ -212,7 +135,7 @@
                 </ng-template>
                 <div class="cell-line-height">
                   <a
-                    routerLink="./users-view/{{ row.id }}"
+                    routerLink="./../users-view/{{ row.id }}"
                     class="font-medium-1 d-block"
                     ><span class="font-weight-bold white-space">{{
                       name | truncate: 20
@@ -286,7 +209,7 @@
                 </button>
                 <div ngbDropdownMenu>
                   <a
-                    routerLink="./users-view/{{ row.id }}"
+                    routerLink="./../users-view/{{ row.id }}"
                     ngbDropdownItem
                     ><span
                       [data-feather]="'file-text'"
@@ -296,7 +219,7 @@
                     Details</a
                   >
                   <a
-                    routerLink="./users-edit/{{ row.id }}"
+                    routerLink="./../users-edit/{{ row.id }}"
                     ngbDropdownItem
                     ><span
                       [data-feather]="'edit'"

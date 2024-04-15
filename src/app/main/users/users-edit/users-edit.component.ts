@@ -171,7 +171,7 @@ export class UsersEditComponent implements OnInit, OnDestroy {
                   'Success',
                   { toastClass: 'toast ngx-toastr', closeButton: true }
                 );
-                this._router.navigate(["../users"]);
+                this._router.navigate(["/users/users"]);
               }
             }
             this.buttonLoading=false;

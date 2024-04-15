@@ -51,13 +51,13 @@
                         }"
                       >
                         <div class="rounded p-3">
-                          {{ currentRow.name | initials }}
+                          {{ currentRow.user_name | initials }}
                         </div>
                       </div>
                     </ng-template>
                     <div class="media-body mt-50">
                       <h4 style="word-break: break-all">
-                        {{ currentRow.name }}
+                        {{ currentRow.user_name }}
                       </h4>
                       <div class="col-12 d-flex mt-1 px-0">
                         <label
@@ -116,7 +116,7 @@
                             aria-label=""
                             aria-describedby="basic-icon-default-name"
                             name="name"
-                            [(ngModel)]="currentRow.name"
+                            [(ngModel)]="currentRow.user_name"
                             [class.error]="
                               accountForm.submitted && NameRef.invalid
                             "
@@ -251,7 +251,7 @@
                             aria-label=""
                             aria-describedby="basic-icon-default-phone"
                             name="phone"
-                            [(ngModel)]="currentRow.phone"
+                            [(ngModel)]="currentRow.mobile_no"
                             [class.error]="
                               accountForm.submitted && PhoneRef.invalid
                             "

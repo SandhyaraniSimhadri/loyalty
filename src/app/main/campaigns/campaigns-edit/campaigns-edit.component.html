@@ -140,6 +140,56 @@
                       <div class="col-md-6">
                         <div class="form-group">
                           <label class="form-label" for="user-plan"
+                            >Select Company
+                            <span
+                              *ngIf="accountForm.submitted && CompanyRef.invalid"
+                              class="text-danger"
+                              >*</span
+                            >
+                            <span
+                              *ngIf="
+                                !accountForm.submitted || !CompanyRef.invalid
+                              "
+                              >*</span
+                            ></label
+                          >
+                          <select
+                            class="form-control"
+                            id="company"
+                            name="company"
+                            [class.error]="
+                              accountForm.submitted && CompanyRef.invalid
+                            "
+                            #CompanyRef="ngModel"
+                            required
+                            [(ngModel)]="currentRow.company_id"
+                            [ngModelOptions]="{ standalone: true }"
+                            (ngModelChange)="checkFormModified()"
+                          >
+                            <option value="">Select</option>
+                            <option
+                              *ngFor="let company of companyData"
+                              [value]="company.id"
+                            >
+                              {{ company.company_name }}
+                            </option>
+                          </select>
+                          <span
+                            *ngIf="accountForm.submitted && CompanyRef.invalid"
+                            class="invalid-form"
+                          >
+                            <small
+                              class="form-text text-danger"
+                              *ngIf="CompanyRef.errors.required"
+                              >This field is required!</small
+                            >
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="form-label" for="user-plan"
                             >Start Date<span
                               *ngIf="accountForm.submitted && SDateRef.invalid"
                               class="text-danger"
@@ -301,6 +351,20 @@
                                   </div>
                                 </div>
             
+                                <div class="col-md-2 col-12">
+                                  <div class="form-group">
+                                    <label for="points{{ i }}">Points</label>
+                                    <input
+                                      type="text"
+                                      class="form-control"
+                                      id="points{{ i }}"
+                                      name="points{{ i }}"
+                                      [(ngModel)]="item.points"
+                                      placeholder="Points"
+                                    />
+                                  </div>
+                                </div>
+            
                                
                                 <div class="col-md-2 col-12 mb-50">
                                   <div class="form-group">
@@ -322,13 +386,7 @@
                               </button>
                             </div>
                           </div>
-                          <!-- <pre class="p-1 text-white mt-1">
-                            <div  *ngFor="let item of items; let i = index">
-                Index: {{ i }}
-                Item Name: {{ item.itemName }}
-                Cost: {{ item.itemCost }}
-                Quantity: {{ item.itemQuantity }}</div>
-                          </pre> -->
+                         
                         </div>
           
                       </div>

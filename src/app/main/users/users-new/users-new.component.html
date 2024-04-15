@@ -1,23 +1,111 @@
 <div class="slideout-content">
   <!-- Modal to add new user starts-->
-  <div
+  <div>
+    <button
+    class="btn btn-primary ml-1 d-flex justify-content-center align-items-center"
+    rippleEffect (click)="modalOpenForm(modalForm)"
    
   >
+ <span class="">Bulk Upload</span>
+  </button>
+  <ng-template #modalForm let-modal>
+    <div class="modal-header">
+     
+      <h4 class="modal-title" id="myModalLabel1">Upload CSV</h4>
+      <!-- <button  class="btn btn-primary ml-1 d-flex w-100 justify-content-center align-items-center"
+      rippleEffect >
+      
+      
+      </button> -->
+      <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+      <form >
+      
+        
+        <div class="form-group">
+          <label class="form-label" for="basic-icon-default-author"
+            >Select the file to upload:</label
+          >
+          <input
+            type="file"
+            class="form-control dt-author"
+            id="basic-icon-default-author"
+            placeholder=""
+            name="author"
+            [(ngModel)]="imageval"
+            (change)="uploadImage($event)"
+           
+          
+          />
+          <span style="font-size: 12px">
+            Click here to
+            <a style="" [href]="api_url + 'download_users_sample'">
+              Download Sample<br />
+            </a>
+          </span>
+        </div>
+        <!-- <br/>
+        <p><b>Members data</b></p>
+        <div class="table-responsive">
+          <table class="table">
+           <tr>
+            <th>
+              Sno.
+            </th>
+            <th>
+             ID
+            </th>
+            <th>
+            Member
+            </th>
+           </tr>
+           <tr *ngFor="let member of members_data;let i = index">
+            <td>
+              {{i+1}}
+            </td>
+            <td>
+              {{member.id}}
+            </td>
+            <td>
+              {{member.user_name}}
+            </td>
+           </tr>
+          </table>
+        </div> -->
+        
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="uploadFile()" rippleEffect>
+        Upload
+      </button>
+    </div>
+  </ng-template>
     <div class="modal-dialog">
       <form
         class="add-new-user modal-content pt-0"
         (ngSubmit)="(newUserForm.form.valid)"
         #newUserForm="ngForm"
       >
-    
         <div class="modal-header mb-1">
           <h5 class="modal-title" id="exampleModalLabel">New User</h5>
         </div>
         <div class="modal-body flex-grow-1">
-        
           <div class="form-group">
-            <label class="form-label">Select Company <span *ngIf="newUserForm.submitted && CompanyRef.invalid" class="text-danger">*</span>
-              <span *ngIf="!newUserForm.submitted || !CompanyRef.invalid">*</span></label>
+            <label class="form-label"
+              >Select Company
+              <span
+                *ngIf="newUserForm.submitted && CompanyRef.invalid"
+                class="text-danger"
+                >*</span
+              >
+              <span *ngIf="!newUserForm.submitted || !CompanyRef.invalid"
+                >*</span
+              ></label
+            >
             <select
               id="basic-icon-default-company"
               class="form-control dt-company"
@@ -46,153 +134,172 @@
             </span>
           </div>
 
-         
-
-       
-            <div class="form-group">
-              <label class="form-label" for="user-plan"
-              >Name<span *ngIf="newUserForm.submitted && NameRef.invalid" class="text-danger">*</span>
-              <span *ngIf="!newUserForm.submitted || !NameRef.invalid ">*</span></label
-            >
-              <input
-                type="text"
-                id="basic-icon-default-name"
-                class="form-control dt-name"
-                placeholder=""
-                aria-label=""
-                aria-describedby="basic-icon-default-name"
-                name="name"
-                [(ngModel)]="name"
-                [class.error]="newUserForm.submitted && NameRef.invalid"
-                #NameRef="ngModel"
-                required
-              />
-              <span
+          <div class="form-group">
+            <label class="form-label" for="user-plan"
+              >Name<span
                 *ngIf="newUserForm.submitted && NameRef.invalid"
-                class="invalid-form"
+                class="text-danger"
+                >*</span
               >
-                <small
-                  class="form-text text-danger"
-                  *ngIf="NameRef.errors.required"
-                  >This field is required!</small
-                >
-              </span>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="user-plan"
-              >Email<span *ngIf="newUserForm.submitted && EmailRef.invalid" class="text-danger">*</span>
-              <span *ngIf="!newUserForm.submitted || !EmailRef.invalid ">*</span></label
+              <span *ngIf="!newUserForm.submitted || !NameRef.invalid"
+                >*</span
+              ></label
             >
-              <input
-                type="text"
-                id="basic-icon-default-email"
-                class="form-control dt-email"
-                placeholder=""
-                aria-label=""
-                aria-describedby="basic-icon-default-email"
-                name="email"
-                [(ngModel)]="email"
-                [class.error]="newUserForm.submitted && EmailRef.invalid"
-                #EmailRef="ngModel"
-                required
-              />
-              <span
+            <input
+              type="text"
+              id="basic-icon-default-name"
+              class="form-control dt-name"
+              placeholder=""
+              aria-label=""
+              aria-describedby="basic-icon-default-name"
+              name="name"
+              [(ngModel)]="name"
+              [class.error]="newUserForm.submitted && NameRef.invalid"
+              #NameRef="ngModel"
+              required
+            />
+            <span
+              *ngIf="newUserForm.submitted && NameRef.invalid"
+              class="invalid-form"
+            >
+              <small
+                class="form-text text-danger"
+                *ngIf="NameRef.errors.required"
+                >This field is required!</small
+              >
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="user-plan"
+              >Email<span
                 *ngIf="newUserForm.submitted && EmailRef.invalid"
-                class="invalid-form"
+                class="text-danger"
+                >*</span
               >
-                <small
-                  class="form-text text-danger"
-                  *ngIf="EmailRef.errors.required"
-                  >This field is required!</small
-                >
-              </span>
-            </div>
-         
-            
-            <div class="form-group">
-              <label class="form-label" for="user-plan"
-              >Phone Number<span *ngIf="newUserForm.submitted && PhoneRef.invalid" class="text-danger">*</span>
-              <span *ngIf="!newUserForm.submitted || !PhoneRef.invalid ">*</span></label
+              <span *ngIf="!newUserForm.submitted || !EmailRef.invalid"
+                >*</span
+              ></label
             >
-              <input
-                type="text"
-                id="basic-icon-default-phone"
-                class="form-control dt-phone"
-                placeholder=""
-                aria-label=""
-                aria-describedby="basic-icon-default-phone"
-                name="phone"
-                [(ngModel)]="phone"
-                [class.error]="newUserForm.submitted && PhoneRef.invalid"
-                #PhoneRef="ngModel"
-                required
-              />
-              <span
-                *ngIf="newUserForm.submitted && PhoneRef.invalid"
-                class="invalid-form"
+            <input
+              type="text"
+              id="basic-icon-default-email"
+              class="form-control dt-email"
+              placeholder=""
+              aria-label=""
+              aria-describedby="basic-icon-default-email"
+              name="email"
+              [(ngModel)]="email"
+              [class.error]="newUserForm.submitted && EmailRef.invalid"
+              #EmailRef="ngModel"
+              required
+            />
+            <span
+              *ngIf="newUserForm.submitted && EmailRef.invalid"
+              class="invalid-form"
+            >
+              <small
+                class="form-text text-danger"
+                *ngIf="EmailRef.errors.required"
+                >This field is required!</small
               >
-                <small
-                  class="form-text text-danger"
-                  *ngIf="PhoneRef.errors.required"
-                  >This field is required!</small
-                >
-              </span>
-            </div>
+            </span>
+          </div>
 
-            
-            <div class="form-group">
-              <label class="form-label" for="user-plan"
-              >City<span *ngIf="newUserForm.submitted && CityRef.invalid" class="text-danger">*</span>
-              <span *ngIf="!newUserForm.submitted || !CityRef.invalid ">*</span></label
-            >
-              <input
-                type="text"
-                id="basic-icon-default-city"
-                class="form-control dt-city"
-                placeholder=""
-                aria-label=""
-                aria-describedby="basic-icon-default-city"
-                name="city"
-                [(ngModel)]="city"
-                [class.error]="newUserForm.submitted && CityRef.invalid"
-                #CityRef="ngModel"
-                required
-              />
-              <span
-                *ngIf="newUserForm.submitted && CityRef.invalid"
-                class="invalid-form"
+          <div class="form-group">
+            <label class="form-label" for="user-plan"
+              >Phone Number<span
+                *ngIf="newUserForm.submitted && PhoneRef.invalid"
+                class="text-danger"
+                >*</span
               >
-                <small
-                  class="form-text text-danger"
-                  *ngIf="CityRef.errors.required"
-                  >This field is required!</small
-                >
-              </span>
-            </div>
+              <span *ngIf="!newUserForm.submitted || !PhoneRef.invalid"
+                >*</span
+              ></label
+            >
+            <input
+              type="text"
+              id="basic-icon-default-phone"
+              class="form-control dt-phone"
+              placeholder=""
+              aria-label=""
+              aria-describedby="basic-icon-default-phone"
+              name="phone"
+              [(ngModel)]="phone"
+              [class.error]="newUserForm.submitted && PhoneRef.invalid"
+              #PhoneRef="ngModel"
+              required
+            />
+            <span
+              *ngIf="newUserForm.submitted && PhoneRef.invalid"
+              class="invalid-form"
+            >
+              <small
+                class="form-text text-danger"
+                *ngIf="PhoneRef.errors.required"
+                >This field is required!</small
+              >
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="user-plan"
+              >City<span
+                *ngIf="newUserForm.submitted && CityRef.invalid"
+                class="text-danger"
+                >*</span
+              >
+              <span *ngIf="!newUserForm.submitted || !CityRef.invalid"
+                >*</span
+              ></label
+            >
+            <input
+              type="text"
+              id="basic-icon-default-city"
+              class="form-control dt-city"
+              placeholder=""
+              aria-label=""
+              aria-describedby="basic-icon-default-city"
+              name="city"
+              [(ngModel)]="city"
+              [class.error]="newUserForm.submitted && CityRef.invalid"
+              #CityRef="ngModel"
+              required
+            />
+            <span
+              *ngIf="newUserForm.submitted && CityRef.invalid"
+              class="invalid-form"
+            >
+              <small
+                class="form-text text-danger"
+                *ngIf="CityRef.errors.required"
+                >This field is required!</small
+              >
+            </span>
+          </div>
 
           <div class="d-flex justify-content-between mt-2">
-          <button
-            [disabled]="loading"
-            type="submit"
-            class="btn btn-primary"
-            (click)="submit(newUserForm)"
-            rippleEffect
-          >
-            <span
-              *ngIf="loading"
-              class="spinner-border spinner-border-sm mr-1"
-            ></span>
-            Submit
-          </button>
-          <button
-            type="reset"
-            class="btn btn-outline-secondary"
-            (click)="toggleSidebar('new-user-sidebar')"
-            rippleEffect
-          >
-            Cancel
-          </button>
+            <button
+              [disabled]="loading"
+              type="submit"
+              class="btn btn-primary"
+              (click)="submit(newUserForm)"
+              rippleEffect
+            >
+              <span
+                *ngIf="loading"
+                class="spinner-border spinner-border-sm mr-1"
+              ></span>
+              Submit
+            </button>
+            <button
+              type="reset"
+              class="btn btn-outline-secondary"
+              (click)="toggleSidebar('new-user-sidebar')"
+              rippleEffect
+            >
+              Cancel
+            </button>
           </div>
         </div>
       </form>

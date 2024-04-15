@@ -79,6 +79,35 @@
                 >
               </span>
             </div>
+            <div class="form-group">
+              <label class="form-label" for="user-plan"
+              >Terms and Conditions<span *ngIf="newUserForm.submitted && TCRef.invalid" class="text-danger">*</span>
+              <span *ngIf="!newUserForm.submitted || !TCRef.invalid ">*</span></label
+            >
+              <textarea
+                type="text"
+                id="basic-icon-default-terms-conditions"
+                class="form-control dt-terms-conditions"
+                placeholder=""
+                aria-label=""
+                aria-describedby="basic-icon-default-terms-conditions"
+                name="terms-conditions"
+                [(ngModel)]="terms_conditions"
+                [class.error]="newUserForm.submitted && TCRef.invalid"
+                #TCRef="ngModel"
+                required
+              ></textarea>
+              <span
+                *ngIf="newUserForm.submitted && TCRef.invalid"
+                class="invalid-form"
+              >
+                <small
+                  class="form-text text-danger"
+                  *ngIf="TCRef.errors.required"
+                  >This field is required!</small
+                >
+              </span>
+            </div>
          
           <div class="d-flex justify-content-between mt-2">
           <button

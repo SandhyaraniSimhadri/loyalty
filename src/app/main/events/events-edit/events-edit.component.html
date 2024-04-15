@@ -179,6 +179,49 @@
                         </div>
                       </div>
 
+
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="form-label" for="user-plan"
+                            >Terms and Conditions<span
+                              *ngIf="accountForm.submitted && TCRef.invalid"
+                              class="text-danger"
+                              >*</span
+                            >
+                            <span
+                              *ngIf="!accountForm.submitted || !TCRef.invalid"
+                              >*</span
+                            ></label
+                          >
+                          <textarea
+                            type="text"
+                            id="basic-icon-default-terms-conditions"
+                            class="form-control dt-description"
+                            placeholder=""
+                            aria-label=""
+                            aria-describedby="basic-icon-default-terms-conditions"
+                            name="terms-conditions"
+                            [(ngModel)]="currentRow.terms_conditions"
+                            [class.error]="
+                              accountForm.submitted && TCRef.invalid
+                            "
+                            #TCRef="ngModel"
+                            required
+                            (ngModelChange)="checkFormModified()"
+                          ></textarea>
+                          <span
+                            *ngIf="accountForm.submitted && TCRef.invalid"
+                            class="invalid-form"
+                          >
+                            <small
+                              class="form-text text-danger"
+                              *ngIf="TCRef.errors.required"
+                              >This field is required!</small
+                            >
+                          </span>
+                        </div>
+                      </div>
+
                       
                     </div>
                     <div class="col-12 d-flex flex-sm-row flex-column mt-2">

@@ -172,7 +172,7 @@ export class CompanyEditComponent implements OnInit, OnDestroy {
                   toastClass: "toast ngx-toastr",
                   closeButton: true,
                 });
-                this._router.navigate(["../company"]);
+                this._router.navigate(["/company/company"]);
               }
             }
             this.buttonLoading = false;

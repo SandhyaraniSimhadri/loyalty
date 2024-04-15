@@ -37,7 +37,7 @@ import { SubMenuCustomContextMenuComponent } from "./main/extensions/context-men
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CoreTouchspinModule } from "@core/components/core-touchspin/core-touchspin.module";
 import { LoginComponent } from "./main/login/login.component";
-
+import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 const appRoutes: Routes = [
 
@@ -160,6 +160,7 @@ const appRoutes: Routes = [
     SubMenuCustomContextMenuComponent,
   ],
   imports: [
+    CommonModule,
     NgbModule,
     BrowserModule,
     BrowserAnimationsModule,

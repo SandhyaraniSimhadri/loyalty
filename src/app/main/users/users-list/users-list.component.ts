@@ -294,5 +294,17 @@ export class UsersListComponent implements OnInit {
     this.loading = false;
   }
  
- 
+  generateDownloadLink() {
+
+    const jwtToken = this.httpService.APIToken
+    const downloadUrl = `${this.api_url}get_users_report?type=csv&jwt_token=${jwtToken}`;
+
+    this.http.post(downloadUrl, { rows: this.rows }, { responseType: 'blob' as 'json' })
+    .subscribe((blob: any) => {
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = 'reports.csv';
+      link.click();
+    });
+  }
 }
