@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
   hmr: false,
-  apiUrl: 'http://13.60.37.138/',
+  apiUrl: 'http://16.16.204.123/',
   apiUrl_web: "http://localhost:8000/",
 };

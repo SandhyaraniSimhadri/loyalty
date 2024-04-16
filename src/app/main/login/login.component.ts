@@ -125,7 +125,7 @@ export class LoginComponent implements OnInit {
             }, 4500);
             
             // setTimeout(() => {
-            this._router.navigate(["/company"]);
+            this._router.navigate(["/company/company"]);
           // }, 3000);
           } else {
             setTimeout(() => {
