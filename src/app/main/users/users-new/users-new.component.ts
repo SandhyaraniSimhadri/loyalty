@@ -115,7 +115,7 @@ export class UsersNewComponent implements OnInit {
                 toastClass: "toast ngx-toastr",
                 closeButton: true,
               });
-              this._router.navigate(["../users"]);
+              this._router.navigate(["/users/users"]);
             }
           }
           this.loading = false;
@@ -162,7 +162,7 @@ export class UsersNewComponent implements OnInit {
               closeButton: true,
             });
             this.modalService.dismissAll();
-            this._router.navigate(["../users"]);
+            this._router.navigate(["/users/users"]);
           }}
       },
       (error) => {

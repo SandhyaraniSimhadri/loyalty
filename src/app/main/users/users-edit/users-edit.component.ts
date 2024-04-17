@@ -147,9 +147,9 @@ export class UsersEditComponent implements OnInit, OnDestroy {
       formData.append("image", this.image);
       formData.append("id", this.currentRow.id);
       formData.append("company_id", this.currentRow.company_id);
-      formData.append("name", this.currentRow.name);
+      formData.append("user_name", this.currentRow.user_name);
       formData.append("email", this.currentRow.email);
-      formData.append("phone", this.currentRow.phone);
+      formData.append("mobile_no", this.currentRow.mobile_no);
       formData.append("city", this.currentRow.city);
 
 

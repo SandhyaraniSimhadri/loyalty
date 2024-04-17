@@ -84,7 +84,7 @@ export class EventsNewComponent implements OnInit {
                 toastClass: "toast ngx-toastr",
                 closeButton: true,
               });
-              this._router.navigate(["../events"]);
+              this._router.navigate(["/events/events"]);
             }
           }
           this.loading = false;

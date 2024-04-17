@@ -104,11 +104,13 @@ export class CampaignsNewComponent implements OnInit {
   }
 
   submit(form) {
+    if(this.event_id==1){
     const hasEmptyFields = this.games.some(game => !game.name || !game.team_a || !game.team_b || !game.points);
     if (hasEmptyFields) {
       this.errorMsg=true;
       return;
     }
+  }
     this.errorMsg=false;
     // If no empty fields, proceed with form submission
     // this.loading = true;
@@ -147,7 +149,7 @@ export class CampaignsNewComponent implements OnInit {
                 toastClass: "toast ngx-toastr",
                 closeButton: true,
               });
-              this._router.navigate(["../campaigns"]);
+              this._router.navigate(["/campaigns/campaigns"]);
             }
           }
           this.loading = false;

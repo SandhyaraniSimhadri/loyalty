@@ -108,7 +108,7 @@ export class CompanyNewComponent implements OnInit {
                 toastClass: "toast ngx-toastr",
                 closeButton: true,
               });
-              this._router.navigate(["../company"]);
+            this._router.navigate(["/company/company"]);
             }
           }
           this.loading = false;
