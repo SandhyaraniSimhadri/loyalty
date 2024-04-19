@@ -168,6 +168,9 @@
                     <th>
                       Points
                     </th>
+                    <th>
+                     Select winner
+                    </th>
                   </tr>
                   </thead>
                   <tbody>
@@ -177,6 +180,8 @@
                     <td>{{game.team_a}}</td>
                     <td>{{game.team_b}}</td>
                     <td>{{game.points}}</td>
+                    <td><button *ngIf="game.selected_winner==0"class="btn btn-primary"   (click)="modalsService.modalOpenDanger(modalDanger, game)">Select</button>
+                    <span *ngIf="game.selected_winner!=0">{{game.selected_winner}}</span></td>
                   </tr>
                   </tbody>
                 </table>
@@ -188,4 +193,56 @@
     </section>
     <!-- page users view end -->
   </div>
+  <ng-template #modalDanger let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" ><span class="color-cls">Confirm</span></h5>
+      <!-- <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button> -->
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+      <label>Select a Team as Winner</label>
+      <select
+      id="basic-icon-default-winner"
+      class="form-control dt-winner"
+      aria-label=""
+      aria-describedby="basic-icon-default-winner"
+      name="winner"
+      [(ngModel)]="winner"
+      [ngModelOptions]="{ standalone: true }"
+    >
+    <option value="" disabled selected>Select</option>
+      <option  [value]="modalsService.item.team_a">
+        {{ modalsService.item.team_a}}
+      </option>
+      <option  [value]="modalsService.item.team_b">
+        {{ modalsService.item.team_b}}
+      </option>
+    </select>
+      <span
+        >{{ modalsService.item.title }}</span
+      ><br />
+      <span class="f-size-class">
+        Winner selected immediately. You can't undo this action.</span
+      >
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn"
+        (click)="modal.dismiss('Cross click')"
+        rippleEffect
+      >
+        No
+      </button>
+      <button
+        type="button"
+        class="btn btn-success"
+        (click)="selectWinner(modalsService.item.id)"
+        rippleEffect
+      >
+        Yes
+      </button>
+    </div>
+  </ng-template>
 </div>

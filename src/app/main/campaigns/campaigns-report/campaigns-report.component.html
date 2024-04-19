@@ -130,6 +130,9 @@
                     <th>
                       Name
                     </th>
+                    <th>
+                      Team
+                    </th>
                    
                   </tr>
                   </thead>
@@ -137,6 +140,8 @@
                   <tr *ngFor="let game of data.participants;let i=index">
                     <td>{{i+1}}</td>
                     <td>{{game.user_name}}</td>
+                    <td>{{game.team_name}}</td>
+
                    
                   </tr>
                   </tbody>

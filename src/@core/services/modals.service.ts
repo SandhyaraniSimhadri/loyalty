@@ -15,6 +15,7 @@ item:any;
        
     }
     modalOpenDanger(modalDanger,item:any) {
+      console.log("item",item);
         this.item=item;
         this.modalService.open(modalDanger, {
           centered: true,
