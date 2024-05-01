@@ -9,9 +9,9 @@ export const locale = {
         COMPANY_LIST: 'Company list',
         NEW_COMPANY: 'New Company'   
       },
-      // EVENTS: {
-      //   EVENTS:'Events'    
-      // },
+      PREDICTIONS: {
+        PREDICTIONS:'Predictions'    
+      },
 
       EVENTS: {
         COLLAPSIBLE: 'Events',

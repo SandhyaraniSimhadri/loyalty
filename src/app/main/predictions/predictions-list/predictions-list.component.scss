@@ -1,0 +1,69 @@
+@import '@core/scss/angular/libs/datatables.component.scss';
+@import '@core/scss/base/pages/app-user.scss';
+@import '@core/scss/angular/libs/select.component.scss';
+@import '@core/scss/angular/libs/toastr.component.scss';
+
+@import '@core/scss/base/pages/dashboard-ecommerce.scss';
+@import '@core/scss/base/plugins/charts/chart-apex.scss';
+@import '@core/scss/angular/libs/toastr.component.scss';
+
+// Earning Chart Tooltip
+#earnings-donut-chart {
+  .apexcharts-tooltip {
+    &.apexcharts-theme-dark {
+      background: rgba($black, 0.8) !important;
+    }
+  }
+}
+.user-container {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+
+// @media (min-width: 576px)
+// .modal-slide-in .modal-dialog {
+//     width: 40rem;
+// }
+
+@media (min-width: 576px){
+.modal-slide-in .modal-dialog {
+    width: 48rem;
+}}
+.white-space{
+    white-space: normal;
+}
+.f-size-class{
+    font-size: 12px;
+}
+
+.count{
+    font-size: 12px;
+}
+.white-space{
+    white-space: normal;
+          /* Adds a hyphen where the word breaks, if supported (No Blink) */
+          overflow-wrap: break-word;
+          word-wrap: break-word;
+        
+          -ms-word-break: break-all;
+         
+          word-break: break-all;
+          word-break: break-word;
+        
+          -ms-hyphens: auto;
+          -moz-hyphens: auto;
+          -webkit-hyphens: auto;
+          hyphens: auto;
+}
+.f-size-class{
+    font-size: 12px;
+}
+.ngx-datatable.fixed-header .datatable-header .datatable-header-inner .datatable-header-cell {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: normal !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+  }

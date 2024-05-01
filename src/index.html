@@ -39,7 +39,29 @@ License: You must have a valid license purchased only from themeforest(the above
 
     <!--! Remove this if not needed, Required only for quill editor code highlight -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script>
-
+    <script async defer crossorigin="anonymous"
+src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v5.0&appId='812770217380038'&autoLogAppEvents=1" ></script>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '{your-app-id}',
+          cookie     : true,
+          xfbml      : true,
+          version    : '{api-version}'
+        });
+          
+        FB.AppEvents.logPageView();   
+          
+      };
+    
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "https://connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
     <!-- Vuexy loading Screen CSS -->
     <style type="text/css">
       #loading-bg {

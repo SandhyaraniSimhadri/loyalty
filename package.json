@@ -17,6 +17,7 @@
   },
   "private": true,
   "dependencies": {
+    "@abacritt/angularx-social-login": "^2.2.0",
     "@angular/animations": "14.1.0",
     "@angular/cdk": "12.0.4",
     "@angular/common": "14.1.0",
@@ -44,6 +45,7 @@
     "@swimlane/ngx-datatable": "19.0.0",
     "angular-in-memory-web-api": "0.11.0",
     "angular-shepherd": "11.0.0",
+    "angularx-social-login": "^4.1.0",
     "animate.css": "4.1.1",
     "apexcharts": "3.23.0",
     "autoprefixer": "10.4.5",

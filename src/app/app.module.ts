@@ -39,6 +39,16 @@ import { CoreTouchspinModule } from "@core/components/core-touchspin/core-touchs
 import { LoginComponent } from "./main/login/login.component";
 import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+import {
+  SocialLoginModule,
+  SocialAuthServiceConfig,
+  GoogleLoginProvider,
+  FacebookLoginProvider,
+  GoogleSigninButtonDirective,
+  GoogleSigninButtonModule,
+} from '@abacritt/angularx-social-login';
+
 const appRoutes: Routes = [
 
   {
@@ -76,6 +86,17 @@ const appRoutes: Routes = [
       ),
     canActivate: [AuthGuard],
   },
+
+  {
+    path: "predictions",
+    loadChildren: () =>
+      import("./main/predictions/predictions.module").then(
+        (m) => m.PredictionsModule
+      ),
+    canActivate: [AuthGuard],
+  },
+
+  
   {
     path: "apps",
     loadChildren: () =>
@@ -134,11 +155,11 @@ const appRoutes: Routes = [
     redirectTo: "/dashboard",
     pathMatch: "full",
   },
-  {
-    path: "login",
-    component: LoginComponent,
-    pathMatch: "full",
-  },
+  // {
+  //   path: "login",
+  //   component: LoginComponent,
+  //   pathMatch: "full",
+  // },
   {
     path: "",
     component: LoginComponent,
@@ -186,6 +207,8 @@ const appRoutes: Routes = [
     CardSnippetModule,
     LayoutModule,
     ContentHeaderModule,
+    SocialLoginModule,
+    GoogleSigninButtonModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
   providers: [
@@ -193,8 +216,33 @@ const appRoutes: Routes = [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     // ! IMPORTANT: Provider used to create fake backend, comment while using real API
-    fakeBackendProvider,
+    {
+    provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider('681421590057-15n2t6a166aae9id7gaus5tggdtuoggb.apps.googleusercontent.com'),
+          },
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider('951516716413548'),
+          },
+        ],
+        onError: (err) => {
+          console.error("@log SocialAuthServiceConfig Error: ", err);
+        }
+      } as SocialAuthServiceConfig,
+    },
+    GoogleSigninButtonDirective,
+
+
   ],
   bootstrap: [AppComponent],
 })
+
+
+
+
 export class AppModule {}

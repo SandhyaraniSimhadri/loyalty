@@ -1,0 +1,229 @@
+<div class="loading" *ngIf="loading">
+  <div class="effect-1 effects"></div>
+  <div class="effect-2 effects"></div>
+  <div class="effect-3 effects"></div>
+</div>
+
+<div class="content-wrapper container-xxl p-0" *ngIf="!loading">
+  <div class="row match-height">
+    <!-- Medal Card -->
+    <div class="col-xl-4 col-md-6 col-12">
+      <div class="card card-congratulation-medal">
+        <div class="card-body align-self-center justify-content-center align-items-center">
+          <div>
+          <ng-container
+            *ngIf="this.currentUser"
+          >
+            <div>
+              <img
+                class="avatar round"
+                src="assets/images/slider/03.jpg"
+                alt="avatar"
+                height="80"
+                width="80"
+              />
+            </div>
+            <div class="text-center mt-1">
+              <p>
+                <span class="user-name font-weight-bolder"
+                  >{{ this.currentUser.user_name }}
+                </span>
+              </p>
+              <p>
+                <span class="user-status">{{
+                  this.currentUser.role
+                }}</span>
+              </p>
+            </div>
+            <!-- <span class="avatar"
+            ><img
+              class="round"
+              src="assets/images/slider/03.jpg"
+              alt="avatar"
+              height="80"
+              width="80" />
+          </span>
+            <div>
+              <span class="user-name font-weight-bolder"
+                >{{ this.currentUser.user_name }}, <br/></span
+              ><br/><p><span class="user-status ml-2">{{ this.currentUser.role }}</span></p>
+            </div>
+         -->
+          </ng-container>
+        </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-8 col-md-6 col-12">
+      <div class="card earnings-card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-xl-4 col-md-8 col-12">
+              <h4 class="card-title mb-1">
+                {{ campaign_data.campaign_title }} -
+                {{ campaign_data.games[0].name }}
+              </h4>
+              <div class="font-small-2">
+                {{ campaign_data.start_date }} to {{ campaign_data.end_date }}
+              </div>
+            </div>
+            <div class="col-xl-4 col-md-6 col-12">
+              <div id="earnings-donut-chart" #earningChartRef>
+                <!-- Apexchart component-->
+                <apx-chart
+                  [chart]="{
+                    type: 'donut',
+                    width:
+                      isMenuToggled === false
+                        ? earningChartRef.offsetWidth
+                        : teamAChartOptions.chart.width,
+                    height: 120,
+                    toolbar: {
+                      show: false
+                    }
+                  }"
+                  [dataLabels]="teamAChartOptions.dataLabels"
+                  [series]="teamAChartOptions.series"
+                  [legend]="teamAChartOptions.legend"
+                  [labels]="teamAChartOptions.labels"
+                  [stroke]="teamAChartOptions.stroke"
+                  [colors]="teamAChartOptions.colors"
+                  [grid]="teamAChartOptions.grid"
+                  [plotOptions]="teamAChartOptions.plotOptions"
+                ></apx-chart>
+
+                <!-- / Apexchart component-->
+              </div>
+            </div>
+
+            <div class="col-xl-4 col-md-6 col-12">
+              <div id="earnings-donut-chart" #earningChartRef>
+                <!-- Apexchart component-->
+                <apx-chart
+                  [chart]="{
+                    type: 'donut',
+                    width:
+                      isMenuToggled === false
+                        ? earningChartRef.offsetWidth
+                        : teamBChartOptions.chart.width,
+                    height: 120,
+                    toolbar: {
+                      show: false
+                    }
+                  }"
+                  [dataLabels]="teamBChartOptions.dataLabels"
+                  [series]="teamBChartOptions.series"
+                  [legend]="teamBChartOptions.legend"
+                  [labels]="teamBChartOptions.labels"
+                  [stroke]="teamBChartOptions.stroke"
+                  [colors]="teamBChartOptions.colors"
+                  [grid]="teamBChartOptions.grid"
+                  [plotOptions]="teamBChartOptions.plotOptions"
+                ></apx-chart>
+
+                <!-- / Apexchart component-->
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="campaign_data.participants[0].team_name==null">
+            <div class="col-3">
+            Select a winner:
+            </div>
+            <div class="col-6">
+            <select class="form-control" id="add-type"      [(ngModel)]="selectedWinner">
+              <option [value]="campaign_data.games[0].team_a">{{campaign_data.games[0].team_a}}</option>
+              <option [value]="campaign_data.games[0].team_b">{{campaign_data.games[0].team_b}}</option>
+            </select>
+            </div>
+            <div class="col-3">
+              <button
+              [disabled]="loading"
+              type="submit"
+              class="btn btn-primary"
+              (click)="selectWinner()"
+              rippleEffect
+            >
+              <span
+                *ngIf="loading"
+                class="spinner-border spinner-border-sm mr-1"
+              ></span>
+              Save
+            </button>
+              </div>
+
+          </div>
+          <!-- <div class="row">
+            <div class="col-9">
+            
+               </div> 
+             <div class="col-3">
+              <button
+              [disabled]="loading"
+              type="submit"
+              class="btn btn-primary"
+              (click)="selectWinner()"
+              rippleEffect
+            >
+              <span
+                *ngIf="loading"
+                class="spinner-border spinner-border-sm mr-1"
+              ></span>
+              Save
+            </button>
+              </div>
+          </div> -->
+          <div class="row" *ngIf="campaign_data.participants[0].team_name!=null">
+            Selected winner: {{campaign_data.participants[0].team_name}}
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row match-height">
+    <!-- Company Table -->
+    <div class="col-12">
+      <div class="card card-company-table">
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>S.No</th>
+                  <th>User Name</th>
+                  <th>Team Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="
+                    let participant of campaign_data.participants;
+                    let i = index
+                  "
+                >
+                  <td>{{ i + 1 }}</td>
+                  <td>
+                    <div class="font-weight-bolder">
+                      {{ participant.user_name }}
+                    </div>
+                  </td>
+                  <td>
+                    <span *ngIf="participant.team_name != null">
+                      {{ participant.team_name }}</span
+                    >
+                    <span *ngIf="participant.team_name == null"
+                      >Not yet selected</span
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/ Company Table -->
+  </div>
+</div>

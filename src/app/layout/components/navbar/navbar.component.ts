@@ -84,6 +84,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     public _translateService: TranslateService
   ) {
     this._authenticationService.currentUser.subscribe(x => (this.currentUser = x));
+    console.log("current user",this.currentUser)
 
     this.languageOptions = {
       en: {
@@ -166,7 +167,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
    */
   logout() {
     this._authenticationService.logout();
-    this._router.navigate(['/pages/authentication/login-v2']);
+    // this._router.navigate(['/']);
   }
 
   // Lifecycle Hooks

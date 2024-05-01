@@ -26,7 +26,28 @@ License: You must have a valid license purchased only from themeforest(the above
 
     <!--! Remove this if not needed, Required only for quill editor code highlight -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script>
-
+    <script async="" defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&amp;version=v5.0&amp;appId='812770217380038'&amp;autoLogAppEvents=1"></script>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '{your-app-id}',
+          cookie     : true,
+          xfbml      : true,
+          version    : '{api-version}'
+        });
+          
+        FB.AppEvents.logPageView();   
+          
+      };
+    
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "https://connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
     <!-- Vuexy loading Screen CSS -->
     <style type="text/css">
       #loading-bg {
@@ -140,6 +161,6 @@ License: You must have a valid license purchased only from themeforest(the above
     <!-- Vuexy root component -->
     <app-root> </app-root>
     <!-- / Vuexy root component -->
-  <script src="runtime.9bf0745e8b37cf23.js" type="module"></script><script src="polyfills.714b635b4f4644f4.js" type="module"></script><script src="scripts.164257895c0440ba.js" defer></script><script src="main.8a5c7ca65dfa6bb5.js" type="module"></script>
+  <script src="runtime.efe6f09c731d2ddd.js" type="module"></script><script src="polyfills.714b635b4f4644f4.js" type="module"></script><script src="scripts.164257895c0440ba.js" defer></script><script src="main.42aeef08d9724b2b.js" type="module"></script>
 
 </body></html>

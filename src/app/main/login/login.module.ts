@@ -16,7 +16,7 @@ import { LoginComponent } from './login.component';
 // routing
 const routes: Routes = [
   {
-    path: 'login',
+    path: '',
     component: LoginComponent
   },
 
