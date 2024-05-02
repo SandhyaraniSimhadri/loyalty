@@ -62,7 +62,7 @@
             <div class="col-xl-4 col-md-8 col-12">
               <h4 class="card-title mb-1">
                 {{ campaign_data.campaign_title }} -
-                {{ campaign_data.games[0].name }}
+               <span *ngIf="this.campaign_data.games.length>0">{{ campaign_data.games[0].name }}</span> 
               </h4>
               <div class="font-small-2">
                 {{ campaign_data.start_date }} to {{ campaign_data.end_date }}
