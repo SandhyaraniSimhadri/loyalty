@@ -243,7 +243,7 @@ export class PredictionsListComponent implements OnInit {
             // }else{
             //   this.campaign_data.games[0].team_name=null;
             // }
-            console.log("valueeee", this.campaign_data.participants[0].team_name)
+            // console.log("valueeee", this.campaign_data.participants[0].team_name)
            
             console.log("@team a", this.campaign_data.games[0]);
             this.tempData = this.rows;
