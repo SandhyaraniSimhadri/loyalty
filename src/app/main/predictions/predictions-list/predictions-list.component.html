@@ -68,7 +68,7 @@
                 {{ campaign_data.start_date }} to {{ campaign_data.end_date }}
               </div>
             </div>
-            <div class="col-xl-4 col-md-6 col-12">
+            <div class="col-xl-4 col-md-6 col-12" *ngIf="this.campaign_data.games.length>0">
               <div id="earnings-donut-chart" #earningChartRef>
                 <!-- Apexchart component-->
                 <apx-chart
@@ -97,7 +97,7 @@
               </div>
             </div>
 
-            <div class="col-xl-4 col-md-6 col-12">
+            <div class="col-xl-4 col-md-6 col-12" *ngIf="this.campaign_data.games.length>0">
               <div id="earnings-donut-chart" #earningChartRef>
                 <!-- Apexchart component-->
                 <apx-chart
@@ -126,7 +126,7 @@
               </div>
             </div>
           </div>
-          <div class="row" *ngIf="campaign_data.participants[0].team_name==null">
+          <div class="row" *ngIf="campaign_data.participants.length>0 && campaign_data.participants[0].team_name==null" >
             <div class="col-3">
             Select a winner:
             </div>

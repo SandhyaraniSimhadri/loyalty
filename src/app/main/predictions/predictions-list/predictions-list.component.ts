@@ -245,8 +245,9 @@ export class PredictionsListComponent implements OnInit {
             // }
             // console.log("valueeee", this.campaign_data.participants[0].team_name)
            
-            console.log("@team a", this.campaign_data.games[0]);
+            // console.log("@team a", this.campaign_data.games[0]);
             this.tempData = this.rows;
+            if(this.campaign_data.games.length>0){
             const teamAPercentage =
               this.campaign_data.games[0].team_a_percentage;
             const teamBPercentage =
@@ -453,6 +454,7 @@ export class PredictionsListComponent implements OnInit {
                 },
               ],
             };
+          }
           }
         }
         
