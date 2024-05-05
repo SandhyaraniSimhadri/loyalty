@@ -57,7 +57,7 @@ export class CampaignsReportComponent implements OnInit, OnDestroy {
         } else {
           if (res.status == false) {
           } else if (res.status == true) {
-            this.data=res.data[0];
+            this.data=res.data;
           }
         }
         this.loading=false;

@@ -4,7 +4,7 @@
   <div class="effect-3 effects"></div>
 </div>
 
-<div class="content-wrapper container-xxl p-0" *ngIf="!loading">
+<div class="content-wrapper container-xxl p-0">
   <div class="row match-height">
     <!-- Medal Card -->
     <div class="col-xl-4 col-md-6 col-12">
@@ -55,7 +55,7 @@
       </div>
     </div>
 
-    <div class="col-xl-8 col-md-6 col-12">
+    <div class="col-xl-8 col-md-6 col-12"  *ngIf="!loading && rows.length>0">
       <div class="card earnings-card">
         <div class="card-body">
           <div class="row">
@@ -182,7 +182,7 @@
     </div>
   </div>
 
-  <div class="row match-height">
+  <div class="row match-height"  *ngIf="!loading">
     <!-- Company Table -->
     <div class="col-12">
       <div class="card card-company-table">

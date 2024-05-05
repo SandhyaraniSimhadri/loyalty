@@ -237,7 +237,8 @@ export class PredictionsListComponent implements OnInit {
           if (res.status == false) {
           } else if (res.status == true) {
             this.rows = res.data;
-            this.campaign_data = this.rows[0];
+            if(res.data){
+            this.campaign_data = this.rows;}
             // if( this.campaign_data.games[0].team_name){
              
             // }else{
@@ -247,7 +248,7 @@ export class PredictionsListComponent implements OnInit {
            
             // console.log("@team a", this.campaign_data.games[0]);
             this.tempData = this.rows;
-            if(this.campaign_data.games.length>0){
+            if(res.data.length>0 && this.campaign_data.games.length>0){
             const teamAPercentage =
               this.campaign_data.games[0].team_a_percentage;
             const teamBPercentage =
