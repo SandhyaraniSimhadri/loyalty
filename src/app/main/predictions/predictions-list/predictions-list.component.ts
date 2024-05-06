@@ -35,7 +35,7 @@ export class PredictionsListComponent implements OnInit {
   private $earningsStrokeColor2 = "#28c76f66";
   private $earningsStrokeColor3 = "#28c76f33";
   public sidebarToggleRef = false;
-  public rows;
+  public rows:any;
   public selectedOption = 10;
   public ColumnMode = ColumnMode;
   public temp = [];
@@ -237,8 +237,17 @@ export class PredictionsListComponent implements OnInit {
           if (res.status == false) {
           } else if (res.status == true) {
             this.rows = res.data;
+            if(res.data.campaign_title==undefined){
+              this.rows=undefined;
+              res.data=null;
+            }
             if(res.data){
-            this.campaign_data = this.rows;}
+            this.campaign_data = this.rows;
+
+            console.log("res data",res.data);
+
+            console.log("this.campaign",this.campaign_data);
+          console.log("games",this.campaign_data.games)}
             // if( this.campaign_data.games[0].team_name){
              
             // }else{
@@ -248,7 +257,7 @@ export class PredictionsListComponent implements OnInit {
            
             // console.log("@team a", this.campaign_data.games[0]);
             this.tempData = this.rows;
-            if(res.data.length>0 && this.campaign_data.games.length>0){
+            if(res.data && this.campaign_data.games.length>0){
             const teamAPercentage =
               this.campaign_data.games[0].team_a_percentage;
             const teamBPercentage =
@@ -467,13 +476,16 @@ export class PredictionsListComponent implements OnInit {
         this.earningChartRef?.nativeElement.offsetWidth;
       this.teamBChartOptions.chart.width =
         this.earningChartRef?.nativeElement.offsetWidth;
-    }, 1000);
+    }, 500);
+
         this.loading = false;
       },
+      
       (error: any) => {
         this.loading = false;
       }
     );
+
   }
 
   ngAfterViewInit() {
