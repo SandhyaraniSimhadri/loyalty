@@ -156,10 +156,19 @@ export const getMenu = () => {
   if (user_data?.user_type == 1) {
     // var newMenu: CoreMenu[] = menuList;
     return menuList;
-  } 
+  }
  else {
-    // var newMenu: CoreMenu[] = menuList;
-    return menuList;
+  let newMenu: CoreMenu[] = [
+    {
+      id: "predictions",
+      title: "Predictions",
+      translate: "MENU.PREDICTIONS.PREDICTIONS",
+      type: "item",
+      icon: "life-buoy",
+      url: "predictions/predictions",
+    },
+  ];
+  return newMenu;
   }
 };
 

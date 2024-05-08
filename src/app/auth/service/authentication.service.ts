@@ -80,7 +80,7 @@ export class AuthenticationService {
             if (user.data.user_type == 1) {
               user.data.role = "Super Admin";
             } else {
-              user.data.role = "Sub Admin";
+              user.data.role = "User";
             }
 
             localStorage.setItem("currentUser", JSON.stringify(user.data));

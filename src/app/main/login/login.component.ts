@@ -139,7 +139,14 @@ export class LoginComponent implements OnInit {
             }, 4500);
 
             // setTimeout(() => {
-            this._router.navigate(["/company/company"]);
+              if ( this.httpService.USERINFO.user_type == 1) {
+                console.log("company");
+              this._router.navigate(["/company/company"]);}
+              else{
+                console.log("predictions");
+
+                this._router.navigate(["/predictions/predictions"]);
+              }
             // }, 3000);
           } else {
             setTimeout(() => {
@@ -219,7 +226,7 @@ export class LoginComponent implements OnInit {
               if (res.data.user_type == 1) {
                 res.data.role = "Super Admin";
               } else {
-                res.data.role = "Sub Admin";
+                res.data.role = "User";
               }
               
               localStorage.setItem("currentUser", JSON.stringify(res.data));
@@ -227,7 +234,14 @@ export class LoginComponent implements OnInit {
               this.httpService.USERINFO = res?.data;
               this.httpService.APIToken = res?.data?.token;
               this.httpService.loginuserid = res?.data?.user_id;
-              this._router.navigate(["/company/company"]);
+              if (res.data.user_type == 1) {
+                console.log("company");
+              this._router.navigate(["/company/company"]);}
+              else{
+                console.log("predictions");
+
+                this._router.navigate(["/predictions/predictions"]);
+              }
               this.main_loading = false;
 
               setTimeout(() => {
