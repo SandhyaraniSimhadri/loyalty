@@ -11,6 +11,7 @@ const menuList: CoreMenu[] = [
     title: "Company",
     translate: "MENU.COMPANY.COLLAPSIBLE",
     type: "collapsible",
+    role:['Super Admin'],
     icon: "life-buoy",
     children: [
       {
@@ -51,6 +52,7 @@ const menuList: CoreMenu[] = [
     title: "Predictions",
     translate: "MENU.PREDICTIONS.PREDICTIONS",
     type: "item",
+    role:['Super Admin','User'],
     icon: "life-buoy",
     url: "predictions/predictions",
   },
@@ -62,6 +64,7 @@ const menuList: CoreMenu[] = [
     translate: "MENU.USERS.COLLAPSIBLE",
     type: "collapsible",
     icon: "life-buoy",
+    role:['Super Admin'],
     children: [
       {
         id: 'users-list',
@@ -87,6 +90,7 @@ const menuList: CoreMenu[] = [
     title: 'Campaigns',
     translate: 'MENU.CAMPAIGNS.COLLAPSIBLE',
     type: 'collapsible',
+    role:['Super Admin'],
     // role: ['Admin'], //? To hide collapsible based on user role
     icon: 'home',
     // badge: {
@@ -122,6 +126,7 @@ const menuList: CoreMenu[] = [
     title: 'Events',
     translate: 'MENU.EVENTS.COLLAPSIBLE',
     type: 'collapsible',
+    role:['Super Admin'],
     // role: ['Admin'], //? To hide collapsible based on user role
     icon: 'home',
     // badge: {
@@ -153,7 +158,10 @@ const menuList: CoreMenu[] = [
 ];
 
 export const getMenu = () => {
+  console.log("@user menuuu",user_data);
+
   if (user_data?.user_type == 1) {
+    console.log("menuuu",menuList);
     // var newMenu: CoreMenu[] = menuList;
     return menuList;
   }
@@ -168,7 +176,10 @@ export const getMenu = () => {
       url: "predictions/predictions",
     },
   ];
-  return newMenu;
+  console.log(" 2menuuu",newMenu);
+  
+  // return newMenu;
+  return menuList;
   }
 };
 

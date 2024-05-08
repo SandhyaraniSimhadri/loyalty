@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { CoreMenuService } from '@core/components/core-menu/core-menu.service';
-
+import { AuthenticationService } from 'app/auth/service';
 @Component({
   selector: '[core-menu]',
   templateUrl: './core-menu.component.html',
@@ -29,7 +29,7 @@ export class CoreMenuComponent implements OnInit {
    * @param {ChangeDetectorRef} _changeDetectorRef
    * @param {CoreMenuService} _coreMenuService
    */
-  constructor(private _changeDetectorRef: ChangeDetectorRef, private _coreMenuService: CoreMenuService) {
+  constructor(public authService:AuthenticationService,private _changeDetectorRef: ChangeDetectorRef, private _coreMenuService: CoreMenuService) {
     // Set the private defaults
     this._unsubscribeAll = new Subject();
   }
@@ -47,7 +47,7 @@ export class CoreMenuComponent implements OnInit {
     // Subscribe to the current menu changes
     this._coreMenuService.onMenuChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(() => {
       this.currentUser = this._coreMenuService.currentUser;
-
+      this.currentUser.role = this.authService.role;
       // Load menu
       this.menu = this._coreMenuService.getCurrentMenu();
 

@@ -16,6 +16,7 @@ export class AuthenticationService {
   //public
   public currentUser: Observable<User>;
   public role_data: any;
+  public role:any;
 
   //private
   private currentUserSubject: BehaviorSubject<User>;
@@ -78,8 +79,12 @@ export class AuthenticationService {
           // login successful if there's a jwt token in the response
           if (loginData && loginData.token) {
             if (user.data.user_type == 1) {
+              this.role= "Super Admin";
               user.data.role = "Super Admin";
+              // this.currentUser.role=user.data.role ;
             } else {
+              this.role= "User";
+
               user.data.role = "User";
             }
 
