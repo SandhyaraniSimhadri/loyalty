@@ -46,14 +46,17 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
   public birthDateOptions: FlatpickrOptions = {
     altInput: true,
   };
-  public games = [{ id: 0, name: '', team_a: '', team_b: '', points:'' }];
+  public games = [{ id: '', name: '', team_a: '', team_b: '', points:'',game_start_date:'',game_start_time:'',game_end_date:'',game_end_time:''  ,team_a_image: null, 
+  team_b_image: null  }];
   public companyData:any;
 
   public game = {
     name: '',
     team_a: '',
     team_b: '',
-    points:''
+    points:'',
+    game_start_date:'',game_start_time:'', game_end_date:'',game_end_time:'', team_a_image: null, 
+    team_b_image: null  
   };
   public eventsData:any;
 
@@ -107,7 +110,8 @@ if(event_id==1){
 this.currentRow.games=this.games;
 }
 else{
-  this.currentRow.games= [{ id: 0, name: '', team_a: '', team_b: '', points:'' }];
+  this.currentRow.games= [{ id: 0, name: '', team_a: '', team_b: '', points:'',game_start_date:'',game_start_time:'', game_end_date:'',game_end_time:'', team_a_image: null, 
+  team_b_image: null   }];
 }
   }
 
@@ -144,7 +148,8 @@ else{
       name: '',
       team_a: '',
       team_b: '',
-      points:''
+      points:'',game_start_date:'',game_start_time:'', game_end_date:'',game_end_time:'', team_a_image: null, 
+      team_b_image: null  
     });
     this.checkFormModified();
   }
@@ -307,5 +312,37 @@ else{
 
     this.formModified = !isEqual(this.currentRow, this.originalFormValues);
     this.formModified=true;
+  }
+  uploadTeamAImage(i:any,event: any) {
+    this.loading=true;
+    if (event.target.files && event.target.files[0]) {
+      let reader = new FileReader();
+      reader.onload = (event: any) => {
+        // this.avatarImage = event.target.result;
+      };
+
+      reader.readAsDataURL(event.target.files[0]);
+      // this.currentRow.avatar = event.target.files[0].name;
+      this.games[i].team_a_image = event.target.files[0];
+    }
+    this.loading=false;
+    // this.checkFormModified();
+
+  }
+   uploadTeamBImage(i:any,event: any) {
+    this.loading=true;
+    if (event.target.files && event.target.files[0]) {
+      let reader = new FileReader();
+      reader.onload = (event: any) => {
+        // this.avatarImage = event.target.result;
+      };
+
+      reader.readAsDataURL(event.target.files[0]);
+      // this.currentRow.avatar = event.target.files[0].name;
+      this.games[i].team_b_image = event.target.files[0];
+    }
+    this.loading=false;
+    // this.checkFormModified();
+
   }
 }

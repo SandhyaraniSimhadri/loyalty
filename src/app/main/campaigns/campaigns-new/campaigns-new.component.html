@@ -197,7 +197,7 @@
               <form action="#" class="invoice-repeater">
                 <div *ngFor="let item of games; let i = index" @heightIn>
                   <div class="row d-flex align-items-end">
-                    <div class="col-md-4 col-12">
+                    <div class="col-md-3 col-12">
                       <div class="form-group">
                         <label for="name{{ i }}">Game Name *</label>
                         <input
@@ -211,7 +211,7 @@
                       </div>
                     </div>
 
-                    <div class="col-md-2 col-12">
+                    <div class="col-md-3 col-12">
                       <div class="form-group">
                         <label for="itemCost">Team A *</label>
                         <input
@@ -226,7 +226,7 @@
                       </div>
                     </div>
 
-                    <div class="col-md-2 col-12">
+                    <div class="col-md-3 col-12">
                       <div class="form-group">
                         <label for="teamb{{ i }}">Team B *</label>
                         <input
@@ -240,7 +240,7 @@
                       </div>
                     </div>
 
-                    <div class="col-md-2 col-12">
+                    <div class="col-md-3 col-12">
                       <div class="form-group">
                         <label for="points{{ i }}">Points *</label>
                         <input
@@ -253,6 +253,93 @@
                         />
                       </div>
                     </div>
+
+                    <div class="col-md-3 col-12">
+                      <div class="form-group">
+                        <label for="startDate{{ i }}">Start Date *</label>
+                        <input
+                          type="date"
+                          class="form-control"
+                          id="startDate{{ i }}"
+                          name="startDate{{ i }}"
+                          [(ngModel)]="item.game_start_date"
+                          placeholder="Start Date"
+                        />
+                      </div>
+                    </div>
+                    
+                    <div class="col-md-3 col-12">
+                      <div class="form-group">
+                        <label for="startTime{{ i }}">Start Time *</label>
+                        <input
+                          type="time"
+                          class="form-control"
+                          id="startTime{{ i }}"
+                          name="startTime{{ i }}"
+                          [(ngModel)]="item.game_start_time"
+                          placeholder="Start Time"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-12">
+                      <div class="form-group">
+                        <label for="endDate{{ i }}">End Date *</label>
+                        <input
+                          type="date"
+                          class="form-control"
+                          id="endDate{{ i }}"
+                          name="endDate{{ i }}"
+                          [(ngModel)]="item.game_end_date"
+                          placeholder="End Date"
+                        />
+                      </div>
+                    </div>
+                    
+                    <div class="col-md-3 col-12">
+                      <div class="form-group">
+                        <label for="endTime{{ i }}">End Time *</label>
+                        <input
+                          type="time"
+                          class="form-control"
+                          id="endTime{{ i }}"
+                          name="endTime{{ i }}"
+                          [(ngModel)]="item.game_end_time"
+                          placeholder="End Time"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-5 col-12">
+                      <div class="form-group">
+                        <label for="teamAImage{{ i }}">Team A Image</label>
+                   
+
+                        <input
+                        class="form-control"
+                        type="file"
+                        id="change-picture"
+                       
+                        accept="image/png, image/jpeg, image/jpg"
+                        (change)="uploadTeamAImage(i,$event)"
+                      />
+
+
+                      </div>
+                    </div>
+                    
+                    <div class="col-md-5 col-12">
+                      <div class="form-group">
+                        <label for="teamBImage{{ i }}">Team B Image</label>
+                        <input
+                          type="file"
+                          class="form-control-file"
+                          id="teamBImage{{ i }}"
+                          name="teamBImage{{ i }}"
+                          accept="image/png, image/jpeg, image/jpg"
+                          (change)="uploadTeamBImage(i,$event)"
+                        />
+                      </div>
+                    </div>
+                                                            
 
                     <div class="col-md-2 col-12 mb-50">
                       <div class="form-group">

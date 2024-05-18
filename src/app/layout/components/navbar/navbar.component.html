@@ -53,7 +53,7 @@
     <!--/ Toggle skin -->
 
     <!-- Search -->
-    <app-navbar-search></app-navbar-search>
+    <!-- <app-navbar-search></app-navbar-search> -->
     <!--/ Search -->
 
     <!-- Cart -->
@@ -78,15 +78,25 @@
           <div class="user-nav d-sm-flex d-none">
             <span class="user-name font-weight-bolder"
               >{{ this.currentUser.user_name }}</span
-            ><span class="user-status">{{ this.currentUser.role }}</span>
+            >
+            <!-- <span class="user-status">{{ this.currentUser.role }}</span> -->
           </div>
           <span class="avatar"
-            ><img
+            ><img *ngIf="currentUser.avatar"
               class="round"
-              src="assets/images/portrait/small/{{ this.currentUser.avatar }}"
+              src="assets/images/portrait/small/{{ currentUser.avatar }}"
               alt="avatar"
               height="40"
-              width="40" /><span class="avatar-status-online"></span
+              width="40" />
+              
+              <img *ngIf="currentUser.avatar==null"
+              class="round"
+              src="assets/images/profile/person.png"
+              alt="avatar"
+              height="40"
+              width="40" style="background-color: white;"/>
+              
+              <span class="avatar-status-online"></span
           ></span>
         </ng-container>
       </a>

@@ -17,6 +17,7 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { colors } from "app/colors.const";
 import { User } from "app/auth/models";
 import { AuthenticationService } from "app/auth/service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-predictions-list",
@@ -56,6 +57,7 @@ export class PredictionsListComponent implements OnInit {
   public buttonLoading: any = false;
   public currentUser: User;
   public selectedWinner:any=false;
+  public user_image:any;
   // Decorator
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
@@ -78,12 +80,14 @@ export class PredictionsListComponent implements OnInit {
     public modalsService: ModalsService,
     private _toastrService: ToastrService,
     private modalService: NgbModal,
-    private _authenticationService: AuthenticationService
+    private _authenticationService: AuthenticationService,
+    private _router: Router,
   ) {
     this._authenticationService.currentUser.subscribe(
       (x) => (this.currentUser = x)
     );
     console.log("current user", this.currentUser);
+    this.user_image=this.apiUrl+this.currentUser.avatar;
 
     this._unsubscribeAll = new Subject();
   }
@@ -128,48 +132,23 @@ export class PredictionsListComponent implements OnInit {
    *
    * @param event
    */
-  filterByChurch(event) {
-    const filter = event ? event.value : "";
-    this.previousRoleFilter = filter;
-    this.temp = this.filterRows(
-      filter,
-      this.previousPlanFilter,
-      this.previousStatusFilter
-    );
-    this.rows = this.temp;
-  }
+ 
+  
 
   /**
    * Filter By Plan
    *
    * @param event
    */
-  filterByUsers(event) {
-    const filter = event ? event.value : "";
-    this.previousPlanFilter = filter;
-    this.temp = this.filterRows(
-      this.previousRoleFilter,
-      filter,
-      this.previousStatusFilter
-    );
-    this.rows = this.temp;
-  }
+ 
 
   /**
    * Filter By Status
    *
    * @param event
    */
-  filterByLanguage(event) {
-    const filter = event ? event.value : "";
-    this.previousStatusFilter = filter;
-    this.temp = this.filterRows(
-      this.previousRoleFilter,
-      this.previousPlanFilter,
-      filter
-    );
-    this.rows = this.temp;
-  }
+
+  
 
   /**
    * Filter Rows
@@ -247,7 +226,11 @@ export class PredictionsListComponent implements OnInit {
             console.log("res data",res.data);
 
             console.log("this.campaign",this.campaign_data);
-          console.log("games",this.campaign_data.games)}
+            this.campaign_data.end_date=this.formatDate(this.campaign_data.end_date);
+            this.campaign_data.start_date=this.formatDate(this.campaign_data.start_date);
+
+          console.log("games",this.campaign_data.games)
+        }
             // if( this.campaign_data.games[0].team_name){
              
             // }else{
@@ -257,7 +240,7 @@ export class PredictionsListComponent implements OnInit {
            
             // console.log("@team a", this.campaign_data.games[0]);
             this.tempData = this.rows;
-            if(res.data && this.campaign_data.games.length>0){
+            if(res.data && this.campaign_data.games!=undefined && this.campaign_data.games.length>0){
             const teamAPercentage =
               this.campaign_data.games[0].team_a_percentage;
             const teamBPercentage =
@@ -325,7 +308,7 @@ export class PredictionsListComponent implements OnInit {
                         },
                       },
                       total: {
-                        show: true,
+                        show: false,
                         // offsetY: 15,
                         label: this.campaign_data.games[0].team_a,
                         formatter: function (w) {
@@ -417,7 +400,7 @@ export class PredictionsListComponent implements OnInit {
                         },
                       },
                       total: {
-                        show: true,
+                        show: false,
                         // offsetY: 15,
                         label: this.campaign_data.games[0].team_b,
                         formatter: function (w) {
@@ -494,11 +477,12 @@ export class PredictionsListComponent implements OnInit {
     // If Menu Collapsed Changes
 
   }
-  selectWinner(){
-    console.log("test",this.selectedWinner);
+  selectWinner(selectedWinner:any){
+    console.log("test",selectedWinner);
+    // return;
     this.loading=true;
     let request = {
-      params: { selected_winner: this.selectedWinner,campaign_id:this.campaign_data.id },
+      params: { selected_winner: selectedWinner,campaign_id:this.campaign_data.id,game_id:this.campaign_data.games[0].id },
       action_url: "add_prediction_winner",
       method: "POST",
     };
@@ -527,4 +511,22 @@ export class PredictionsListComponent implements OnInit {
       }
     );
   }
+
+   formatDate(dateString) {
+    // Convert the string to a Date object
+    const date = new Date(dateString);
+    
+    // Get the month and day
+    const month = date.toLocaleString('default', { month: 'short' });
+    const day = date.getDate();
+    
+    // Concatenate the month abbreviation and day
+    const formattedDate = `${month} ${day}`;
+    
+    return formattedDate;
+  }
+  gotoProfile(){
+    this._router.navigate(["../../pages/profile"]);
+  }
+
 }

@@ -308,9 +308,9 @@
                           <form action="#" class="invoice-repeater">
                             <div *ngFor="let item of currentRow.games; let i = index" @heightIn>
                               <div class="row d-flex align-items-end">
-                                <div class="col-md-4 col-12">
+                                <div class="col-md-3 col-12">
                                   <div class="form-group">
-                                    <label for="name{{ i }}">Game Name</label>
+                                    <label for="name{{ i }}">Game Name *</label>
                                     <input
                                       type="text"
                                       class="form-control"
@@ -322,9 +322,9 @@
                                   </div>
                                 </div>
             
-                                <div class="col-md-2 col-12">
+                                <div class="col-md-3 col-12">
                                   <div class="form-group">
-                                    <label for="itemCost">Team A</label>
+                                    <label for="itemCost">Team A *</label>
                                     <input
                                       type="text"
                                       class="form-control"
@@ -337,9 +337,9 @@
                                   </div>
                                 </div>
             
-                                <div class="col-md-2 col-12">
+                                <div class="col-md-3 col-12">
                                   <div class="form-group">
-                                    <label for="teamb{{ i }}">Team B</label>
+                                    <label for="teamb{{ i }}">Team B *</label>
                                     <input
                                       type="text"
                                       class="form-control"
@@ -351,11 +351,11 @@
                                   </div>
                                 </div>
             
-                                <div class="col-md-2 col-12">
+                                <div class="col-md-3 col-12">
                                   <div class="form-group">
-                                    <label for="points{{ i }}">Points</label>
+                                    <label for="points{{ i }}">Points *</label>
                                     <input
-                                      type="text"
+                                      type="number"
                                       class="form-control"
                                       id="points{{ i }}"
                                       name="points{{ i }}"
@@ -365,16 +365,105 @@
                                   </div>
                                 </div>
             
-                               
+                                <div class="col-md-3 col-12">
+                                  <div class="form-group">
+                                    <label for="startDate{{ i }}">Start Date *</label>
+                                    <input
+                                      type="date"
+                                      class="form-control"
+                                      id="startDate{{ i }}"
+                                      name="startDate{{ i }}"
+                                      [(ngModel)]="item.startDate"
+                                      placeholder="Start Date"
+                                    />
+                                  </div>
+                                </div>
+                                
+                                <div class="col-md-3 col-12">
+                                  <div class="form-group">
+                                    <label for="startTime{{ i }}">Start Time *</label>
+                                    <input
+                                      type="time"
+                                      class="form-control"
+                                      id="startTime{{ i }}"
+                                      name="startTime{{ i }}"
+                                      [(ngModel)]="item.startTime"
+                                      placeholder="Start Time"
+                                    />
+                                  </div>
+                                </div>
+                                <div class="col-md-3 col-12">
+                                  <div class="form-group">
+                                    <label for="endDate{{ i }}">End Date *</label>
+                                    <input
+                                      type="date"
+                                      class="form-control"
+                                      id="endDate{{ i }}"
+                                      name="endDate{{ i }}"
+                                      [(ngModel)]="item.endDate"
+                                      placeholder="End Date"
+                                    />
+                                  </div>
+                                </div>
+                                
+                                <div class="col-md-3 col-12">
+                                  <div class="form-group">
+                                    <label for="endTime{{ i }}">End Time *</label>
+                                    <input
+                                      type="time"
+                                      class="form-control"
+                                      id="endTime{{ i }}"
+                                      name="endTime{{ i }}"
+                                      [(ngModel)]="item.endTime"
+                                      placeholder="End Time"
+                                    />
+                                  </div>
+                                </div>
+                                <div class="col-md-5 col-12">
+                                  <div class="form-group">
+                                    <label for="teamAImage{{ i }}">Team A Image</label>
+                                    <input
+                                      type="file"
+                                    
+                                      class="form-control-file"
+                                      id="teamAImage{{ i }}"
+                                      name="teamAImage{{ i }}"
+                                      accept="image/png, image/jpeg, image/jpg"
+                                      (change)="uploadTeamAImage(i,$event)"
+                                    />
+                                  </div>
+                                </div>
+                                
+                                <div class="col-md-5 col-12">
+                                  <div class="form-group">
+                                    <label for="teamBImage{{ i }}">Team B Image</label>
+                                    <input
+                                      type="file"
+                                      class="form-control-file"
+                                      id="teamBImage{{ i }}"
+                                      name="teamBImage{{ i }}"
+                                      accept="image/png, image/jpeg, image/jpg"
+                                      (change)="uploadTeamBImage(i,$event)"
+                                    />
+                                  </div>
+                                </div>
+                                                                        
+            
                                 <div class="col-md-2 col-12 mb-50">
                                   <div class="form-group">
-                                    <button class="btn btn-outline-danger text-nowrap px-1" (click)="deleteItem(i)" rippleEffect>
+                                    <button
+                                      class="btn btn-outline-danger text-nowrap px-1"
+                                      (click)="deleteItem(i)"
+                                      rippleEffect
+                                    >
                                       <i data-feather="x" class="mr-25"></i>
                                       <span>Delete</span>
                                     </button>
                                   </div>
                                 </div>
                               </div>
+                          <small *ngIf="errorMsg" class="form-text text-danger">All fields are required!</small>
+            
                               <hr />
                             </div>
                           </form>

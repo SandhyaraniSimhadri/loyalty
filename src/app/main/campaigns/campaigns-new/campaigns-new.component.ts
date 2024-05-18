@@ -40,13 +40,16 @@ export class CampaignsNewComponent implements OnInit {
   // public game:any={'name':'','team_a':'','team_b':''};
   public basicTP = { hour: 13, minute: 30 };
   public end_time = { hour: 13, minute: 30 };
-  public games = [{ id: '', name: '', team_a: '', team_b: '', points:''}];
+  public games = [{ id: '', name: '', team_a: '', team_b: '', points:'',game_start_date:'',game_start_time:'',game_end_date:'',game_end_time:''  ,team_a_image: null, 
+  team_b_image: null  }];
 
   public game = {
     name: '',
     team_a: '',
     team_b: '',
     points:'',
+    game_start_date:'',game_start_time:'', game_end_date:'',game_end_time:'', team_a_image: null, 
+    team_b_image: null  
   };
   public companyData: any;
 
@@ -92,6 +95,8 @@ export class CampaignsNewComponent implements OnInit {
       team_a: '',
       team_b: '',
       points:'',
+      game_start_date:'',game_start_time:'', game_end_date:'',game_end_time:'',  team_a_image: null, 
+      team_b_image: null 
     });
   }
   deleteItem(id) {
@@ -105,7 +110,7 @@ export class CampaignsNewComponent implements OnInit {
 
   submit(form) {
     if(this.event_id==1){
-    const hasEmptyFields = this.games.some(game => !game.name || !game.team_a || !game.team_b || !game.points);
+    const hasEmptyFields = this.games.some(game => !game.name || !game.team_a || !game.team_b || !game.points || !game.game_start_date || !game.game_start_time || !game.game_end_date || !game.game_end_time || !game.team_a_image || !game.team_b_image);
     if (hasEmptyFields) {
       this.errorMsg=true;
       return;
@@ -118,17 +123,34 @@ export class CampaignsNewComponent implements OnInit {
     this.loading = true;
     const formData = new FormData();
     const games_data = this.games;
-    // const startTimeString = `${this.start_time.hour}:${this.start_time.minute}`;
+    console.log("gamesssss",games_data);
+    // const game_start_timeString = `${this.start_time.hour}:${this.start_time.minute}`;
     const endTimeString = `${this.end_time.hour}:${this.end_time.minute}`;
     formData.append("campaign_title", this.campaign_title);
     formData.append("start_date", this.start_date);
     formData.append("end_date", this.end_date);
-    // formData.append("start_time", startTimeString);
+    // formData.append("start_time", game_start_timeString);
     formData.append("end_time",endTimeString);
     formData.append("event_id", this.event_id);
     formData.append("company_id", this.company_id);
-
-    formData.append('games', JSON.stringify(games_data));
+    const gamesDataWithoutFiles = this.games.map(game => {
+      const { team_b_image,team_a_image, ...rest } = game;
+      return rest;
+    });
+  
+    formData.append('games', JSON.stringify(gamesDataWithoutFiles));
+  
+    // Append each image file to the FormData object
+    this.games.forEach((game, index) => {
+      if (game.team_b_image) {
+        formData.append(`team_b_image_${index}`, game.team_b_image);
+      }
+      // Similarly, append team_a_image if you have it
+      if (game.team_a_image) {
+        formData.append(`team_a_image_${index}`, game.team_a_image);
+      }
+    });
+  
 
     if (form.valid) {
 
@@ -227,10 +249,64 @@ export class CampaignsNewComponent implements OnInit {
   }
   validateInputs(gameIndex: number) {
     const game = this.games[gameIndex];
-    if (!game.name || !game.team_a || !game.team_b || !game.points) {
+    if (!game.name || !game.team_a || !game.team_b || !game.points || !game.game_start_date || !game.game_start_time || !game.game_end_date || !game.game_end_time || !game.team_a_image || !game.team_b_image) {
       return false;
     }
     return true;
   }
-  
+  uploadTeamAImage(i:any,event: any) {
+    // this.loading=true;
+    // if (event.target.files && event.target.files[0]) {
+    //   let reader = new FileReader();
+    //   reader.onload = (event: any) => {
+    //     // this.avatarImage = event.target.result;
+    //   };
+
+    //   reader.readAsDataURL(event.target.files[0]);
+    //   // this.currentRow.avatar = event.target.files[0].name;
+    //   this.games[i].team_a_image = event.target.files[0];
+    // }
+    // this.loading=false;
+    // // this.checkFormModified();
+
+
+    this.loading=true;
+    if (event.target.files && event.target.files[0]) {
+      let reader = new FileReader();
+      reader.onload = (event: any) => {
+        // this.avatarImage = event.target.result;
+      };
+
+      reader.readAsDataURL(event.target.files[0]);
+      // this.currentRow.avatar = event.target.files[0].name;
+      this.games[i].team_a_image = event.target.files[0];
+      console.log("valueee will be",event.target.files[0]);
+     console.log( "imgave valuree",this.games[i].team_a_image );
+
+    }
+    this.loading=false;
+    // this.checkFormModified();
+
+
+
+
+  }
+   uploadTeamBImage(i:any,event: any) {
+    this.loading=true;
+    if (event.target.files && event.target.files[0]) {
+      let reader = new FileReader();
+      reader.onload = (event: any) => {
+        // this.avatarImage = event.target.result;
+      };
+
+      reader.readAsDataURL(event.target.files[0]);
+      // this.currentRow.avatar = event.target.files[0].name;
+      this.games[i].team_b_image = event.target.files[0];
+      console.log("image value",this.games[i].team_b_image)
+      // return;
+    }
+    this.loading=false;
+    // this.checkFormModified();
+
+  }
 }

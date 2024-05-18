@@ -29,8 +29,10 @@ export class CoreMenuComponent implements OnInit {
    * @param {ChangeDetectorRef} _changeDetectorRef
    * @param {CoreMenuService} _coreMenuService
    */
-  constructor(public authService:AuthenticationService,private _changeDetectorRef: ChangeDetectorRef, private _coreMenuService: CoreMenuService) {
+  constructor(    private _authenticationService: AuthenticationService,private _changeDetectorRef: ChangeDetectorRef, private _coreMenuService: CoreMenuService) {
     // Set the private defaults
+    this._authenticationService.currentUser.subscribe(x => (this.currentUser = x));
+    console.log("current user",this.currentUser)
     this._unsubscribeAll = new Subject();
   }
 
@@ -46,8 +48,9 @@ export class CoreMenuComponent implements OnInit {
 
     // Subscribe to the current menu changes
     this._coreMenuService.onMenuChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(() => {
-      this.currentUser = this._coreMenuService.currentUser;
-      this.currentUser.role = this.authService.role;
+      // this.currentUser = this._coreMenuService.currentUser;
+      // this.currentUser.role = this.authService.role;
+      console.log("userrrr",this.currentUser.role);
       // Load menu
       this.menu = this._coreMenuService.getCurrentMenu();
 

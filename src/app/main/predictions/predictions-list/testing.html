@@ -1,0 +1,206 @@
+<div class="loading" *ngIf="loading">
+  <div class="effect-1 effects"></div>
+  <div class="effect-2 effects"></div>
+  <div class="effect-3 effects"></div>
+</div>
+
+<div class="content-wrapper container-xxl p-0">
+  <div class="row match-height">
+    <!-- Medal Card -->
+    <div class="col-xl-4 col-md-6 col-12">
+      <div class="card card-congratulation-medal">
+        <div class="card-body align-items-center">
+          <div class="text-center">
+            <ng-container *ngIf="currentUser">
+              <div>
+                <img
+                  class="avatar round"
+                  src="assets/images/slider/03.jpg"
+                  alt="avatar"
+                  height="80"
+                  width="80"
+                />
+              </div>
+              <div class="mt-1">
+                <h3>
+                  <b>{{ currentUser.user_name }}</b>
+                </h3>
+
+                <p class="user-status">{{ currentUser.role }}</p>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-8 col-md-6 col-12" *ngIf="!loading && rows != undefined">
+      <div class="card earnings-card">
+        <div class="card-body">
+          <!-- Title with line -->
+          <div class="row">
+            <div class="col-12">
+              <h4
+                class="card-title mb-0"
+                style="color: #7459dc; font-weight: 400"
+              >
+                <b>SELECT YOUR WINNER</b>
+              </h4>
+              <hr />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-3 text-center" style="text-transform: uppercase">
+              {{ campaign_data.start_date }}
+            </div>
+            <div class="col-6 text-center">
+              <span *ngIf="campaign_data.games.length > 0">
+                <h4 class="card-title mb-1">
+                  {{ campaign_data.campaign_title }} -
+                  <span *ngIf="campaign_data.games.length > 0"
+                    >{{ campaign_data.games[0].name }}</span
+                  >
+                </h4>
+              </span>
+            </div>
+            <div class="col-3 text-center" style="text-transform: uppercase">
+              {{ campaign_data.end_date }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6 text-center">
+              <div id="earnings-donut-chart" #earningChartRef>
+                <!-- Apexchart component-->
+                <apx-chart
+                  [chart]="{
+                    type: 'donut',
+                    width:
+                      isMenuToggled === false
+                        ? earningChartRef.offsetWidth
+                        : teamAChartOptions.chart.width,
+                    height: 120,
+                    toolbar: {
+                      show: false
+                    }
+                  }"
+                  [dataLabels]="teamAChartOptions.dataLabels"
+                  [series]="teamAChartOptions.series"
+                  [legend]="teamAChartOptions.legend"
+                  [labels]="teamAChartOptions.labels"
+                  [stroke]="teamAChartOptions.stroke"
+                  [colors]="teamAChartOptions.colors"
+                  [grid]="teamAChartOptions.grid"
+                  [plotOptions]="teamAChartOptions.plotOptions"
+                ></apx-chart>
+
+                <!-- / Apexchart component-->
+              </div>
+            </div>
+            <div class="col-6 text-center">
+              <div id="earnings-donut-chart" #earningChartRef>
+                <!-- Apexchart component-->
+                <apx-chart
+                  [chart]="{
+                    type: 'donut',
+                    width:
+                      isMenuToggled === false
+                        ? earningChartRef.offsetWidth
+                        : teamBChartOptions.chart.width,
+                    height: 120,
+                    toolbar: {
+                      show: false
+                    }
+                  }"
+                  [dataLabels]="teamBChartOptions.dataLabels"
+                  [series]="teamBChartOptions.series"
+                  [legend]="teamBChartOptions.legend"
+                  [labels]="teamBChartOptions.labels"
+                  [stroke]="teamBChartOptions.stroke"
+                  [colors]="teamBChartOptions.colors"
+                  [grid]="teamBChartOptions.grid"
+                  [plotOptions]="teamBChartOptions.plotOptions"
+                ></apx-chart>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top: 5px;">
+            <div class="col-6 text-center">
+              {{ campaign_data.games[0].team_a }}
+            </div>
+            <div class="col-6 text-center">
+              {{ campaign_data.games[0].team_b }}
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="col-xl-8 col-md-6 col-12 d-flex justify-content-center"
+      *ngIf="!loading && rows == undefined"
+    >
+      Not yet participated in any Campagin..
+    </div>
+  </div>
+
+  <div class="row match-height" *ngIf="!loading">
+    <!-- Company Table -->
+    <div class="col-12">
+      <div class="card card-company-table">
+        <div class="card-body">
+          <!-- Title with line -->
+          <div class="row">
+            <div class="col-12">
+              <h4
+                class="card-title mb-0"
+                style="color: #7459dc; font-weight: 400"
+              >
+                <b>OTHER PREDICTIONS</b>
+              </h4>
+              <hr />
+            </div>
+          </div>
+          <div  *ngIf="rows != undefined">
+           
+             
+                <div
+                  *ngFor="
+                    let participant of campaign_data.participants;
+                    let i = index
+                  "
+                >
+                <div class="row">
+                  <div class="col-12">
+                    <h4
+                      class="card-title mb-0"
+                      style="color: #7459dc; font-weight: 400"
+                    >
+                      <b> {{ participant.user_name }}</b>
+                      <span *ngIf="participant.team_name != null">
+                        {{ participant.team_name }}</span
+                      >
+                      <span *ngIf="participant.team_name == null"
+                        >Not yet selected</span
+                      >
+                    </h4>
+                    <hr />
+                  </div>
+                </div>
+                
+               </div>
+               </div>
+              <div
+                *ngIf="rows == undefined"
+                class="m-2 d-flex justify-content-center"
+              >
+                No participants
+              </div>
+           
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/ Company Table -->
+  </div>
+</div>
