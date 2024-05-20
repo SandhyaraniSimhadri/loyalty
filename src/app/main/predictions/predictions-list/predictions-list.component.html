@@ -96,53 +96,33 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-6 text-center">
+            <div class="col-6 d-flex justify-content-center align-items-center">
               <div
                 id="earnings-donut-chart"
-                class="text-center"
+                class="d-flex align-items-center justify-content-center position-relative"
                 #earningChartRef
                 style="
-                  position: relative;
                   width: 120px;
                   height: 120px;
                   border-radius: 50%;
                   overflow: hidden;
                   cursor: pointer;
                 "
-                  (click)=" campaign_data.self.team_name==null && modalsService.modalOpenDanger(modalDanger, campaign_data.games[0].team_a)"
-
+                (click)="campaign_data.self.team_name==null && modalsService.modalOpenDanger(modalDanger, campaign_data.games[0].team_a)"
               >
-                <!-- Image inside the circle -->
                 <img
                   *ngIf="campaign_data.games[0].team_a_image"
                   [src]="apiUrl + campaign_data.games[0].team_a_image"
                   alt="Image"
-                  style="
-                    position: absolute;
-                    width: 80px;
-                    height: 80px;
-                    top: 22px;
-                    left: 20px;
-                    object-fit: cover;
-                    border-radius: 50%;
-                  "
+                  class="team-image"
                 />
                 <img
                   *ngIf="campaign_data.games[0].team_a_image == null"
                   src="assets/images/profile/team.png"
                   alt="Image"
-                  style="
-                    position: absolute;
-                    width: 80px;
-                    height: 80px;
-                    top: 22px;
-                    left: 20px;
-                    object-fit: cover;
-                    border-radius: 50%;
-                  "
+                  class="team-image"
                 />
-
-                <!-- Apexchart component -->
+          
                 <apx-chart
                   [chart]="{
                     type: 'donut',
@@ -164,15 +144,14 @@
                   [grid]="teamAChartOptions.grid"
                   [plotOptions]="teamAChartOptions.plotOptions"
                 ></apx-chart>
-                <!-- / Apexchart component-->
               </div>
             </div>
-            <div class="col-6 text-center">
+            <div class="col-6 d-flex justify-content-center align-items-center">
               <div
                 id="earnings-donut-chart"
+                class="d-flex align-items-center justify-content-center position-relative"
                 #earningChartRef
                 style="
-                  position: relative;
                   width: 120px;
                   height: 120px;
                   border-radius: 50%;
@@ -190,31 +169,15 @@
                   *ngIf="campaign_data.games[0].team_b_image"
                   [src]="apiUrl + campaign_data.games[0].team_b_image"
                   alt="Image"
-                  style="
-                    position: absolute;
-                    width: 80px;
-                    height: 80px;
-                    top: 22px;
-                    left: 20px;
-                    object-fit: cover;
-                    border-radius: 50%;
-                  "
+                  class="team-image"
                 />
                 <img
                   *ngIf="campaign_data.games[0].team_b_image == null"
                   src="assets/images/profile/team.png"
                   alt="Image"
-                  style="
-                    position: absolute;
-                    width: 80px;
-                    height: 80px;
-                    top: 22px;
-                    left: 20px;
-                    object-fit: cover;
-                    border-radius: 50%;
-                  "
+                  class="team-image"
                 />
-
+          
                 <apx-chart
                   [chart]="{
                     type: 'donut',
@@ -239,7 +202,17 @@
               </div>
             </div>
           </div>
-
+          
+          <style>
+          .team-image {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 50%;
+          }
+          </style>
+          
           <div class="row" style="margin-top: 5px">
             <div class="col-6 text-center">
               {{ campaign_data.games[0].team_a }}
