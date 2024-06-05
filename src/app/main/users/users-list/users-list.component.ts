@@ -15,6 +15,7 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 // import { UserListService } from 'app/main/apps/user/user-list/user-list.service';
 // UserListService
 import { HttpClient } from '@angular/common/http';
+import { env } from "process";
 
 @Component({
   selector: "app-users-list",
@@ -44,6 +45,7 @@ export class UsersListComponent implements OnInit {
   public file:any;
   public api_url: any;
   public members_data:any;
+  public sendInviteloading:any=false;
 
   // Decorator
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -72,6 +74,7 @@ export class UsersListComponent implements OnInit {
   ) {
     this._unsubscribeAll = new Subject();
     this.api_url = environment.apiUrl+'api/';
+    var url=environment.apiUrl_fe;
 
   }
 
@@ -235,6 +238,7 @@ export class UsersListComponent implements OnInit {
           if (res.status == false) {
           } else if (res.status == true) {
             this.rows = res.data;
+            this.rows = res.data.map(row => ({ ...row, sendInviteloading: false }));
             console.log("rows",this.rows);
             this.tempData = this.rows;
           }
@@ -306,5 +310,54 @@ export class UsersListComponent implements OnInit {
       link.download = 'reports.csv';
       link.click();
     });
+  }
+  sendInvitation(row:any){
+    row.sendInviteloading=true;
+    let request = {
+      params: { id: row.id },
+      action_url: "send_invitation",
+      method: "POST",
+    };
+    this.httpService.doHttp(request).subscribe(
+      (res: any) => {
+        if (res == "nonet") {
+        } else {
+          if (res.status == false) {
+            this._toastrService.error(res.msg, "Failed", {
+              toastClass: "toast ngx-toastr",
+              closeButton: true,
+            });
+          } else if (res.status == true) {
+            this._toastrService.success(res.msg, "Success", {
+              toastClass: "toast ngx-toastr",
+              closeButton: true,
+            });
+            this.modalService.dismissAll();
+            row.email_sent_on= res.data;
+            row.is_email_sent=1;
+            
+          }
+        }
+        row.sendInviteloading=false;
+      },
+      (error: any) => {
+        row.sendInviteloading=false;
+
+      }
+    );
+  }
+  copyLink(data: any) {
+    const url = `${environment.apiUrl_fe}login?type=1&email=${data.email}&user_name=${data.user_name}`;
+    navigator.clipboard.writeText(url).then(
+      () => {
+        this._toastrService.success("Text copied", "Success", {
+          toastClass: "toast ngx-toastr",
+          closeButton: true,
+        });
+      },
+      (err) => {
+        console.error('Could not copy text: ', err);
+      }
+    );
   }
 }

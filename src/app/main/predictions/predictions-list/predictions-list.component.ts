@@ -17,7 +17,7 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { colors } from "app/colors.const";
 import { User } from "app/auth/models";
 import { AuthenticationService } from "app/auth/service";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: "app-predictions-list",
@@ -58,6 +58,8 @@ export class PredictionsListComponent implements OnInit {
   public currentUser: User;
   public selectedWinner:any=false;
   public user_image:any;
+  public colors:any;
+  public campaign_id:any=0;
   // Decorator
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
@@ -82,6 +84,7 @@ export class PredictionsListComponent implements OnInit {
     private modalService: NgbModal,
     private _authenticationService: AuthenticationService,
     private _router: Router,
+    private _route: ActivatedRoute,
   ) {
     this._authenticationService.currentUser.subscribe(
       (x) => (this.currentUser = x)
@@ -90,6 +93,7 @@ export class PredictionsListComponent implements OnInit {
     this.user_image=this.apiUrl+this.currentUser.avatar;
 
     this._unsubscribeAll = new Subject();
+
   }
 
   // Public Methods
@@ -187,7 +191,16 @@ export class PredictionsListComponent implements OnInit {
   ngOnInit(): void {
     this.apiUrl = environment.apiUrl;
     this.apiUrl_web = environment.apiUrl_web;
-
+    this._route.queryParams.subscribe((params) => {
+      if (params) {
+          var campaign_id = params["campaign_id"];
+          this.campaign_id=params["campaign_id"];
+        console.log("id",campaign_id);
+      }
+      else{
+        this.campaign_id=0
+      }
+    });
     this.getPredictions();
   }
 
@@ -205,9 +218,9 @@ export class PredictionsListComponent implements OnInit {
     let request;
 
     request = {
-      params: null,
+      params: {campaign_id:this.campaign_id},
       action_url: "get_prediction_details",
-      method: "GET",
+      method: "POST",
     };
     this.httpService.doHttp(request).subscribe(
       (res: any) => {
@@ -263,7 +276,19 @@ export class PredictionsListComponent implements OnInit {
             //   teamBNotSelectedPercentage,
             // ];
             // this.teamBChartOptions.labels = ["Selected", "Not Selected"];
-
+if(this.campaign_data.self.team_name==this.campaign_data.games[0].team_a  ){
+  this.colors= [
+    this.$earningsStrokeColor2,
+    this.$earningsStrokeColor3,
+    colors.solid.success,
+  ]
+}else{
+  this.colors =
+  [
+    "#4b4b4b1a66","4b4b4b1a33",
+     "#4b4b4b1a",
+   ]
+}
             this.teamAChartOptions = {
               chart: {
                 type: "donut",
@@ -280,11 +305,7 @@ export class PredictionsListComponent implements OnInit {
               comparedResult: [2, 0],
               labels: ["Selected", "Not Selected"],
               stroke: { width: 0 },
-              colors: [
-                this.$earningsStrokeColor2,
-                this.$earningsStrokeColor3,
-                colors.solid.success,
-              ],
+              colors: this.colors,
               grid: {
                 padding: {
                   right: -20,
@@ -355,7 +376,19 @@ export class PredictionsListComponent implements OnInit {
                 },
               ],
             };
-
+            if(this.campaign_data.self.team_name==this.campaign_data.games[0].team_b  ){
+              this.colors= [
+                this.$earningsStrokeColor2,
+                this.$earningsStrokeColor3,
+                colors.solid.success,
+              ]
+            }else{
+              this.colors =
+              [
+                "#a6a6a666","#a6a6a633",
+                 "#a6a6a6",
+               ]
+            }
             this.teamBChartOptions = {
               chart: {
                 type: "donut",
@@ -372,11 +405,12 @@ export class PredictionsListComponent implements OnInit {
               comparedResult: [2, 0],
               labels: ["Selected", "Not Selected"],
               stroke: { width: 0 },
-              colors: [
-                this.$earningsStrokeColor2,
-                this.$earningsStrokeColor3,
-                colors.solid.success,
-              ],
+              // colors: [
+              //   this.$earningsStrokeColor2,
+              //   this.$earningsStrokeColor3,
+              //   colors.solid.success,
+              // ],
+              colors:this.colors,
               grid: {
                 padding: {
                   right: -20,

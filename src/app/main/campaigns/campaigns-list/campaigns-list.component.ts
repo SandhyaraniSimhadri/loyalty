@@ -273,6 +273,19 @@ export class CampaignsListComponent implements OnInit {
     this.loading = false;
   }
  
- 
+  copyLink(data: any) {
+    const url = `${environment.apiUrl_fe}login?type=2&campaign_id=${data.id}`;
+    navigator.clipboard.writeText(url).then(
+      () => {
+        this._toastrService.success("Text copied", "Success", {
+          toastClass: "toast ngx-toastr",
+          closeButton: true,
+        });
+      },
+      (err) => {
+        console.error('Could not copy text: ', err);
+      }
+    );
+  }
  
 }

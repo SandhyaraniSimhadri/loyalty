@@ -192,6 +192,40 @@
               </div>
             </ng-template>
           </ngx-datatable-column>
+          <ngx-datatable-column name="Send Invitation" prop="is_email_sent">
+            <ng-template
+              let-row="row"
+              let-name="value"
+              ngx-datatable-cell-template
+            >
+              <div class="d-flex align-items-center">
+                <div class="cell-line-height d-block">
+                  <span class="font-weight-bold white-space">
+                    <span *ngIf="row.is_email_sent==0">
+                      <button     [disabled]="row.sendInviteloading"
+                      type="submit"
+                      class="btn btn-success"
+                      (click)="sendInvitation(row)"
+                      rippleEffect
+                    >
+                      <span
+                        *ngIf="row.sendInviteloading"
+                        class="spinner-border spinner-border-sm mr-1"
+                      ></span>Send Invitation</button>
+                    </span>
+                    <span *ngIf="row.is_email_sent==1">
+                     Email sent on {{row.email_sent_on}}
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Copy Link">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <button class="btn btn-primary" (click)="copyLink(row)">    <i data-feather="clipboard" ></i></button>
+            </ng-template>
+          </ngx-datatable-column>
 
           <ngx-datatable-column name="Actions" [width]="40" [sortable]="false">
             <ng-template ngx-datatable-cell-template let-row="row">

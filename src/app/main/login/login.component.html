@@ -36,7 +36,7 @@
             <div class="col-3">
               <div class="avatar">
                 <img
-                  src="../../../../../assets/images/login/person.png"
+                  src="../../../../../assets/images/profile/person.png"
                   alt="avatar"
                   width="60"
                 />
@@ -53,12 +53,37 @@
             [formGroup]="loginForm"
             (ngSubmit)="onSubmit()"
           >
+          <div class="input-group" *ngIf="type==2">
+            <i data-feather="user" class="mr-1 mt-0 icon-cls"></i>
+            <input
+              type="text"
+              formControlName="user_name"
+              class=""
+              [ngClass]="{
+                'is-invalid error': submitted && f.user_name.errors
+              }"
+              placeholder="User name"
+              aria-describedby="login-user-name"
+            />
+
+            <div
+              *ngIf="submitted && f.user_name.errors"
+              class="invalid-feedback"
+              [ngClass]="{ 'd-block': submitted && f.user_name.errors }"
+            >
+              <div *ngIf="f.user_name.errors.required">
+                User name is required
+              </div>
+
+             
+            </div>
+          </div>
             <div class="input-group align-items-center">
               <i data-feather="mail" class="mr-1 mt-0 icon-cls"></i>
               <input
                 type="text"
                 formControlName="email"
-                placeholder="Username"
+                placeholder="Email"
                 [ngClass]="{
                   'is-invalid': submitted && loginForm.get('email').errors
                 }"
@@ -94,9 +119,38 @@
                 </div>
               </div>
             </div>
-            <br />
+<!-- {{f.new_password.value}} -->
+            <div class="input-group" *ngIf="type==1 || type==2">
+              <i data-feather="lock" class="mr-1 mt-0 icon-cls"></i>
+              <input
+                type="password"
+                formControlName="confirm_password"
+                class=""
+                [ngClass]="{
+                  'is-invalid error': submitted && f.confirm_password.errors
+                }"
+                placeholder="Confirm Password"
+                aria-describedby="login-password"
+              />
 
-            <button
+              <div
+                *ngIf="submitted && f.confirm_password.errors"
+                class="invalid-feedback"
+                [ngClass]="{ 'd-block': submitted && f.confirm_password.errors }"
+              >
+                <div *ngIf="f.confirm_password.errors.required">
+                  Password is required
+                </div>
+
+                <div *ngIf="f.confirm_password.errors.required && f.confirm_password.value!= f.password.value">
+                Pawword and Confirm password should be same
+                </div>
+              </div>
+            </div>
+           
+            <br />
+           
+            <button 
               [disabled]="loading"
               class="btn btn-primary btn-login"
               rippleEffect
@@ -105,8 +159,18 @@
                 *ngIf="loading"
                 class="spinner-border spinner-border-sm mr-1"
               ></span
-              >LOGIN
+              >
+              <span *ngIf="type==undefined || type==0">
+                LOGIN
+              </span>
+              <span *ngIf="type==1">
+                SET PASSWORD
+              </span>
+              <span *ngIf="type==2">
+                PROCEED
+              </span>
             </button>
+           
 
             <p
               class="d-flex justify-content-center justify-content-center align-items-center mt-1"
@@ -118,7 +182,7 @@
             </p>
           </form>
 
-          <div class="auth-footer-btn d-flex align-items-center">
+          <div class="auth-footer-btn d-flex align-items-center" *ngIf="type==0">
             <span class="font-weight-bold mr-1">Sign in with: </span>
             <div class="container" style="max-width: 550px" class="d-flex">
               <asl-google-signin-button

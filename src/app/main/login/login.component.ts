@@ -1,6 +1,7 @@
 import { Component, NgZone, OnInit, ViewEncapsulation } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import {
+  FormControl,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
@@ -45,6 +46,8 @@ export class LoginComponent implements OnInit {
   public role_data: any;
   public main_loading: any = false;
   public socialLogClicked: any = false;
+  public type: any = 0;
+  public campaign_id: any = null;
   // Private
   private _unsubscribeAll: Subject<any>;
 
@@ -104,6 +107,11 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log("campaign id val" ,this.campaign_id);
+    this._route.queryParams.subscribe((params) => {
+      if (params) {
+        this.campaign_id=params['campaign_id'];
+      }});
     this.error = "";
     this.submitted = true;
 
@@ -111,60 +119,85 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-
+    // if(this.loginForm.password)
+    // console.log("value",this.loginForm.value);
+    if (
+      (this.type == 1 || this.type==2) &&
+      this.loginForm.value.confirm_password != this.loginForm.value.password
+    ) {
+      this._toastrService.error(
+        "Password and Confirm password should be same",
+        "Failed",
+        { toastClass: "toast ngx-toastr", closeButton: true }
+      );
+      return;
+    }
     // Login
     this.loading = true;
-    let user_val = this.loginForm.value;
+    var user_val = this.loginForm.value;
+    console.log("valuess", user_val);
+    // return;
     let email = user_val.email;
     let pwd = user_val.password;
-    this._authenticationService
-      .login(email, pwd)
-      .pipe(first())
-      .subscribe(
-        (data) => {
-          const user = data;
-          if (data.status) {
-            localStorage.setItem("currentUser", JSON.stringify(user.data));
-            let user_data = JSON.parse(localStorage.getItem("currentUser"));
-            this.httpService.USERINFO = user_data;
-            this.httpService.APIToken = user_data.token;
-            this.httpService.loginuserid = user_data.user_id;
+    if (this.type == undefined || this.type == 0) {
+      this._authenticationService
+        .login(email, pwd)
+        .pipe(first())
+        .subscribe(
+          (data) => {
+            const user = data;
+            if (data.status) {
+              localStorage.setItem("currentUser", JSON.stringify(user.data));
+              let user_data = JSON.parse(localStorage.getItem("currentUser"));
+              this.httpService.USERINFO = user_data;
+              this.httpService.APIToken = user_data.token;
+              this.httpService.loginuserid = user_data.user_id;
 
-            setTimeout(() => {
-              this._toastrService.success(
-                "You have successfully logged in. Now you can start to explore. Enjoy! 🎉",
-                "👋 Welcome !",
-                { toastClass: "toast ngx-toastr", closeButton: true }
-              );
-            }, 4500);
+              setTimeout(() => {
+                this._toastrService.success(
+                  "You have successfully logged in. Now you can start to explore. Enjoy! 🎉",
+                  "👋 Welcome !",
+                  { toastClass: "toast ngx-toastr", closeButton: true }
+                );
+              }, 4500);
 
-            // setTimeout(() => {
-              if ( this.httpService.USERINFO.user_type == 1) {
+              // setTimeout(() => {
+              if (this.httpService.USERINFO.user_type == 1) {
                 console.log("company");
-              this._router.navigate(["/company/company"]);}
-              else{
+                this._router.navigate(["/company/company"]);
+              } 
+              else {
                 console.log("predictions");
 
-                this._router.navigate(["/predictions/predictions"]);
+                this._router.navigate(["/predictions/predictions"], {
+                  queryParams: { campaign_id: this.campaign_id },
+                });
               }
-            // }, 3000);
-          } else {
-            setTimeout(() => {
-              this._toastrService.error(data.msg, "Failed", {
-                toastClass: "toast ngx-toastr",
-                closeButton: true,
-              });
-            }, 2500);
+              // }, 3000);
+            } else {
+              setTimeout(() => {
+                this._toastrService.error(data.msg, "Failed", {
+                  toastClass: "toast ngx-toastr",
+                  closeButton: true,
+                });
+              }, 2500);
+            }
+            this.loading = false;
+          },
+          (error) => {
+            this.error = error;
+            this.loading = false;
           }
-          this.loading = false;
-        },
-        (error) => {
-          this.error = error;
-          this.loading = false;
-        }
-      );
+        );
 
-    return;
+      return;
+    } else if(this.type==2){
+      user_val.campaign_id=this.campaign_id;
+      this.setRegistration(user_val);
+    }
+    else {
+      this.setNewPassword(user_val);
+    }
   }
   ngOnInit(): void {
     this.loginForm = this._formBuilder.group({
@@ -172,6 +205,39 @@ export class LoginComponent implements OnInit {
       password: ["", Validators.required],
       // username: ["", Validators.required],
     });
+    this._route.queryParams.subscribe((params) => {
+      if (params) {
+        const type = params["type"];
+        this.type = type;
+        if (this.type == 1) {
+          var email = params["email"];
+          var userName = params["user_name"];
+        } else {
+          this.campaign_id = params["campaign_id"];
+        }
+
+        // Use these parameters as needed
+        console.log("Query Params:", { type, email, userName });
+
+        // Example: set the email field in the form
+        if (email) {
+          this.loginForm.patchValue({ email: email.trim() });
+        }
+      }
+    });
+    console.log("type", this.type);
+    if (this.type == 1 || this.type == 2) {
+      this.loginForm.addControl(
+        "confirm_password",
+        new FormControl("", Validators.required)
+      );
+    }
+    if(this.type==2){
+      this.loginForm.addControl(
+        "user_name",
+        new FormControl("", Validators.required)
+      );
+    }
 
     // get return url from route parameters or default to '/'
     this.returnUrl = this._route.snapshot.queryParams["returnUrl"] || "/";
@@ -228,7 +294,7 @@ export class LoginComponent implements OnInit {
               } else {
                 res.data.role = "User";
               }
-              
+
               localStorage.setItem("currentUser", JSON.stringify(res.data));
               // let user_data = JSON.parse(localStorage.getItem("currentUser"));
               this.httpService.USERINFO = res?.data;
@@ -236,11 +302,13 @@ export class LoginComponent implements OnInit {
               this.httpService.loginuserid = res?.data?.user_id;
               if (res.data.user_type == 1) {
                 console.log("company");
-              this._router.navigate(["/company/company"]);}
-              else{
+                this._router.navigate(["/company/company"]);
+              } else {
                 console.log("predictions");
 
-                this._router.navigate(["/predictions/predictions"]);
+                this._router.navigate(["/predictions/predictions"], {
+                  queryParams: { campaign_id: this.campaign_id },
+                });
               }
               this.main_loading = false;
 
@@ -315,4 +383,81 @@ export class LoginComponent implements OnInit {
   //   this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID)
   //     .then(() => console.log("true"));
   // }
+  setNewPassword(values: any) {
+    this.loading = true;
+    let request = {
+      params: {
+        email: values.email,
+        password: values.password,
+        confirm_password: values.confirm_password,
+      },
+      action_url: "set_password",
+      method: "POST",
+    };
+    this.httpService.doHttp(request).subscribe(
+      (res: any) => {
+        if (res == "nonet") {
+        } else {
+          if (res.status == false) {
+            this._toastrService.error(res.msg, "Failed", {
+              toastClass: "toast ngx-toastr",
+              closeButton: true,
+            });
+          } else if (res.status == true) {
+            this._toastrService.success(res.msg, "Success", {
+              toastClass: "toast ngx-toastr",
+              closeButton: true,
+            });
+            this._router.navigate(["/"]);
+            this.type = 0;
+          }
+        }
+        this.loading = false;
+      },
+      (error: any) => {
+        this.loading = false;
+      }
+    );
+  }
+  setRegistration(values:any){
+    this.loading = true;
+    let request = {
+      params: {
+        email: values.email,
+        password: values.password,
+        confirm_password: values.confirm_password,
+        user_name:values.user_name,
+        campaign_id:this.campaign_id,
+      },
+      action_url: "set_registration",
+      method: "POST",
+    };
+    this.httpService.doHttp(request).subscribe(
+      (res: any) => {
+        if (res == "nonet") {
+        } else {
+          if (res.status == false) {
+            this._toastrService.error(res.msg, "Failed", {
+              toastClass: "toast ngx-toastr",
+              closeButton: true,
+            });
+          } else if (res.status == true) {
+            this._toastrService.success(res.msg, "Success", {
+              toastClass: "toast ngx-toastr",
+              closeButton: true,
+            });
+            this._router.navigate(["/"],{
+              queryParams: { campaign_id: this.campaign_id },
+            });
+            console.log("campaign id",this.campaign_id);
+            this.type = 0;
+          }
+        }
+        this.loading = false;
+      },
+      (error: any) => {
+        this.loading = false;
+      }
+    );
+  }
 }

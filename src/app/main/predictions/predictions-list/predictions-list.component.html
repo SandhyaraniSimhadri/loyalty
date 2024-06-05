@@ -56,14 +56,14 @@
             <div class="col-12">
               <h4
                 class="card-title mb-0"
-                style="color: #7459dc; font-weight: 400"
+                style="color: blue; font-weight: 400"
               >
                 <b>SELECT YOUR WINNER</b>
               </h4>
               <hr />
             </div>
           </div>
-          <div class="row" style="margin-left: 3px;">
+          <div class="row" style="margin-left: 3px;font-weight: bolder;">
            <div>
               <span
                 *ngIf="
@@ -71,65 +71,74 @@
                   campaign_data.games.length > 0
                 "
               >
-                <h4 class="card-title mb-1">
-                  {{ campaign_data.campaign_title }} -
+                <span class="mb-1" style="color: gray; margin-bottom: -0px !important;font-size: 16px;">
+                  <b>{{ campaign_data.campaign_title }} -
                   <span
                     *ngIf="
                       campaign_data.games != undefined &&
                       campaign_data.games.length > 0
                     "
                     >{{ campaign_data.games[0].name }}</span
-                  >
-                </h4>
+                  ></b>
+                  </span>
               </span>
            </div>
           </div>
 
-          <div class="row">
-            <div class="col-6 text-center" >
-              Start date: 
-              <span style="text-transform: uppercase">{{ campaign_data.start_date }}</span>
+          <div class="row" style="margin-left: 3px;color: gray;" ><b>
+         <span  style="font-size: 12px;">
+            Campaign Dates: 
+              {{ campaign_data.start_date }} to {{ campaign_data.end_date }}</span>
+            </b>  
+          </div>
+          <div class="row mt-4">
+            <div class="col-6 d-flex justify-content-center align-items-center">
+              <div *ngIf="campaign_data.self.team_name==campaign_data.games[0].team_a" style="margin-bottom: 10px;">
+                <div class="badge badge-glow badge-success">Predicted</div>                
+              </div>
             </div>
-          
-            <div class="col-6 text-center">
-              End date: <span style="text-transform: uppercase">{{ campaign_data.end_date }}</span>
+            <div class="col-6 d-flex justify-content-center align-items-center">
+              <div *ngIf="campaign_data.self.team_name==campaign_data.games[0].team_b" style="margin-bottom: 10px;">
+                <div class="badge badge-glow badge-success">Predicted</div>      
+              </div>
             </div>
           </div>
-          <div class="row">
+          <div class="row" >
             <div class="col-6 d-flex justify-content-center align-items-center">
               <div
                 id="earnings-donut-chart"
                 class="d-flex align-items-center justify-content-center position-relative"
                 #earningChartRef
                 style="
-                  width: 120px;
-                  height: 120px;
+                width: 120px;
+                height: 120px;  
                   border-radius: 50%;
                   overflow: hidden;
                   cursor: pointer;
                 "
                 (click)="campaign_data.self.team_name==null && modalsService.modalOpenDanger(modalDanger, campaign_data.games[0].team_a)"
               >
+             
                 <img
                   *ngIf="campaign_data.games[0].team_a_image"
                   [src]="apiUrl + campaign_data.games[0].team_a_image"
                   alt="Image"
-                  class="team-image"
+                  class="team-image"  style="width: 80%; height: auto;"
                 />
                 <img
                   *ngIf="campaign_data.games[0].team_a_image == null"
                   src="assets/images/profile/team.png"
                   alt="Image"
-                  class="team-image"
+                  class="team-image"  style="width: 80%; height: auto;"
                 />
           
                 <apx-chart
                   [chart]="{
                     type: 'donut',
                     width:
-                      isMenuToggled === false
-                        ? earningChartRef.offsetWidth
-                        : teamAChartOptions.chart.width,
+                    isMenuToggled === false
+                      ? earningChartRef.offsetWidth
+                      : teamBChartOptions.chart.width,
                     height: 120,
                     toolbar: {
                       show: false
@@ -165,17 +174,18 @@
                   )
                 "
               >
+             
                 <img
                   *ngIf="campaign_data.games[0].team_b_image"
                   [src]="apiUrl + campaign_data.games[0].team_b_image"
                   alt="Image"
-                  class="team-image"
+                  class="team-image" style="width: 80%; height: auto;"
                 />
                 <img
                   *ngIf="campaign_data.games[0].team_b_image == null"
                   src="assets/images/profile/team.png"
                   alt="Image"
-                  class="team-image"
+                  class="team-image" style="width: 80%; height: auto;"
                 />
           
                 <apx-chart
@@ -292,7 +302,7 @@
                       </h4>
                     </div>
                     <div class="col-2  d-flex align-items-center justify-content-center">
-                      {{ participant.total_points }}
+                      {{ participant.total_points }} Pts
                     </div>
                   </div>
 
@@ -360,14 +370,10 @@
     </button> -->
   </div>
   <div class="modal-body" tabindex="0" ngbAutofocus>
-    Are you sure you want to Predicting
-    <b
-      ><i>{{ modalsService.item }}</i></b
-    >
-    Team as Winner
+    Are you sure you want to submit your Prediction?
     <br />
     <span class="f-size-class">
-      This action will be done immediately. You can't undo this action.</span
+      This action will not be reversable.</span
     >
   </div>
   <div class="modal-footer">
