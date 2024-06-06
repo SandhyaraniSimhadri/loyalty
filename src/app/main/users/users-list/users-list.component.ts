@@ -349,16 +349,54 @@ export class UsersListComponent implements OnInit {
   copyLink(data: any) {
     const url = `${environment.apiUrl_fe}login?type=1&email=${data.email}&user_name=${data.user_name}`;
     console.log("urlll",url);
-    navigator.clipboard.writeText(url).then(
-      () => {
-        this._toastrService.success("Text copied", "Success", {
-          toastClass: "toast ngx-toastr",
-          closeButton: true,
-        });
-      },
-      (err) => {
-        console.error('Could not copy text: ', err);
+    // navigator.clipboard.writeText(url).then(
+    //   () => {
+    //     this._toastrService.success("Text copied", "Success", {
+    //       toastClass: "toast ngx-toastr",
+    //       closeButton: true,
+    //     });
+    //   },
+    //   (err) => {
+    //     console.error('Could not copy text: ', err);
+    //   }
+    // );
+
+
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(url).then(
+        () => {
+          this._toastrService.success("Text copied", "Success", {
+            toastClass: "toast ngx-toastr",
+            closeButton: true,
+          });
+        },
+        (err) => {
+          console.error('Could not copy text: ', err);
+        }
+      );
+  } else {
+      // Use the 'out of viewport hidden text area' trick
+      const textArea = document.createElement("textarea");
+      textArea.value = url;
+          
+      // Move textarea out of the viewport so it's not visible
+      textArea.style.position = "absolute";
+      textArea.style.left = "-999999px";
+          
+      document.body.prepend(textArea);
+      textArea.select();
+
+      try {
+          document.execCommand('copy');
+          this._toastrService.success("Text copied", "Success", {
+            toastClass: "toast ngx-toastr",
+            closeButton: true,
+          });
+      } catch (error) {
+          console.error(error);
+      } finally {
+          textArea.remove();
       }
-    );
+  }
   }
 }
