@@ -276,19 +276,19 @@ export class PredictionsListComponent implements OnInit {
             //   teamBNotSelectedPercentage,
             // ];
             // this.teamBChartOptions.labels = ["Selected", "Not Selected"];
-if(this.campaign_data.self.team_name==this.campaign_data.games[0].team_a  ){
-  this.colors= [
-    this.$earningsStrokeColor2,
-    this.$earningsStrokeColor3,
-    colors.solid.success,
-  ]
-}else{
-  this.colors =
-  [
-    "#4b4b4b1a66","4b4b4b1a33",
-     "#4b4b4b1a",
-   ]
-}
+            if(this.campaign_data.self.team_name==this.campaign_data.games[0].team_a  ){
+              this.colors= [
+                this.$earningsStrokeColor2,
+                this.$earningsStrokeColor3,
+                colors.solid.success,
+              ]
+            }else{
+              this.colors =
+              [
+                "#a6a6a666","#a6a6a633",
+                 "#a6a6a6",
+               ]
+            }
             this.teamAChartOptions = {
               chart: {
                 type: "donut",
@@ -376,7 +376,7 @@ if(this.campaign_data.self.team_name==this.campaign_data.games[0].team_a  ){
                 },
               ],
             };
-            if(this.campaign_data.self.team_name==this.campaign_data.games[0].team_a  ){
+            if(this.campaign_data.self.team_name==this.campaign_data.games[0].team_b  ){
               this.colors= [
                 this.$earningsStrokeColor2,
                 this.$earningsStrokeColor3,
@@ -385,8 +385,8 @@ if(this.campaign_data.self.team_name==this.campaign_data.games[0].team_a  ){
             }else{
               this.colors =
               [
-                "#4b4b4b1a66","4b4b4b1a33",
-                 "#4b4b4b1a",
+                "#a6a6a666","#a6a6a633",
+                 "#a6a6a6",
                ]
             }
             this.teamBChartOptions = {
