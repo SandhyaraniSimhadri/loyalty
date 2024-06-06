@@ -302,7 +302,9 @@
                       </h4>
                     </div>
                     <div class="col-2  d-flex align-items-center justify-content-center">
-                      {{ participant.total_points }} Pts
+                      <span *ngIf="participant.total_points>0" > {{ participant.total_points }} Pts</span>
+                      <span *ngIf="participant.total_points==0" > 0 Pts</span>
+
                     </div>
                   </div>
 
