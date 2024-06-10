@@ -58,7 +58,7 @@
               <hr />
             </div>
           </div>
-          <ngb-carousel
+          <ngb-carousel  [interval]="1000"
             *ngIf="
               campaign_data.games != undefined &&
               campaign_data.games.length > 0 &&
