@@ -18,7 +18,14 @@ import { colors } from "app/colors.const";
 import { User } from "app/auth/models";
 import { AuthenticationService } from "app/auth/service";
 import { ActivatedRoute, Router } from "@angular/router";
-
+export interface CarouselImages {
+  one?: string;
+  two?: string;
+  three?: string;
+  four?: string;
+  five?: string;
+  six?: string;
+};
 @Component({
   selector: "app-predictions-list",
   templateUrl: "./predictions-list.component.html",
@@ -65,8 +72,16 @@ export class PredictionsListComponent implements OnInit {
 
   // Private
   private tempData = [];
+  
   private _unsubscribeAll: Subject<any>;
-
+  public carouselImages: CarouselImages = {
+    one: 'assets/images/slider/01.jpg',
+    two: 'assets/images/slider/02.jpg',
+    three: 'assets/images/slider/03.jpg',
+    four: 'assets/images/slider/04.jpg',
+    five: 'assets/images/slider/05.jpg',
+    six: 'assets/images/slider/06.jpg'
+  };
   /**
    * Constructor
    *
