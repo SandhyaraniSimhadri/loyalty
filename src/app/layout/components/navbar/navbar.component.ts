@@ -15,6 +15,8 @@ import { User } from 'app/auth/models';
 
 import { coreConfig } from 'app/app-config';
 import { Router } from '@angular/router';
+import { environment } from 'environments/environment';
+import { CoreHttpService } from '@core/services/http.service';
 
 @Component({
   selector: 'app-navbar',
@@ -35,6 +37,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   public languageOptions: any;
   public navigation: any;
   public selectedLanguage: any;
+  public image:any;
+  public apiUrl: any;
 
   @HostBinding('class.fixed-top')
   public isFixed = false;
@@ -81,11 +85,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private _coreMediaService: CoreMediaService,
     private _coreSidebarService: CoreSidebarService,
     private _mediaObserver: MediaObserver,
-    public _translateService: TranslateService
+    public _translateService: TranslateService,
+    private httpService:CoreHttpService
   ) {
+    this.apiUrl = environment.apiUrl;
+
     this._authenticationService.currentUser.subscribe(x => (this.currentUser = x));
     console.log("current user",this.currentUser)
-
+    this.image = this.apiUrl + this.httpService.USERINFO.avatar;
     this.languageOptions = {
       en: {
         title: 'English',

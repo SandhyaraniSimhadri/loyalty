@@ -84,7 +84,7 @@
           <span class="avatar"
             ><img *ngIf="currentUser.avatar"
               class="round"
-              src="assets/images/portrait/small/{{ currentUser.avatar }}"
+              [src]="image"
               alt="avatar"
               height="40"
               width="40" />
