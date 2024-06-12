@@ -233,7 +233,7 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
     let request;
 
     request = {
-      params: { twitter_url:this.twitter,facebook_url:this.facebook, google_url:this.google,linkedin_url:this.linkedin,instagram_url:this.instagram, quora_url:this.quora},
+      params: { twitter_url:this.user_info.twitter_url,facebook_url:this.user_info.facebook_url, google_url:this.user_info.google_url,linkedin_url:this.user_info.linkedin_url,instagram_url:this.user_info.instagram_url, quora_url:this.user_info.quora_url},
       action_url: "update_social_media_account",
       method: "POST",
     };
