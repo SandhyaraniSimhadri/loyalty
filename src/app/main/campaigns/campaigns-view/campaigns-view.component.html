@@ -186,6 +186,51 @@
                   </tbody>
                 </table>
               </div>
+              <div class="row" *ngIf="data.event_id==2">
+                <table class="table table-striped table-borderless">
+                  <thead >
+                  <tr>
+                    <th>
+                      SNo
+                    </th>
+                    <th>
+                      Question
+                    </th>
+                    <th>
+                     Response A
+                    </th>
+                    <th>
+                      Response B
+                    </th>
+                    <th>
+                      Response C
+                    </th>
+                    <th>
+                      Response D
+                    </th>
+                    <th>
+                      Points
+                    </th>
+                    <th>
+                      Answer
+                    </th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let question of data.quizzes;let i=index">
+                    <td>{{i+1}}</td>
+                    <td>{{question.question}}</td>
+                    <td>{{question.response_a}}</td>
+                    <td>{{question.response_b}}</td>
+                    <td>{{question.response_c}}</td>
+                    <td>{{question.response_d}}</td>
+                    <td>{{question.points}}</td>
+                    <td><button *ngIf="question.correct_answer==0"class="btn btn-primary"   (click)="modalsService.modalOpenDanger(modalDanger, question)">Select</button>
+                    <span *ngIf="question.correct_answer!=0">{{question.correct_answer}}</span></td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>

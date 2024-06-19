@@ -341,7 +341,7 @@
                     </div>
                                                             
 
-                    <div class="col-md-2 col-12 mb-50">
+                    <div class="col-md-2 col-12 mb-50" *ngIf="games.length>1">
                       <div class="form-group">
                         <button
                           class="btn btn-outline-danger text-nowrap px-1"
@@ -382,6 +382,194 @@
                 </pre> -->
             </div>
           </div>
+
+          <div class="form-group" *ngIf="event_id == 2">
+            <div class="card-body">
+              <form action="#" class="invoice-repeater">
+                <div *ngFor="let question of questions; let i = index" @heightIn>
+                  <div class="row d-flex align-items-end">
+                    <div class=" col-12">
+                      <div class="form-group">
+                        <label for="name{{ i }}">Question {{ i +1}}*</label>
+                        <textarea
+                          type="text"
+                          class="form-control"
+                          [(ngModel)]="question.question"
+                          name="question{{ i }}"
+                          id="question{{ i }}"
+                          placeholder="Question"
+                        ></textarea>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3 col-12">
+                      <div class="form-group">
+                        <label for="itemCost">Response A*</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="responsea"
+                          [(ngModel)]="question.response_a"
+                          name="responsea{{ i }}"
+                          id="responsea{{ i }}"
+                          placeholder="Response A"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="col-md-3 col-12">
+                      <div class="form-group">
+                        <label for="itemCost">Response B*</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="responseb"
+                          [(ngModel)]="question.response_b"
+                          name="responseb{{ i }}"
+                          id="responseb{{ i }}"
+                          placeholder="Response B"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="col-md-3 col-12">
+                      <div class="form-group">
+                        <label for="itemCost">Response C*</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="responsec"
+                          [(ngModel)]="question.response_c"
+                          name="responsec{{ i }}"
+                          id="responsec{{ i }}"
+                          placeholder="Response C"
+                        />
+                      </div>
+                    </div>
+
+
+                    <div class="col-md-3 col-12">
+                      <div class="form-group">
+                        <label for="itemCost">Response D*</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="responsed"
+                          [(ngModel)]="question.response_d"
+                          name="responsed{{ i }}"
+                          id="responsed{{ i }}"
+                          placeholder="Response D"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="col-md-6 col-12">
+                      <div class="form-group">
+                        <label for="points{{ i }}">Points *</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          id="points{{ i }}"
+                          name="points{{ i }}"
+                          [(ngModel)]="question.points"
+                          placeholder="Points"
+                        />
+                      </div>
+                    </div>
+                    
+                  
+                    
+                  
+                  
+                    
+               
+                                                            
+
+                    <div class="col-md-2 col-12 mb-50" *ngIf="questions.length>1">
+                      <div class="form-group">
+                        <button
+                          class="btn btn-outline-danger text-nowrap px-1"
+                          (click)="deleteQuestion(i)"
+                          rippleEffect
+                        >
+                          <i data-feather="x" class="mr-25"></i>
+                          <span>Delete</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+              <small *ngIf="errorMsg" class="form-text text-danger">All fields are required!</small>
+
+                  <hr />
+                </div>
+              </form>
+
+              <div class="row">
+                <div class="col-12">
+                  <button
+                    class="btn btn-icon btn-primary"
+                    type="button"
+                    (click)="addQuestion()"
+                    rippleEffect
+                  >
+                    <i data-feather="plus" class="mr-25"></i>
+                    <span>Add New</span>
+                  </button>
+                </div>
+              </div>
+            
+            </div>
+          </div>
+
+          <div class="form-group" *ngIf="event_id == 2">
+            <label class="form-label" for="user-plan"
+              >Duration<span
+                *ngIf="newUserForm.submitted && DurationRef.invalid"
+                class="text-danger"
+                >*</span
+              >
+              <span *ngIf="!newUserForm.submitted || !DurationRef.invalid"
+                >*</span
+              ></label
+            >
+            <input
+              type="text"
+              id="basic-icon-default-duration"
+              class="form-control dt-duration"
+              placeholder=""
+              aria-label=""
+              aria-describedby="basic-icon-default-duration"
+              name="duration"
+              [(ngModel)]="duration"
+              [class.error]="newUserForm.submitted && DurationRef.invalid"
+              #DurationRef="ngModel"
+              required
+            />
+            <span
+              *ngIf="newUserForm.submitted && DurationRef.invalid"
+              class="invalid-form"
+            >
+              <small
+                class="form-text text-danger"
+                *ngIf="DurationRef.errors.required"
+                >This field is required!</small
+              >
+            </span>
+            <span
+            *ngIf="durationMsg"
+            class="invalid-form"
+          >
+            <small
+              class="form-text text-danger"
+            
+              >Duration should more than 0</small
+            >
+          </span>
+          </div>
+
+          
+
+
           <div class="d-flex justify-content-between mt-2">
             <button
               [disabled]="loading"

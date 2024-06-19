@@ -119,9 +119,9 @@
                 </div>
               </div>
               <br/>
-              <div *ngIf="data.event_id==1">
+              <div *ngIf="data.event_id==1 || data.event_id==2">
               <span class="font-weight-bold "><b>Participants: </b></span>
-              <div class="row" *ngIf="data.event_id==1">
+              <div class="row" >
                 <table class="table table-striped table-borderless">
                   <thead >
                   <tr>
@@ -132,7 +132,7 @@
                       Name
                     </th>
                     <th>
-                      Team
+                      Predicted Answer
                     </th>
                     <th>
                       Points
@@ -141,12 +141,12 @@
                   </tr>
                   </thead>
                   <tbody *ngIf="data.participants.length>0">
-                  <tr *ngFor="let game of data.participants;let i=index">
+                  <tr *ngFor="let participant of data.participants;let i=index">
                     <td>{{i+1}}</td>
-                    <td>{{game.user_name}}</td>
-                    <td>{{game.team_name}}</td>
-                    <td><span *ngIf="game.total_points>0">{{game.total_points}} Pts</span>
-                      <span *ngIf="game.total_points==null">0 Pts</span></td>
+                    <td>{{participant.user_name}}</td>
+                    <td>{{participant.predicted_answer }}</td>
+                    <td><span *ngIf="participant.total_points>0">{{participant.total_points}} Pts</span>
+                      <span *ngIf="participant.total_points==null">0 Pts</span></td>
 
                    
                   </tr>

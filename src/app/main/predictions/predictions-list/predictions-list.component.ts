@@ -101,11 +101,12 @@ export class PredictionsListComponent implements OnInit {
     private _router: Router,
     private _route: ActivatedRoute,
   ) {
+    this.apiUrl = environment.apiUrl;
     this._authenticationService.currentUser.subscribe(
       (x) => (this.currentUser = x)
     );
-    console.log("current user", this.currentUser);
-    this.user_image=this.apiUrl+this.currentUser.avatar;
+    console.log("current user", this.currentUser.avatar);
+    this.user_image = this.apiUrl + this.httpService.USERINFO.avatar;
 
     this._unsubscribeAll = new Subject();
 
@@ -575,7 +576,7 @@ export class PredictionsListComponent implements OnInit {
     return formattedDate;
   }
   gotoProfile(){
-    this._router.navigate(["../../pages/profile"]);
+    this._router.navigate(["../../pages/account-settings"]);
   }
 
 }
