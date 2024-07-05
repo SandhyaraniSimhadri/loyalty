@@ -575,6 +575,21 @@
                                     />
                                   </div>
                                 </div>
+
+                                <div class="col-md-6 col-12">
+                                  <div class="form-group">
+                                    <label for="answer{{ i }}">Answer *</label>
+                                    <input
+                                      type="number"
+                                      class="form-control"
+                                      id="answer{{ i }}"
+                                      name="aswer{{ i }}"
+                                      [(ngModel)]="question.correct_answer"
+                                      placeholder="Answer"
+                                    />
+                                  </div>
+                                </div>
+
                                 <div class="col-md-2 col-12 mb-50" *ngIf="currentRow.quizzes.length>1">
                                   <div class="form-group">
                                     <button

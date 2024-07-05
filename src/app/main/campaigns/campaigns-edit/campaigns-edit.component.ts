@@ -72,6 +72,7 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
       response_b: "",
       response_c: "",
       response_d: "",
+      correct_answer:"",
       points: "",
     },
   ];
@@ -98,6 +99,7 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
     response_b: "",
     response_c: "",
     response_d: "",
+    correct_answer:"",
     points: "",
   };
   public eventsData: any;
@@ -176,6 +178,7 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
           response_b: "",
           response_c: "",
           response_d: "",
+          correct_answer:"",
           points: "",
         },
       ];
@@ -242,6 +245,7 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
       response_b: "",
       response_c: "",
       response_d: "",
+      correct_answer:"",
       points: "",
     });
     this.checkFormModified();
@@ -285,6 +289,7 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
             !question.response_b ||
             !question.response_c ||
             !question.response_d ||
+            !question.correct_answer || 
             !question.points
         );
         if (hasEmptyFields) {

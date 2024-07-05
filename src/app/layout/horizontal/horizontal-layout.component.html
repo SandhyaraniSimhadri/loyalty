@@ -3,7 +3,7 @@
 <!--/ NAVBAR -->
 
 <!-- MENU -->
-<ng-container *ngTemplateOutlet="menu"></ng-container>
+<!-- <ng-container *ngTemplateOutlet="menu"></ng-container> -->
 <!--/ MENU -->
 
 <!-- APP-CONTENT -->
@@ -20,7 +20,7 @@
 <ng-container *ngTemplateOutlet="footer"></ng-container>
 <!--/ FOOTER -->
 
-<!-- PARTIALS ---------------------------------------------------------------------------------------- -->
+<!-- PARTIALS -->
 
 <!-- NAVBAR -->
 <ng-template #navbar>
@@ -56,7 +56,6 @@
       class="header-navbar navbar-expand-sm navbar navbar-horizontal navbar-shadow menu-border d-none d-xl-block"
       *ngIf="!coreConfig.layout.menu.hidden"
     ></app-menu>
-    <!-- Vertical overlay menu: Visible below large screen only  -->
     <core-sidebar
       name="menu"
       [collapsed]="coreConfig.layout.menu.collapsed"

@@ -225,7 +225,7 @@
                     <td>{{question.response_c}}</td>
                     <td>{{question.response_d}}</td>
                     <td>{{question.points}}</td>
-                    <td><button *ngIf="question.correct_answer==0"class="btn btn-primary"   (click)="modalsService.modalOpenDanger(modalDanger, question)">Select</button>
+                    <td><span *ngIf="question.correct_answer==0">-</span>
                     <span *ngIf="question.correct_answer!=0">{{question.correct_answer}}</span></td>
                   </tr>
                   </tbody>

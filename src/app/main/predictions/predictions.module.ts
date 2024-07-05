@@ -29,13 +29,11 @@ import { PredictionsNewComponent } from "./predictions-new/predictions-new.compo
 
 // routing
 const routes: Routes = [
+
   {
     path: "predictions",
-    component: PredictionsListComponent,
-    resolve: {
-      uls: UserListService,
-    },
-    data: { animation: "PredictionsListComponent" },
+    component: PredictionsListComponent
+  
   },
   {
     path: "",

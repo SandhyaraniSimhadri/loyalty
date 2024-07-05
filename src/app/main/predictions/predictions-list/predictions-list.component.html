@@ -1,545 +1,511 @@
+<div class="body-cls">
 <div class="loading" *ngIf="loading">
   <div class="effect-1 effects"></div>
   <div class="effect-2 effects"></div>
   <div class="effect-3 effects"></div>
 </div>
+<div class="row" style="margin-right: 0px !important;margin-left: 0px  !important;">
+  <div class="d-none d-lg-flex col-lg-4"></div>
+  <div class="col-lg-4" style="margin-right: 0px !important;">
+    <div>
+      <div class="mt-1" >
+        <!-- Medal Card -->
+        
+          <div class="card">
+            <div class="card-body align-items-center">
+              <div class="text-center">
+                <ng-container *ngIf="currentUser">
+                  <div (click)="gotoProfile()">
+                    <img
+                      *ngIf="currentUser.avatar"
+                      class="round"
+                      [src]="user_image"
+                      alt="avatar"
+                      height="40"
+                      width="40"
+                    />
 
-<div class="content-wrapper container-xxl p-0">
-  <div class="row match-height">
-    <!-- Medal Card -->
-    <div class="col-xl-4 col-md-6 col-12">
-      <div class="card card-congratulation-medal">
-        <div class="card-body align-items-center">
-          <div class="text-center">
-            <ng-container *ngIf="currentUser">
-              <div (click)="gotoProfile()">
-                <img
-                  *ngIf="currentUser.avatar"
-                  class="round"
-                  [src]="user_image"
-                  alt="avatar"
-                  height="80"
-                  width="80"
-                />
-
-                <img
-                  *ngIf="currentUser.avatar == null"
-                  class="round"
-                  src="assets/images/profile/person.png"
-                  alt="avatar"
-                  height="80"
-                  width="80"
-                  style="background-color: white"
-                />
+                    <img
+                      *ngIf="currentUser.avatar == null"
+                      class="round"
+                      src="assets/images/profile/person.png"
+                      alt="avatar"
+                      height="40"
+                      width="40"
+                      style="background-color: white"
+                    />
+                  </div>
+                  <div class="mt-1">
+                    <h3>
+                      <b>{{ currentUser.user_name }}</b>
+                    </h3>
+                  </div>
+                </ng-container>
               </div>
-              <div class="mt-1">
-                <h3>
-                  <b>{{ currentUser.user_name }}</b>
-                </h3>
-              </div>
-            </ng-container>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div
-      class="col-xl-8 col-md-6 col-12"
-      *ngIf="!loading && rows != undefined && campaign_data.games != undefined"
-    >
-      <div class="card earnings-card">
-        <div class="card-body">
-          <!-- Title with line -->
-          <div class="row">
-            <div class="col-12">
-              <h4 class="card-title mb-0" style="color: blue; font-weight: 400">
-                <b>SELECT YOUR WINNER</b>
-              </h4>
-              <hr />
             </div>
           </div>
-          <ngb-carousel  [interval]="1000" [pauseOnHover]="false"
-            *ngIf="
-              campaign_data.games != undefined &&
-              campaign_data.games.length > 0 
-            "
-          >
-            <ng-template ngbSlide *ngFor="let game of campaign_data.games"  >
-              <div class="carousel-img-wrapper pt-2 pl-2 pr-2" style="background-color: rgb(238, 248, 248) !important;color:white !important">
-                <div class="row" style="margin-left: 3px; font-weight: bolder">
-                  <div>
-                    <span style=" color: gray"
-                      *ngIf="
-                        campaign_data.games != undefined &&
-                        campaign_data.games.length > 0
-                      "
-                    >
-                      <span
-                        class="mb-1 "
-                        style="
-                          
-                          margin-bottom: -0px !important;
-                          font-size: 16px;
-                        "
-                      >
-                        <b
-                          >{{ campaign_data.campaign_title }} -
-                          <span
-                            *ngIf="
-                              campaign_data.games != undefined &&
-                              campaign_data.games.length > 0
-                            "
-                            >{{ game.name }}</span
-                          ></b
-                        >
-                      </span>
-                    </span>
-                  </div>
-                </div>
+        </div>
 
-                <div class="row" style="margin-left: 3px; color: gray">
-                  <b>
-                    <span style="font-size: 12px">
-                      Campaign Dates:
-                      {{ campaign_data.start_date }} to
-                      {{ campaign_data.end_date }}</span
-                    >
-                  </b>
-                </div>
-                <div class="row mt-4">
-                  <div
-                    class="col-6 d-flex justify-content-center align-items-center"
+        <div
+          
+          *ngIf="
+            !loading && rows != undefined && campaign_data.games != undefined
+          "
+        >
+          <div class="card earnings-card">
+            <div class="card-body">
+              <!-- Title with line -->
+              <div class="row">
+                <div class="col-12">
+                  <h4
+                    class="card-title mb-0"
+                    style="color: blue; font-weight: 400"
                   >
-                    <div
-                      *ngIf="campaign_data.self.team_name == game.team_a"
-                      style="margin-bottom: 10px"
-                    >
-                      <div class="badge badge-glow badge-success">
-                        Predicted
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="col-6 d-flex justify-content-center align-items-center"
-                  >
-                    <div
-                      *ngIf="campaign_data.self.team_name == game.team_b"
-                      style="margin-bottom: 10px"
-                    >
-                      <div class="badge badge-glow badge-success">
-                        Predicted
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row pb-2" style="margin-bottom: 20px !important;">
-                  <div
-                    class="col-6 d-flex justify-content-center align-items-center"
-                  >
-                    <div
-                      id="earnings-donut-chart"
-                      class="d-flex align-items-center justify-content-center position-relative"
-                      #earningChartRef
-                      style="
-                        width: 120px;
-                        height: 105px;
-                        border-radius: 50%;
-                        overflow: hidden;
-                        cursor: pointer;
-                      "
-                      (click)="
-                        campaign_data.self.team_name == null &&
-                          modalsService.modalOpenDanger(
-                            modalDanger,
-                            game.team_a
-                          )
-                      "
-                    >
-                      <img
-                        *ngIf="game.team_a_image"
-                        [src]="apiUrl + game.team_a_image"
-                        alt="Image"
-                        class="team-image"
-                        style="width: 80%; height: auto"
-                      />
-                      <img
-                        *ngIf="game.team_a_image == null"
-                        src="assets/images/profile/team.png"
-                        alt="Image"
-                        class="team-image"
-                        style="width: 80%; height: auto"
-                      />
-
-                      <apx-chart
-                        [chart]="{
-                          type: 'donut',
-                          width:
-                            isMenuToggled === false
-                              ? earningChartRef.offsetWidth
-                              : teamBChartOptions.chart.width,
-                          height: 120,
-                          toolbar: {
-                            show: false
-                          }
-                        }"
-                        [dataLabels]="teamAChartOptions.dataLabels"
-                        [series]="teamAChartOptions.series"
-                        [legend]="teamAChartOptions.legend"
-                        [labels]="teamAChartOptions.labels"
-                        [stroke]="teamAChartOptions.stroke"
-                        [colors]="teamAChartOptions.colors"
-                        [grid]="teamAChartOptions.grid"
-                        [plotOptions]="teamAChartOptions.plotOptions"
-                      ></apx-chart>
-                    </div>
-                  </div>
-                  <div
-                    class="col-6 d-flex justify-content-center align-items-center"
-                  >
-                    <div
-                      id="earnings-donut-chart"
-                      class="d-flex align-items-center justify-content-center position-relative"
-                      #earningChartRef
-                      style="
-                        width: 120px;
-                        height: 105px;
-                        border-radius: 50%;
-                        overflow: hidden;
-                        cursor: pointer;
-                      "
-                      (click)="
-                        campaign_data.self.team_name == null &&
-                          modalsService.modalOpenDanger(
-                            modalDanger,
-                            game.team_b
-                          )
-                      "
-                    >
-                      <img
-                        *ngIf="game.team_b_image"
-                        [src]="apiUrl + game.team_b_image"
-                        alt="Image"
-                        class="team-image"
-                        style="width: 80%; height: auto"
-                      />
-                      <img
-                        *ngIf="game.team_b_image == null"
-                        src="assets/images/profile/team.png"
-                        alt="Image"
-                        class="team-image"
-                        style="width: 80%; height: auto"
-                      />
-
-                      <apx-chart
-                        [chart]="{
-                          type: 'donut',
-                          width:
-                            isMenuToggled === false
-                              ? earningChartRef.offsetWidth
-                              : teamBChartOptions.chart.width,
-                          height: 120,
-                          toolbar: {
-                            show: false
-                          }
-                        }"
-                        [dataLabels]="teamBChartOptions.dataLabels"
-                        [series]="teamBChartOptions.series"
-                        [legend]="teamBChartOptions.legend"
-                        [labels]="teamBChartOptions.labels"
-                        [stroke]="teamBChartOptions.stroke"
-                        [colors]="teamBChartOptions.colors"
-                        [grid]="teamBChartOptions.grid"
-                        [plotOptions]="teamBChartOptions.plotOptions"
-                      ></apx-chart>
-                    </div>
-                  </div>
+                    <b>SELECT YOUR WINNER</b>
+                  </h4>
+                  <hr />
                 </div>
               </div>
-
-              <div class="carousel-caption mt-2" style="margin-top: 20px !important;"></div>
-            </ng-template>
-
-          
-            
-          </ngb-carousel>
-
-          <!-- <ngb-carousel *ngIf="
-          campaign_data.games != undefined &&
-          campaign_data.games.length > 0
-        "> -->
-
-          <!-- <div *ngFor="let game of campaign_data.games">
-            <ng-template ngbSlide >
-  
-           </ngb-carousel> -->
-
-          <!-- <div class="row" style="margin-left: 3px;font-weight: bolder;">
-           <div>
-              <span
+              <ngb-carousel
+                [interval]="1000"
+                [pauseOnHover]="false"
                 *ngIf="
                   campaign_data.games != undefined &&
                   campaign_data.games.length > 0
                 "
               >
-                <span class="mb-1" style="color: gray; margin-bottom: -0px !important;font-size: 16px;">
-                  <b>{{ campaign_data.campaign_title }} -
-                  <span
-                    *ngIf="
-                      campaign_data.games != undefined &&
-                      campaign_data.games.length > 0
+                <ng-template ngbSlide *ngFor="let game of campaign_data.games">
+                  <div
+                    class="carousel-img-wrapper pt-2 pl-2 pr-2"
+                    style="
+                      background-color: rgb(238, 248, 248) !important;
+                      color: white !important;
                     "
-                    >{{ game.name }}</span
-                  ></b>
-                  </span>
-              </span>
-           </div>
-          </div> -->
-
-          <!-- <div class="row" style="margin-left: 3px;color: gray;" ><b>
-         <span  style="font-size: 12px;">
-            Campaign Dates: 
-              {{ campaign_data.start_date }} to {{ campaign_data.end_date }}</span>
-            </b>  
-          </div> -->
-          <!-- <div class="row mt-4">
-            <div class="col-6 d-flex justify-content-center align-items-center">
-              <div *ngIf="campaign_data.self.team_name==game.team_a" style="margin-bottom: 10px;">
-                <div class="badge badge-glow badge-success">Predicted</div>                
-              </div>
-            </div>
-            <div class="col-6 d-flex justify-content-center align-items-center">
-              <div *ngIf="campaign_data.self.team_name==game.team_b" style="margin-bottom: 10px;">
-                <div class="badge badge-glow badge-success">Predicted</div>      
-              </div>
-            </div>
-          </div> -->
-          <!-- <div class="row" >
-            <div class="col-6 d-flex justify-content-center align-items-center">
-              <div
-                id="earnings-donut-chart"
-                class="d-flex align-items-center justify-content-center position-relative"
-                #earningChartRef
-                style="
-                width: 120px;
-                height: 120px;  
-                  border-radius: 50%;
-                  overflow: hidden;
-                  cursor: pointer;
-                "
-                (click)="campaign_data.self.team_name==null && modalsService.modalOpenDanger(modalDanger, game.team_a)"
-              >
-             
-                <img
-                  *ngIf="game.team_a_image"
-                  [src]="apiUrl + game.team_a_image"
-                  alt="Image"
-                  class="team-image"  style="width: 80%; height: auto;"
-                />
-                <img
-                  *ngIf="game.team_a_image == null"
-                  src="assets/images/profile/team.png"
-                  alt="Image"
-                  class="team-image"  style="width: 80%; height: auto;"
-                />
-          
-                <apx-chart
-                  [chart]="{
-                    type: 'donut',
-                    width:
-                    isMenuToggled === false
-                      ? earningChartRef.offsetWidth
-                      : teamBChartOptions.chart.width,
-                    height: 120,
-                    toolbar: {
-                      show: false
-                    }
-                  }"
-                  [dataLabels]="teamAChartOptions.dataLabels"
-                  [series]="teamAChartOptions.series"
-                  [legend]="teamAChartOptions.legend"
-                  [labels]="teamAChartOptions.labels"
-                  [stroke]="teamAChartOptions.stroke"
-                  [colors]="teamAChartOptions.colors"
-                  [grid]="teamAChartOptions.grid"
-                  [plotOptions]="teamAChartOptions.plotOptions"
-                ></apx-chart>
-              </div>
-            </div>
-            <div class="col-6 d-flex justify-content-center align-items-center">
-              <div
-                id="earnings-donut-chart"
-                class="d-flex align-items-center justify-content-center position-relative"
-                #earningChartRef
-                style="
-                  width: 120px;
-                  height: 120px;
-                  border-radius: 50%;
-                  overflow: hidden;
-                  cursor: pointer;
-                "
-                (click)="campaign_data.self.team_name==null && 
-                  modalsService.modalOpenDanger(
-                    modalDanger,
-                    game.team_b
-                  )
-                "
-              >
-             
-                <img
-                  *ngIf="game.team_b_image"
-                  [src]="apiUrl + game.team_b_image"
-                  alt="Image"
-                  class="team-image" style="width: 80%; height: auto;"
-                />
-                <img
-                  *ngIf="game.team_b_image == null"
-                  src="assets/images/profile/team.png"
-                  alt="Image"
-                  class="team-image" style="width: 80%; height: auto;"
-                />
-          
-                <apx-chart
-                  [chart]="{
-                    type: 'donut',
-                    width:
-                      isMenuToggled === false
-                        ? earningChartRef.offsetWidth
-                        : teamBChartOptions.chart.width,
-                    height: 120,
-                    toolbar: {
-                      show: false
-                    }
-                  }"
-                  [dataLabels]="teamBChartOptions.dataLabels"
-                  [series]="teamBChartOptions.series"
-                  [legend]="teamBChartOptions.legend"
-                  [labels]="teamBChartOptions.labels"
-                  [stroke]="teamBChartOptions.stroke"
-                  [colors]="teamBChartOptions.colors"
-                  [grid]="teamBChartOptions.grid"
-                  [plotOptions]="teamBChartOptions.plotOptions"
-                ></apx-chart>
-              </div>
-            </div>
-          </div> -->
-
-          <style>
-            .team-image {
-              position: absolute;
-              width: 80px;
-              height: 80px;
-              object-fit: cover;
-              border-radius: 50%;
-            }
-          </style>
-
-          <!-- <div class="row" style="margin-top: 5px">
-            <div class="col-6 text-center">
-              {{ game.team_a }}
-            </div>
-            <div class="col-6 text-center">
-              {{ game.team_b }}
-            </div>
-          </div> -->
-        </div>
-      </div>
-    </div>
-    <div
-      class="col-xl-8 col-md-6 col-12 d-flex justify-content-center"
-      *ngIf="!loading && rows.length == 0"
-    >
-      Not yet participated in any Campagin..
-    </div>
-  </div>
-
-  <div class="row match-height" *ngIf="!loading">
-    <!-- Company Table -->
-    <div class="col-12">
-      <div class="card">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-12">
-              <h4
-                class="card-title mb-0"
-                style="
-                  color: #7459dc;
-                  font-weight: 400;
-                  text-transform: uppercase;
-                "
-              >
-                <b>Leaderboard</b>
-              </h4>
-              <hr />
-            </div>
-          </div>
-
-          <div *ngIf="rows != undefined">
-            <div
-              *ngFor="
-                let participant of campaign_data.participants;
-                let i = index
-              "
-            >
-              <div class="row">
-                <div class="col-12">
-                  <div class="row">
-                    <div class="col-2">
-                      <span class="avatar">
-                        <img
-                          *ngIf="participant.avatar"
-                          class="round"
-                          [src]="apiUrl + participant.avatar"
-                          alt="avatar"
-                          height="50"
-                          width="50"
-                        />
-
-                        <img
-                          *ngIf="participant.avatar == null"
-                          class="round"
-                          src="assets/images/profile/person.png"
-                          alt="avatar"
-                          height="50"
-                          width="50"
-                          style="background-color: white"
-                        />
-                      </span>
-                    </div>
-                    <div class="col-8 d-flex align-items-center">
-                      <!-- User name aligned to the center -->
-                      <h4
-                        class="card-title mb-0"
-                        style="font-weight: 400; margin-left: 5px"
-                      >
-                        <b>
-                          <span style="font-size: 14px; font-weight: bolder">
-                            {{ participant.user_name }}
+                  >
+                    <div
+                      class="row"
+                      style="margin-left: 3px; font-weight: bolder"
+                    >
+                      <div>
+                        <span
+                          style="color: gray"
+                          *ngIf="
+                            campaign_data.games != undefined &&
+                            campaign_data.games.length > 0
+                          "
+                        >
+                          <span
+                            class="mb-1"
+                            style="
+                              margin-bottom: -0px !important;
+                              font-size: 16px;
+                            "
+                          >
+                            <b
+                              >{{ campaign_data.campaign_title }} -
+                              <span
+                                *ngIf="
+                                  campaign_data.games != undefined &&
+                                  campaign_data.games.length > 0
+                                "
+                                >{{ game.name }}</span
+                              ></b
+                            >
                           </span>
-                        </b>
-                      </h4>
+                        </span>
+                      </div>
+                    </div>
+
+                    <div class="row" style="margin-left: 3px; color: gray">
+                      <b>
+                        <span style="font-size: 12px">
+                          Campaign Dates:
+                          {{ campaign_data.start_date }} to
+                          {{ campaign_data.end_date }}</span
+                        >
+                      </b>
+                    </div>
+                    <div class="row mt-4">
+                      <div
+                        class="col-6 d-flex justify-content-center align-items-center"
+                      >
+                        <div
+                          *ngIf="campaign_data.self.team_name == game.team_a"
+                          style="margin-bottom: 10px"
+                        >
+                          <div class="badge badge-glow badge-success">
+                            Predicted
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="col-6 d-flex justify-content-center align-items-center"
+                      >
+                        <div
+                          *ngIf="campaign_data.self.team_name == game.team_b"
+                          style="margin-bottom: 10px"
+                        >
+                          <div class="badge badge-glow badge-success">
+                            Predicted
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     <div
-                      class="col-2 d-flex align-items-center justify-content-center"
+                      class="row pb-2"
+                      style="margin-bottom: 20px !important"
                     >
-                      <span *ngIf="participant.total_points > 0">
-                        {{ participant.total_points }} Pts</span
+                      <div
+                        class="col-6 d-flex justify-content-center align-items-center"
                       >
-                      <span *ngIf="participant.total_points == 0"> 0 Pts</span>
+                        <div
+                          id="earnings-donut-chart"
+                          class="d-flex align-items-center justify-content-center position-relative"
+                          #earningChartRef
+                          style="
+                            width: 120px;
+                            height: 105px;
+                            border-radius: 50%;
+                            overflow: hidden;
+                            cursor: pointer;
+                          "
+                          (click)="
+                            campaign_data.self.team_name == null &&
+                              modalsService.modalOpenDanger(
+                                modalDanger,
+                                game
+                              )
+                          "
+                        >
+                          <img
+                            *ngIf="game.team_a_image"
+                            [src]="apiUrl + game.team_a_image"
+                            alt="Image"
+                            class="team-image"
+                            style="width: 80%; height: auto"
+                          />
+                          <img
+                            *ngIf="game.team_a_image == null"
+                            src="assets/images/profile/team.png"
+                            alt="Image"
+                            class="team-image"
+                            style="width: 80%; height: auto"
+                          />
+
+                          <apx-chart
+                            [chart]="{
+                              type: 'donut',
+                              width:
+                                isMenuToggled === false
+                                  ? earningChartRef.offsetWidth
+                                  : teamBChartOptions.chart.width,
+                              height: 120,
+                              toolbar: {
+                                show: false
+                              }
+                            }"
+                            [dataLabels]="teamAChartOptions.dataLabels"
+                            [series]="teamAChartOptions.series"
+                            [legend]="teamAChartOptions.legend"
+                            [labels]="teamAChartOptions.labels"
+                            [stroke]="teamAChartOptions.stroke"
+                            [colors]="teamAChartOptions.colors"
+                            [grid]="teamAChartOptions.grid"
+                            [plotOptions]="teamAChartOptions.plotOptions"
+                          ></apx-chart>
+                        </div>
+                      </div>
+                      <div
+                        class="col-6 d-flex justify-content-center align-items-center"
+                      >
+                        <div
+                          id="earnings-donut-chart"
+                          class="d-flex align-items-center justify-content-center position-relative"
+                          #earningChartRef
+                          style="
+                            width: 120px;
+                            height: 105px;
+                            border-radius: 50%;
+                            overflow: hidden;
+                            cursor: pointer;
+                          "
+                          (click)="
+                            campaign_data.self.team_name == null &&
+                              modalsService.modalOpenDanger(
+                                modalDanger,
+                                game
+                              )
+                          "
+                        >
+                          <img
+                            *ngIf="game.team_b_image"
+                            [src]="apiUrl + game.team_b_image"
+                            alt="Image"
+                            class="team-image"
+                            style="width: 80%; height: auto"
+                          />
+                          <img
+                            *ngIf="game.team_b_image == null"
+                            src="assets/images/profile/team.png"
+                            alt="Image"
+                            class="team-image"
+                            style="width: 80%; height: auto"
+                          />
+
+                          <apx-chart
+                            [chart]="{
+                              type: 'donut',
+                              width:
+                                isMenuToggled === false
+                                  ? earningChartRef.offsetWidth
+                                  : teamBChartOptions.chart.width,
+                              height: 120,
+                              toolbar: {
+                                show: false
+                              }
+                            }"
+                            [dataLabels]="teamBChartOptions.dataLabels"
+                            [series]="teamBChartOptions.series"
+                            [legend]="teamBChartOptions.legend"
+                            [labels]="teamBChartOptions.labels"
+                            [stroke]="teamBChartOptions.stroke"
+                            [colors]="teamBChartOptions.colors"
+                            [grid]="teamBChartOptions.grid"
+                            [plotOptions]="teamBChartOptions.plotOptions"
+                          ></apx-chart>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
+                  <div
+                    class="carousel-caption mt-2"
+                    style="margin-top: 20px !important"
+                  ></div>
+                </ng-template>
+              </ngb-carousel>
+            </div>
+          </div>
+        </div>
+        <div
+         
+          *ngIf="
+            !loading && rows!=undefined && rows.length == 0 && campaign_data.games == undefined
+          "
+        >
+          Not yet participated in any Campagin..
+        </div>
+        <div
+          *ngIf="
+            !loading && rows != undefined && campaign_data.quizzes != undefined && campaign_data.quizzes.length>0
+          "
+        >
+          <div class="card earnings-card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12">
+                  <h4
+                    class="card-title mb-0"
+                    style="color: blue; font-weight: 400"
+                  >
+                    <b>QUIZ QUEST: {{campaign_data.campaign_title}}</b>
+                  </h4>
                   <hr />
+                </div>
+              </div>
+            
+                <div class="row">
+                    <div class="col-12">
+                      <div class="container-new" *ngIf="currentQuestionIndex>=0">
+                        <h5 class="question-text">{{ campaign_data.quizzes[currentQuestionIndex].question }}</h5>
+                        <div class="demo-inline-spacing">
+                          <label
+                            class="custom-radio"
+                            [class.selected]="selectedWinner === campaign_data.quizzes[currentQuestionIndex].response_a"
+                            for="inlineRadio1"
+                          >
+                            <input
+                              class="form-check-input"
+                              type="radio"
+                              name="inlineRadioOptions"
+                              id="inlineRadio1"
+                              [value]="campaign_data.quizzes[currentQuestionIndex].response_a "
+                              [(ngModel)]="selectedWinner"
+                            />
+                            <span>{{ campaign_data.quizzes[currentQuestionIndex].response_a }}</span>
+                          </label>
+                          <label
+                            class="custom-radio"
+                            [class.selected]="selectedWinner === campaign_data.quizzes[currentQuestionIndex].response_b"
+                            for="inlineRadio2"
+                          >
+                            <input
+                              class="form-check-input"
+                              type="radio"
+                              name="inlineRadioOptions"
+                              id="inlineRadio2"
+                              [value]="campaign_data.quizzes[currentQuestionIndex].response_b "
+                              [(ngModel)]="selectedWinner"
+                            />
+                            <span>{{ campaign_data.quizzes[currentQuestionIndex].response_b }}</span>
+                          </label>
+                          <label
+                            class="custom-radio"
+                            [class.selected]="selectedWinner === campaign_data.quizzes[currentQuestionIndex].response_c"
+                            for="inlineRadio3"
+                          >
+                            <input
+                              class="form-check-input"
+                              type="radio"
+                              name="inlineRadioOptions"
+                              id="inlineRadio3"
+                              [value]="campaign_data.quizzes[currentQuestionIndex].response_c"
+                              [(ngModel)]="selectedWinner"
+                            />
+                            <span>{{ campaign_data.quizzes[currentQuestionIndex].response_c }}</span>
+                          </label>
+                          <label
+                            class="custom-radio"
+                            [class.selected]="selectedWinner === campaign_data.quizzes[currentQuestionIndex].response_d"
+                            for="inlineRadio4"
+                          >
+                            <input
+                              class="form-check-input"
+                              type="radio"
+                              name="inlineRadioOptions"
+                              id="inlineRadio4"
+                              [value]="campaign_data.quizzes[currentQuestionIndex].response_d"
+                              [(ngModel)]="selectedWinner"
+                            />
+                            <span>{{ campaign_data.quizzes[currentQuestionIndex].response_d }}</span>
+                          </label>
+                        </div>
+                        <div class="navigation-buttons">
+                          <button *ngIf="currentQuestionIndex!=this.campaign_data.quizzes.length-1"
+                            class="btn btn-primary-predict"
+                            (click)="goToNextQuestion()"
+                            [disabled]="!selectedWinner"
+                          >
+                            Next
+                          </button>
+
+                          <button *ngIf="currentQuestionIndex>=this.campaign_data.quizzes.length-1"
+                            class="btn btn-primary-predict"
+                            (click)="goToNextQuestion()"
+                            [disabled]="!selectedWinner"
+                          >
+                            Submit
+                          </button>
+                        </div>
+                      </div>
+                      
+                      <div *ngIf="currentQuestionIndex==-1 && !submitted" style="display:flex;justify-content: center;">
+                        <button    class="btn btn-primary-predict mb-1 mb-sm-0 mr-0 mr-sm-1"  rippleEffect (click)="goToNextQuestion()">Start</button>
+                      </div>
+                      <div *ngIf="currentQuestionIndex==-1 && submitted" style="display:flex;justify-content: center;">
+                       Submitted
+                      </div>
+                      
+                    </div>
+                
+                </div>
+            
+            </div>
+          </div>
+        </div>
+      
+
+      <div *ngIf="!loading">
+        <!-- Company Table -->
+      
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12">
+                  <h4
+                    class="card-title mb-0"
+                    style="
+                      color: #7459dc;
+                      font-weight: 400;
+                      text-transform: uppercase;
+                    "
+                  >
+                    <b>Leaderboard</b>
+                  </h4>
+                  <hr />
+                </div>
+              </div>
+
+              <div *ngIf="rows != undefined">
+                <div
+                  *ngFor="
+                    let participant of campaign_data.participants;
+                    let i = index
+                  "
+                >
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="row">
+                        <div class="col-2">
+                          <span class="avatar">
+                            <img
+                              *ngIf="participant.avatar"
+                              class="round"
+                              [src]="apiUrl + participant.avatar"
+                              alt="avatar"
+                              height="50"
+                              width="50"
+                            />
+
+                            <img
+                              *ngIf="participant.avatar == null"
+                              class="round"
+                              src="assets/images/profile/person.png"
+                              alt="avatar"
+                              height="50"
+                              width="50"
+                              style="background-color: white"
+                            />
+                          </span>
+                        </div>
+                        <div class="col-8 d-flex align-items-center">
+                          <!-- User name aligned to the center -->
+                          <h4
+                            class="card-title mb-0"
+                            style="font-weight: 400; margin-left: 5px"
+                          >
+                            <b>
+                              <span
+                                style="font-size: 14px; font-weight: bolder"
+                              >
+                                {{ participant.user_name }}
+                              </span>
+                            </b>
+                          </h4>
+                        </div>
+                        <div
+                          class="col-2 d-flex align-items-center justify-content-center"
+                        >
+                          <span *ngIf="participant.total_points > 0">
+                            {{ participant.total_points }} Pts</span
+                          >
+                          <span *ngIf="participant.total_points == 0">
+                            0 Pts</span
+                          >
+                        </div>
+                      </div>
+
+                      <hr />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+       
       </div>
-    </div>
-    <!--/ Company Table -->
-  </div>
 
-  <!-- <div class="row match-height" *ngIf="!loading">
+      <!-- <div class="row match-height" *ngIf="!loading">
   
     <div class="col-12">
       <div class="card">
@@ -581,6 +547,10 @@
     </div>
    
   </div> -->
+    </div>
+  </div>
+  <div class="d-none d-lg-flex col-lg-4"></div>
+</div>
 </div>
 
 <ng-template #modalDanger let-modal>

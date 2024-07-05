@@ -69,6 +69,7 @@ export class CampaignsNewComponent implements OnInit {
       response_b: "",
       response_c: "",
       response_d: "",
+      answer:"",
       points: "",
     },
   ];
@@ -92,6 +93,7 @@ export class CampaignsNewComponent implements OnInit {
     response_b: "",
     response_c: "",
     response_d: "",
+    answer:"",
     points: "",
   };
   public companyData: any;
@@ -162,6 +164,7 @@ export class CampaignsNewComponent implements OnInit {
       response_b: "",
       response_c: "",
       response_d: "",
+      answer:"",
       points: "",
     });
   }
@@ -202,6 +205,7 @@ export class CampaignsNewComponent implements OnInit {
           !question.response_b ||
           !question.response_c ||
           !question.response_d ||
+          !question.answer || 
           !question.points
       );
       if (hasEmptyFields) {

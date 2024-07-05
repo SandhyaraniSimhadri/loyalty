@@ -76,3 +76,173 @@
 .carousel-control-prev-icon, .carousel-control-next-icon {
   color: red !important;
 }
+.team-image {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+@import '@core/scss/base/bootstrap-extended/include'; // Bootstrap includes
+@import '@core/scss/base/pages/page-auth.scss';
+@import '@core/scss/angular/libs/toastr.component.scss';
+@import '@core/scss/angular/libs/datatables.component.scss';
+@import '@core/scss/base/pages/app-user.scss';
+@import '@core/scss/angular/libs/select.component.scss';
+
+.auth-help-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.signin-title{
+  font-weight: 200;
+}
+.login-container {
+  background-color: white;
+  padding: 10px; /* Adjust the padding as needed */
+  // border-radius:10px;
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+}
+
+.btn-login{
+
+    background: linear-gradient(to right, rgba(103,177,248,1), #7459dc);
+  
+  color: #fff !important;
+  padding-left:30px;
+  padding-right: 30px;
+  width: 100%;
+}
+.register{
+  color:#9B02FE;
+}
+.font-cls{
+  font-size: 12px;
+}
+
+.img-fluid{
+ 
+  padding: 0px !important;
+}
+.img-class{
+  padding: 0px !important;
+
+}
+input{
+  width:85% !important;
+  border:none;
+  background-color: transparent;
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
+}
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none !important;
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
+
+}
+
+.fa-user-circle-o{
+  color: gray;
+}
+.icon-cls{
+  margin-top:4px !important;
+  color:#9B02FE;
+}
+.input-group{
+  border: 0px solid black;
+  border-bottom: 1px #98c6f1 solid;
+  padding: 10px;
+  padding-top: 30px !important;
+  box-shadow: none !important;
+
+}
+.avatar{
+  background-color: white !important;
+}
+// #0d00ff
+// #9b02fe
+.image-container {
+  max-width: 100%;
+  height: auto;
+}
+
+.dynamic-image {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain; /* Adjust the object-fit property as needed (e.g., contain, cover) */
+}
+.body-cls{
+  // display:flex;
+  // flex:1;
+ 
+    background: linear-gradient(to right, rgba(103,177,248,1), #7459dc);
+  
+  
+}
+.demo-inline-spacing {
+  display: flex;
+  flex-direction: column;
+}
+.form-check {
+  margin-bottom: 10px; /* Adjust spacing between elements if needed */
+}
+.form-check-input {
+  margin-right: 10px; /* Adjust this value to align the text with the radio button */
+}
+/* Ensure the labels and radio buttons are vertically aligned */
+.custom-radio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  // margin-bottom: 5px;
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  cursor: pointer;
+  color:#8b99ae;
+  width: 100% !important;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Hide the actual radio button */
+.custom-radio .form-check-input {
+  display: none;
+}
+
+/* Style for the question text */
+.question-text {
+  margin-bottom: 20px;
+  color:#8b99ae;
+  font-weight: bold;
+}
+
+/* Ensure the entire container has a nice background */
+.container-new {
+  background-color:white;
+  padding: 20px;
+  border-radius: 10px;
+}
+.btn-primary-predict{
+  color:white;
+  font-weight: bold;
+  text-transform: uppercase;
+  background: linear-gradient(to right, rgba(103,177,248,1), #7459dc);
+}
+/* Style for the selected option */
+.custom-radio.selected {
+  background-color: rgba(223,216,247,255);
+  font-weight: bold;
+  // border: 2px solid #ffffff;
+}
+.navigation-buttons {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
