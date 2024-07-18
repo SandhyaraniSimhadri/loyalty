@@ -315,6 +315,7 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
       formData.append("event_id", this.currentRow.event_id);
       formData.append("company_id", this.currentRow.company_id);
       formData.append("duration", this.currentRow.duration);
+      formData.append("calculatePoints", String(this.currentRow.calc_points_immediately));
 
       if(this.currentRow.event_id==1){
         const gamesDataWithoutFiles = this.currentRow.games.map((game) => {
@@ -426,6 +427,9 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
             this.currentRow = this.modalsService.replaceNullsWithEmptyStrings(
               res.data[0]
             );
+            if(this.currentRow.calc_points_immediately=="false"){
+              this.currentRow.calc_points_immediately=false;
+            }
             this.originalFormValues = { ...this.currentRow };
 
             if (this.currentRow.avatar) {

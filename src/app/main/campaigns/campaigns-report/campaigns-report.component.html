@@ -132,7 +132,7 @@
                       Name
                     </th>
                     <th>
-                      Predicted Answer
+                      Predicted Answers
                     </th>
                     <th>
                       Points
@@ -144,9 +144,9 @@
                   <tr *ngFor="let participant of data.participants;let i=index">
                     <td>{{i+1}}</td>
                     <td>{{participant.user_name}}</td>
-                    <td>{{participant.predicted_answer }}</td>
+                    <td>{{participant.predicted_answers }}</td>
                     <td><span *ngIf="participant.total_points>0">{{participant.total_points}} Pts</span>
-                      <span *ngIf="participant.total_points==null">0 Pts</span></td>
+                      <span *ngIf="participant.total_points==null || participant.total_points=='0'">0 Pts</span></td>
 
                    
                   </tr>

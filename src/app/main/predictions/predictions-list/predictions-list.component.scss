@@ -215,14 +215,29 @@ button:focus {
 .custom-radio .form-check-input {
   display: none;
 }
-
+.dropdown-menu {
+  padding: 0.5rem 0;
+}
+.dropdown-menu-right{
+  right:0 !important;
+  left:auto !important;
+}
+.dropdown-item {
+  padding: 0.5rem 1rem;
+}
 /* Style for the question text */
 .question-text {
   margin-bottom: 20px;
   color:#8b99ae;
   font-weight: bold;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+ 
 }
-
+.question-text::first-letter {
+  text-transform: uppercase;
+}
 /* Ensure the entire container has a nice background */
 .container-new {
   background-color:white;

@@ -103,15 +103,12 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
    */
   ngOnInit() {
     this.apiUrl = environment.apiUrl;
-    this._accountSettingsService.onSettingsChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
-      this.data = response;
-      this.avatarImage = this.data.accountSetting.general.avatar;
-    });
+   
     this.user_info = this.httpService.USERINFO;
     if (this.user_info.avatar) {
       this.avatarImage = this.apiUrl + this.user_info.avatar;
     }
-   
+    console.log("avatar image",this.avatarImage);
     console.log("user info",this.user_info);
     // content header
     this.contentHeader = {

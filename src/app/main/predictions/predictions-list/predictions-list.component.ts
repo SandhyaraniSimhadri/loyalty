@@ -68,6 +68,10 @@ export class PredictionsListComponent implements OnInit {
   public colors: any;
   public campaign_id: any = 0;
   public answers: string[] = [];
+  public startTime:any;
+  timer: any;
+  remainingTime: number; // remaining time in milliseconds
+  interval: any; // interval for updating the remaining time
 
   // Decorator
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -508,12 +512,14 @@ export class PredictionsListComponent implements OnInit {
             if(res.data &&
               this.campaign_data.quizzes != undefined &&
               this.campaign_data.quizzes.length > 0){
+
               this.submitted = this.campaign_data.quizzes.every((quiz) =>
                 this.campaign_data.self.some(
                   (answer) => answer.game_id === quiz.id
                 )
               );
-
+              this.campaign_data.duration=this.campaign_data.duration*60*1000;
+              this.remainingTime = this.campaign_data.duration;
               console.log(this.submitted);
             }
           }
@@ -598,7 +604,7 @@ export class PredictionsListComponent implements OnInit {
     this._router.navigate(["../../pages/account-settings"]);
   }
   goToNextQuestion() {
-    console.log("next question clicked");
+    console.log("next question clicked",this.currentQuestionIndex);
     if (this.selectedWinner) {
       this.answers[this.currentQuestionIndex] = this.selectedWinner;
       this.selectedWinner = null;
@@ -606,20 +612,35 @@ export class PredictionsListComponent implements OnInit {
         console.log("current index", this.currentQuestionIndex);
         this.currentQuestionIndex++;
       } else {
-        console.log("submit");
-        this._toastrService.success("Quiz Completed", "Success", {
-          toastClass: "toast ngx-toastr",
-          closeButton: true,
-        });
+        
+       
         this.goToSubmit();
+
       }
     } else {
       if (this.currentQuestionIndex == -1) {
+        this.startTime = Date.now();
         this.currentQuestionIndex = 0;
+        this.remainingTime = this.campaign_data.duration;
+        this.updateRemainingTime();
+        this.interval = setInterval(() => {
+          this.updateRemainingTime();
+        }, 1000);
+        // this.timer = setTimeout(() => {
+        //   this.goToSubmit();
+        // }, this.campaign_data.duration);
       }
     }
   }
+  updateRemainingTime(): void {
+    this.remainingTime -= 1000;
+    if (this.remainingTime <= 0) {
+      this.goToSubmit();
+    }
+  }
   goToSubmit() {
+    console.log("submittttt");
+    var time_taken=this.formatTime(this.campaign_data.duration-this.remainingTime);
     this.loading = true;
     var type = 0;
     if (
@@ -641,6 +662,10 @@ export class PredictionsListComponent implements OnInit {
         games: this.campaign_data.games,
         quizzes: this.campaign_data.quizzes,
         type: type,
+        time_taken:time_taken,
+        duration:this.formatTime(this.campaign_data.duration),
+        points_calc:this.campaign_data.calc_points_immediately,
+
       },
       action_url: "add_prediction_winner",
       method: "POST",
@@ -659,6 +684,14 @@ export class PredictionsListComponent implements OnInit {
               toastClass: "toast ngx-toastr",
               closeButton: true,
             });
+            this.submitted=true;
+            this.currentQuestionIndex=-1;
+            if (this.interval) {
+              clearInterval(this.interval);
+            }
+            // if (this.timer) {
+            //   clearTimeout(this.timer);
+            // }
             this.modalService.dismissAll();
             this.getPredictions();
           }
@@ -669,5 +702,20 @@ export class PredictionsListComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
+  formatTime(ms: number): string {
+    const totalSeconds = Math.floor(ms / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  }
+  editProfile(){
+    this._router.navigate(["../../pages/account-settings"]);
+
+
+  }
+  logout(){
+    console.log("logout");
+    this._authenticationService.logout();
   }
 }

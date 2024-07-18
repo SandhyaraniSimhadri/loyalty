@@ -119,6 +119,11 @@ export class AuthenticationService {
     setTimeout(() => {
       window.location.href="/";
   }, 500);
+  this._toastrService.success("Thank you", "Success", {
+    toastClass: "toast ngx-toastr",
+    closeButton: true,
+  });
+
   }
    clearAllCookies() {
     document.cookie.split(";").forEach(cookie => {

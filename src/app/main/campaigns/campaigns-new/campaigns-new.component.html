@@ -382,7 +382,63 @@
                 </pre> -->
             </div>
           </div>
-
+          <div class="form-group" *ngIf="event_id == 2">
+            <label class="form-label" for="user-plan"
+              >Duration<span
+                *ngIf="newUserForm.submitted && DurationRef.invalid"
+                class="text-danger"
+                >*</span
+              >
+              <span *ngIf="!newUserForm.submitted || !DurationRef.invalid"
+                >*</span
+              ></label
+            >
+            <input
+              type="text"
+              id="basic-icon-default-duration"
+              class="form-control dt-duration"
+              placeholder=""
+              aria-label=""
+              aria-describedby="basic-icon-default-duration"
+              name="duration"
+              [(ngModel)]="duration"
+              [class.error]="newUserForm.submitted && DurationRef.invalid"
+              #DurationRef="ngModel"
+              required
+            />
+            <span
+              *ngIf="newUserForm.submitted && DurationRef.invalid"
+              class="invalid-form"
+            >
+              <small
+                class="form-text text-danger"
+                *ngIf="DurationRef.errors.required"
+                >This field is required!</small
+              >
+            </span>
+            <span
+            *ngIf="durationMsg"
+            class="invalid-form"
+          >
+            <small
+              class="form-text text-danger"
+            
+              >Duration should more than 0</small
+            >
+          </span>
+          <div class="form-check mt-1">
+            <input
+                type="checkbox"
+                class="form-check-input"
+                id="calculatePointsCheckbox"
+                [(ngModel)]="calculatePoints"
+                name="calculatePoints"
+            />
+            <label class="form-check-label" for="calculatePointsCheckbox">
+                Calculate points instantly
+            </label>
+        </div>
+          </div>
           <div class="form-group" *ngIf="event_id == 2">
             <div class="card-body">
               <form action="#" class="invoice-repeater">
@@ -535,51 +591,7 @@
             </div>
           </div>
 
-          <div class="form-group" *ngIf="event_id == 2">
-            <label class="form-label" for="user-plan"
-              >Duration<span
-                *ngIf="newUserForm.submitted && DurationRef.invalid"
-                class="text-danger"
-                >*</span
-              >
-              <span *ngIf="!newUserForm.submitted || !DurationRef.invalid"
-                >*</span
-              ></label
-            >
-            <input
-              type="text"
-              id="basic-icon-default-duration"
-              class="form-control dt-duration"
-              placeholder=""
-              aria-label=""
-              aria-describedby="basic-icon-default-duration"
-              name="duration"
-              [(ngModel)]="duration"
-              [class.error]="newUserForm.submitted && DurationRef.invalid"
-              #DurationRef="ngModel"
-              required
-            />
-            <span
-              *ngIf="newUserForm.submitted && DurationRef.invalid"
-              class="invalid-form"
-            >
-              <small
-                class="form-text text-danger"
-                *ngIf="DurationRef.errors.required"
-                >This field is required!</small
-              >
-            </span>
-            <span
-            *ngIf="durationMsg"
-            class="invalid-form"
-          >
-            <small
-              class="form-text text-danger"
-            
-              >Duration should more than 0</small
-            >
-          </span>
-          </div>
+        
 
           
 

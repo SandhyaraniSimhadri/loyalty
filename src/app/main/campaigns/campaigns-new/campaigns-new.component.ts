@@ -44,6 +44,7 @@ export class CampaignsNewComponent implements OnInit {
   public durationMsg: any = false;
 
   public duration: any = 0;
+  public calculatePoints: boolean = false;
 
   public games = [
     {
@@ -230,6 +231,7 @@ export class CampaignsNewComponent implements OnInit {
     formData.append("event_id", this.event_id);
     formData.append("company_id", this.company_id);
     formData.append("duration", this.duration);
+    formData.append("calculatePoints",this.calculatePoints.toString());
 
     if(this.event_id==1){
     const gamesDataWithoutFiles = this.games.map((game) => {

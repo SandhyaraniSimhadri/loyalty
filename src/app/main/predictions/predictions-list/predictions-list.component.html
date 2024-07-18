@@ -1,18 +1,36 @@
 <div class="body-cls">
-<div class="loading" *ngIf="loading">
-  <div class="effect-1 effects"></div>
-  <div class="effect-2 effects"></div>
-  <div class="effect-3 effects"></div>
-</div>
-<div class="row" style="margin-right: 0px !important;margin-left: 0px  !important;">
-  <div class="d-none d-lg-flex col-lg-4"></div>
-  <div class="col-lg-4" style="margin-right: 0px !important;">
-    <div>
-      <div class="mt-1" >
-        <!-- Medal Card -->
-        
+  <div class="loading" *ngIf="loading">
+    <div class="effect-1 effects"></div>
+    <div class="effect-2 effects"></div>
+    <div class="effect-3 effects"></div>
+  </div>
+  <div
+    class="row"
+    style="margin-right: 0px !important; margin-left: 0px !important"
+  >
+    <div class="d-none d-lg-flex col-lg-4"></div>
+    <div class="col-lg-4" style="margin-right: 0px !important">
+      <div>
+        <div class="mt-1">
+          <!-- Medal Card -->
           <div class="card">
-            <div class="card-body align-items-center">
+            <div class="card-body position-relative">
+              <!-- Three Dots Menu -->
+              <div class="dropdown" style="position: absolute; right: 16px; top: 16px;" ngbDropdown>
+                <button
+                  class="btn btn-link p-0 border-0"
+                  type="button"
+                  id="dropdownMenuButton"
+                  ngbDropdownToggle
+                  aria-expanded="false"
+                >
+                  <i data-feather="more-vertical" style="color:black"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                  <li><a class="dropdown-item" (click)="editProfile()">Edit</a></li>
+                  <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
+                </ul>
+              </div>
               <div class="text-center">
                 <ng-container *ngIf="currentUser">
                   <div (click)="gotoProfile()">
@@ -24,7 +42,6 @@
                       height="40"
                       width="40"
                     />
-
                     <img
                       *ngIf="currentUser.avatar == null"
                       class="round"
@@ -45,9 +62,11 @@
             </div>
           </div>
         </div>
+        
+        
+        
 
         <div
-          
           *ngIf="
             !loading && rows != undefined && campaign_data.games != undefined
           "
@@ -171,10 +190,7 @@
                           "
                           (click)="
                             campaign_data.self.team_name == null &&
-                              modalsService.modalOpenDanger(
-                                modalDanger,
-                                game
-                              )
+                              modalsService.modalOpenDanger(modalDanger, game)
                           "
                         >
                           <img
@@ -231,10 +247,7 @@
                           "
                           (click)="
                             campaign_data.self.team_name == null &&
-                              modalsService.modalOpenDanger(
-                                modalDanger,
-                                game
-                              )
+                              modalsService.modalOpenDanger(modalDanger, game)
                           "
                         >
                           <img
@@ -288,16 +301,21 @@
           </div>
         </div>
         <div
-         
           *ngIf="
-            !loading && rows!=undefined && rows.length == 0 && campaign_data.games == undefined
+            !loading &&
+            rows != undefined &&
+            rows.length == 0 &&
+            campaign_data.games == undefined
           "
         >
           Not yet participated in any Campagin..
         </div>
         <div
           *ngIf="
-            !loading && rows != undefined && campaign_data.quizzes != undefined && campaign_data.quizzes.length>0
+            !loading &&
+            rows != undefined &&
+            campaign_data.quizzes != undefined &&
+            campaign_data.quizzes.length > 0
           "
         >
           <div class="card earnings-card">
@@ -308,116 +326,186 @@
                     class="card-title mb-0"
                     style="color: blue; font-weight: 400"
                   >
-                    <b>QUIZ QUEST: {{campaign_data.campaign_title}}</b>
+                    <b>{{ campaign_data.campaign_title }}</b>
                   </h4>
-                  <hr />
+                </div>
+                <div class="col-12" *ngIf="currentQuestionIndex == -1">
+                  <span>  <img src="assets/images/logo/time.jpg" alt="Time" width="30px" height="30px"/> Time available: {{ formatTime(remainingTime) }}</span>
+                </div>
+                <div
+                  class="col-12"
+                  *ngIf="remainingTime && currentQuestionIndex >= 0"
+                >
+                  Time Remaining: {{ formatTime(remainingTime) }}
                 </div>
               </div>
-            
-                <div class="row">
-                    <div class="col-12">
-                      <div class="container-new" *ngIf="currentQuestionIndex>=0">
-                        <h5 class="question-text">{{ campaign_data.quizzes[currentQuestionIndex].question }}</h5>
-                        <div class="demo-inline-spacing">
-                          <label
-                            class="custom-radio"
-                            [class.selected]="selectedWinner === campaign_data.quizzes[currentQuestionIndex].response_a"
-                            for="inlineRadio1"
-                          >
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="inlineRadioOptions"
-                              id="inlineRadio1"
-                              [value]="campaign_data.quizzes[currentQuestionIndex].response_a "
-                              [(ngModel)]="selectedWinner"
-                            />
-                            <span>{{ campaign_data.quizzes[currentQuestionIndex].response_a }}</span>
-                          </label>
-                          <label
-                            class="custom-radio"
-                            [class.selected]="selectedWinner === campaign_data.quizzes[currentQuestionIndex].response_b"
-                            for="inlineRadio2"
-                          >
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="inlineRadioOptions"
-                              id="inlineRadio2"
-                              [value]="campaign_data.quizzes[currentQuestionIndex].response_b "
-                              [(ngModel)]="selectedWinner"
-                            />
-                            <span>{{ campaign_data.quizzes[currentQuestionIndex].response_b }}</span>
-                          </label>
-                          <label
-                            class="custom-radio"
-                            [class.selected]="selectedWinner === campaign_data.quizzes[currentQuestionIndex].response_c"
-                            for="inlineRadio3"
-                          >
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="inlineRadioOptions"
-                              id="inlineRadio3"
-                              [value]="campaign_data.quizzes[currentQuestionIndex].response_c"
-                              [(ngModel)]="selectedWinner"
-                            />
-                            <span>{{ campaign_data.quizzes[currentQuestionIndex].response_c }}</span>
-                          </label>
-                          <label
-                            class="custom-radio"
-                            [class.selected]="selectedWinner === campaign_data.quizzes[currentQuestionIndex].response_d"
-                            for="inlineRadio4"
-                          >
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="inlineRadioOptions"
-                              id="inlineRadio4"
-                              [value]="campaign_data.quizzes[currentQuestionIndex].response_d"
-                              [(ngModel)]="selectedWinner"
-                            />
-                            <span>{{ campaign_data.quizzes[currentQuestionIndex].response_d }}</span>
-                          </label>
-                        </div>
-                        <div class="navigation-buttons">
-                          <button *ngIf="currentQuestionIndex!=this.campaign_data.quizzes.length-1"
-                            class="btn btn-primary-predict"
-                            (click)="goToNextQuestion()"
-                            [disabled]="!selectedWinner"
-                          >
-                            Next
-                          </button>
-
-                          <button *ngIf="currentQuestionIndex>=this.campaign_data.quizzes.length-1"
-                            class="btn btn-primary-predict"
-                            (click)="goToNextQuestion()"
-                            [disabled]="!selectedWinner"
-                          >
-                            Submit
-                          </button>
-                        </div>
-                      </div>
-                      
-                      <div *ngIf="currentQuestionIndex==-1 && !submitted" style="display:flex;justify-content: center;">
-                        <button    class="btn btn-primary-predict mb-1 mb-sm-0 mr-0 mr-sm-1"  rippleEffect (click)="goToNextQuestion()">Start</button>
-                      </div>
-                      <div *ngIf="currentQuestionIndex==-1 && submitted" style="display:flex;justify-content: center;">
-                       Submitted
-                      </div>
-                      
+              <hr />
+              <div class="row">
+                <div class="col-12">
+                  <div class="container-new" *ngIf="currentQuestionIndex >= 0">
+                    <!-- <div *ngIf="remainingTime">
+                          Time Remaining: {{ formatTime(remainingTime) }}
+                        </div> -->
+                    <h5 class="question-text">
+                      {{ campaign_data.quizzes[currentQuestionIndex].question }}
+                    </h5>
+                    <div class="demo-inline-spacing">
+                      <label
+                        class="custom-radio"
+                        [class.selected]="
+                          selectedWinner ===
+                          campaign_data.quizzes[currentQuestionIndex].response_a
+                        "
+                        for="inlineRadio1"
+                      >
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="inlineRadioOptions"
+                          id="inlineRadio1"
+                          [value]="
+                            campaign_data.quizzes[currentQuestionIndex]
+                              .response_a
+                          "
+                          [(ngModel)]="selectedWinner"
+                        />
+                        <span>{{
+                          campaign_data.quizzes[currentQuestionIndex].response_a
+                        }}</span>
+                      </label>
+                      <label
+                        class="custom-radio"
+                        [class.selected]="
+                          selectedWinner ===
+                          campaign_data.quizzes[currentQuestionIndex].response_b
+                        "
+                        for="inlineRadio2"
+                      >
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="inlineRadioOptions"
+                          id="inlineRadio2"
+                          [value]="
+                            campaign_data.quizzes[currentQuestionIndex]
+                              .response_b
+                          "
+                          [(ngModel)]="selectedWinner"
+                        />
+                        <span>{{
+                          campaign_data.quizzes[currentQuestionIndex].response_b
+                        }}</span>
+                      </label>
+                      <label
+                        class="custom-radio"
+                        [class.selected]="
+                          selectedWinner ===
+                          campaign_data.quizzes[currentQuestionIndex].response_c
+                        "
+                        for="inlineRadio3"
+                      >
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="inlineRadioOptions"
+                          id="inlineRadio3"
+                          [value]="
+                            campaign_data.quizzes[currentQuestionIndex]
+                              .response_c
+                          "
+                          [(ngModel)]="selectedWinner"
+                        />
+                        <span>{{
+                          campaign_data.quizzes[currentQuestionIndex].response_c
+                        }}</span>
+                      </label>
+                      <label
+                        class="custom-radio"
+                        [class.selected]="
+                          selectedWinner ===
+                          campaign_data.quizzes[currentQuestionIndex].response_d
+                        "
+                        for="inlineRadio4"
+                      >
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="inlineRadioOptions"
+                          id="inlineRadio4"
+                          [value]="
+                            campaign_data.quizzes[currentQuestionIndex]
+                              .response_d
+                          "
+                          [(ngModel)]="selectedWinner"
+                        />
+                        <span>{{
+                          campaign_data.quizzes[currentQuestionIndex].response_d
+                        }}</span>
+                      </label>
                     </div>
-                
+                    <div class="navigation-buttons">
+                      <button
+                        *ngIf="
+                          currentQuestionIndex !=
+                          this.campaign_data.quizzes.length - 1
+                        "
+                        class="btn btn-primary-predict"
+                        (click)="goToNextQuestion()"
+                        [disabled]="!selectedWinner"
+                      >
+                        Next
+                      </button>
+
+                      <button
+                        *ngIf="
+                          currentQuestionIndex >=
+                          this.campaign_data.quizzes.length - 1
+                        "
+                        class="btn btn-primary-predict"
+                        (click)="goToNextQuestion()"
+                        [disabled]="!selectedWinner"
+                      >
+                        Submit
+                      </button>
+                    </div>
+                    <div class="row navigation-buttons float-right">
+                      <div class="col-12">
+                        {{ currentQuestionIndex + 1 }}/{{
+                          campaign_data.quizzes.length
+                        }}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    *ngIf="currentQuestionIndex == -1 && !submitted"
+                    style="display: flex; justify-content: center"
+                  >
+                    <button
+                      class="btn btn-primary-predict mb-1 mb-sm-0 mr-0 mr-sm-1"
+                      rippleEffect
+                      (click)="goToNextQuestion()"
+                    >
+                      Start
+                    </button>
+                  </div>
+                  <div
+                    *ngIf="currentQuestionIndex == -1 && submitted"
+                    style="display: flex; justify-content: center"
+                  >
+                    Submitted
+                    <br />
+                    Time Taken:{{ campaign_data.time_taken }}
+                  </div>
                 </div>
-            
+              </div>
             </div>
           </div>
         </div>
-      
 
-      <div *ngIf="!loading">
-        <!-- Company Table -->
-      
+        <div *ngIf="!loading">
+          <!-- Company Table -->
+
           <div class="card">
             <div class="card-body">
               <div class="row">
@@ -502,10 +590,9 @@
               </div>
             </div>
           </div>
-       
-      </div>
+        </div>
 
-      <!-- <div class="row match-height" *ngIf="!loading">
+        <!-- <div class="row match-height" *ngIf="!loading">
   
     <div class="col-12">
       <div class="card">
@@ -547,10 +634,10 @@
     </div>
    
   </div> -->
+      </div>
     </div>
+    <div class="d-none d-lg-flex col-lg-4"></div>
   </div>
-  <div class="d-none d-lg-flex col-lg-4"></div>
-</div>
 </div>
 
 <ng-template #modalDanger let-modal>

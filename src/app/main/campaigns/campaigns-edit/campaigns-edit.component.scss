@@ -2,3 +2,12 @@
 @import '@core/scss/angular/libs/select.component.scss';
 @import '@core/scss/base/pages/app-user.scss';
 @import '@core/scss/angular/libs/toastr.component.scss';
+.card-body {
+    position: relative;
+  }
+  
+  .dropdown.position-absolute {
+    top: 10px; /* Adjust as needed */
+    right: 100px; /* Adjust as needed */
+  }
+  
