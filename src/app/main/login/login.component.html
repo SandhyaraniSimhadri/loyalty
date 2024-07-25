@@ -149,7 +149,21 @@
             </div>
            
             <br />
-           
+           <div class="container-fluid py-3">
+
+
+  
+    <div >
+      <div>
+        <re-captcha id="recaptcha"   (resolved)="onCaptchaResolved($event)" name="recaptcha" #recaptcha="ngModel" [(ngModel)]="token" required [class.is-invalid]="recaptcha.invalid && (recaptcha.dirty || recaptcha.touched)"></re-captcha>
+        <div *ngIf="recaptcha.invalid && (recaptcha.dirty || recaptcha.touched)" class="invalid-feedback">
+          <div *ngIf="recaptcha.errors?.['required']">This field is required.</div>
+        </div>
+      </div>
+    </div>
+  
+
+</div>
             <button 
               [disabled]="loading"
               class="btn btn-primary btn-login"

@@ -490,37 +490,45 @@
                     </button>
                   </div>
                   <div
-                    *ngIf="currentQuestionIndex == -1 && submitted"
-                    style="display: flex; justify-content: center"
-                  >
-                    Submitted
+                  *ngIf="currentQuestionIndex == -1 && submitted"
+                  class="submission-container"
+                >
+                  <div class="submission-text">
+                    <b>Submitted</b>
                     <br />
-                    Time Taken:{{ campaign_data.time_taken }}
+                    <b>Time Taken: {{ campaign_data.time_taken }}</b>
                   </div>
+                </div>
+                
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div *ngIf="!loading">
+        <div *ngIf="!loading && !refresh_loading"  #scrollableDiv (scroll)="onScroll($event)" class="scrollable-container">
           <!-- Company Table -->
 
           <div class="card">
             <div class="card-body">
               <div class="row">
                 <div class="col-12">
-                  <h4
-                    class="card-title mb-0"
-                    style="
-                      color: #7459dc;
-                      font-weight: 400;
-                      text-transform: uppercase;
-                    "
-                  >
+                  <div class="leaderboard-header">
+                    <h4
+                      class="card-title mb-0"
+                      style="
+                        color: #7459dc;
+                        font-weight: 400;
+                        text-transform: uppercase;
+                      "
+                    >
                     <b>Leaderboard</b>
                   </h4>
-                  <hr />
+                  <button (click)="getParticipantsInfo()"  class="refresh-button"><i data-feather="refresh-cw" ></i></button>
+
+                </div>
+                <hr />
+                
                 </div>
               </div>
 
@@ -592,6 +600,11 @@
           </div>
         </div>
 
+ 
+  <div class="loader-container"  *ngIf="refresh_loading">
+    <div class="spinner"></div>
+  </div>
+ 
         <!-- <div class="row match-height" *ngIf="!loading">
   
     <div class="col-12">

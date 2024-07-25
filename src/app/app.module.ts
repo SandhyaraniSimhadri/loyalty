@@ -39,7 +39,7 @@ import { CoreTouchspinModule } from "@core/components/core-touchspin/core-touchs
 import { LoginComponent } from "./main/login/login.component";
 import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { RECAPTCHA_SETTINGS, RecaptchaFormsModule, RecaptchaModule, RecaptchaSettings } from 'ng-recaptcha';
 import {
   SocialLoginModule,
   SocialAuthServiceConfig,
@@ -48,6 +48,7 @@ import {
   GoogleSigninButtonDirective,
   GoogleSigninButtonModule,
 } from '@abacritt/angularx-social-login';
+import { environment } from "environments/environment";
 
 const appRoutes: Routes = [
 
@@ -214,9 +215,17 @@ const appRoutes: Routes = [
     ContentHeaderModule,
     SocialLoginModule,
     GoogleSigninButtonModule,
+    RecaptchaModule,
+    RecaptchaFormsModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
   providers: [
+    {
+      provide: RECAPTCHA_SETTINGS,
+      useValue: {
+        siteKey: environment.recaptcha.siteKey,
+      } as RecaptchaSettings,
+    },
     // NgbNavModule,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

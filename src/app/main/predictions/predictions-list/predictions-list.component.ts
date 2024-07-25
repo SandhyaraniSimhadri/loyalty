@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
+import { Component, ElementRef, HostListener, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import { ColumnMode, DatatableComponent } from "@swimlane/ngx-datatable";
 
 import { Subject } from "rxjs";
@@ -57,6 +57,8 @@ export class PredictionsListComponent implements OnInit {
   public selectUsers: any = [];
   public selectLanguage: any = [];
   public loading: boolean = false;
+  public refresh_loading: boolean = false;
+
   public searchValue = "";
   public selectedChurch = [];
   public selectedUsers = [];
@@ -77,6 +79,9 @@ export class PredictionsListComponent implements OnInit {
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
   // Private
+  offset = 0;
+  limit = 10;
+  isLoading = false;
   private tempData = [];
   public submitted: any = false;
   public currentQuestionIndex: any = -1;
@@ -89,6 +94,7 @@ export class PredictionsListComponent implements OnInit {
     five: "assets/images/slider/05.jpg",
     six: "assets/images/slider/06.jpg",
   };
+  @ViewChild('scrollableDiv') scrollableDiv: ElementRef;
   /**
    * Constructor
    *
@@ -250,7 +256,8 @@ export class PredictionsListComponent implements OnInit {
     let request;
 
     request = {
-      params: { campaign_id: this.campaign_id },
+      params: { campaign_id: this.campaign_id  ,offset: this.offset.toString(),
+        limit: this.limit.toString()},
       action_url: "get_prediction_details",
       method: "POST",
     };
@@ -543,7 +550,44 @@ export class PredictionsListComponent implements OnInit {
       }
     );
   }
+  getParticipantsInfo() {
+    // this.loading = true;
+    this.refresh_loading = true;
+    let request;
 
+    request = {
+      params: { campaign_id: this.campaign_id },
+      action_url: "get_prediction_details",
+      method: "POST",
+    };
+    this.httpService.doHttp(request).subscribe(
+      (res: any) => {
+    this.refresh_loading = false;
+
+        if (res == "nonet") {
+        } else {
+          if (res.status == false) {
+          } else if (res.status == true) {
+            this.rows = res.data;
+            if (res.data.campaign_title == undefined) {
+              this.rows = undefined;
+              res.data = null;
+            }
+            if (res.data) {
+              this.campaign_data.participants = this.rows.participants;
+
+             
+            }        
+          }
+        }
+      },
+
+      (error: any) => {
+        this.refresh_loading = false;
+
+      }
+    );
+  }
   ngAfterViewInit() {
     // Subscribe to core config changes
     // If Menu Collapsed Changes
@@ -717,5 +761,63 @@ export class PredictionsListComponent implements OnInit {
   logout(){
     console.log("logout");
     this._authenticationService.logout();
+  }
+
+  onScroll(event: any): void {
+    const element = event.target;
+    if (element.scrollHeight - element.scrollTop === element.clientHeight && !this.isLoading) {
+      // Scroll Down
+      this.loadMoreParticipants('down');
+    } else if (element.scrollTop === 0 && !this.isLoading) {
+      // Scroll Up
+      this.loadMoreParticipants('up');
+    }
+  }
+
+  loadMoreParticipants(direction: string) {
+    if (direction === 'down') {
+      this.offset += this.limit;
+    } else if (direction === 'up' && this.offset > 0) {
+      this.offset -= this.limit;
+    }
+    this.getMoreParticipants();
+  }
+  getMoreParticipants() {
+    // this.loading = true;
+    this.isLoading = true;
+    let request;
+
+    request = {
+      params: { campaign_id: this.campaign_id,offset:this.offset, limit:this.limit },
+      action_url: "get_prediction_details",
+      method: "POST",
+    };
+    this.httpService.doHttp(request).subscribe(
+      (res: any) => {
+        this.isLoading = false;
+
+        if (res == "nonet") {
+        } else {
+          if (res.status == false) {
+          } else if (res.status == true) {
+            this.rows = res.data;
+            if (res.data.campaign_title == undefined) {
+              this.rows = undefined;
+              res.data = null;
+            }
+            if (res.data) {
+              this.campaign_data.participants = this.rows.participants;
+
+             
+            }        
+          }
+        }
+      },
+
+      (error: any) => {
+        this.isLoading = false;
+
+      }
+    );
   }
 }

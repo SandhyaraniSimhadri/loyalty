@@ -21,6 +21,7 @@ import {
   SocialUser,
   FacebookLoginProvider,
 } from "@abacritt/angularx-social-login";
+// import { ReCaptchaVService } from 'ng-recaptcha';
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
@@ -48,6 +49,8 @@ export class LoginComponent implements OnInit {
   public socialLogClicked: any = false;
   public type: any = 0;
   public campaign_id: any = null;
+  token: string|undefined;
+  captcha_token:any=null;
   // Private
   private _unsubscribeAll: Subject<any>;
 
@@ -56,6 +59,8 @@ export class LoginComponent implements OnInit {
    *
    * @param {CoreConfigService} _coreConfigService
    */
+  //6LfhKxUqAAAAADTIEBB4IRPhETpFycTuWF0Svb-6
+//6LfhKxUqAAAAABeZappTk6Uv0ydQ9hRgDuJvl9tI
   constructor(
     private _coreConfigService: CoreConfigService,
     private _formBuilder: UntypedFormBuilder,
@@ -64,11 +69,12 @@ export class LoginComponent implements OnInit {
     private _authenticationService: AuthenticationService,
     public httpService: CoreHttpService,
     private _toastrService: ToastrService,
-
+    // private recaptchaV2Service: ReCaptchaV2Service,
     private formBuilder: FormBuilder,
     private socialAuthService: SocialAuthService,
     private _zone: NgZone
   ) {
+    this.token=undefined;
     // // redirect to home if already logged in
     // if (this._authenticationService.currentUserValue) {
     //   this._router.navigate(["/"]);
@@ -140,6 +146,7 @@ export class LoginComponent implements OnInit {
     let email = user_val.email;
     let pwd = user_val.password;
     if (this.type == undefined || this.type == 0) {
+      if(this.captcha_token!=null){
       this._authenticationService
         .login(email, pwd)
         .pipe(first())
@@ -191,7 +198,14 @@ export class LoginComponent implements OnInit {
         );
 
       return;
-    } else if(this.type==2){
+   }else{
+    this._toastrService.error(
+      "Please verify captcha",
+      "Failed",
+      { toastClass: "toast ngx-toastr", closeButton: true }
+    );
+    this.loading=false;
+   } } else if(this.type==2){
       user_val.campaign_id=this.campaign_id;
       this.setRegistration(user_val);
     }
@@ -460,4 +474,20 @@ export class LoginComponent implements OnInit {
       }
     );
   }
+  onCaptchaResolved(response: any): void {
+    // Use the response token as needed
+    console.log('reCAPTCHA v2 Response:', response);
+   this.captcha_token=response;
+
+
+  }
+  public send(): void {
+    
+
+    console.debug(`Token [${this.token}] generated`);
+  }
+  resolved(captchaResponse: string) {
+    console.log(`Resolved captcha with response: ${captchaResponse}`);
+  }
+  
 }
