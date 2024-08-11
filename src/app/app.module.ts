@@ -49,6 +49,7 @@ import {
   GoogleSigninButtonModule,
 } from '@abacritt/angularx-social-login';
 import { environment } from "environments/environment";
+import { WelcomeComponent } from "./main/welcome/welcome.component";
 
 const appRoutes: Routes = [
 
@@ -167,6 +168,11 @@ const appRoutes: Routes = [
     pathMatch: "full",
   },
   {
+    path: "welcome",
+    component: WelcomeComponent,
+    pathMatch: "full",
+  },
+  {
     path: '**',
     component: LoginComponent,
     pathMatch: "full",
@@ -181,6 +187,7 @@ const appRoutes: Routes = [
   declarations: [
     LoginComponent,
     AppComponent,
+    WelcomeComponent,
     ContextMenuComponent,
     BasicCustomContextMenuComponent,
     AnimatedCustomContextMenuComponent,

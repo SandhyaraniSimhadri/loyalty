@@ -310,6 +310,7 @@
         >
           Not yet participated in any Campagin..
         </div>
+      <br/>
         <div
           *ngIf="
             !loading &&
@@ -318,27 +319,34 @@
             campaign_data.quizzes.length > 0
           "
         >
-          <div class="card earnings-card">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-12">
-                  <h4
-                    class="card-title mb-0"
-                    style="color: blue; font-weight: 400"
-                  >
-                    <b>{{ campaign_data.campaign_title }}</b>
-                  </h4>
-                </div>
-                <div class="col-12" *ngIf="currentQuestionIndex == -1">
-                  <span>  <img src="assets/images/logo/time.jpg" alt="Time" width="30px" height="30px"/> Time available: {{ formatTime(remainingTime) }}</span>
-                </div>
-                <div
-                  class="col-12"
-                  *ngIf="remainingTime && currentQuestionIndex >= 0"
-                >
-                  Time Remaining: {{ formatTime(remainingTime) }}
+        <div class="card earnings-card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12" *ngIf="currentQuestionIndex == -1 && !submitted">
+                <div class="time-available-wrapper">
+                  <div class="time-available">
+                   
+                    <div class="time-text">Available Time: {{ formatTime(remainingTime) }}</div>
+                  </div>
                 </div>
               </div>
+              <div class="col-12" *ngIf="remainingTime && currentQuestionIndex >= 0">
+                <div class="time-available-wrapper">
+                  <div class="time-available">
+                   
+                    <div class="time-text"> Time Remaining: {{ formatTime(remainingTime) }}</div>
+                </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <h4 class="card-title mb-0 mt-1" style="color: blue; font-weight: 400">
+                  <b>{{ campaign_data.campaign_title }}</b>
+                </h4>
+              </div>
+          
+            </div>
+        
+        
               <hr />
               <div class="row">
                 <div class="col-12">
@@ -478,16 +486,20 @@
                   </div>
 
                   <div
-                    *ngIf="currentQuestionIndex == -1 && !submitted"
+                    *ngIf="currentQuestionIndex == -1 && !submitted && !showGif"
                     style="display: flex; justify-content: center"
                   >
                     <button
                       class="btn btn-primary-predict mb-1 mb-sm-0 mr-0 mr-sm-1"
                       rippleEffect
-                      (click)="goToNextQuestion()"
+                      (click)="startCountdown()"
                     >
                       Start
                     </button>
+                    
+                  </div>
+                  <div *ngIf="showGif" class="gif-container">
+                    <img  src="assets/images/pages/quiz_countdown.gif" alt="Starting GIF" width="120" height="120">
                   </div>
                   <div
                   *ngIf="currentQuestionIndex == -1 && submitted"
@@ -506,7 +518,9 @@
           </div>
         </div>
 
-        <div *ngIf="!loading && !refresh_loading"  #scrollableDiv (scroll)="onScroll($event)" class="scrollable-container">
+        <div *ngIf="!loading && !refresh_loading"  #scrollableDiv 
+        [ngClass]="{'scrollable-container': campaign_data.participants.length > 10}"
+        (scroll)="campaign_data.participants.length > 10 ? onScroll($event) : null">
           <!-- Company Table -->
 
           <div class="card">
@@ -543,19 +557,18 @@
                     <div class="col-12">
                       <div class="row">
                         <div class="col-2">
-                          <span class="avatar">
+                          <span [ngClass]="{'avatar-wrapper': participant.rank === 1 || participant.rank === 2 || participant.rank === 3}">
                             <img
                               *ngIf="participant.avatar"
-                              class="round"
+                              class="round avatar"
                               [src]="apiUrl + participant.avatar"
                               alt="avatar"
                               height="50"
                               width="50"
                             />
-
                             <img
                               *ngIf="participant.avatar == null"
-                              class="round"
+                              class="round avatar"
                               src="assets/images/profile/person.png"
                               alt="avatar"
                               height="50"
@@ -564,32 +577,59 @@
                             />
                           </span>
                         </div>
-                        <div class="col-8 d-flex align-items-center">
+                        <div class="col-7 d-flex align-items-center">
                           <!-- User name aligned to the center -->
-                          <h4
-                            class="card-title mb-0"
-                            style="font-weight: 400; margin-left: 5px"
-                          >
+                          <img *ngIf="participant.rank==1"
+                         
+                          class="ml-1"
+                          src="assets/images/profile/first.png"
+                          alt="avatar"
+                          width="24"
+                          style="background-color: white"
+                        />
+                        <img *ngIf="participant.rank==2"
+                         
+                          class=" ml-1"
+                          src="assets/images/profile/second.png"
+                          alt="avatar"
+                          width="24"
+                          style="background-color: white"
+                        />
+                        <img *ngIf="participant.rank==3"
+                         
+                        class=" ml-1"
+                        src="assets/images/profile/third.png"
+                        alt="avatar"
+                        width="24"
+                        style="background-color: white"
+                      />
+                          <h4 class="card-title mb-0 ml-1">
                             <b>
-                              <span
-                                style="font-size: 14px; font-weight: bolder"
-                              >
-                                {{ participant.user_name }}
+                              <span style="font-size: 14px; display: flex; align-items: center;margin-top: -10px !important;">
+                                {{ participant.user_name | truncate : 7 }} 
+                                <button
+                                  type="button"
+                                  rippleEffect
+                                  class="btn"
+                                  [ngbTooltip]="'Time taken: ' + participant.time_taken"
+                                  style="display: inline-flex; align-items: center;margin-left:-10px !important; "
+                                >
+                                  <i data-feather="alert-circle" style="color:black"></i>
+                                </button>
                               </span>
                             </b>
                           </h4>
                         </div>
-                        <div
-                          class="col-2 d-flex align-items-center justify-content-center"
-                        >
-                          <span *ngIf="participant.total_points > 0">
-                            {{ participant.total_points }} Pts</span
-                          >
+                        <div class="col-3 d-flex align-items-center justify-content-center" style="margin-top: -10px !important;">
+                          <span *ngIf="participant.total_points > 0" style="margin-top: -10px !important;">
+                            {{ participant.total_points }} Pts
+                          </span>
                           <span *ngIf="participant.total_points == 0">
-                            0 Pts</span
-                          >
+                            0 Pts
+                          </span>
                         </div>
                       </div>
+                      
 
                       <hr />
                     </div>

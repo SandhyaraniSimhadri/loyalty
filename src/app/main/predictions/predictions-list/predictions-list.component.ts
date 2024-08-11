@@ -74,7 +74,8 @@ export class PredictionsListComponent implements OnInit {
   timer: any;
   remainingTime: number; // remaining time in milliseconds
   interval: any; // interval for updating the remaining time
-
+  countdown: number = null; // Countdown variable
+  countdownTimeout: any; // Variable to store the interval ID
   // Decorator
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
@@ -94,6 +95,7 @@ export class PredictionsListComponent implements OnInit {
     five: "assets/images/slider/05.jpg",
     six: "assets/images/slider/06.jpg",
   };
+  showGif: boolean = false;
   @ViewChild('scrollableDiv') scrollableDiv: ElementRef;
   /**
    * Constructor
@@ -249,6 +251,7 @@ export class PredictionsListComponent implements OnInit {
     // Unsubscribe from all subscriptions
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();
+    this.countdownTimeout && clearTimeout(this.countdownTimeout);
   }
 
   getPredictions() {
@@ -663,6 +666,9 @@ export class PredictionsListComponent implements OnInit {
       }
     } else {
       if (this.currentQuestionIndex == -1) {
+        // this.startCountdown();
+      
+          this.showGif = false;
         this.startTime = Date.now();
         this.currentQuestionIndex = 0;
         this.remainingTime = this.campaign_data.duration;
@@ -673,6 +679,7 @@ export class PredictionsListComponent implements OnInit {
         // this.timer = setTimeout(() => {
         //   this.goToSubmit();
         // }, this.campaign_data.duration);
+      
       }
     }
   }
@@ -751,7 +758,7 @@ export class PredictionsListComponent implements OnInit {
     const totalSeconds = Math.floor(ms / 1000);
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = totalSeconds % 60;
-    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    return `${minutes} mins : ${seconds < 10 ? '0' : ''}${seconds} secs`;
   }
   editProfile(){
     this._router.navigate(["../../pages/account-settings"]);
@@ -820,4 +827,13 @@ export class PredictionsListComponent implements OnInit {
       }
     );
   }
+  startCountdown() {
+    this.showGif = true;
+    
+    this.countdownTimeout = setTimeout(() => {
+    this.goToNextQuestion();
+    }, 3175);
+   
+  }
+ 
 }

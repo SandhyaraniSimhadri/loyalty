@@ -171,7 +171,7 @@ export class LoginComponent implements OnInit {
               // setTimeout(() => {
               if (this.httpService.USERINFO.user_type == 1) {
                 console.log("company");
-                this._router.navigate(["/company/company"]);
+                this._router.navigate(["/welcome"]);
               } 
               else {
                 console.log("predictions");
@@ -264,7 +264,7 @@ export class LoginComponent implements OnInit {
       });
 
     // if( localStorage.getItem("currentUser")){
-    //   this._router.navigate(["/company/company"]);
+    //   this._router.navigate(["/welcome"]);
     // }
     // else{
 
@@ -316,7 +316,7 @@ export class LoginComponent implements OnInit {
               this.httpService.loginuserid = res?.data?.user_id;
               if (res.data.user_type == 1) {
                 console.log("company");
-                this._router.navigate(["/company/company"]);
+                this._router.navigate(["/welcome"]);
               } else {
                 console.log("predictions");
 

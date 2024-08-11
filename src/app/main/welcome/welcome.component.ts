@@ -1,0 +1,149 @@
+import { Component, NgZone, OnInit, ViewEncapsulation } from "@angular/core";
+
+import { CoreConfigService } from "@core/services/config.service";
+import { CoreHttpService } from "@core/services/http.service";
+import { HttpClient } from '@angular/common/http';
+import { ToastrService } from "ngx-toastr";
+import { environment } from "environments/environment";
+import { Router } from "@angular/router";
+
+@Component({
+  selector: "app-welcome",
+  templateUrl: "./welcome.component.html",
+  styleUrls: ["./welcome.component.scss"],
+  encapsulation: ViewEncapsulation.None,
+})
+export class WelcomeComponent implements OnInit {
+  /**
+   *
+   * @param {HttpClient} _http
+   * @param {ToastrService} _toastrService
+   */
+
+  public loading = false;
+  public section: any = 1;
+  public avatarImage:any=null;
+  public image:any;
+  public user_info :any;
+  public apiUrl: any;
+
+
+
+  constructor(
+    private _coreConfigService: CoreConfigService,
+    private _toastrService: ToastrService,private http: HttpClient,
+    public httpService: CoreHttpService,
+    private _router: Router,
+  ) {
+    //  this.section=1;
+    console.log("section", this.section);
+
+    // Configure the layout
+    this._coreConfigService.config = {
+      layout: {
+        navbar: {
+          hidden: true,
+        },
+        menu: {
+          hidden: true,
+        },
+        footer: {
+          hidden: true,
+        },
+        customizer: false,
+        enableLocalStorage: false,
+      },
+    };
+  }
+
+  ngOnInit(): void {
+    this.apiUrl = environment.apiUrl;
+    this.user_info = this.httpService.USERINFO;
+    this.avatarImage=this.user_info.avatar;
+    console.log("user infooo",this.user_info);
+    this.section = 1;
+  }
+
+  ngOnDestroy(): void {}
+
+  goToNext() {
+    if (this.section == 1) 
+      {if(this.avatarImage==null || this.avatarImage=="defaultImage"){
+        this.section = 2;
+      }else{
+        this._router.navigate(["/company/company"]);
+      }
+        }
+    else if(this.section==2){
+    if(this.avatarImage==null){
+      this._router.navigate(["/company/company"]);
+    }
+    else{
+      this.save();
+    }
+      
+    }
+  }
+  triggerFileInput() {
+    const fileInput = document.getElementById('upload');
+    if (fileInput) {
+      fileInput.click();
+    }
+  }
+  uploadImage(event: any) {
+    this.loading = true;
+    if (event.target.files && event.target.files[0]) {
+      let reader = new FileReader();
+      reader.onload = (event: any) => {
+        this.avatarImage = event.target.result;
+      };
+
+      reader.readAsDataURL(event.target.files[0]);
+    
+      this.image = event.target.files[0];
+    }
+    this.loading = false;
+  }
+  save() {
+    var i = 0;
+   
+    this.loading = true;
+  
+      const formData = new FormData();
+      formData.append("image", this.image);
+      formData.append("id", this.user_info.id);
+      formData.append("email", this.user_info.email);
+      formData.append("phone_number", this.user_info.mobile_no);
+      formData.append("user_name", this.user_info.user_name);
+      formData.append("name", this.user_info.name); 
+      this.http
+        .post<any>(this.apiUrl + "api/update_user_info", formData)
+        .subscribe(
+          (res: any) => {
+            if (res == "nonet") {
+            } else {
+              if (res.status == false) {
+                this._toastrService.error(res.msg, "Failed", {
+                  toastClass: "toast ngx-toastr",
+                  closeButton: true,
+                });
+              } else if (res.status == true) {
+                this._toastrService.success(res.msg, "Success", {
+                  toastClass: "toast ngx-toastr",
+                  closeButton: true,
+                });
+               this.httpService.USERINFO.avatar=res.data;
+               localStorage.removeItem("currentUser");
+               localStorage.clear();
+               localStorage.setItem("currentUser", JSON.stringify( this.httpService.USERINFO));
+                this._router.navigate(["/company/company"]);
+              }
+            }
+            this.loading = false;
+          },
+          (error: any) => {
+          }
+        );
+    
+  }
+}

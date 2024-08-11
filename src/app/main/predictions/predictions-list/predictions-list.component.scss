@@ -108,7 +108,7 @@
 
 .btn-login{
 
-    background: linear-gradient(to right, rgba(103,177,248,1), #7459dc);
+    background: linear-gradient(to right,  rgb(168, 204, 238), #7459dc);
   
   color: #fff !important;
   padding-left:30px;
@@ -180,7 +180,7 @@ button:focus {
   // display:flex;
   // flex:1;
  
-    background: linear-gradient(to right, rgba(103,177,248,1), #7459dc);
+    background: linear-gradient(to right, rgb(168, 204, 238), #7459dc);
   
   
 }
@@ -248,7 +248,7 @@ button:focus {
   color:white;
   font-weight: bold;
   text-transform: uppercase;
-  background: linear-gradient(to right, rgba(103,177,248,1), #7459dc);
+  background: linear-gradient(to right,  rgb(168, 204, 238), #7459dc);
 }
 /* Style for the selected option */
 .custom-radio.selected {
@@ -336,6 +336,13 @@ button:focus {
 .scrollable-container {
   max-height: 400px; /* Adjust this height as needed */
   overflow-y: scroll;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scrollable-container::-webkit-scrollbar {
+  display: none;
 }
 
 .spinner {
@@ -352,3 +359,79 @@ button:focus {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+.avatar {
+  display: inline-block;
+  position: relative;
+}
+.avatar img.round {
+  border-radius: 50%;
+}
+.badge {
+  position: absolute;
+  // top: 0;
+  // right: 0;
+ margin-left:-7px !important;
+ margin-top:-6px !important;
+
+  
+  border-radius: 50%;
+  // padding: 5px;
+}
+.badge img {
+  border-radius: 50%;
+}
+.card {
+  position: relative; /* To position the time-available-wrapper relative to the card */
+  margin-top: 20px; /* Add some space at the top of the card */
+}
+
+.time-available-wrapper {
+  display: flex;
+  justify-content: center; /* Horizontally centers the content */
+  align-items: center; 
+  background: linear-gradient(to right, rgba(103,177,248,1), #6e50e4);
+  border-radius: 5px; /* Rounded corners */
+  padding: 9px 12px; /* Padding */
+  color: white; /* White text */
+  box-shadow: 0px -1px 10px 1px rgb(73, 71, 71);
+  position: relative; /* Set position to relative */
+  top: -40px; /* Move up by 40 pixels */
+}
+
+
+.time-available-wrapper img {
+  margin-right: 10px; /* Space between the image and the text */
+}
+
+.time-text {
+  font-weight: bold; /* Bold text */
+}
+
+.time-remaining {
+  color: black; /* Black text for remaining time */
+  font-weight: bold; /* Bold text */
+}
+.avatar-wrapper {
+  display: inline-block;
+  // padding: 3px; /* Adjust padding as needed */
+  border: 2px solid orange; /* Orange border */
+  border-radius: 50%; /* Make the border round */
+  background-clip: content-box; /* Clip the background to the content box */
+}
+
+.avatar {
+  display: block;
+  border-radius: 50%; /* Ensure the image inside is also round */
+}
+
+.gif-container {
+  display: flex; 
+  justify-content: center; /* Horizontally center */
+  align-items: center; /* Vertically center */
+  // height: 100vh; /* Full viewport height to center vertically */
+}
+
+// .gif-container img {
+//   width: 100px; /* Adjust size as needed */
+//   height: 100px; /* Adjust size as needed */
+// }

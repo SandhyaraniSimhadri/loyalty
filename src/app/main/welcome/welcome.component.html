@@ -1,0 +1,35 @@
+<div class="loading" *ngIf="loading">
+  <div class="effect-1 effects"></div>
+  <div class="effect-2 effects"></div>
+  <div class="effect-3 effects"></div>
+</div>
+
+<div class="welcome-container" *ngIf="!loading">
+  <div class="welcome-section" *ngIf="section == 1">
+    <div class="welcome-text">
+      <span class="welcome">WELCOME!</span>
+      <p>
+        We're thrilled to have you on board! Enjoy exclusive rewards, earn
+        points, and unlock amazing offers today while having fun with games and
+        quizzes.
+      </p>
+    </div>
+  </div>
+  <div class="profile-picture-section" *ngIf="section == 2">
+    <div s="profile-pictuclasre">
+      <input type="file" id="upload" hidden    (change)="uploadImage($event)" />
+      <img *ngIf="avatarImage"
+      [src]="avatarImage"
+      alt="Profile Picture"
+      class="profile-img"    (click)="triggerFileInput()"
+    />
+      <img *ngIf="avatarImage==null"
+        src="../../../assets/images/pages/welcome/profile.png"
+        alt="Profile Picture"
+        class="profile-img"    (click)="triggerFileInput()"
+      />
+    </div>
+    <div class="name">{{user_info.user_name}}</div>
+  </div>
+  <span class="next-button" (click)="goToNext()">NEXT ></span>
+</div>
