@@ -170,15 +170,22 @@ export class LoginComponent implements OnInit {
 
               // setTimeout(() => {
               if (this.httpService.USERINFO.user_type == 1) {
-                console.log("company");
-                this._router.navigate(["/welcome"]);
+                if(this.httpService.USERINFO.first_time_login=='Yes'){
+                this._router.navigate(["/welcome"]);}
+                else{
+                  this._router.navigate(["/company/company"]);
+                }
               } 
               else {
-                console.log("predictions");
+                if(this.httpService.USERINFO.first_time_login=='Yes'){
+                  this._router.navigate(["/welcome"]);}
+                  else{
+                    this._router.navigate(["/predictions/predictions"], {
+                      queryParams: { campaign_id: this.campaign_id },
+                    });
+                  }
 
-                this._router.navigate(["/predictions/predictions"], {
-                  queryParams: { campaign_id: this.campaign_id },
-                });
+               
               }
               // }, 3000);
             } else {
@@ -315,14 +322,23 @@ export class LoginComponent implements OnInit {
               this.httpService.APIToken = res?.data?.token;
               this.httpService.loginuserid = res?.data?.user_id;
               if (res.data.user_type == 1) {
-                console.log("company");
-                this._router.navigate(["/welcome"]);
+                if(res.data.first_time_login=='Yes'){
+                
+                  this._router.navigate(["/welcome"]);
+                }
+                else{
+                  this._router.navigate(["/company/company"]);
+                }
+               
               } else {
-                console.log("predictions");
-
+                if(res.data.first_time_login=='Yes'){
+                
+                  this._router.navigate(["/welcome"]);
+                }
+                else{
                 this._router.navigate(["/predictions/predictions"], {
                   queryParams: { campaign_id: this.campaign_id },
-                });
+                });}
               }
               this.main_loading = false;
 

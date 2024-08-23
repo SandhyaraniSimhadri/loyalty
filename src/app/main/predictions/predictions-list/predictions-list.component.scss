@@ -248,7 +248,17 @@ button:focus {
   color:white;
   font-weight: bold;
   text-transform: uppercase;
-  background: linear-gradient(to right,  rgb(168, 204, 238), #7459dc);
+  border: none;
+  
+  background: linear-gradient(to right, rgba(103,177,248,1), #6e50e4);
+
+  // background: linear-gradient(to right,  rgb(168, 204, 238), #7459dc);
+}
+.btn-primary-TandC{
+  color:#7459dc;
+  font-weight: bold;
+ 
+  background: none;
 }
 /* Style for the selected option */
 .custom-radio.selected {
@@ -393,7 +403,7 @@ button:focus {
   border-radius: 5px; /* Rounded corners */
   padding: 9px 12px; /* Padding */
   color: white; /* White text */
-  box-shadow: 0px -1px 10px 1px rgb(73, 71, 71);
+  box-shadow: 0px -1px 10px 1px rgb(219, 214, 214);
   position: relative; /* Set position to relative */
   top: -40px; /* Move up by 40 pixels */
 }

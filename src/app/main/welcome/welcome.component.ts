@@ -2,10 +2,10 @@ import { Component, NgZone, OnInit, ViewEncapsulation } from "@angular/core";
 
 import { CoreConfigService } from "@core/services/config.service";
 import { CoreHttpService } from "@core/services/http.service";
-import { HttpClient } from '@angular/common/http';
+import { HttpClient } from "@angular/common/http";
 import { ToastrService } from "ngx-toastr";
 import { environment } from "environments/environment";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: "app-welcome",
@@ -22,18 +22,19 @@ export class WelcomeComponent implements OnInit {
 
   public loading = false;
   public section: any = 1;
-  public avatarImage:any=null;
-  public image:any;
-  public user_info :any;
+  public avatarImage: any = null;
+  public image: any;
+  public user_info: any;
   public apiUrl: any;
-
-
+  public campaign_id: any = null;
 
   constructor(
     private _coreConfigService: CoreConfigService,
-    private _toastrService: ToastrService,private http: HttpClient,
+    private _toastrService: ToastrService,
+    private http: HttpClient,
     public httpService: CoreHttpService,
     private _router: Router,
+    private _route: ActivatedRoute,
   ) {
     //  this.section=1;
     console.log("section", this.section);
@@ -59,33 +60,48 @@ export class WelcomeComponent implements OnInit {
   ngOnInit(): void {
     this.apiUrl = environment.apiUrl;
     this.user_info = this.httpService.USERINFO;
-    this.avatarImage=this.user_info.avatar;
-    console.log("user infooo",this.user_info);
+    this.avatarImage = this.user_info.avatar;
+    console.log("user infooo", this.user_info);
     this.section = 1;
+    this._route.queryParams.subscribe((params) => {
+      if (params) {
+        this.campaign_id=params['campaign_id'];
+      }});
   }
 
   ngOnDestroy(): void {}
 
   goToNext() {
-    if (this.section == 1) 
-      {if(this.avatarImage==null || this.avatarImage=="defaultImage"){
+    if (this.section == 1) {
+      if (this.avatarImage == null || this.avatarImage == "defaultImage") {
         this.section = 2;
-      }else{
-        this._router.navigate(["/company/company"]);
-      }
+      } else {
+        if(this.httpService.USERINFO.user_type==1){
+          this._router.navigate(["/company/company"]);
         }
-    else if(this.section==2){
-    if(this.avatarImage==null){
-      this._router.navigate(["/company/company"]);
-    }
-    else{
-      this.save();
-    }
-      
+      else{
+        this._router.navigate(["/predictions/predictions"], {
+          queryParams: { campaign_id: this.campaign_id },
+        });
+      }
+      }
+    } else if (this.section == 2) {
+      if (this.avatarImage == null) {
+        if(this.httpService.USERINFO.user_type==1){
+          this._router.navigate(["/company/company"]);
+        }
+      else{
+        this._router.navigate(["/predictions/predictions"], {
+          queryParams: { campaign_id: this.campaign_id },
+        });
+      }
+      } else {
+        this.save();
+      }
     }
   }
   triggerFileInput() {
-    const fileInput = document.getElementById('upload');
+    const fileInput = document.getElementById("upload");
     if (fileInput) {
       fileInput.click();
     }
@@ -99,51 +115,58 @@ export class WelcomeComponent implements OnInit {
       };
 
       reader.readAsDataURL(event.target.files[0]);
-    
+
       this.image = event.target.files[0];
     }
     this.loading = false;
   }
   save() {
     var i = 0;
-   
+
     this.loading = true;
-  
-      const formData = new FormData();
-      formData.append("image", this.image);
-      formData.append("id", this.user_info.id);
-      formData.append("email", this.user_info.email);
-      formData.append("phone_number", this.user_info.mobile_no);
-      formData.append("user_name", this.user_info.user_name);
-      formData.append("name", this.user_info.name); 
-      this.http
-        .post<any>(this.apiUrl + "api/update_user_info", formData)
-        .subscribe(
-          (res: any) => {
-            if (res == "nonet") {
-            } else {
-              if (res.status == false) {
-                this._toastrService.error(res.msg, "Failed", {
-                  toastClass: "toast ngx-toastr",
-                  closeButton: true,
-                });
-              } else if (res.status == true) {
-                this._toastrService.success(res.msg, "Success", {
-                  toastClass: "toast ngx-toastr",
-                  closeButton: true,
-                });
-               this.httpService.USERINFO.avatar=res.data;
-               localStorage.removeItem("currentUser");
-               localStorage.clear();
-               localStorage.setItem("currentUser", JSON.stringify( this.httpService.USERINFO));
-                this._router.navigate(["/company/company"]);
-              }
+
+    const formData = new FormData();
+    formData.append("image", this.image);
+    formData.append("id", this.user_info.id);
+    formData.append("email", this.user_info.email);
+    formData.append("phone_number", this.user_info.mobile_no);
+    formData.append("user_name", this.user_info.user_name);
+    formData.append("name", this.user_info.name);
+    this.http
+      .post<any>(this.apiUrl + "api/update_user_info", formData)
+      .subscribe(
+        (res: any) => {
+          if (res == "nonet") {
+          } else {
+            if (res.status == false) {
+              this._toastrService.error(res.msg, "Failed", {
+                toastClass: "toast ngx-toastr",
+                closeButton: true,
+              });
+            } else if (res.status == true) {
+              this._toastrService.success(res.msg, "Success", {
+                toastClass: "toast ngx-toastr",
+                closeButton: true,
+              });
+              this.httpService.USERINFO.avatar = res.data;
+              localStorage.removeItem("currentUser");
+              localStorage.clear();
+              localStorage.setItem(
+                "currentUser",
+                JSON.stringify(this.httpService.USERINFO)
+              );
+              if(this.httpService.USERINFO.user_type==1){
+              this._router.navigate(["/company/company"]);
             }
-            this.loading = false;
-          },
-          (error: any) => {
+          else{
+            this._router.navigate(["/predictions/predictions"], {
+              queryParams: { campaign_id: this.campaign_id },
+            });
+          }}
           }
-        );
-    
+          this.loading = false;
+        },
+        (error: any) => {}
+      );
   }
 }

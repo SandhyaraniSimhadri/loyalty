@@ -691,7 +691,7 @@ export class PredictionsListComponent implements OnInit {
   }
   goToSubmit() {
     console.log("submittttt");
-    var time_taken=this.formatTime(this.campaign_data.duration-this.remainingTime);
+    var time_taken=this.formatTimeMs(this.campaign_data.duration-this.remainingTime);
     this.loading = true;
     var type = 0;
     if (
@@ -760,6 +760,16 @@ export class PredictionsListComponent implements OnInit {
     const seconds = totalSeconds % 60;
     return `${minutes} mins : ${seconds < 10 ? '0' : ''}${seconds} secs`;
   }
+
+  formatTimeMs(ms: number): string {
+    const totalSeconds = Math.floor(ms / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    const milliseconds = ms % 1000;
+
+    return `${minutes} mins : ${seconds < 10 ? '0' : ''}${seconds} secs : ${milliseconds} ms`;
+}
+
   editProfile(){
     this._router.navigate(["../../pages/account-settings"]);
 

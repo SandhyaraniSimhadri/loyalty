@@ -8,6 +8,7 @@ import { AccountSettingsService } from 'app/main/pages/account-settings/account-
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { ToastrService } from 'ngx-toastr';
+import { UserService } from 'app/auth/service/user.service';
 @Component({
   selector: 'app-account-settings',
   templateUrl: './account-settings.component.html',
@@ -48,7 +49,7 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
    * @param {AccountSettingsService} _accountSettingsService
    */
    
-    constructor(   private _toastrService: ToastrService,private http: HttpClient,private _accountSettingsService: AccountSettingsService, private httpService:CoreHttpService,) {
+    constructor(  private userService: UserService, private _toastrService: ToastrService,private http: HttpClient,private _accountSettingsService: AccountSettingsService, private httpService:CoreHttpService,) {
     this._unsubscribeAll = new Subject();
     
   }
@@ -105,6 +106,7 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
     this.apiUrl = environment.apiUrl;
    
     this.user_info = this.httpService.USERINFO;
+    console.log("user infooo",this.user_info);
     if (this.user_info.avatar) {
       this.avatarImage = this.apiUrl + this.user_info.avatar;
     }
@@ -172,7 +174,14 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
                   toastClass: "toast ngx-toastr",
                   closeButton: true,
                 });
-             
+                this.httpService.USERINFO.avatar = res.data;
+                localStorage.removeItem("currentUser");
+                localStorage.clear();
+                localStorage.setItem(
+                  "currentUser",
+                  JSON.stringify(this.httpService.USERINFO)
+                );
+                this.userService.updateCurrentUser(this.httpService.USERINFO);
               }
             }
             this.loading = false;

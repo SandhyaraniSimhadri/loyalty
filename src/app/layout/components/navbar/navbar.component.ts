@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 
-import { AuthenticationService } from 'app/auth/service';
+import { AuthenticationService, UserService } from 'app/auth/service';
 import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
 import { CoreConfigService } from '@core/services/config.service';
 import { CoreMediaService } from '@core/services/media.service';
@@ -86,12 +86,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private _coreSidebarService: CoreSidebarService,
     private _mediaObserver: MediaObserver,
     public _translateService: TranslateService,
-    private httpService:CoreHttpService
+    private httpService:CoreHttpService,
+    private userService: UserService
   ) {
     this.apiUrl = environment.apiUrl;
 
-    this._authenticationService.currentUser.subscribe(x => (this.currentUser = x));
-    console.log("current user",this.currentUser)
+    this.userService.currentUser.subscribe(user => {
+      this.currentUser = user;
+    });
     this.image = this.apiUrl + this.httpService.USERINFO.avatar;
     this.languageOptions = {
       en: {
@@ -185,7 +187,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     // get the currentUser details from localStorage
-    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    // this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
     // Subscribe to the config changes
     this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
