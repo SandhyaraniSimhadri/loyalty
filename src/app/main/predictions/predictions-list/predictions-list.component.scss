@@ -176,14 +176,31 @@ button:focus {
   max-width: 100%;
   object-fit: contain; /* Adjust the object-fit property as needed (e.g., contain, cover) */
 }
-.body-cls{
-  // display:flex;
-  // flex:1;
- 
-    background: linear-gradient(to right, rgb(168, 204, 238), #7459dc);
-  
-  
+// html, body {
+//   height: 100%;
+//   margin: 0;
+//   padding: 0;
+//   box-sizing: border-box; /* Apply border-box to ensure padding and borders are included in the width and height */
+// }
+
+// * {
+//   box-sizing: inherit;
+// }
+
+.body-cls {
+  display: flex;
+  flex: 1;
+  background: linear-gradient(to right, rgb(168, 204, 238), #7459dc);
+  min-height: 100vh; /* Ensures it covers the full viewport height */
+  width: 100%; /* Covers full width */
+  margin: 0;
+  padding: 0;
+  position: relative; /* Alternative: position: absolute; top: 0; left: 0; right: 0; bottom: 0; */
 }
+
+
+
+
 .demo-inline-spacing {
   display: flex;
   flex-direction: column;

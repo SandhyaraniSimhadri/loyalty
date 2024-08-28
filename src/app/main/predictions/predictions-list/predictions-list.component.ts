@@ -1,4 +1,11 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+} from "@angular/core";
 import { ColumnMode, DatatableComponent } from "@swimlane/ngx-datatable";
 
 import { Subject } from "rxjs";
@@ -43,7 +50,7 @@ export class PredictionsListComponent implements OnInit {
   private $earningsStrokeColor2 = "#28c76f66";
   private $earningsStrokeColor3 = "#28c76f33";
   public sidebarToggleRef = false;
-  public rows: any;
+  public rows: any=[];
   public selectedOption = 10;
   public ColumnMode = ColumnMode;
   public temp = [];
@@ -70,7 +77,7 @@ export class PredictionsListComponent implements OnInit {
   public colors: any;
   public campaign_id: any = 0;
   public answers: string[] = [];
-  public startTime:any;
+  public startTime: any;
   timer: any;
   remainingTime: number; // remaining time in milliseconds
   interval: any; // interval for updating the remaining time
@@ -96,7 +103,7 @@ export class PredictionsListComponent implements OnInit {
     six: "assets/images/slider/06.jpg",
   };
   showGif: boolean = false;
-  @ViewChild('scrollableDiv') scrollableDiv: ElementRef;
+  @ViewChild("scrollableDiv") scrollableDiv: ElementRef;
   /**
    * Constructor
    *
@@ -259,8 +266,11 @@ export class PredictionsListComponent implements OnInit {
     let request;
 
     request = {
-      params: { campaign_id: this.campaign_id  ,offset: this.offset.toString(),
-        limit: this.limit.toString()},
+      params: {
+        campaign_id: this.campaign_id,
+        offset: this.offset.toString(),
+        limit: this.limit.toString(),
+      },
       action_url: "get_prediction_details",
       method: "POST",
     };
@@ -270,17 +280,21 @@ export class PredictionsListComponent implements OnInit {
         } else {
           if (res.status == false) {
           } else if (res.status == true) {
-            this.rows = res.data;
+            if (!this.rows) {
+              this.rows = [];
+          }
+          this.rows[0] = res.data;
+            if(this.rows.length>0){
             if (res.data.campaign_title == undefined) {
-              this.rows = undefined;
+              this.rows = [];
               res.data = null;
             }
             if (res.data) {
-              this.campaign_data = this.rows;
+            
+              this.campaign_data = this.rows[0];
 
               console.log("res data", res.data);
 
-              console.log("this.campaign", this.campaign_data);
               this.campaign_data.end_date = this.formatDate(
                 this.campaign_data.end_date
               );
@@ -295,8 +309,6 @@ export class PredictionsListComponent implements OnInit {
               this.campaign_data.games != undefined &&
               this.campaign_data.games.length > 0
             ) {
-           
-
               // Step 2: Check if every quiz ID is present in self
               this.submitted = this.campaign_data.games.every((game) =>
                 this.campaign_data.self.some(
@@ -519,32 +531,34 @@ export class PredictionsListComponent implements OnInit {
                 ],
               };
             }
-            if(res.data &&
+            if (
+              res.data &&
               this.campaign_data.quizzes != undefined &&
-              this.campaign_data.quizzes.length > 0){
-
+              this.campaign_data.quizzes.length > 0
+            ) {
               this.submitted = this.campaign_data.quizzes.every((quiz) =>
                 this.campaign_data.self.some(
                   (answer) => answer.game_id === quiz.id
                 )
               );
-              this.campaign_data.duration=this.campaign_data.duration*60*1000;
+              this.campaign_data.duration =
+                this.campaign_data.duration * 60 * 1000;
               this.remainingTime = this.campaign_data.duration;
               console.log(this.submitted);
             }
-          }
+          }}
         }
-
+        if(this.rows>length){
         setTimeout(() => {
           // Get Dynamic Width for Charts
           this.isMenuToggled = true;
-
+        
           this.teamAChartOptions.chart.width =
             this.earningChartRef?.nativeElement.offsetWidth;
           this.teamBChartOptions.chart.width =
             this.earningChartRef?.nativeElement.offsetWidth;
         }, 500);
-
+      }
         this.loading = false;
       },
 
@@ -565,7 +579,7 @@ export class PredictionsListComponent implements OnInit {
     };
     this.httpService.doHttp(request).subscribe(
       (res: any) => {
-    this.refresh_loading = false;
+        this.refresh_loading = false;
 
         if (res == "nonet") {
         } else {
@@ -573,21 +587,18 @@ export class PredictionsListComponent implements OnInit {
           } else if (res.status == true) {
             this.rows = res.data;
             if (res.data.campaign_title == undefined) {
-              this.rows = undefined;
+              this.rows = [];
               res.data = null;
             }
             if (res.data) {
               this.campaign_data.participants = this.rows.participants;
-
-             
-            }        
+            }
           }
         }
       },
 
       (error: any) => {
         this.refresh_loading = false;
-
       }
     );
   }
@@ -651,7 +662,7 @@ export class PredictionsListComponent implements OnInit {
     this._router.navigate(["../../pages/account-settings"]);
   }
   goToNextQuestion() {
-    console.log("next question clicked",this.currentQuestionIndex);
+    console.log("next question clicked", this.currentQuestionIndex);
     if (this.selectedWinner) {
       this.answers[this.currentQuestionIndex] = this.selectedWinner;
       this.selectedWinner = null;
@@ -659,16 +670,13 @@ export class PredictionsListComponent implements OnInit {
         console.log("current index", this.currentQuestionIndex);
         this.currentQuestionIndex++;
       } else {
-        
-       
         this.goToSubmit();
-
       }
     } else {
       if (this.currentQuestionIndex == -1) {
         // this.startCountdown();
-      
-          this.showGif = false;
+
+        this.showGif = false;
         this.startTime = Date.now();
         this.currentQuestionIndex = 0;
         this.remainingTime = this.campaign_data.duration;
@@ -679,7 +687,6 @@ export class PredictionsListComponent implements OnInit {
         // this.timer = setTimeout(() => {
         //   this.goToSubmit();
         // }, this.campaign_data.duration);
-      
       }
     }
   }
@@ -691,7 +698,9 @@ export class PredictionsListComponent implements OnInit {
   }
   goToSubmit() {
     console.log("submittttt");
-    var time_taken=this.formatTimeMs(this.campaign_data.duration-this.remainingTime);
+    var time_taken = this.formatTimeMs(
+      this.campaign_data.duration - this.remainingTime
+    );
     this.loading = true;
     var type = 0;
     if (
@@ -713,10 +722,9 @@ export class PredictionsListComponent implements OnInit {
         games: this.campaign_data.games,
         quizzes: this.campaign_data.quizzes,
         type: type,
-        time_taken:time_taken,
-        duration:this.formatTime(this.campaign_data.duration),
-        points_calc:this.campaign_data.calc_points_immediately,
-
+        time_taken: time_taken,
+        duration: this.formatTime(this.campaign_data.duration),
+        points_calc: this.campaign_data.calc_points_immediately,
       },
       action_url: "add_prediction_winner",
       method: "POST",
@@ -735,8 +743,8 @@ export class PredictionsListComponent implements OnInit {
               toastClass: "toast ngx-toastr",
               closeButton: true,
             });
-            this.submitted=true;
-            this.currentQuestionIndex=-1;
+            this.submitted = true;
+            this.currentQuestionIndex = -1;
             if (this.interval) {
               clearInterval(this.interval);
             }
@@ -758,7 +766,7 @@ export class PredictionsListComponent implements OnInit {
     const totalSeconds = Math.floor(ms / 1000);
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = totalSeconds % 60;
-    return `${minutes} mins : ${seconds < 10 ? '0' : ''}${seconds} secs`;
+    return `${minutes} mins : ${seconds < 10 ? "0" : ""}${seconds} secs`;
   }
 
   formatTimeMs(ms: number): string {
@@ -767,34 +775,37 @@ export class PredictionsListComponent implements OnInit {
     const seconds = totalSeconds % 60;
     const milliseconds = ms % 1000;
 
-    return `${minutes} mins : ${seconds < 10 ? '0' : ''}${seconds} secs : ${milliseconds} ms`;
-}
-
-  editProfile(){
-    this._router.navigate(["../../pages/account-settings"]);
-
-
+    return `${minutes} mins : ${
+      seconds < 10 ? "0" : ""
+    }${seconds} secs : ${milliseconds} ms`;
   }
-  logout(){
+
+  editProfile() {
+    this._router.navigate(["../../pages/account-settings"]);
+  }
+  logout() {
     console.log("logout");
     this._authenticationService.logout();
   }
 
   onScroll(event: any): void {
     const element = event.target;
-    if (element.scrollHeight - element.scrollTop === element.clientHeight && !this.isLoading) {
+    if (
+      element.scrollHeight - element.scrollTop === element.clientHeight &&
+      !this.isLoading
+    ) {
       // Scroll Down
-      this.loadMoreParticipants('down');
+      this.loadMoreParticipants("down");
     } else if (element.scrollTop === 0 && !this.isLoading) {
       // Scroll Up
-      this.loadMoreParticipants('up');
+      this.loadMoreParticipants("up");
     }
   }
 
   loadMoreParticipants(direction: string) {
-    if (direction === 'down') {
+    if (direction === "down") {
       this.offset += this.limit;
-    } else if (direction === 'up' && this.offset > 0) {
+    } else if (direction === "up" && this.offset > 0) {
       this.offset -= this.limit;
     }
     this.getMoreParticipants();
@@ -805,7 +816,11 @@ export class PredictionsListComponent implements OnInit {
     let request;
 
     request = {
-      params: { campaign_id: this.campaign_id,offset:this.offset, limit:this.limit },
+      params: {
+        campaign_id: this.campaign_id,
+        offset: this.offset,
+        limit: this.limit,
+      },
       action_url: "get_prediction_details",
       method: "POST",
     };
@@ -819,31 +834,26 @@ export class PredictionsListComponent implements OnInit {
           } else if (res.status == true) {
             this.rows = res.data;
             if (res.data.campaign_title == undefined) {
-              this.rows = undefined;
+              this.rows = [];
               res.data = null;
             }
             if (res.data) {
               this.campaign_data.participants = this.rows.participants;
-
-             
-            }        
+            }
           }
         }
       },
 
       (error: any) => {
         this.isLoading = false;
-
       }
     );
   }
   startCountdown() {
     this.showGif = true;
-    
+
     this.countdownTimeout = setTimeout(() => {
-    this.goToNextQuestion();
+      this.goToNextQuestion();
     }, 3175);
-   
   }
- 
 }

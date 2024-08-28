@@ -27,7 +27,12 @@ export class WelcomeComponent implements OnInit {
   public user_info: any;
   public apiUrl: any;
   public campaign_id: any = null;
-
+  public passwordTextTypeOld = false;
+  public passwordTextTypeNew = false;
+  public passwordTextTypeRetype = false;
+  public old_password:any;
+  public new_password:any;
+  public confirm_password:any;
   constructor(
     private _coreConfigService: CoreConfigService,
     private _toastrService: ToastrService,
@@ -169,4 +174,65 @@ export class WelcomeComponent implements OnInit {
         (error: any) => {}
       );
   }
+  savePassword(){
+    if(this.new_password!=this.confirm_password){
+      this._toastrService.error("New password and Retype new password should be same", "Failed", {
+        toastClass: "toast ngx-toastr",
+        closeButton: true,
+      });
+      return;
+    }
+    this.loading = true;
+    let request;
+
+    request = {
+      params: { old_password: this.old_password,new_password:this.new_password,confirm_password :this.confirm_password},
+      action_url: "update_user_password",
+      method: "POST",
+    };
+    this.httpService.doHttp(request).subscribe(
+      (res: any) => {
+        if (res == "nonet") {
+        } else {
+          if (res.status == false) {
+            this._toastrService.error(res.msg, "Failed", {
+              toastClass: "toast ngx-toastr",
+              closeButton: true,
+            });
+          } else if (res.status == true) {
+            this._toastrService.success(res.msg, "Success", {
+              toastClass: "toast ngx-toastr",
+              closeButton: true,
+              
+            });
+            this.old_password='';
+            this.new_password='';
+            this.confirm_password='';
+          }
+        }
+        this.loading = false;
+      },
+      (error: any) => {
+        this.loading = false;
+      }
+    );
+  }
+  togglePasswordTextTypeOld() {
+    this.passwordTextTypeOld = !this.passwordTextTypeOld;
+  }
+
+  /**
+   * Toggle Password Text Type New
+   */
+  togglePasswordTextTypeNew() {
+    this.passwordTextTypeNew = !this.passwordTextTypeNew;
+  }
+
+  /**
+   * Toggle Password Text Type Retype
+   */
+  togglePasswordTextTypeRetype() {
+    this.passwordTextTypeRetype = !this.passwordTextTypeRetype;
+  }
+
 }

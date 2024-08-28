@@ -14,6 +14,117 @@
         quizzes.
       </p>
     </div>
+
+
+    <!-- <div class="nav-item">
+      <div
+       
+        class="nav-link d-flex py-75"
+        id="account-pill-password"
+        data-toggle="pill"
+       
+        aria-expanded="false"
+      >
+        <i data-feather="lock" class="font-medium-3 mr-1"></i>
+        <span class="font-weight-bold">Change Password</span>
+    </div>
+      
+        <div class="card">
+          <div class="card-body">
+   
+            <form class="validate-form">
+              <div class="row">
+                <div class="col-12 col-sm-6">
+                  <div class="form-group">
+                    <label for="account-old-password">Old Password</label>
+                    <div class="input-group form-password-toggle input-group-merge">
+                      <input   [(ngModel)]="old_password"
+                        [type]="passwordTextTypeOld ? 'text' : 'password'"
+                        class="form-control"
+                        id="account-old-password"
+                        name="password"
+                        placeholder="Old Password"
+                      />
+                      <div class="input-group-append">
+                        <span class="input-group-text cursor-pointer"
+                          ><i
+                            class="feather font-small-4"
+                            [ngClass]="{
+                              'icon-eye-off': passwordTextTypeOld,
+                              'icon-eye': !passwordTextTypeOld
+                            }"
+                            (click)="togglePasswordTextTypeOld()"
+                          ></i
+                        ></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-sm-6">
+                  <div class="form-group">
+                    <label for="account-new-password">New Password</label>
+                    <div class="input-group form-password-toggle input-group-merge">
+                      <input  [(ngModel)]="new_password"
+                        [type]="passwordTextTypeNew ? 'text' : 'password'"
+                        id="account-new-password"
+                        name="new-password"
+                        class="form-control"
+                        placeholder="New Password"
+                      />
+                      <div class="input-group-append">
+                        <span class="input-group-text cursor-pointer"
+                          ><i
+                            class="feather font-small-4"
+                            [ngClass]="{
+                              'icon-eye-off': passwordTextTypeNew,
+                              'icon-eye': !passwordTextTypeNew
+                            }"
+                            (click)="togglePasswordTextTypeNew()"
+                          ></i
+                        ></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                  <div class="form-group">
+                    <label for="account-retype-new-password">Retype New Password</label>
+                    <div class="input-group form-password-toggle input-group-merge">
+                      <input  [(ngModel)]="confirm_password"
+                        [type]="passwordTextTypeRetype ? 'text' : 'password'"
+                        class="form-control"
+                        id="account-retype-new-password"
+                        name="confirm-new-password"
+                        placeholder="New Password"
+                      />
+                      <div class="input-group-append">
+                        <span class="input-group-text cursor-pointer"
+                          ><i
+                            class="feather font-small-4"
+                            [ngClass]="{
+                              'icon-eye-off': passwordTextTypeRetype,
+                              'icon-eye': !passwordTextTypeRetype
+                            }"
+                            (click)="togglePasswordTextTypeRetype()"
+                          ></i
+                        ></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <button type="submit" class="btn btn-primary mr-1 mt-1" rippleEffect  (click)="savePassword()">SAVE</button>
+                </div>
+              </div>
+            </form>
+        
+          </div>
+        </div>
+    
+      </div> -->
+
   </div>
   <div class="profile-picture-section" *ngIf="section == 2">
     <div s="profile-pictuclasre">

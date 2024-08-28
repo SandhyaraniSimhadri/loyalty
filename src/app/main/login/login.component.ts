@@ -169,15 +169,19 @@ export class LoginComponent implements OnInit {
               }, 4500);
 
               // setTimeout(() => {
+                console.log("first time login",this.httpService.USERINFO.first_time_login);
               if (this.httpService.USERINFO.user_type == 1) {
-                if(this.httpService.USERINFO.first_time_login=='Yes'){
+                if(this.httpService.USERINFO.first_time_login==1){
+                  console.log("first time login",this.httpService.USERINFO.first_time_login);
                 this._router.navigate(["/welcome"]);}
                 else{
                   this._router.navigate(["/company/company"]);
                 }
               } 
               else {
-                if(this.httpService.USERINFO.first_time_login=='Yes'){
+                if(this.httpService.USERINFO.first_time_login==1){
+                  console.log("first time login",this.httpService.USERINFO.first_time_login);
+
                   this._router.navigate(["/welcome"]);}
                   else{
                     this._router.navigate(["/predictions/predictions"], {
@@ -322,7 +326,7 @@ export class LoginComponent implements OnInit {
               this.httpService.APIToken = res?.data?.token;
               this.httpService.loginuserid = res?.data?.user_id;
               if (res.data.user_type == 1) {
-                if(res.data.first_time_login=='Yes'){
+                if(res.data.first_time_login==1){
                 
                   this._router.navigate(["/welcome"]);
                 }
@@ -331,7 +335,7 @@ export class LoginComponent implements OnInit {
                 }
                
               } else {
-                if(res.data.first_time_login=='Yes'){
+                if(res.data.first_time_login==1){
                 
                   this._router.navigate(["/welcome"]);
                 }
