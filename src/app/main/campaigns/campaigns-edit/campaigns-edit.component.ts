@@ -260,7 +260,6 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
     this.checkFormModified();
   }
   submit(form) {
-    this.buttonLoading = true;
     if (form.valid) {
       if (this.currentRow.event_id == 1) {
         const hasEmptyFields = this.currentRow.games.some(
@@ -298,11 +297,17 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
         }
         if(this.currentRow.duration==0){
           this.durationMsg= true;
+          this._toastrService.error("Please fill all details", "Failed", {
+            toastClass: "toast ngx-toastr",
+            closeButton: true,
+          });
+          return;
   
         }
       }
       this.errorMsg = false;
       this.durationMsg=false;
+      this.buttonLoading = true;
   
       const formData = new FormData();
       const games_data = this.games;

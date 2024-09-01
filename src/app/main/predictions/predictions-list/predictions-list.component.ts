@@ -585,13 +585,13 @@ export class PredictionsListComponent implements OnInit {
         } else {
           if (res.status == false) {
           } else if (res.status == true) {
-            this.rows = res.data;
+            this.rows[0] = res.data;
             if (res.data.campaign_title == undefined) {
               this.rows = [];
               res.data = null;
             }
             if (res.data) {
-              this.campaign_data.participants = this.rows.participants;
+              this.campaign_data.participants = this.rows[0].participants;
             }
           }
         }

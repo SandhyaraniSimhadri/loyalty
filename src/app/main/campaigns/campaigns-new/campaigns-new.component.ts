@@ -215,6 +215,11 @@ export class CampaignsNewComponent implements OnInit {
       }
       if(this.duration==0){
         this.durationMsg= true;
+        this._toastrService.error("Please fill all details", "Failed", {
+          toastClass: "toast ngx-toastr",
+          closeButton: true,
+        });
+        return;
 
       }
     }
