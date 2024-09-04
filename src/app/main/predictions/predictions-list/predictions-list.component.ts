@@ -129,6 +129,8 @@ export class PredictionsListComponent implements OnInit {
     );
     console.log("current user", this.currentUser.avatar);
     this.user_image = this.apiUrl + this.httpService.USERINFO.avatar;
+    console.log("user image",this.user_image)
+
 
     this._unsubscribeAll = new Subject();
 

@@ -35,7 +35,7 @@
                 <ng-container *ngIf="currentUser">
                   <div (click)="gotoProfile()">
                     <img
-                      *ngIf="user_image"
+                      *ngIf="httpService.USERINFO.avatar"
                       class="round"
                       [src]="user_image"
                       alt="avatar"
@@ -43,7 +43,7 @@
                       width="40"
                     />
                     <img
-                      *ngIf="user_image==''"
+                      *ngIf="httpService.USERINFO.avatar==null"
                       class="round"
                       src="assets/images/profile/person.png"
                       alt="avatar"

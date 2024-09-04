@@ -173,7 +173,7 @@ export class LoginComponent implements OnInit {
               if (this.httpService.USERINFO.user_type == 1) {
                 if(this.httpService.USERINFO.first_time_login==1){
                   console.log("first time login",this.httpService.USERINFO.first_time_login);
-                this._router.navigate(["/welcome"]);}
+                  this._router.navigate(["/welcome"], { queryParams: { campaign_id: this.campaign_id } });}
                 else{
                   this._router.navigate(["/company/company"]);
                 }
@@ -182,7 +182,7 @@ export class LoginComponent implements OnInit {
                 if(this.httpService.USERINFO.first_time_login==1){
                   console.log("first time login",this.httpService.USERINFO.first_time_login);
 
-                  this._router.navigate(["/welcome"]);}
+                  this._router.navigate(["/welcome"], { queryParams: { campaign_id: this.campaign_id } });}
                   else{
                     this._router.navigate(["/predictions/predictions"], {
                       queryParams: { campaign_id: this.campaign_id },
@@ -328,7 +328,7 @@ export class LoginComponent implements OnInit {
               if (res.data.user_type == 1) {
                 if(res.data.first_time_login==1){
                 
-                  this._router.navigate(["/welcome"]);
+                  this._router.navigate(["/welcome"], { queryParams: { campaign_id: this.campaign_id } });
                 }
                 else{
                   this._router.navigate(["/company/company"]);
@@ -337,7 +337,7 @@ export class LoginComponent implements OnInit {
               } else {
                 if(res.data.first_time_login==1){
                 
-                  this._router.navigate(["/welcome"]);
+                  this._router.navigate(["/welcome"], { queryParams: { campaign_id: this.campaign_id } });
                 }
                 else{
                 this._router.navigate(["/predictions/predictions"], {
