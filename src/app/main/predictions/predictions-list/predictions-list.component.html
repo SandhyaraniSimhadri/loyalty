@@ -616,17 +616,21 @@
                       />
                           <h4 class="card-title mb-0 ml-1">
                             <b>
-                              <span style="font-size: 14px; display: flex; align-items: center;margin-top: -10px !important;">
-                                {{ participant.user_name | truncate : 7 }} 
-                                <button
+                              <span style="font-size: 14px; display: flex; flex-direction: row; align-items: center;margin-top: -10px !important;">
+                                {{ participant.user_name | truncate : 10 }} 
+                                <!-- <button
                                   type="button"
                                   rippleEffect
                                   class="btn"
                                   [ngbTooltip]="'Time taken: ' + participant.time_taken"
                                   style="display: inline-flex; align-items: center;margin-left:-10px !important;width: 100%; "
-                                >
-                                  <i data-feather="alert-circle" style="color:black"></i>
-                                </button>
+                                > -->
+                                <span rippleEffect
+                                class="btn"
+                                [ngbTooltip]="'Time taken: ' + participant.time_taken">
+                                  <i data-feather="alert-circle" style="color:black" ></i>
+                                </span>
+                                <!-- </button> -->
                               </span>
                             </b>
                           </h4>

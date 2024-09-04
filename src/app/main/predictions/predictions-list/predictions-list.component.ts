@@ -274,6 +274,7 @@ export class PredictionsListComponent implements OnInit {
       action_url: "get_prediction_details",
       method: "POST",
     };
+    console.log("request",request);
     this.httpService.doHttp(request).subscribe(
       (res: any) => {
         if (res == "nonet") {
