@@ -94,7 +94,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.userService.currentUser.subscribe(user => {
       this.currentUser = user;
     });
+    console.log("current image",this.currentUser);
     this.image = this.apiUrl + this.httpService.USERINFO.avatar;
+    console.log("current image123",this.currentUser);
+
     this.languageOptions = {
       en: {
         title: 'English',

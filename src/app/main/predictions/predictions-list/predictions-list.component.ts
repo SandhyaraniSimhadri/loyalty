@@ -73,7 +73,7 @@ export class PredictionsListComponent implements OnInit {
   public buttonLoading: any = false;
   public currentUser: User;
   public selectedWinner: any = "";
-  public user_image: any;
+  public user_image: any="";
   public colors: any;
   public campaign_id: any = 0;
   public answers: string[] = [];
@@ -536,11 +536,12 @@ export class PredictionsListComponent implements OnInit {
               this.campaign_data.quizzes != undefined &&
               this.campaign_data.quizzes.length > 0
             ) {
+              if(this.campaign_data.participants!=undefined){
               this.submitted = this.campaign_data.quizzes.every((quiz) =>
                 this.campaign_data.self.some(
                   (answer) => answer.game_id === quiz.id
                 )
-              );
+              );}
               this.campaign_data.duration =
                 this.campaign_data.duration * 60 * 1000;
               this.remainingTime = this.campaign_data.duration;

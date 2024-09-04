@@ -53,31 +53,29 @@
             [formGroup]="loginForm"
             (ngSubmit)="onSubmit()"
           >
-          <div class="input-group" *ngIf="type==2">
-            <i data-feather="user" class="mr-1 mt-0 icon-cls"></i>
-            <input
-              type="text"
-              formControlName="user_name"
-              class=""
-              [ngClass]="{
-                'is-invalid error': submitted && f.user_name.errors
-              }"
-              placeholder="User name"
-              aria-describedby="login-user-name"
-            />
+            <div class="input-group" *ngIf="type == 2">
+              <i data-feather="user" class="mr-1 mt-0 icon-cls"></i>
+              <input
+                type="text"
+                formControlName="user_name"
+                class=""
+                [ngClass]="{
+                  'is-invalid error': submitted && f.user_name.errors
+                }"
+                placeholder="User name"
+                aria-describedby="login-user-name"
+              />
 
-            <div
-              *ngIf="submitted && f.user_name.errors"
-              class="invalid-feedback"
-              [ngClass]="{ 'd-block': submitted && f.user_name.errors }"
-            >
-              <div *ngIf="f.user_name.errors.required">
-                User name is required
+              <div
+                *ngIf="submitted && f.user_name.errors"
+                class="invalid-feedback"
+                [ngClass]="{ 'd-block': submitted && f.user_name.errors }"
+              >
+                <div *ngIf="f.user_name.errors.required">
+                  User name is required
+                </div>
               </div>
-
-             
             </div>
-          </div>
             <div class="input-group align-items-center">
               <i data-feather="mail" class="mr-1 mt-0 icon-cls"></i>
               <input
@@ -119,8 +117,8 @@
                 </div>
               </div>
             </div>
-<!-- {{f.new_password.value}} -->
-            <div class="input-group" *ngIf="type==1 || type==2">
+            <!-- {{f.new_password.value}} -->
+            <div class="input-group" *ngIf="type == 1 || type == 2">
               <i data-feather="lock" class="mr-1 mt-0 icon-cls"></i>
               <input
                 type="password"
@@ -136,35 +134,52 @@
               <div
                 *ngIf="submitted && f.confirm_password.errors"
                 class="invalid-feedback"
-                [ngClass]="{ 'd-block': submitted && f.confirm_password.errors }"
+                [ngClass]="{
+                  'd-block': submitted && f.confirm_password.errors
+                }"
               >
                 <div *ngIf="f.confirm_password.errors.required">
                   Password is required
                 </div>
 
-                <div *ngIf="f.confirm_password.errors.required && f.confirm_password.value!= f.password.value">
-                Pawword and Confirm password should be same
+                <div
+                  *ngIf="
+                    f.confirm_password.errors.required &&
+                    f.confirm_password.value != f.password.value
+                  "
+                >
+                  Pawword and Confirm password should be same
                 </div>
               </div>
             </div>
-           
+
             <br />
-           <div class="container-fluid py-3">
-
-
-  
-    <div >
-      <div>
-        <re-captcha id="recaptcha"   (resolved)="onCaptchaResolved($event)" name="recaptcha" #recaptcha="ngModel" [(ngModel)]="token" required [class.is-invalid]="recaptcha.invalid && (recaptcha.dirty || recaptcha.touched)"></re-captcha>
-        <div *ngIf="recaptcha.invalid && (recaptcha.dirty || recaptcha.touched)" class="invalid-feedback">
-          <div *ngIf="recaptcha.errors?.['required']">This field is required.</div>
-        </div>
-      </div>
-    </div>
-  
-
-</div>
-            <button 
+            <div class="container-fluid py-3">
+              <div>
+                <re-captcha
+                  id="recaptcha"
+                  (resolved)="onCaptchaResolved($event)"
+                  name="recaptcha"
+                  #recaptcha="ngModel"
+                  [(ngModel)]="token"
+                  required
+                  [class.is-invalid]="
+                    recaptcha.invalid && (recaptcha.dirty || recaptcha.touched)
+                  "
+                ></re-captcha>
+                <div
+                  *ngIf="
+                    recaptcha.invalid && (recaptcha.dirty || recaptcha.touched)
+                  "
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="recaptcha.errors?.['required']">
+                    This field is required.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button
               [disabled]="loading"
               class="btn btn-primary btn-login"
               rippleEffect
@@ -172,23 +187,16 @@
               <span
                 *ngIf="loading"
                 class="spinner-border spinner-border-sm mr-1"
-              ></span
-              >
-              <span *ngIf="type==undefined || type==0">
-                LOGIN
-              </span>
-              <span *ngIf="type==1">
-                SET PASSWORD
-              </span>
-              <span *ngIf="type==2">
-                PROCEED
-              </span>
+              ></span>
+              <span *ngIf="type == undefined || type == 0"> LOGIN </span>
+              <span *ngIf="type == 1"> SET PASSWORD </span>
+              <span *ngIf="type == 2"> PROCEED </span>
             </button>
-           
 
             <p
               class="d-flex justify-content-center justify-content-center align-items-center mt-1"
-              *ngIf="type==undefined || type==0">
+              *ngIf="type == undefined || type == 0"
+            >
               <br />
               <a routerLink="/pages/authentication/forgot-password-v2"
                 ><small>Forgot Password?</small></a
@@ -196,39 +204,41 @@
             </p>
           </form>
 
-          <div class="auth-footer-btn d-flex align-items-center" *ngIf="type==0">
+          <div
+            class="auth-footer-btn d-flex align-items-center"
+            *ngIf="type == 0"
+          >
             <span class="font-weight-bold mr-1">Sign in with: </span>
             <div class="container" style="max-width: 550px" class="d-flex">
-              <asl-google-signin-button
-                size="large"
-              ></asl-google-signin-button>
-            <div
-              class="ml-1"
-              style="
-                transition: background-color 0.218s;
-                -webkit-border-radius: 4px;
-                border: 1px solid #dadce0;
-                -webkit-box-sizing: border-box;
-                box-sizing: border-box;
-                -webkit-transition: background-color 0.218s, border-color 0.218s;
-                transition: background-color 0.218s, border-color 0.218s;
-                background-color: #fff;
-                border-radius: 4px;
-                cursor: pointer;
-                height: 40px;
-                width: 40px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-              "
-              (click)="loginWithFacebook()" 
-            >
-              <img
-                src="../../../assets/images/icons/facebook.png"
-                style="width: 24px; height: 24px"
-              />
-              <!-- <button type="button" (click)="loginWithFacebook()" class="btn btn-primary btn-block">Signin with Facebook</button> -->
-            </div>
+              <asl-google-signin-button size="large"></asl-google-signin-button>
+              <div
+                class="ml-1"
+                style="
+                  transition: background-color 0.218s;
+                  -webkit-border-radius: 4px;
+                  border: 1px solid #dadce0;
+                  -webkit-box-sizing: border-box;
+                  box-sizing: border-box;
+                  -webkit-transition: background-color 0.218s,
+                    border-color 0.218s;
+                  transition: background-color 0.218s, border-color 0.218s;
+                  background-color: #fff;
+                  border-radius: 4px;
+                  cursor: pointer;
+                  height: 40px;
+                  width: 40px;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                "
+                (click)="loginWithFacebook()"
+              >
+                <img
+                  src="../../../assets/images/icons/facebook.png"
+                  style="width: 24px; height: 24px"
+                />
+                <!-- <button type="button" (click)="loginWithFacebook()" class="btn btn-primary btn-block">Signin with Facebook</button> -->
+              </div>
             </div>
             <!-- <img src="../../../../../assets/images/login/facebook.png" alt="brand-logo" height="55" class="mr-1"/>
           <img src="../../../../../assets/images/login/google.png" alt="brand-logo" height="55"/> -->

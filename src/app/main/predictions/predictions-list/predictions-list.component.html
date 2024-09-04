@@ -35,7 +35,7 @@
                 <ng-container *ngIf="currentUser">
                   <div (click)="gotoProfile()">
                     <img
-                      *ngIf="currentUser.avatar"
+                      *ngIf="user_image"
                       class="round"
                       [src]="user_image"
                       alt="avatar"
@@ -43,7 +43,7 @@
                       width="40"
                     />
                     <img
-                      *ngIf="currentUser.avatar == null"
+                      *ngIf="user_image==''"
                       class="round"
                       src="assets/images/profile/person.png"
                       alt="avatar"
@@ -494,11 +494,11 @@
                   <img  class="col-12"src="assets/images/pages/prediction/predict.png" alt="Prediction" style="object-fit: cover !important;width: 100%;">
                    <br/></div> 
                    <div class="row mt-2"> 
-                    <button class="col-6 btn btn-primary-TandC mb-1 mb-sm-0 mr-0 mr-sm-1">
+                    <button class="col-6 btn btn-primary-TandC mb-1">
                       T&Cs
                     </button>  
                    <button
-                      class=" col-6 btn btn-primary-predict mb-1 mb-sm-0 mr-0 mr-sm-1"
+                      class=" col-6 btn btn-primary-predict mb-1"
                       rippleEffect
                       (click)="startCountdown()"
                     >
@@ -530,8 +530,8 @@
         </div>
 
         <div *ngIf="!loading && !refresh_loading && rows.length>0"  #scrollableDiv 
-        [ngClass]="{'scrollable-container': campaign_data.participants.length > 10}"
-        (scroll)="campaign_data.participants.length > 10 ? onScroll($event) : null">
+        [ngClass]="{'scrollable-container': campaign_data.participants !=undefied && campaign_data.participants.length > 10}"
+        (scroll)="(campaign_data.participants !=undefied && campaign_data.participants.length > 10) ? onScroll($event) : null">
           <!-- Company Table -->
 
           <div class="card">
@@ -623,7 +623,7 @@
                                   rippleEffect
                                   class="btn"
                                   [ngbTooltip]="'Time taken: ' + participant.time_taken"
-                                  style="display: inline-flex; align-items: center;margin-left:-10px !important; "
+                                  style="display: inline-flex; align-items: center;margin-left:-10px !important;width: 100%; "
                                 >
                                   <i data-feather="alert-circle" style="color:black"></i>
                                 </button>
