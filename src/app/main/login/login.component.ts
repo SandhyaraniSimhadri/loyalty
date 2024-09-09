@@ -1,4 +1,12 @@
-import { Component, NgZone, OnInit, ViewEncapsulation } from "@angular/core";
+import {
+  Component,
+  NgZone,
+  OnInit,
+  ViewEncapsulation,
+  Renderer2,
+  ElementRef,
+  AfterViewInit,
+} from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import {
   FormControl,
@@ -39,6 +47,7 @@ export class LoginComponent implements OnInit {
   isLoggedin?: boolean;
   public coreConfig: any;
   loginForm: FormGroup;
+  public login_cred = true;
   public loading = false;
   public submitted = false;
   public returnUrl: string;
@@ -49,8 +58,9 @@ export class LoginComponent implements OnInit {
   public socialLogClicked: any = false;
   public type: any = 0;
   public campaign_id: any = null;
-  token: string|undefined;
-  captcha_token:any=null;
+  token: string | undefined;
+  captcha_token: any = null;
+  public register_clicked:any=false;
   // Private
   private _unsubscribeAll: Subject<any>;
 
@@ -60,7 +70,7 @@ export class LoginComponent implements OnInit {
    * @param {CoreConfigService} _coreConfigService
    */
   //6LfhKxUqAAAAADTIEBB4IRPhETpFycTuWF0Svb-6
-//6LfhKxUqAAAAABeZappTk6Uv0ydQ9hRgDuJvl9tI
+  //6LfhKxUqAAAAABeZappTk6Uv0ydQ9hRgDuJvl9tI
   constructor(
     private _coreConfigService: CoreConfigService,
     private _formBuilder: UntypedFormBuilder,
@@ -72,9 +82,11 @@ export class LoginComponent implements OnInit {
     // private recaptchaV2Service: ReCaptchaV2Service,
     private formBuilder: FormBuilder,
     private socialAuthService: SocialAuthService,
-    private _zone: NgZone
+    private _zone: NgZone,
+    private renderer: Renderer2,
+    private el: ElementRef
   ) {
-    this.token=undefined;
+    this.token = undefined;
     // // redirect to home if already logged in
     // if (this._authenticationService.currentUserValue) {
     //   this._router.navigate(["/"]);
@@ -113,22 +125,28 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log("campaign id val" ,this.campaign_id);
+    console.log("campaign id val", this.campaign_id);
+    console.log("type", this.type);
+
     this._route.queryParams.subscribe((params) => {
       if (params) {
-        this.campaign_id=params['campaign_id'];
-      }});
+        this.campaign_id = params["campaign_id"];
+      }
+    });
     this.error = "";
     this.submitted = true;
 
     // stop here if form is invalid
+    console.log("this.loginForm.invalid", this.loginForm.value);
+    console.log("this.loginForm.invalid", this.loginForm.invalid);
+
     if (this.loginForm.invalid) {
       return;
     }
     // if(this.loginForm.password)
     // console.log("value",this.loginForm.value);
     if (
-      (this.type == 1 || this.type==2) &&
+      (this.type == 1 || this.type == 2) &&
       this.loginForm.value.confirm_password != this.loginForm.value.password
     ) {
       this._toastrService.error(
@@ -146,84 +164,99 @@ export class LoginComponent implements OnInit {
     let email = user_val.email;
     let pwd = user_val.password;
     if (this.type == undefined || this.type == 0) {
-      if(this.captcha_token!=null){
-      this._authenticationService
-        .login(email, pwd)
-        .pipe(first())
-        .subscribe(
-          (data) => {
-            const user = data;
-            if (data.status) {
-              localStorage.setItem("currentUser", JSON.stringify(user.data));
-              let user_data = JSON.parse(localStorage.getItem("currentUser"));
-              this.httpService.USERINFO = user_data;
-              this.httpService.APIToken = user_data.token;
-              this.httpService.loginuserid = user_data.user_id;
+      console.log("login type", this.type);
+      if (this.captcha_token != null) {
+        this._authenticationService
+          .login(email, pwd)
+          .pipe(first())
+          .subscribe(
+            (data) => {
+              const user = data;
+              if (data.status) {
+                this.login_cred = true;
+                localStorage.setItem("currentUser", JSON.stringify(user.data));
+                let user_data = JSON.parse(localStorage.getItem("currentUser"));
+                this.httpService.USERINFO = user_data;
+                this.httpService.APIToken = user_data.token;
+                this.httpService.loginuserid = user_data.user_id;
 
-              setTimeout(() => {
-                this._toastrService.success(
-                  "You have successfully logged in. Now you can start to explore. Enjoy! 🎉",
-                  "👋 Welcome !",
-                  { toastClass: "toast ngx-toastr", closeButton: true }
+                setTimeout(() => {
+                  this._toastrService.success(
+                    "You have successfully logged in. Now you can start to explore. Enjoy! 🎉",
+                    "👋 Welcome !",
+                    { toastClass: "toast ngx-toastr", closeButton: true }
+                  );
+                }, 4500);
+
+                // setTimeout(() => {
+                console.log(
+                  "first time login",
+                  this.httpService.USERINFO.first_time_login
                 );
-              }, 4500);
+                if (this.httpService.USERINFO.user_type == 1) {
+                  if (this.httpService.USERINFO.first_time_login == 1) {
+                    console.log(
+                      "first time login",
+                      this.httpService.USERINFO.first_time_login
+                    );
+                    this._router.navigate(["/welcome"], {
+                      queryParams: { campaign_id: this.campaign_id },
+                    });
+                  } else {
+                    this._router.navigate(["/company/company"]);
+                  }
+                } else {
+                  if (this.httpService.USERINFO.first_time_login == 1) {
+                    console.log(
+                      "first time login",
+                      this.httpService.USERINFO.first_time_login
+                    );
 
-              // setTimeout(() => {
-                console.log("first time login",this.httpService.USERINFO.first_time_login);
-              if (this.httpService.USERINFO.user_type == 1) {
-                if(this.httpService.USERINFO.first_time_login==1){
-                  console.log("first time login",this.httpService.USERINFO.first_time_login);
-                  this._router.navigate(["/welcome"], { queryParams: { campaign_id: this.campaign_id } });}
-                else{
-                  this._router.navigate(["/company/company"]);
-                }
-              } 
-              else {
-                if(this.httpService.USERINFO.first_time_login==1){
-                  console.log("first time login",this.httpService.USERINFO.first_time_login);
-
-                  this._router.navigate(["/welcome"], { queryParams: { campaign_id: this.campaign_id } });}
-                  else{
+                    this._router.navigate(["/welcome"], {
+                      queryParams: { campaign_id: this.campaign_id },
+                    });
+                  } else {
                     this._router.navigate(["/predictions/predictions"], {
                       queryParams: { campaign_id: this.campaign_id },
                     });
                   }
-
-               
+                }
+                // }, 3000);
+              } else {
+                this.login_cred = false;
+                setTimeout(() => {
+                  this._toastrService.error(data.msg, "Failed", {
+                    toastClass: "toast ngx-toastr",
+                    closeButton: true,
+                  });
+                }, 2500);
               }
-              // }, 3000);
-            } else {
-              setTimeout(() => {
-                this._toastrService.error(data.msg, "Failed", {
-                  toastClass: "toast ngx-toastr",
-                  closeButton: true,
-                });
-              }, 2500);
+              this.loading = false;
+            },
+            (error) => {
+              this.error = error;
+              this.loading = false;
             }
-            this.loading = false;
-          },
-          (error) => {
-            this.error = error;
-            this.loading = false;
-          }
-        );
+          );
 
-      return;
-   }else{
-    this._toastrService.error(
-      "Please verify captcha",
-      "Failed",
-      { toastClass: "toast ngx-toastr", closeButton: true }
-    );
-    this.loading=false;
-   } } else if(this.type==2){
-      user_val.campaign_id=this.campaign_id;
+        return;
+      } else {
+        this._toastrService.error("Please verify captcha", "Failed", {
+          toastClass: "toast ngx-toastr",
+          closeButton: true,
+        });
+        this.loading = false;
+      }
+    } else if (this.type == 2) {
+      user_val.campaign_id = this.campaign_id;
+      console.log("set registration");
       this.setRegistration(user_val);
-    }
-    else {
+    } else {
       this.setNewPassword(user_val);
     }
   }
+
+
   ngOnInit(): void {
     this.loginForm = this._formBuilder.group({
       email: ["", [Validators.required, Validators.email]],
@@ -248,22 +281,13 @@ export class LoginComponent implements OnInit {
         if (email) {
           this.loginForm.patchValue({ email: email.trim() });
         }
+      this.loginModify();
+
       }
     });
     console.log("type", this.type);
-    if (this.type == 1 || this.type == 2) {
-      this.loginForm.addControl(
-        "confirm_password",
-        new FormControl("", Validators.required)
-      );
-    }
-    if(this.type==2){
-      this.loginForm.addControl(
-        "user_name",
-        new FormControl("", Validators.required)
-      );
-    }
 
+   
     // get return url from route parameters or default to '/'
     this.returnUrl = this._route.snapshot.queryParams["returnUrl"] || "/";
 
@@ -290,6 +314,32 @@ export class LoginComponent implements OnInit {
       }
     });
     // }
+  }
+  loginModify() {
+    if (this.type == 1 || this.type == 2) {
+      this.loginForm.addControl(
+        "confirm_password",
+        new FormControl("", Validators.required)
+      );
+    }
+    if (this.type == 2) {
+      this.loginForm.addControl(
+        "user_name",
+        new FormControl("", Validators.required)
+      );
+    }
+  if(this.register_clicked==true){
+    this.loginForm.addControl(
+      "confirm_password",
+      new FormControl("", Validators.required)
+    );
+    this.loginForm.addControl(
+      "user_name",
+      new FormControl("", Validators.required)
+    );
+    this.type=2;
+  }
+    
   }
 
   checkUser() {
@@ -326,23 +376,23 @@ export class LoginComponent implements OnInit {
               this.httpService.APIToken = res?.data?.token;
               this.httpService.loginuserid = res?.data?.user_id;
               if (res.data.user_type == 1) {
-                if(res.data.first_time_login==1){
-                
-                  this._router.navigate(["/welcome"], { queryParams: { campaign_id: this.campaign_id } });
-                }
-                else{
+                if (res.data.first_time_login == 1) {
+                  this._router.navigate(["/welcome"], {
+                    queryParams: { campaign_id: this.campaign_id },
+                  });
+                } else {
                   this._router.navigate(["/company/company"]);
                 }
-               
               } else {
-                if(res.data.first_time_login==1){
-                
-                  this._router.navigate(["/welcome"], { queryParams: { campaign_id: this.campaign_id } });
+                if (res.data.first_time_login == 1) {
+                  this._router.navigate(["/welcome"], {
+                    queryParams: { campaign_id: this.campaign_id },
+                  });
+                } else {
+                  this._router.navigate(["/predictions/predictions"], {
+                    queryParams: { campaign_id: this.campaign_id },
+                  });
                 }
-                else{
-                this._router.navigate(["/predictions/predictions"], {
-                  queryParams: { campaign_id: this.campaign_id },
-                });}
               }
               this.main_loading = false;
 
@@ -453,15 +503,15 @@ export class LoginComponent implements OnInit {
       }
     );
   }
-  setRegistration(values:any){
+  setRegistration(values: any) {
     this.loading = true;
     let request = {
       params: {
         email: values.email,
         password: values.password,
         confirm_password: values.confirm_password,
-        user_name:values.user_name,
-        campaign_id:this.campaign_id,
+        user_name: values.user_name,
+        campaign_id: this.campaign_id,
       },
       action_url: "set_registration",
       method: "POST",
@@ -480,10 +530,10 @@ export class LoginComponent implements OnInit {
               toastClass: "toast ngx-toastr",
               closeButton: true,
             });
-            this._router.navigate(["/"],{
+            this._router.navigate(["/"], {
               queryParams: { campaign_id: this.campaign_id },
             });
-            console.log("campaign id",this.campaign_id);
+            console.log("campaign id", this.campaign_id);
             this.type = 0;
           }
         }
@@ -496,18 +546,32 @@ export class LoginComponent implements OnInit {
   }
   onCaptchaResolved(response: any): void {
     // Use the response token as needed
-    console.log('reCAPTCHA v2 Response:', response);
-   this.captcha_token=response;
-
-
+    console.log("reCAPTCHA v2 Response:", response);
+    this.captcha_token = response;
   }
   public send(): void {
-    
-
     console.debug(`Token [${this.token}] generated`);
   }
   resolved(captchaResponse: string) {
     console.log(`Resolved captcha with response: ${captchaResponse}`);
   }
-  
+  loginBtn() {
+    if (this.type == 1 || this.type == 2) {
+      this.loginForm.removeControl("confirm_password");
+    }
+
+    if (this.type == 2) {
+      this.loginForm.removeControl("user_name");
+    }
+    if (this.type != 1 && this.type != 2) {
+      this.loginForm.removeControl("confirm_password");
+      this.loginForm.removeControl("user_name");
+    }
+    this.type = 0;
+    console.log("typr", this.type);
+  }
+  registerBtn() {
+    this.register_clicked=true;
+    this.loginModify();
+  }
 }

@@ -1,9 +1,9 @@
-@import '@core/scss/base/bootstrap-extended/include'; // Bootstrap includes
-@import '@core/scss/base/pages/page-auth.scss';
-@import '@core/scss/angular/libs/toastr.component.scss';
-@import '@core/scss/angular/libs/datatables.component.scss';
-@import '@core/scss/base/pages/app-user.scss';
-@import '@core/scss/angular/libs/select.component.scss';
+@import "@core/scss/base/bootstrap-extended/include"; // Bootstrap includes
+@import "@core/scss/base/pages/page-auth.scss";
+@import "@core/scss/angular/libs/toastr.component.scss";
+@import "@core/scss/angular/libs/datatables.component.scss";
+@import "@core/scss/base/pages/app-user.scss";
+@import "@core/scss/angular/libs/select.component.scss";
 
 .auth-help-icon {
   position: absolute;
@@ -11,73 +11,86 @@
   right: 10px;
 }
 
-.signin-title{
+.signin-title {
   font-weight: 200;
 }
 .login-container {
+  margin-top: -14px;
   background-color: white;
-  padding: 10px; /* Adjust the padding as needed */
+  padding-left: 10px; /* Adjust the padding as needed */
+  padding-right: 10px; /* Adjust the padding as needed */
+
   // border-radius:10px;
-  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 re-captcha.is-invalid > div {
   border: 1px solid #dc3545 !important;
   border-radius: 0.2rem;
 }
+.image-container {
+  position: relative; /* This is important for absolute positioning inside */
+}
 
-.btn-login{
-  background:linear-gradient(90deg, #66b1f9 0%, #7459dc 50%);
+.center-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center horizontally and vertically */
+  width: 100px; /* Adjust width as needed */
+}
+
+.btn-login {
+  background: linear-gradient(90deg, #66b1f9 0%, #7459dc 50%);
   color: #fff !important;
-  padding-left:30px;
+  padding-left: 30px;
   padding-right: 30px;
   width: 100%;
 }
-.register{
-  color:#9B02FE;
+.register {
+  color: #9b02fe;
 }
-.font-cls{
+.font-cls {
   font-size: 12px;
 }
 
-.img-fluid{
- 
+.img-fluid {
   padding: 0px !important;
 }
-.img-class{
+.img-class {
   padding: 0px !important;
-
 }
-input{
-  width:85% !important;
-  border:none;
+input {
+  width: 85% !important;
+  border: none;
   background-color: transparent;
-  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif !important;
 }
 input:focus,
 select:focus,
 textarea:focus,
 button:focus {
-    outline: none !important;
-  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
-
+  outline: none !important;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif !important;
 }
 
-.fa-user-circle-o{
+.fa-user-circle-o {
   color: gray;
 }
-.icon-cls{
-  margin-top:4px !important;
-  color:#9B02FE;
+.icon-cls {
+  margin-top: 4px !important;
+  color: #9b02fe;
 }
-.input-group{
+.input-group {
   border: 0px solid black;
   border-bottom: 1px #98c6f1 solid;
   padding: 10px;
   padding-top: 30px !important;
   box-shadow: none !important;
-
 }
-.avatar{
+.avatar {
   background-color: white !important;
 }
 // #0d00ff
@@ -93,3 +106,119 @@ button:focus {
   max-width: 100%;
   object-fit: contain; /* Adjust the object-fit property as needed (e.g., contain, cover) */
 }
+
+.img-class {
+  height: 100vh; /* Full viewport height */
+  padding: 0;
+  margin: 0;
+}
+
+.image-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.dynamic-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the image covers the container without gaps */
+}
+
+.center-logo {
+  position: absolute;
+  width: 150px; /* Adjust size as necessary */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.icon-cls {
+  font-size: 1.2em;
+  color: #6c757d;
+}
+
+.captcha-cls {
+  width: 100% !important;
+  display: flex;
+  align-items: center;
+}
+
+.form-control {
+  height: auto;
+}
+
+
+// .g-recaptcha-wrapper {
+//   display: flex;
+//   width: 100% !important;
+//   min-width: 100% !important;
+// }
+
+// .captcha,
+// .captcha-cls {
+//   width: 100% !important;
+//   min-width: 100% !important;
+// }
+// .re-recaptcha {
+//   width: 100% !important;
+//   min-width: 100% !important;
+//   div {
+//     width: 100% !important;
+//     min-width: 100% !important;
+//   }
+// }
+
+// iframe {
+//   width: 100% !important;
+//   min-width: 100% !important;
+// }
+
+// .rc-anchor-normal {
+//   // width: none !important;
+//   min-width: 100% !important;
+//   width: 100% !important;
+//   background-color: red;
+// }
+
+
+re-captcha, .re-captcha, #recaptcha {
+  width: 100% !important;
+}
+
+.captcha-container {
+  width: 100%; /* Ensure the container takes full width */
+  text-align: center; /* Center-align the reCAPTCHA */
+  overflow: hidden; /* Prevent any overflow */
+  margin-top: 8px;
+}
+.bottom-align {
+  // margin-top: -4px !important;
+  position: absolute;
+  // bottom: 0;
+  width: 100%;
+  margin-top: 50px !important;
+
+  font-size: 12px;
+  text-align: center; /* Optional, for centering the text */
+}
+
+.re-captcha {
+  display: inline-block;
+  transform: scale(0.92); /* Adjust scale for better fit */
+  transform-origin: 0 0; /* Scale from top-left */
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .re-captcha {
+    transform: scale(0.85); /* Further scale down for smaller screens */
+    transform-origin: 0 0;
+  }
+}
+.nsm7Bb-HzV7m-LgbsSe {
+  border:none !important;}

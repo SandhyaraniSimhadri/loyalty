@@ -1,5 +1,5 @@
 <div class="auth-wrapper auth-v2">
-  <div class="auth-inner row m-0">
+  <div class="auth-inner row m-0 p-0">
     <!-- Brand logo-->
     <!-- <a class="brand-logo" href="javascript:void(0);">
       <img src="../../../../../assets/images/login/Group 411.png"alt="brand-logo" height="70" />
@@ -7,16 +7,21 @@
     <!-- /Brand logo-->
     <!-- Left Text-->
     <div class="d-none d-lg-flex col-lg-8 align-items-center img-class">
-      <div
-        class="d-lg-flex align-items-center justify-content-center image-container"
-      >
+      <div class="image-container">
         <img
           class="img-fluid dynamic-image"
-          src="../../../../../assets/images/login/SPLASH PAGE.png"
-          alt="Login V2"
+          src="../../../../../assets/images/login/login.jpg"
+          alt="Login"
+        />
+        <!-- Logo Icon Positioned at the Center -->
+        <img
+          class="center-logo"
+          src="../../../../../assets/images/login/logo_icon.png"
+          alt="Logo Icon"
         />
       </div>
     </div>
+
     <!-- /Left Text-->
     <!-- Login-->
 
@@ -27,33 +32,32 @@
     </div>
 
     <div
-      class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5"
+      class="d-flex col-lg-4 align-items-center auth-bg pl-lg-5 pr-lg-5"
       *ngIf="!main_loading"
     >
-      <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
+      <div class="col-12 col-sm-8 col-md-6 col-lg-12">
         <div class="login-container">
           <div class="row d-flex justify-content-center">
             <div class="col-3">
               <div class="avatar">
                 <img
-                  src="../../../../../assets/images/profile/person.png"
+                  src="../../../../../assets/images/profile/login_image.png"
                   alt="avatar"
                   width="60"
                 />
               </div>
             </div>
             <div class="col-9 font-cls">
-              Hey! Welcome to mahyim, bringing togehter the voice of millions to
-              witness and glorify The One.
+              <span style="margin-bottom: 2px !important"
+                ><b>Ready to Have Some Fun?</b></span
+              ><br />
+              First step - sign up or register, and we’ll meet you on the other
+              side! Let the fun begin!
             </div>
           </div>
 
-          <form
-            class="auth-login-form mt-2"
-            [formGroup]="loginForm"
-            (ngSubmit)="onSubmit()"
-          >
-            <div class="input-group" *ngIf="type == 2">
+          <form class="auth-login-form mt-1" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="input-group" *ngIf="type == 2 || register_clicked==true">
               <i data-feather="user" class="mr-1 mt-0 icon-cls"></i>
               <input
                 type="text"
@@ -76,7 +80,9 @@
                 </div>
               </div>
             </div>
-            <div class="input-group align-items-center">
+            <div class="input-group "  [ngStyle]="{
+              'border-bottom': login_cred === false ? '1px solid red' : '1px solid #98c6f1'
+            }">
               <i data-feather="mail" class="mr-1 mt-0 icon-cls"></i>
               <input
                 type="text"
@@ -94,7 +100,9 @@
                 </div>
               </div>
             </div>
-            <div class="input-group">
+            <div class="input-group"  [ngStyle]="{
+              'border-bottom': login_cred === false ? '1px solid red' : '1px solid #98c6f1'
+            }" >
               <i data-feather="lock" class="mr-1 mt-0 icon-cls"></i>
               <input
                 type="password"
@@ -117,8 +125,8 @@
                 </div>
               </div>
             </div>
-            <!-- {{f.new_password.value}} -->
-            <div class="input-group" *ngIf="type == 1 || type == 2">
+
+            <div class="input-group" *ngIf="type == 1 || type == 2 || register_clicked==true">
               <i data-feather="lock" class="mr-1 mt-0 icon-cls"></i>
               <input
                 type="password"
@@ -154,28 +162,28 @@
             </div>
 
             <br />
-            <div class="container-fluid py-3">
-              <div>
-                <re-captcha
-                  id="recaptcha"
-                  (resolved)="onCaptchaResolved($event)"
-                  name="recaptcha"
-                  #recaptcha="ngModel"
-                  [(ngModel)]="token"
-                  required
-                  [class.is-invalid]="
-                    recaptcha.invalid && (recaptcha.dirty || recaptcha.touched)
-                  "
-                ></re-captcha>
-                <div
-                  *ngIf="
-                    recaptcha.invalid && (recaptcha.dirty || recaptcha.touched)
-                  "
-                  class="invalid-feedback"
-                >
-                  <div *ngIf="recaptcha.errors?.['required']">
-                    This field is required.
-                  </div>
+
+            <div class="captcha-container mb-1">
+              <re-captcha
+                class="re-captcha"
+                id="recaptcha"
+                (resolved)="onCaptchaResolved($event)"
+                name="recaptcha"
+                #recaptcha="ngModel"
+                [(ngModel)]="token"
+                required
+                [class.is-invalid]="
+                  recaptcha.invalid && (recaptcha.dirty || recaptcha.touched)
+                "
+              ></re-captcha>
+              <div
+                *ngIf="
+                  recaptcha.invalid && (recaptcha.dirty || recaptcha.touched)
+                "
+                class="invalid-feedback"
+              >
+                <div *ngIf="recaptcha.errors?.['required']">
+                  This field is required.
                 </div>
               </div>
             </div>
@@ -202,23 +210,50 @@
                 ><small>Forgot Password?</small></a
               >
             </p>
+            
           </form>
-
+          <span
+          class="d-flex justify-content-center justify-content-center align-items-center" style="margin-top: 0px !important;"
+          *ngIf="type == 1 || type == 2"
+        >
+          <div class="text-center">
+            If registered, please
+            <button
+              style="border: none; background: none; color: blue;margin-left: -6px;"
+              (click)="loginBtn()"
+            >
+              Login
+            </button>
+          </div>
+        </span>
+        <span
+          class="d-flex justify-content-center justify-content-center align-items-center" style="margin-top: 0px !important;"
+          *ngIf="type == undefined || type == 0"
+        >
+          <div class="text-center mt-2">
+            If not yet registered, please
+            <button
+              style="border: none; background: none; color: blue;margin-left: -6px;"
+              (click)="registerBtn()"
+            >
+              <b>Register</b>
+            </button>
+          </div>
+        </span>
           <div
-            class="auth-footer-btn d-flex align-items-center"
-            *ngIf="type == 0"
+            class="auth-footer-btn d-flex align-items-center justify-content-center mt-1 "
           >
             <span class="font-weight-bold mr-1">Sign in with: </span>
-            <div class="container" style="max-width: 550px" class="d-flex">
-              <asl-google-signin-button size="large"></asl-google-signin-button>
+            <div class="container d-flex align-items-center justify-content-center" style="max-width: 550px;" class="d-flex">
+              <asl-google-signin-button size="large" theme="nuetral"style="border: none !important;"></asl-google-signin-button>
               <div
                 class="ml-1"
                 style="
                   transition: background-color 0.218s;
                   -webkit-border-radius: 4px;
-                  border: 1px solid #dadce0;
+                
                   -webkit-box-sizing: border-box;
-                  box-sizing: border-box;
+         
                   -webkit-transition: background-color 0.218s,
                     border-color 0.218s;
                   transition: background-color 0.218s, border-color 0.218s;
@@ -237,33 +272,19 @@
                   src="../../../assets/images/icons/facebook.png"
                   style="width: 24px; height: 24px"
                 />
-                <!-- <button type="button" (click)="loginWithFacebook()" class="btn btn-primary btn-block">Signin with Facebook</button> -->
               </div>
             </div>
-            <!-- <img src="../../../../../assets/images/login/facebook.png" alt="brand-logo" height="55" class="mr-1"/>
-          <img src="../../../../../assets/images/login/google.png" alt="brand-logo" height="55"/> -->
-            <!-- 
-          <div class="auth-footer-btn d-flex justify-content-center">
-            <img
-              src="../../../../../assets/images/login/Layer 28.png"
-              alt="brand-logo"
-              height="28"
-              class="mr-1"
-            />
-            <img
-              src="../../../../../assets/images/login/Layer 29.png"
-              alt="brand-logo"
-              height="28"
-            />
-          </div> -->
-          </div>
 
-          <!-- <p class="d-flex justify-content-center mt-3">Don't have an account?</p
+            <div
+            class="bottom-align" style="padding-top: 30px !important;font-weight: 100;"
           >
-          <span class="d-flex justify-content-center mt-n0 font-cls"><a (click)="notFound()"><span>&nbsp;<b class="register">REGISTER</b></span></a></span> -->
+          Powered by cazset LLC
+          </div>
+          </div>
+         
         </div>
       </div>
+      <!-- /Login-->
     </div>
-    <!-- /Login-->
   </div>
 </div>

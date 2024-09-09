@@ -90,34 +90,14 @@
 @import '@core/scss/base/pages/app-user.scss';
 @import '@core/scss/angular/libs/select.component.scss';
 
-.auth-help-icon {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
 
-.signin-title{
-  font-weight: 200;
-}
-.login-container {
-  background-color: white;
-  padding: 10px; /* Adjust the padding as needed */
-  // border-radius:10px;
-  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
-}
+
+
 .tooltip-inner {
   white-space: nowrap;
 }
 
-.btn-login{
 
-    background: linear-gradient(to right,  rgb(168, 204, 238), #7459dc);
-  
-  color: #fff !important;
-  padding-left:30px;
-  padding-right: 30px;
-  width: 100%;
-}
 .register{
   color:#9B02FE;
 }
@@ -133,6 +113,7 @@
   padding: 0px !important;
 
 }
+
 input{
   width:85% !important;
   border:none;
@@ -412,7 +393,7 @@ button:focus {
 }
 .card {
   position: relative; /* To position the time-available-wrapper relative to the card */
-  margin-top: 20px; /* Add some space at the top of the card */
+  // margin-top: 20px; /* Add some space at the top of the card */
 }
 
 .time-available-wrapper {
