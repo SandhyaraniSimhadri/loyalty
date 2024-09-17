@@ -556,6 +556,7 @@ export class LoginComponent implements OnInit {
     console.log(`Resolved captcha with response: ${captchaResponse}`);
   }
   loginBtn() {
+    this.register_clicked=false;
     if (this.type == 1 || this.type == 2) {
       this.loginForm.removeControl("confirm_password");
     }
@@ -563,11 +564,13 @@ export class LoginComponent implements OnInit {
     if (this.type == 2) {
       this.loginForm.removeControl("user_name");
     }
-    if (this.type != 1 && this.type != 2) {
+    if ((this.type != 1 && this.type != 2)) {
       this.loginForm.removeControl("confirm_password");
       this.loginForm.removeControl("user_name");
     }
+    console.log("type val",this.type);
     this.type = 0;
+
     console.log("typr", this.type);
   }
   registerBtn() {

@@ -319,6 +319,10 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
       formData.append("end_date", this.currentRow.end_date);
       formData.append("event_id", this.currentRow.event_id);
       formData.append("company_id", this.currentRow.company_id);
+      formData.append("title", this.currentRow.title);
+      formData.append("terms_and_conditions", this.currentRow.terms_and_conditions);
+      formData.append("game_type", this.currentRow.game_type);
+      formData.append("description", this.currentRow.description);
       formData.append("duration", this.currentRow.duration);
       formData.append("calculatePoints", String(this.currentRow.calc_points_immediately));
 

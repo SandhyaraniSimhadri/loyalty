@@ -48,8 +48,17 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label">Select Company <span *ngIf="newUserForm.submitted && CompanyRef.invalid" class="text-danger">*</span>
-              <span *ngIf="!newUserForm.submitted || !CompanyRef.invalid">*</span></label>
+            <label class="form-label"
+              >Select Company
+              <span
+                *ngIf="newUserForm.submitted && CompanyRef.invalid"
+                class="text-danger"
+                >*</span
+              >
+              <span *ngIf="!newUserForm.submitted || !CompanyRef.invalid"
+                >*</span
+              ></label
+            >
             <select
               id="basic-icon-default-company"
               class="form-control dt-company"
@@ -77,7 +86,7 @@
               >
             </span>
           </div>
-          
+
           <div class="form-group">
             <label class="form-label" for="user-plan"
               >Start Date<span
@@ -147,6 +156,42 @@
               <small
                 class="form-text text-danger"
                 *ngIf="EDateRef.errors.required"
+                >This field is required!</small
+              >
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="user-plan"
+              >Terms and Conditions<span
+                *ngIf="newUserForm.submitted && TandCRef.invalid"
+                class="text-danger"
+                >*</span
+              >
+              <span *ngIf="!newUserForm.submitted || !TandCRef.invalid"
+                >*</span
+              ></label
+            >
+            <input
+              type="text"
+              id="basic-icon-default-termsandconditions"
+              class="form-control dt-termsandconditions"
+              placeholder=""
+              aria-label=""
+              aria-describedby="basic-icon-default-termsandconditions"
+              name="termsandconditions"
+              [(ngModel)]="terms_and_conditions"
+              [class.error]="newUserForm.submitted && TandCRef.invalid"
+              #TandCRef="ngModel"
+              required
+            />
+            <span
+              *ngIf="newUserForm.submitted && TandCRef.invalid"
+              class="invalid-form"
+            >
+              <small
+                class="form-text text-danger"
+                *ngIf="TandCRef.errors.required"
                 >This field is required!</small
               >
             </span>
@@ -267,7 +312,7 @@
                         />
                       </div>
                     </div>
-                    
+
                     <div class="col-md-3 col-12">
                       <div class="form-group">
                         <label for="startTime{{ i }}">Start Time *</label>
@@ -294,7 +339,7 @@
                         />
                       </div>
                     </div>
-                    
+
                     <div class="col-md-3 col-12">
                       <div class="form-group">
                         <label for="endTime{{ i }}">End Time *</label>
@@ -311,21 +356,17 @@
                     <div class="col-md-5 col-12">
                       <div class="form-group">
                         <label for="teamAImage{{ i }}">Team A Image</label>
-                   
 
                         <input
-                        class="form-control"
-                        type="file"
-                        id="change-picture"
-                       
-                        accept="image/png, image/jpeg, image/jpg"
-                        (change)="uploadTeamAImage(i,$event)"
-                      />
-
-
+                          class="form-control"
+                          type="file"
+                          id="change-picture"
+                          accept="image/png, image/jpeg, image/jpg"
+                          (change)="uploadTeamAImage(i, $event)"
+                        />
                       </div>
                     </div>
-                    
+
                     <div class="col-md-5 col-12">
                       <div class="form-group">
                         <label for="teamBImage{{ i }}">Team B Image</label>
@@ -335,13 +376,12 @@
                           id="teamBImage{{ i }}"
                           name="teamBImage{{ i }}"
                           accept="image/png, image/jpeg, image/jpg"
-                          (change)="uploadTeamBImage(i,$event)"
+                          (change)="uploadTeamBImage(i, $event)"
                         />
                       </div>
                     </div>
-                                                            
 
-                    <div class="col-md-2 col-12 mb-50" *ngIf="games.length>1">
+                    <div class="col-md-2 col-12 mb-50" *ngIf="games.length > 1">
                       <div class="form-group">
                         <button
                           class="btn btn-outline-danger text-nowrap px-1"
@@ -354,7 +394,9 @@
                       </div>
                     </div>
                   </div>
-              <small *ngIf="errorMsg" class="form-text text-danger">All fields are required!</small>
+                  <small *ngIf="errorMsg" class="form-text text-danger"
+                    >All fields are required!</small
+                  >
 
                   <hr />
                 </div>
@@ -373,13 +415,6 @@
                   </button>
                 </div>
               </div>
-              <!-- <pre class="p-1 text-white mt-1">
-                  <div  *ngFor="let item of items; let i = index">
-      Index: {{ i }}
-      Item Name: {{ item.itemName }}
-      Cost: {{ item.itemCost }}
-      Quantity: {{ item.itemQuantity }}</div>
-                </pre> -->
             </div>
           </div>
           <div class="form-group" *ngIf="event_id == 2">
@@ -416,209 +451,308 @@
                 >This field is required!</small
               >
             </span>
-            <span
-            *ngIf="durationMsg"
-            class="invalid-form"
-          >
-            <small
-              class="form-text text-danger"
-            
-              >Duration should more than 0</small
-            >
-          </span>
-          <div class="form-check mt-1">
-            <input
+            <span *ngIf="durationMsg" class="invalid-form">
+              <small class="form-text text-danger"
+                >Duration should more than 0</small
+              >
+            </span>
+            <div class="form-check mt-1">
+              <input
                 type="checkbox"
                 class="form-check-input"
                 id="calculatePointsCheckbox"
                 [(ngModel)]="calculatePoints"
                 name="calculatePoints"
-            />
-            <label class="form-check-label" for="calculatePointsCheckbox">
+              />
+              <label class="form-check-label" for="calculatePointsCheckbox">
                 Calculate points instantly
-            </label>
-        </div>
-          </div>
-          <div class="form-group" *ngIf="event_id == 2">
-            <div class="card-body">
-              <form action="#" class="invoice-repeater">
-                <div *ngFor="let question of questions; let i = index" @heightIn>
-                  <div class="row d-flex align-items-end">
-                    <div class=" col-12">
-                      <div class="form-group">
-                        <label for="name{{ i }}">Question {{ i +1}}*</label>
-                        <textarea
-                          type="text"
-                          class="form-control"
-                          [(ngModel)]="question.question"
-                          name="question{{ i }}"
-                          id="question{{ i }}"
-                          placeholder="Question"
-                        ></textarea>
-                      </div>
-                    </div>
-
-                    <div class="col-md-3 col-12">
-                      <div class="form-group">
-                        <label for="itemCost">Response A*</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="responsea"
-                          [(ngModel)]="question.response_a"
-                          name="responsea{{ i }}"
-                          id="responsea{{ i }}"
-                          placeholder="Response A"
-                        />
-                      </div>
-                    </div>
-
-                    <div class="col-md-3 col-12">
-                      <div class="form-group">
-                        <label for="itemCost">Response B*</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="responseb"
-                          [(ngModel)]="question.response_b"
-                          name="responseb{{ i }}"
-                          id="responseb{{ i }}"
-                          placeholder="Response B"
-                        />
-                      </div>
-                    </div>
-
-                    <div class="col-md-3 col-12">
-                      <div class="form-group">
-                        <label for="itemCost">Response C*</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="responsec"
-                          [(ngModel)]="question.response_c"
-                          name="responsec{{ i }}"
-                          id="responsec{{ i }}"
-                          placeholder="Response C"
-                        />
-                      </div>
-                    </div>
-
-
-                    <div class="col-md-3 col-12">
-                      <div class="form-group">
-                        <label for="itemCost">Response D*</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="responsed"
-                          [(ngModel)]="question.response_d"
-                          name="responsed{{ i }}"
-                          id="responsed{{ i }}"
-                          placeholder="Response D"
-                        />
-                      </div>
-                    </div>
-
-                    <div class="col-md-6 col-12">
-                      <div class="form-group">
-                        <label for="points{{ i }}">Points *</label>
-                        <input
-                          type="number"
-                          class="form-control"
-                          id="points{{ i }}"
-                          name="points{{ i }}"
-                          [(ngModel)]="question.points"
-                          placeholder="Points"
-                        />
-                      </div>
-                    </div>
-
-                    <div class="col-md-6 col-12">
-                      <div class="form-group">
-                        <label for="answer{{ i }}">Answer *</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="answer{{ i }}"
-                          name="aswer{{ i }}"
-                          [(ngModel)]="question.answer"
-                          placeholder="Answer"
-                        />
-                      </div>
-                    </div>
-                    
-                  
-                    
-                  
-                  
-                    
-               
-                                                            
-
-                    <div class="col-md-2 col-12 mb-50" *ngIf="questions.length>1">
-                      <div class="form-group">
-                        <button
-                          class="btn btn-outline-danger text-nowrap px-1"
-                          (click)="deleteQuestion(i)"
-                          rippleEffect
-                        >
-                          <i data-feather="x" class="mr-25"></i>
-                          <span>Delete</span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-              <small *ngIf="errorMsg" class="form-text text-danger">All fields are required!</small>
-
-                  <hr />
-                </div>
-              </form>
-
-              <div class="row">
-                <div class="col-12">
-                  <button
-                    class="btn btn-icon btn-primary"
-                    type="button"
-                    (click)="addQuestion()"
-                    rippleEffect
-                  >
-                    <i data-feather="plus" class="mr-25"></i>
-                    <span>Add New</span>
-                  </button>
-                </div>
-              </div>
-            
+              </label>
             </div>
           </div>
 
-        
-
-          
-
-
-          <div class="d-flex justify-content-between mt-2">
-            <button
-              [disabled]="loading"
-              type="submit"
-              class="btn btn-primary"
-              (click)="submit(newUserForm)"
-              rippleEffect
+          <div class="form-group">
+            <label class="form-label" for="user-plan"
+              >Title<span
+                *ngIf="newUserForm.submitted && CTitleRef.invalid"
+                class="text-danger"
+                >*</span
+              >
+              <span *ngIf="!newUserForm.submitted || !CTitleRef.invalid"
+                >*</span
+              ></label
             >
-              <span
-                *ngIf="loading"
-                class="spinner-border spinner-border-sm mr-1"
-              ></span>
-              Submit
-            </button>
-            <button
-              type="reset"
-              class="btn btn-outline-secondary"
-              (click)="toggleSidebar('new-user-sidebar')"
-              rippleEffect
+            <input
+              type="text"
+              id="basic-icon-default-ctitle"
+              class="form-control dt-ctitle"
+              placeholder=""
+              aria-label=""
+              aria-describedby="basic-icon-default-ctitle"
+              name="ctitle"
+              [(ngModel)]="title"
+              [class.error]="newUserForm.submitted && CTitleRef.invalid"
+              #CTitleRef="ngModel"
+              required
+            />
+            <span
+              *ngIf="newUserForm.submitted && CTitleRef.invalid"
+              class="invalid-form"
             >
-              Cancel
-            </button>
+              <small
+                class="form-text text-danger"
+                *ngIf="CTitleRef.errors.required"
+                >This field is required!</small
+              >
+            </span>
           </div>
+
+          <div class="form-group">
+            <label class="form-label" for="user-plan"
+              >Game Type<span
+                *ngIf="newUserForm.submitted && GTypeRef.invalid"
+                class="text-danger"
+                >*</span
+              >
+              <span *ngIf="!newUserForm.submitted || !GTypeRef.invalid"
+                >*</span
+              ></label
+            >
+            <input
+              type="text"
+              id="basic-icon-default-gtype"
+              class="form-control dt-gtype"
+              placeholder=""
+              aria-label=""
+              aria-describedby="basic-icon-default-gtype"
+              name="gtype"
+              [(ngModel)]="game_type"
+              [class.error]="newUserForm.submitted && GTypeRef.invalid"
+              #GTypeRef="ngModel"
+              required
+            />
+            <span
+              *ngIf="newUserForm.submitted && GTypeRef.invalid"
+              class="invalid-form"
+            >
+              <small
+                class="form-text text-danger"
+                *ngIf="GTypeRef.errors.required"
+                >This field is required!</small
+              >
+            </span>
+          </div>
+
+
+          <div class="form-group">
+            <label class="form-label" for="user-plan"
+              >Description</label
+            >
+            <input
+              type="text"
+              id="basic-icon-default-desc"
+              class="form-control dt-desc"
+              placeholder=""
+              aria-label=""
+              aria-describedby="basic-icon-default-desc"
+              name="desc"
+              [(ngModel)]="description"
+             
+              #GTypeRef="ngModel"
+              required
+            />
+           
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="basic-icon-default-author"
+              >Select the file to upload</label
+            >
+            <input
+              type="file"
+              class="form-control dt-author"
+              id="basic-icon-default-author"
+              placeholder=""
+              name="author"
+              [(ngModel)]="imageval"
+              (change)="uploadImage($event)"
+             
+            
+            />
+          
+          </div>
+
+    
+        </div>
+
+        <div class="form-group" *ngIf="event_id == 2">
+          <div class="card-body">
+            <form action="#" class="invoice-repeater">
+              <div *ngFor="let question of questions; let i = index" @heightIn>
+                <div class="row d-flex align-items-end">
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label for="name{{ i }}">Question {{ i + 1 }}*</label>
+                      <textarea
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="question.question"
+                        name="question{{ i }}"
+                        id="question{{ i }}"
+                        placeholder="Question"
+                      ></textarea>
+                    </div>
+                  </div>
+
+                  <div class="col-md-3 col-12">
+                    <div class="form-group">
+                      <label for="itemCost">Response A*</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="responsea"
+                        [(ngModel)]="question.response_a"
+                        name="responsea{{ i }}"
+                        id="responsea{{ i }}"
+                        placeholder="Response A"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-3 col-12">
+                    <div class="form-group">
+                      <label for="itemCost">Response B*</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="responseb"
+                        [(ngModel)]="question.response_b"
+                        name="responseb{{ i }}"
+                        id="responseb{{ i }}"
+                        placeholder="Response B"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-3 col-12">
+                    <div class="form-group">
+                      <label for="itemCost">Response C*</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="responsec"
+                        [(ngModel)]="question.response_c"
+                        name="responsec{{ i }}"
+                        id="responsec{{ i }}"
+                        placeholder="Response C"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-3 col-12">
+                    <div class="form-group">
+                      <label for="itemCost">Response D*</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="responsed"
+                        [(ngModel)]="question.response_d"
+                        name="responsed{{ i }}"
+                        id="responsed{{ i }}"
+                        placeholder="Response D"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 col-12">
+                    <div class="form-group">
+                      <label for="points{{ i }}">Points *</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="points{{ i }}"
+                        name="points{{ i }}"
+                        [(ngModel)]="question.points"
+                        placeholder="Points"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 col-12">
+                    <div class="form-group">
+                      <label for="answer{{ i }}">Answer *</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="answer{{ i }}"
+                        name="aswer{{ i }}"
+                        [(ngModel)]="question.answer"
+                        placeholder="Answer"
+                      />
+                    </div>
+                  </div>
+
+                  <div
+                    class="col-md-2 col-12 mb-50"
+                    *ngIf="questions.length > 1"
+                  >
+                    <div class="form-group">
+                      <button
+                        class="btn btn-outline-danger text-nowrap px-1"
+                        (click)="deleteQuestion(i)"
+                        rippleEffect
+                      >
+                        <i data-feather="x" class="mr-25"></i>
+                        <span>Delete</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <small *ngIf="errorMsg" class="form-text text-danger"
+                  >All fields are required!</small
+                >
+
+                <hr />
+              </div>
+            </form>
+
+            <div class="row">
+              <div class="col-12">
+                <button
+                  class="btn btn-icon btn-primary"
+                  type="button"
+                  (click)="addQuestion()"
+                  rippleEffect
+                >
+                  <i data-feather="plus" class="mr-25"></i>
+                  <span>Add New</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between mt-2 mb-1 ml-2 mr-2">
+          <button
+            [disabled]="loading"
+            type="submit"
+            class="btn btn-primary"
+            (click)="submit(newUserForm)"
+            rippleEffect
+          >
+            <span
+              *ngIf="loading"
+              class="spinner-border spinner-border-sm mr-1"
+            ></span>
+            Submit
+          </button>
+          <button
+            type="reset"
+            class="btn btn-outline-secondary"
+            (click)="toggleSidebar('new-user-sidebar')"
+            rippleEffect
+          >
+            Cancel
+          </button>
         </div>
       </form>
     </div>

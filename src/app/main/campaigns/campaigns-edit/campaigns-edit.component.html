@@ -273,6 +273,49 @@
 
 
                       <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="form-label" for="user-plan"
+                            >Terms and Conditions<span
+                              *ngIf="accountForm.submitted && TandCRef.invalid"
+                              class="text-danger"
+                              >*</span
+                            >
+                            <span
+                              *ngIf="!accountForm.submitted || !TandCRef.invalid"
+                              >*</span
+                            ></label
+                          >
+                          <input
+                            type="text"
+                            id="basic-icon-default-terms-and-conditions"
+                            class="form-control dt-terms-and-conditions"
+                            placeholder=""
+                            aria-label=""
+                            aria-describedby="basic-icon-default-terms-and-conditions"
+                            name="terms-and-conditions"
+                            [(ngModel)]="currentRow.terms_and_conditions"
+                            [class.error]="
+                              accountForm.submitted && TandCRef.invalid
+                            "
+                            #TandCRef="ngModel"
+                            required
+                            (ngModelChange)="checkFormModified()"
+                          />
+                          <span
+                            *ngIf="accountForm.submitted && TandCRef.invalid"
+                            class="invalid-form"
+                          >
+                            <small
+                              class="form-text text-danger"
+                              *ngIf="TandCRef.errors.required"
+                              >This field is required!</small
+                            >
+                          </span>
+                        </div>
+                      </div>
+
+
+                      <div class="col-md-6">
                         <label class="form-label">Select Event Type <span *ngIf="accountForm.submitted && EventTypeRef.invalid" class="text-danger">*</span>
                           <span *ngIf="!accountForm.submitted || !EventTypeRef.invalid">*</span></label>
                         <select
@@ -302,7 +345,47 @@
                           >
                         </span>
                       </div>
-
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="form-label" for="user-plan"
+                            >Title<span
+                              *ngIf="accountForm.submitted && CTitleRef.invalid"
+                              class="text-danger"
+                              >*</span
+                            >
+                            <span
+                              *ngIf="!accountForm.submitted || !CTitleRef.invalid"
+                              >*</span
+                            ></label
+                          >
+                          <input
+                            type="text"
+                            id="basic-icon-default-ctitle"
+                            class="form-control dt-ctitle"
+                            placeholder=""
+                            aria-label=""
+                            aria-describedby="basic-icon-default-ctitle"
+                            name="ctitle"
+                            [(ngModel)]="currentRow.title"
+                            [class.error]="
+                              accountForm.submitted && CTitleRef.invalid
+                            "
+                            #CTitleRef="ngModel"
+                            required
+                            (ngModelChange)="checkFormModified()"
+                          />
+                          <span
+                            *ngIf="accountForm.submitted && CTitleRef.invalid"
+                            class="invalid-form"
+                          >
+                            <small
+                              class="form-text text-danger"
+                              *ngIf="CTitleRef.errors.required"
+                              >This field is required!</small
+                            >
+                          </span>
+                        </div>
+                      </div>
                       <div class="col-md-6" *ngIf="currentRow.event_id==2">
                         <label class="form-label" for="user-plan"
                           >Duration<span
@@ -351,7 +434,7 @@
                      
   
                       </div>
-                      <div class="col-md-6 form-check mt-1 ml-1" *ngIf="currentRow.event_id==2">
+                      <div class="col-md-6 form-check mt-1 ml-1 mb-1" *ngIf="currentRow.event_id==2">
                         <input
                           type="checkbox"
                           class="form-check-input"
@@ -363,6 +446,76 @@
                           Calculate points instantly 
                         </label>
                       </div>
+
+
+                     
+
+                      
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="form-label" for="user-plan"
+                            >Game Type<span
+                              *ngIf="accountForm.submitted && GTypeRef.invalid"
+                              class="text-danger"
+                              >*</span
+                            >
+                            <span
+                              *ngIf="!accountForm.submitted || !GTypeRef.invalid"
+                              >*</span
+                            ></label
+                          >
+                          <input
+                            type="text"
+                            id="basic-icon-default-gtype"
+                            class="form-control dt-gtype"
+                            placeholder=""
+                            aria-label=""
+                            aria-describedby="basic-icon-default-gtype"
+                            name="gtype"
+                            [(ngModel)]="currentRow.game_type"
+                            [class.error]="
+                              accountForm.submitted && GTypeRef.invalid
+                            "
+                            #GTypeRef="ngModel"
+                            required
+                            (ngModelChange)="checkFormModified()"
+                          />
+                          <span
+                            *ngIf="accountForm.submitted && GTypeRef.invalid"
+                            class="invalid-form"
+                          >
+                            <small
+                              class="form-text text-danger"
+                              *ngIf="GTypeRef.errors.required"
+                              >This field is required!</small
+                            >
+                          </span>
+                        </div>
+                      </div>
+
+
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="form-label" for="user-plan"
+                            >Description</label
+                          >
+                          <input
+                            type="text"
+                            id="basic-icon-default-description"
+                            class="form-control dt-description"
+                            placeholder=""
+                            aria-label=""
+                            aria-describedby="basic-icon-default-description"
+                            name="description"
+                            [(ngModel)]="currentRow.description"
+                           
+                          
+                            (ngModelChange)="checkFormModified()"
+                          />
+                        
+                        </div>
+                      </div>
+
 
                    
                       <div class="form-group" *ngIf="currentRow.event_id==1">

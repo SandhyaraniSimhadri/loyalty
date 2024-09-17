@@ -35,11 +35,18 @@ export class CampaignsNewComponent implements OnInit {
   public apiUrl: any;
   public imageval: any;
   public campaign_title: any;
+  public terms_and_conditions: any;
+  public description: any;
+  public game_type: any;
+
+
+
   public start_date: any;
   public end_date: any;
   public event_id: any;
   public eventsData: any;
   public company_id: any;
+  public title:any;
   public errorMsg: any = false;
   public durationMsg: any = false;
 
@@ -236,6 +243,14 @@ export class CampaignsNewComponent implements OnInit {
     formData.append("event_id", this.event_id);
     formData.append("company_id", this.company_id);
     formData.append("duration", this.duration);
+    formData.append("title", this.title);
+    formData.append("terms_and_conditions", this.terms_and_conditions);
+    formData.append("game_type", this.game_type);
+    formData.append("description", this.description);
+    formData.append('image', this.image);
+
+
+
     formData.append("calculatePoints",this.calculatePoints.toString());
 
     if(this.event_id==1){

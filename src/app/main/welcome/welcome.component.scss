@@ -69,9 +69,50 @@
   // margin-top: 100px;
   color:rgb(68, 68, 230);
   // padding: 4px;
-  font-weight: bolder;
+  font-weight: bold;
+  font-size: 1rem;
 
   // font-size: 8px;
+}
+.profile-picture {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-img {
+  width: 150px; /* Set the size of your profile picture */
+  height: 150px;
+  border-radius: 50%; /* Make it circular */
+  object-fit: cover; /* Ensure the image fits well */
+  cursor: pointer; /* Indicate it can be clicked */
+  border: 2px solid #ddd; /* Optional: add a border */
+}
+
+.camera-icon {
+  position: absolute;
+  bottom: 5px; /* Positioning the icon at the bottom right */
+  right: 5px;
+  background-color: #fff; /* White background for the icon */
+  border-radius: 25px;
+  width: 16px;
+  height: 16px;
+  padding: 2px;
+  justify-content: center;
+  align-items: center;
+  
+  // padding: 5px;
+  cursor: pointer;
+  font-size: 20px;
+  color: #333; /* Camera icon color */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow for a 3D effect */
+}
+
+.camera-icon:hover {
+  background-color: #eee; /* Change color on hover */
+}
+
+.camera-icon i {
+  font-size: 16px; /* Adjust the icon size */
 }
 
 .welcome {
@@ -87,9 +128,9 @@
 .welcome-text p {
   padding-top: 12px !important;
   color:rgb(68, 68, 230);
-  font-size: 0.8rem;
+  font-size: 1rem;
   margin: 0;
-  font-weight: bolder;
+  font-weight: bold;
 }
 
 .next-button {
@@ -161,7 +202,7 @@
 
 .name {
   font-size: 18px;
-  font-weight: bolder;
+  font-weight: bold;
   color: black;
   margin-top: 16px;
 }

@@ -34,11 +34,14 @@
     <div
       class="d-flex col-lg-4 align-items-center auth-bg pl-lg-5 pr-lg-5"
       *ngIf="!main_loading"
+      style="max-height: 100%;overflow-y: scroll;"
     >
       <div class="col-12 col-sm-8 col-md-6 col-lg-12">
         <div class="login-container">
           <div class="row d-flex justify-content-center">
-            <div class="col-3">
+            <div class="col-3" style="float: right;
+            justify-content: flex-end;
+            display: flex;">
               <div class="avatar">
                 <img
                   src="../../../../../assets/images/profile/login_image.png"
@@ -47,12 +50,12 @@
                 />
               </div>
             </div>
-            <div class="col-9 font-cls">
-              <span style="margin-bottom: 2px !important"
-                ><b>Ready to Have Some Fun?</b></span
-              ><br />
+            <div class="col-9 font-cls d-flex justify-content-center" style="float:left;">
+              <div class=" d-flex  justify-content-center"style="margin-bottom: 2px !important;flex-direction:column"
+                ><b>Ready to Have Some Fun?</b>
               First step - sign up or register, and we’ll meet you on the other
-              side! Let the fun begin!
+              side! Let the fun begin!</div
+              >
             </div>
           </div>
 
@@ -216,13 +219,13 @@
           class="d-flex justify-content-center justify-content-center align-items-center" style="margin-top: 0px !important;"
           *ngIf="type == 1 || type == 2"
         >
-          <div class="text-center">
+          <div class="text-center mt-1">
             If registered, please
             <button
               style="border: none; background: none; color: blue;margin-left: -6px;"
               (click)="loginBtn()"
             >
-              Login
+              <b>Login</b>
             </button>
           </div>
         </span>
@@ -245,7 +248,7 @@
           >
             <span class="font-weight-bold mr-1">Sign in with: </span>
             <div class="container d-flex align-items-center justify-content-center" style="max-width: 550px;" class="d-flex">
-              <asl-google-signin-button size="large" theme="nuetral"style="border: none !important;"></asl-google-signin-button>
+              <asl-google-signin-button size="large" type="icon" ></asl-google-signin-button>
               <div
                 class="ml-1"
                 style="
@@ -278,7 +281,7 @@
             <div
             class="bottom-align" style="padding-top: 30px !important;font-weight: 100;"
           >
-          Powered by cazset LLC
+          Powered by Cazset LLC
           </div>
           </div>
          

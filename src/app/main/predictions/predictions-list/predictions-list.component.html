@@ -13,10 +13,14 @@
       <div>
         <div class="mt-1">
           <!-- Medal Card -->
-          <div class="card" style="padding:5px">
+          <div class="card" style="padding: 5px">
             <div class="card-body position-relative">
               <!-- Three Dots Menu -->
-              <div class="dropdown" style="position: absolute; right: 16px; top: 16px;" ngbDropdown>
+              <div
+                class="dropdown"
+                style="position: absolute; right: 16px; top: 16px"
+                ngbDropdown
+              >
                 <button
                   class="btn btn-link p-0 border-0"
                   type="button"
@@ -24,11 +28,20 @@
                   ngbDropdownToggle
                   aria-expanded="false"
                 >
-                  <i data-feather="more-vertical" style="color:black"></i>
+                  <i data-feather="more-vertical" style="color: black"></i>
                 </button>
-                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                  <li><a class="dropdown-item" (click)="editProfile()">Edit</a></li>
-                  <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
+                <ul
+                  class="dropdown-menu dropdown-menu-right"
+                  aria-labelledby="dropdownMenuButton"
+                >
+                  <li>
+                    <a class="dropdown-item" (click)="editProfile()"
+                      >Profile Settings</a
+                    >
+                  </li>
+                  <li>
+                    <a class="dropdown-item" (click)="logout()">Logout</a>
+                  </li>
                 </ul>
               </div>
               <div class="text-center">
@@ -43,7 +56,7 @@
                       width="80"
                     />
                     <img
-                      *ngIf="httpService.USERINFO.avatar==null"
+                      *ngIf="httpService.USERINFO.avatar == null"
                       class="round"
                       src="assets/images/profile/person.png"
                       alt="avatar"
@@ -62,13 +75,10 @@
             </div>
           </div>
         </div>
-        
-        
-        
 
         <div
           *ngIf="
-            !loading && rows.length>0 && campaign_data.games != undefined
+            !loading && rows.length > 0 && campaign_data.games != undefined
           "
         >
           <div class="card earnings-card">
@@ -300,53 +310,65 @@
             </div>
           </div>
         </div>
-        <div
-          *ngIf="
-            !loading &&
-            rows.length == 0
-          "
-          style="color: white;"
-        >
+        <div *ngIf="!loading && rows.length == 0" style="color: white">
           Not yet participated in any Campagin..
         </div>
-      
+
         <div
           *ngIf="
             !loading &&
-            rows.length>0 &&
+            rows.length > 0 &&
             campaign_data.quizzes != undefined &&
             campaign_data.quizzes.length > 0
           "
         >
-        <div class="card earnings-card">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-12" *ngIf="currentQuestionIndex == -1 && !submitted">
-                <div class="time-available-wrapper">
-                  <div class="time-available">
-                   
-                    <div class="time-text">Available Time: {{ formatTime(remainingTime) }}</div>
+          <div class="card earnings-card">
+            <div class="card-body">
+              <div class="row">
+                <div
+                  class="col-12"
+                  *ngIf="currentQuestionIndex == -1 && !submitted"
+                >
+                  <div class="time-available-wrapper">
+                    <div class="time-available">
+                      <div class="time-text">
+                        Available Time: {{ formatTime(remainingTime) }}
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-12" *ngIf="remainingTime && currentQuestionIndex >= 0">
-                <div class="time-available-wrapper">
-                  <div class="time-available">
-                   
-                    <div class="time-text"> Time Remaining: {{ formatTime(remainingTime) }}</div>
+                <div
+                  class="col-12"
+                  *ngIf="remainingTime && currentQuestionIndex >= 0"
+                >
+                  <div class="time-available-wrapper">
+                    <div class="time-available">
+                      <div class="time-text">
+                        Time Remaining: {{ formatTime(remainingTime) }}
+                      </div>
+                    </div>
+                  </div>
                 </div>
+                <div class="col-12">
+                  <h4
+                    class="d-flex card-title mb-0 mt-1 justify-content-center align-items-center"
+                    style="color: blue; font-weight: 400"
+                  >
+                    <b>
+                      <i>{{ campaign_data.campaign_title }}</i></b
+                    >
+                  </h4>
                 </div>
               </div>
-              <div class="col-12">
-                <h4 class="card-title mb-0 mt-1" style="color: blue; font-weight: 400">
-                  <b>QUIZ QUEST: <i>{{ campaign_data.campaign_title }}</i></b>
-                </h4>
-              </div>
-          
-            </div>
-        
-        
+
               <hr />
+              <span
+                class="d-flex card-title mb-0 mt-0 justify-content-center align-items-center"
+                style="color: blue; font-size: 1rem"
+              >
+                <b> <i>QUIZ QUEST </i></b>
+              </span>
+              <p class="mt-1">{{ campaign_data.description }}</p>
               <div class="row">
                 <div class="col-12">
                   <div class="container-new" *ngIf="currentQuestionIndex >= 0">
@@ -456,7 +478,8 @@
                           currentQuestionIndex !=
                           this.campaign_data.quizzes.length - 1
                         "
-                        class="btn btn-primary-predict"
+                        class="btn btn-primary btn-primary-predict"
+                        rippleEffect
                         (click)="goToNextQuestion()"
                         [disabled]="!selectedWinner"
                       >
@@ -468,7 +491,8 @@
                           currentQuestionIndex >=
                           this.campaign_data.quizzes.length - 1
                         "
-                        class="btn btn-primary-predict"
+                        class="btn btn-primary btn-primary-predict"
+                        rippleEffect
                         (click)="goToNextQuestion()"
                         [disabled]="!selectedWinner"
                       >
@@ -486,90 +510,149 @@
 
                   <div
                     *ngIf="currentQuestionIndex == -1 && !submitted && !showGif"
-                   
                   >
-                  <div class="row">
-                   <p class="ml-1 mr-1"> </p>
-                   
-                  <img  class="col-12"src="assets/images/pages/prediction/predict.png" alt="Prediction" style="object-fit: cover !important;width: 100%;">
-                   <br/></div> 
-                   <div class="row mt-2"> 
-                    <button class="col-6 btn btn-primary-TandC mb-1">
-                      T&Cs
-                    </button>  
-                   <button
-                      class=" col-6 btn btn-primary-predict mb-1"
-                      rippleEffect
-                      (click)="startCountdown()"
-                    >
-                      Start
-                    </button>
+                    <div class="row">
+                      <p class="ml-1 mr-1"></p>
+
+                      <img
+                        class="col-12"
+                        src="assets/images/pages/prediction/predict.png"
+                        alt="Prediction"
+                        style="object-fit: cover !important; width: 100%"
+                      />
+                      <br />
                     </div>
-                    
+                    <div class="row mt-2">
+                      <button class="col-6 btn btn-primary-TandC mb-1">
+                        T&Cs
+                      </button>
+                      <button
+                        class="col-6 btn btn-primary btn-primary-predict mb-1"
+                        rippleEffect
+                        (click)="startCountdown()"
+                      >
+                        Start
+                      </button>
+                    </div>
                   </div>
                   <div *ngIf="showGif" class="gif-container">
-                    <img  src="assets/images/pages/quiz_countdown.gif" alt="Starting GIF" width="120" height="120">
+                    <img
+                      src="assets/images/pages/quiz_countdown.gif"
+                      alt="Starting GIF"
+                      width="120"
+                      height="120"
+                    />
                   </div>
                   <div
-                  *ngIf="currentQuestionIndex == -1 && submitted"
-                  class="submission-container"
-                >
-                  <div class="submission-text">
-                    <b>Submitted</b>
-                    <br />
-                    <b>Time Taken: {{ campaign_data.time_taken }}</b><br/>
-                    <b>Current Rank: {{ campaign_data.self[0].rank }}</b>
-
+                    *ngIf="currentQuestionIndex == -1 && submitted"
+                    class="submission-container"
+                  >
+                    <div class="submission-text">
+                      <b>Submitted</b>
+                      <br />
+                      <b>Time Taken: {{ campaign_data.time_taken }}</b
+                      ><br />
+                      <b>Current Rank: {{ campaign_data.self[0].rank }}</b>
+                    </div>
                   </div>
-                </div>
-                
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div *ngIf="!loading && !refresh_loading && rows.length>0"  #scrollableDiv 
-        [ngClass]="{'scrollable-container': campaign_data.participants !=undefied && campaign_data.participants.length > 10}"
-        (scroll)="(campaign_data.participants !=undefied && campaign_data.participants.length > 10) ? onScroll($event) : null">
+        <div
+          *ngIf="!loading && !refresh_loading && rows.length > 0"
+          #scrollableDiv
+          [ngClass]="{
+            'scrollable-container':
+              campaign_data.participants != undefied &&
+              campaign_data.participants.length > 10
+          }"
+          (scroll)="
+            campaign_data.participants != undefied &&
+            campaign_data.participants.length > 10
+              ? onScroll($event)
+              : null
+          "
+        >
           <!-- Company Table -->
 
           <div class="card">
-            <div class="card-body">
-              <div class="row">
+            <div
+              class="card-body"
+              style="padding: 0 !important; overflow: hidden"
+            >
+              <div class="row" style="padding: 1.5rem !important">
                 <div class="col-12">
                   <div class="leaderboard-header">
                     <h4
                       class="card-title mb-0"
                       style="
-                        color: #7459dc;
+                        color: blue;
                         font-weight: 400;
                         text-transform: uppercase;
                       "
                     >
-                    <b>Leaderboard</b>
-                  </h4>
-                  <button (click)="getParticipantsInfo()"  class="refresh-button"><i data-feather="refresh-cw" ></i></button>
+                      <b><i>Leaderboard</i></b>
+                    </h4>
+                    <button
+                      (click)="getParticipantsInfo()"
+                      class="refresh-button"
+                    >
+                      <i data-feather="refresh-cw"></i>
+                    </button>
+                  </div>
 
-                </div>
-                <hr />
-                
+                  <div style="margin-bottom: 8px"></div>
                 </div>
               </div>
 
-              <div *ngIf="rows.length>0">
+              <div *ngIf="rows.length > 0">
                 <div
+                  style="
+                    padding-left: 1.5rem;
+                    padding-right: 1.5rem;
+                    margin: 0 !important;
+                  "
                   *ngFor="
                     let participant of campaign_data.participants;
                     let i = index
                   "
                 >
-                  <div class="row">
-                    <div class="col-12">
-                      <div class="row">
+                  <div
+                    class="row"
+                    style="border-top: 1px solid rgb(216, 212, 212)"
+                  >
+                    <div
+                      class="col-12"
+                      style="padding: 0 !important; margin: 0 !important"
+                    >
+                      <div
+                        class="row"
+                        style="
+                          padding-top: 4px;
+                          border-top-width: 1px;
+                          border-bottom-width: 1px;
+                        "
+                        [ngStyle]="{
+                          'background-color':
+                            participant.user_id == httpService.USERINFO.id
+                              ? '#DFD8F7'
+                              : 'transparent'
+                        }"
+                      >
                         <div class="col-2">
-                          <span [ngClass]="{'avatar-wrapper': participant.rank === 1 || participant.rank === 2 || participant.rank === 3}">
+                          <span
+                            [ngClass]="{
+                              'avatar-wrapper':
+                                participant.rank === 1 ||
+                                participant.rank === 2 ||
+                                participant.rank === 3
+                            }"
+                          >
                             <img
+                              style="background-color: none"
                               *ngIf="participant.avatar"
                               class="round avatar"
                               [src]="apiUrl + participant.avatar"
@@ -578,6 +661,7 @@
                               width="50"
                             />
                             <img
+                              style="background-color: none"
                               *ngIf="participant.avatar == null"
                               class="round avatar"
                               src="assets/images/profile/person.png"
@@ -590,42 +674,50 @@
                         </div>
                         <div class="col-8 d-flex align-items-center">
                           <!-- User name aligned to the center -->
-                          <img *ngIf="participant.rank==1"
-                         
-                          class="ml-1"
-                          src="assets/images/profile/first.png"
-                          alt="avatar"
-                          width="26"
-                          style="background-color: white"
-                        />
-                        <img *ngIf="participant.rank==2"
-                         
-                          class=" ml-1"
-                          src="assets/images/profile/second.png"
-                          alt="avatar"
-                          width="26"
-                          style="background-color: white"
-                        />
-                        <img *ngIf="participant.rank==3"
-                         
-                        class=" ml-1"
-                        src="assets/images/profile/third.png"
-                        alt="avatar"
-                        width="26"
-                        style="background-color: white"
-                      />
+                          <img
+                            *ngIf="participant.rank == 1"
+                            class="ml-1"
+                            src="assets/images/profile/first.png"
+                            alt="avatar"
+                            width="26"
+                            style="background-color: transparent"
+                          />
+                          <img
+                            *ngIf="participant.rank == 2"
+                            class="ml-1"
+                            src="assets/images/profile/second.png"
+                            alt="avatar"
+                            width="26"
+                            style="background-color: transparent"
+                          />
+                          <img
+                            *ngIf="participant.rank == 3"
+                            class="ml-1"
+                            src="assets/images/profile/third.png"
+                            alt="avatar"
+                            width="26"
+                            style="background-color: transparent"
+                          />
                           <h4 class="card-title mb-0 ml-1">
                             <b>
-                              <span style="font-size: 14px; display: flex; flex-direction: row; align-items: center;margin-top: -10px !important;">
+                              <span
+                                style="
+                                  font-size: 14px;
+                                  display: flex;
+                                  flex-direction: row;
+                                  align-items: center;
+                                  margin-top: -10px !important;
+                                "
+                              >
                                 <div class="d-none d-md-flex">
                                   {{ participant.user_name }}
                                 </div>
-                                
+
                                 <!-- Display on small and mobile screens (xs and sm) -->
                                 <div class="d-flex d-md-none">
-                                  {{ participant.user_name | truncate: 8 }}
+                                  {{ participant.user_name | truncate : 8 }}
                                 </div>
-                              
+
                                 <!-- <button
                                   type="button"
                                   rippleEffect
@@ -633,18 +725,31 @@
                                   [ngbTooltip]="'Time taken: ' + participant.time_taken"
                                   style="display: inline-flex; align-items: center;margin-left:-10px !important;width: 100%; "
                                 > -->
-                                <span rippleEffect
-                                class="btn"
-                                [ngbTooltip]="'Time taken: ' + participant.time_taken">
-                                  <i data-feather="alert-circle" style="color:black" ></i>
+                                <span
+                                  rippleEffect
+                                  class="btn"
+                                  [ngbTooltip]="
+                                    'Time taken: ' + participant.time_taken
+                                  "
+                                >
+                                  <i
+                                    data-feather="alert-circle"
+                                    style="color: black"
+                                  ></i>
                                 </span>
                                 <!-- </button> -->
                               </span>
                             </b>
                           </h4>
                         </div>
-                        <div class="col-2 d-flex align-items-center justify-content-center" style="margin-top: 0px !important;">
-                          <span *ngIf="participant.total_points > 0" style="margin-top: -10px !important;">
+                        <div
+                          class="col-2 d-flex align-items-center justify-content-center"
+                          style="margin-top: 0px !important"
+                        >
+                          <span
+                            *ngIf="participant.total_points > 0"
+                            style="margin-top: -10px !important"
+                          >
                             {{ participant.total_points }} Pts
                           </span>
                           <span *ngIf="participant.total_points == 0">
@@ -652,9 +757,6 @@
                           </span>
                         </div>
                       </div>
-                      
-
-                      <hr />
                     </div>
                   </div>
                 </div>
@@ -663,53 +765,10 @@
           </div>
         </div>
 
- 
-  <div class="loader-container"  *ngIf="refresh_loading">
-    <div class="spinner"></div>
-  </div>
- 
-        <!-- <div class="row match-height" *ngIf="!loading">
-  
-    <div class="col-12">
-      <div class="card">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-12">
-              <h4
-                class="card-title mb-0"
-                style="color: #7459dc; font-weight: 400"
-              >
-                <b>Leaderboard</b>
-              </h4>
-              <hr />
-            </div>
-          </div>
-
-          <div *ngIf="rows != undefined">
-           
-              <div class="row">
-                <div class="col-12">
-                  <div class="row">
-                    <div class="col-8">
-                     <b> {{ campaign_data.campaign_title }}</b>
-                    </div>
-                    <div class="col-4">
-                      {{ campaign_data.total_points }}
-                      
-                    </div>
-                  
-                  </div>
-
-                  <hr />
-                </div>
-              </div>
-            
-          </div>
+        <div class="loader-container" *ngIf="refresh_loading">
+          <div class="spinner"></div>
         </div>
-      </div>
-    </div>
-   
-  </div> -->
+
       </div>
     </div>
     <div class="d-none d-lg-flex col-lg-4"></div>
@@ -719,9 +778,7 @@
 <ng-template #modalDanger let-modal>
   <div class="modal-header">
     <h5 class="modal-title"><span class="color-cls">Confirm</span></h5>
-    <!-- <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button> -->
+
   </div>
   <div class="modal-body" tabindex="0" ngbAutofocus>
     Are you sure you want to submit your Prediction?
