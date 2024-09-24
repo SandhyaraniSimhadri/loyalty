@@ -33,7 +33,7 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
   public currentRow;
   public tempRow;
   public avatarImage: string;
-  public image: any;
+  public image: any='';
   public apiUrl: any;
   public loading: boolean = false;
   public churchData: any;
@@ -311,6 +311,8 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
   
       const formData = new FormData();
       const games_data = this.games;
+      
+
       formData.append("image", this.image);
       formData.append("id", this.currentRow.id);
 

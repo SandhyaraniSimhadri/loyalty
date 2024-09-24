@@ -122,12 +122,12 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
           {
             name: 'Home',
             isLink: true,
-            link: '/'
+            link: '/predictions/predictions'
           },
           {
             name: 'Pages',
             isLink: true,
-            link: '/'
+            link: '/predictions/predictions'
           },
           {
             name: 'Account Settings',

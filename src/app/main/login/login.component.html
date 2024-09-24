@@ -1,4 +1,4 @@
-<div class="auth-wrapper auth-v2">
+<div class="auth-wrapper auth-v2" *ngIf="image_loading">
   <div class="auth-inner row m-0 p-0">
     <!-- Brand logo-->
     <!-- <a class="brand-logo" href="javascript:void(0);">
@@ -9,16 +9,17 @@
     <div class="d-none d-lg-flex col-lg-8 align-items-center img-class">
       <div class="image-container">
         <img
-          class="img-fluid dynamic-image"
-          src="../../../../../assets/images/login/login.jpg"
-          alt="Login"
-        />
-        <!-- Logo Icon Positioned at the Center -->
-        <img
-          class="center-logo"
-          src="../../../../../assets/images/login/logo_icon.png"
-          alt="Logo Icon"
-        />
+        class="img-fluid dynamic-image"
+        [src]="(campaign_id && campaign_data?.login_image) ? api_url+campaign_data.login_image : loginImage"
+        alt="Login"
+      />
+      
+      <img
+        class="center-logo"
+        [src]="(campaign_id && campaign_data?.logo_image) ? api_url+campaign_data.logo_image : logoIcon"
+        alt="Logo Icon"
+      />
+      
       </div>
     </div>
 
@@ -60,7 +61,9 @@
           </div>
 
           <form class="auth-login-form mt-1" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-            <div class="input-group" *ngIf="type == 2 || register_clicked==true">
+            <div class="input-group"  [ngStyle]="{
+              'border-bottom': login_cred === false ? '1px solid red' : '1px solid #98c6f1'
+            }" *ngIf="type == 2 || register_clicked==true">
               <i data-feather="user" class="mr-1 mt-0 icon-cls"></i>
               <input
                 type="text"
@@ -73,8 +76,10 @@
                 aria-describedby="login-user-name"
               />
 
-              <div
-                *ngIf="submitted && f.user_name.errors"
+              
+            </div>
+            <div
+                *ngIf=" (type == 2 || register_clicked==true) && submitted && f.user_name.errors"
                 class="invalid-feedback"
                 [ngClass]="{ 'd-block': submitted && f.user_name.errors }"
               >
@@ -82,7 +87,6 @@
                   User name is required
                 </div>
               </div>
-            </div>
             <div class="input-group "  [ngStyle]="{
               'border-bottom': login_cred === false ? '1px solid red' : '1px solid #98c6f1'
             }">
@@ -95,14 +99,22 @@
                   'is-invalid': submitted && loginForm.get('email').errors
                 }"
               />
+             
+            </div>
 
-              <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                <div *ngIf="f.email.errors.required">Email is required</div>
-                <div *ngIf="f.email.errors.email">
-                  Email must be a valid email address
-                </div>
+            <div *ngIf="submitted && f.email.errors" class="invalid-feedback"    
+            [ngClass]="{ 'd-block': submitted && f.email.errors }">
+              <div *ngIf="f.email.errors.required">Email is required</div>
+              <div *ngIf="f.email.errors.email">
+                Email must be a valid email address
               </div>
             </div>
+
+
+          
+          
+
+
             <div class="input-group"  [ngStyle]="{
               'border-bottom': login_cred === false ? '1px solid red' : '1px solid #98c6f1'
             }" >
@@ -118,18 +130,20 @@
                 aria-describedby="login-password"
               />
 
-              <div
-                *ngIf="submitted && f.password.errors"
-                class="invalid-feedback"
-                [ngClass]="{ 'd-block': submitted && f.password.errors }"
-              >
-                <div *ngIf="f.password.errors.required">
-                  Password is required
-                </div>
-              </div>
+             
             </div>
-
-            <div class="input-group" *ngIf="type == 1 || type == 2 || register_clicked==true">
+            <div
+            *ngIf="submitted && f.password.errors"
+            class="invalid-feedback"
+            [ngClass]="{ 'd-block': submitted && f.password.errors }"
+          >
+            <div *ngIf="f.password.errors.required">
+              Password is required
+            </div>
+          </div>
+            <div class="input-group"  [ngStyle]="{
+              'border-bottom': login_cred === false ? '1px solid red' : '1px solid #98c6f1'
+            }" *ngIf="type == 1 || type == 2 || register_clicked==true">
               <i data-feather="lock" class="mr-1 mt-0 icon-cls"></i>
               <input
                 type="password"
@@ -142,28 +156,28 @@
                 aria-describedby="login-password"
               />
 
-              <div
-                *ngIf="submitted && f.confirm_password.errors"
-                class="invalid-feedback"
-                [ngClass]="{
-                  'd-block': submitted && f.confirm_password.errors
-                }"
-              >
-                <div *ngIf="f.confirm_password.errors.required">
-                  Password is required
-                </div>
-
-                <div
-                  *ngIf="
-                    f.confirm_password.errors.required &&
-                    f.confirm_password.value != f.password.value
-                  "
-                >
-                  Pawword and Confirm password should be same
-                </div>
-              </div>
+             
+            </div>
+            <div
+            *ngIf="(type == 1 || type == 2 || register_clicked==true) && submitted && f.confirm_password.errors "
+            class="invalid-feedback"
+            [ngClass]="{
+              'd-block': submitted && f.confirm_password.errors
+            }"
+          >
+            <div *ngIf="f.confirm_password.errors.required">
+              Password is required
             </div>
 
+            <div
+              *ngIf="passwordNotSame==true ||
+                (f.confirm_password.errors.required &&
+                f.confirm_password.value != f.password.value )
+              "
+            >
+              Password and Confirm password should be same
+            </div>
+          </div>
             <br />
 
             <div class="captcha-container mb-1">

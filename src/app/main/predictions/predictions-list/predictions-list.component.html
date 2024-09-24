@@ -52,16 +52,16 @@
                       class="round"
                       [src]="user_image"
                       alt="avatar"
-                      height="80"
-                      width="80"
+                      height="100"
+                      width="100"
                     />
                     <img
                       *ngIf="httpService.USERINFO.avatar == null"
                       class="round"
                       src="assets/images/profile/person.png"
                       alt="avatar"
-                      height="80"
-                      width="80"
+                      height="90"
+                      width="90"
                       style="background-color: white"
                     />
                   </div>
@@ -311,7 +311,7 @@
           </div>
         </div>
         <div *ngIf="!loading && rows.length == 0" style="color: white">
-          Not yet participated in any Campagin..
+          Not yet participated in any Campaign..
         </div>
 
         <div
@@ -516,7 +516,7 @@
 
                       <img
                         class="col-12"
-                        src="assets/images/pages/prediction/predict.png"
+                        [src]="campaign_data?.campaign_image ? apiUrl+campaign_data.campaign_image : loginImage"
                         alt="Prediction"
                         style="object-fit: cover !important; width: 100%"
                       />

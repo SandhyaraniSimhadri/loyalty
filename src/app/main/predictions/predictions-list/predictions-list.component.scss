@@ -435,7 +435,9 @@ button:focus {
   border-radius: 50%; /* Make the border round */
   background-clip: content-box; /* Clip the background to the content box */
 }
-
+.round {
+  border-radius: 50%;
+}
 .avatar {
   display: block;
   border-radius: 50%; /* Ensure the image inside is also round */

@@ -37,6 +37,12 @@ export class CampaignsNewComponent implements OnInit {
   public campaign_title: any;
   public terms_and_conditions: any;
   public description: any;
+  public welcome_image:any;
+  public logo_image:any;
+
+  public login_image:any;
+  public campaign_image:any;
+
   public game_type: any;
 
 
@@ -247,7 +253,11 @@ export class CampaignsNewComponent implements OnInit {
     formData.append("terms_and_conditions", this.terms_and_conditions);
     formData.append("game_type", this.game_type);
     formData.append("description", this.description);
-    formData.append('image', this.image);
+    formData.append('logo_image', this.logo_image);
+    formData.append('login_image', this.login_image);
+    formData.append('welcome_image', this.welcome_image);
+    formData.append('campaign_image', this.campaign_image);
+
 
 
 
@@ -334,9 +344,19 @@ export class CampaignsNewComponent implements OnInit {
     this.apiUrl = environment.apiUrl;
   }
 
-  uploadImage(event: any) {
+  uploadImage(event: any,type) {
     this.loading = true;
-    this.image = event.target.files[0];
+    if(type=='welcome'){
+      this.welcome_image=event.target.files[0];
+    }else if(type=='logo'){
+      this.logo_image=event.target.files[0];
+    }
+    else if(type=='campaign'){
+      this.campaign_image=event.target.files[0];
+    }else{
+      this.login_image = event.target.files[0];
+    }
+    
     this.loading = false;
   }
   getData() {

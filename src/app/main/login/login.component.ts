@@ -29,6 +29,7 @@ import {
   SocialUser,
   FacebookLoginProvider,
 } from "@abacritt/angularx-social-login";
+import { environment } from "environments/environment";
 // import { ReCaptchaVService } from 'ng-recaptcha';
 @Component({
   selector: "app-login",
@@ -55,12 +56,21 @@ export class LoginComponent implements OnInit {
   public passwordTextType: boolean;
   public role_data: any;
   public main_loading: any = false;
+  public image_loading: any = false;
+
   public socialLogClicked: any = false;
   public type: any = 0;
   public campaign_id: any = null;
   token: string | undefined;
   captcha_token: any = null;
+  passwordNotSame:any=false;
   public register_clicked:any=false;
+  public org: string;
+  public loginImage: string;
+  public logoIcon: string;
+  public campaign_data:any;
+  public api_url: any;
+
   // Private
   private _unsubscribeAll: Subject<any>;
 
@@ -93,6 +103,7 @@ export class LoginComponent implements OnInit {
     // }
 
     this._unsubscribeAll = new Subject();
+    this.api_url = environment.apiUrl;
 
     // Configure the layout
     this._coreConfigService.config = {
@@ -140,20 +151,22 @@ export class LoginComponent implements OnInit {
     console.log("this.loginForm.invalid", this.loginForm.value);
     console.log("this.loginForm.invalid", this.loginForm.invalid);
 
-    if (this.loginForm.invalid) {
-      return;
-    }
+   
     // if(this.loginForm.password)
     // console.log("value",this.loginForm.value);
     if (
       (this.type == 1 || this.type == 2) &&
       this.loginForm.value.confirm_password != this.loginForm.value.password
     ) {
+      this.passwordNotSame=true;
       this._toastrService.error(
         "Password and Confirm password should be same",
         "Failed",
         { toastClass: "toast ngx-toastr", closeButton: true }
       );
+      return;
+    }
+    if (this.loginForm.invalid) {
       return;
     }
     // Login
@@ -195,31 +208,29 @@ export class LoginComponent implements OnInit {
                 );
                 if (this.httpService.USERINFO.user_type == 1) {
                   if (this.httpService.USERINFO.first_time_login == 1) {
-                    console.log(
-                      "first time login",
-                      this.httpService.USERINFO.first_time_login
-                    );
-                    this._router.navigate(["/welcome"], {
-                      queryParams: { campaign_id: this.campaign_id },
-                    });
+                   
+                    if(this.campaign_id){
+                      this._router.navigate(["/welcome"], {
+                        queryParams: { campaign_id: this.campaign_id,welcome_image:this.campaign_data?.welcome_image },
+                      });}
+                      else{
+                        this._router.navigate(["/welcome"], {
+                          queryParams: { campaign_id: this.campaign_id,},
+                        });
+                      }
                   } else {
                     this._router.navigate(["/company/company"]);
                   }
                 } else {
-                  if (this.httpService.USERINFO.first_time_login == 1) {
-                    console.log(
-                      "first time login",
-                      this.httpService.USERINFO.first_time_login
-                    );
-
+                  if(this.campaign_id){
                     this._router.navigate(["/welcome"], {
-                      queryParams: { campaign_id: this.campaign_id },
-                    });
-                  } else {
-                    this._router.navigate(["/predictions/predictions"], {
-                      queryParams: { campaign_id: this.campaign_id },
-                    });
-                  }
+                      queryParams: { campaign_id: this.campaign_id,welcome_image:this.campaign_data?.welcome_image },
+                    });}
+                    else{
+                      this._router.navigate(["/welcome"], {
+                        queryParams: { campaign_id: this.campaign_id,},
+                      });
+                    }
                 }
                 // }, 3000);
               } else {
@@ -258,6 +269,21 @@ export class LoginComponent implements OnInit {
 
 
   ngOnInit(): void {
+    // const path = window.location.pathname; 
+    // this.org = path.split('/')[1]; 
+    // if (this.org === 'org1') {
+    //   this.loginImage = '../../../../../assets/images/login/org1/login.jpg';
+    //   this.logoIcon = '../../../../../assets/images/login/org1/logo_icon.png';
+    // } else if (this.org === 'org2') {
+    //   this.loginImage = '../../../../../assets/images/login/org2/login.jpg';
+    //   this.logoIcon = '../../../../../assets/images/login/org2/logo_icon.png';
+    // } else {
+    //   // Default case
+    //   
+    // }
+  
+    this.loginImage = '../../../../../assets/images/login/login.jpg';
+      this.logoIcon = '../../../../../assets/images/login/logo_icon.png';
     this.loginForm = this._formBuilder.group({
       email: ["", [Validators.required, Validators.email]],
       password: ["", Validators.required],
@@ -272,6 +298,7 @@ export class LoginComponent implements OnInit {
           var userName = params["user_name"];
         } else {
           this.campaign_id = params["campaign_id"];
+          this.get_campaign_details();
         }
 
         // Use these parameters as needed
@@ -314,6 +341,31 @@ export class LoginComponent implements OnInit {
       }
     });
     // }
+  }
+  get_campaign_details(){
+    this.image_loading=false;
+    let request;
+
+    request = {
+      params: {id:this.campaign_id},
+      action_url: "get_single_campaign",
+      method: "POST",
+    };
+    this.httpService.doHttp(request).subscribe(
+      (res: any) => {
+        if (res == "nonet") {
+        } else {
+          if (res.status == false) {
+          } else if (res.status == true) {
+            this.campaign_data=res.data[0];
+          }
+        }
+        this.image_loading=true;
+      },
+      (error: any) => {
+        this.image_loading=true;
+      }
+    );
   }
   loginModify() {
     if (this.type == 1 || this.type == 2) {
@@ -377,21 +429,42 @@ export class LoginComponent implements OnInit {
               this.httpService.loginuserid = res?.data?.user_id;
               if (res.data.user_type == 1) {
                 if (res.data.first_time_login == 1) {
-                  this._router.navigate(["/welcome"], {
-                    queryParams: { campaign_id: this.campaign_id },
-                  });
+                  if(this.campaign_id){
+                    this._router.navigate(["/welcome"], {
+                      queryParams: { campaign_id: this.campaign_id,welcome_image:this.campaign_data?.welcome_image },
+                    });}
+                    else{
+                      this._router.navigate(["/welcome"], {
+                        queryParams: { campaign_id: this.campaign_id,},
+                      });
+                    }
                 } else {
                   this._router.navigate(["/company/company"]);
                 }
               } else {
                 if (res.data.first_time_login == 1) {
-                  this._router.navigate(["/welcome"], {
-                    queryParams: { campaign_id: this.campaign_id },
-                  });
+                  if(this.campaign_id){
+                    this._router.navigate(["/welcome"], {
+                      queryParams: { campaign_id: this.campaign_id,welcome_image:this.campaign_data?.welcome_image },
+                    });}
+                    else{
+                      this._router.navigate(["/welcome"], {
+                        queryParams: { campaign_id: this.campaign_id,},
+                      });
+                    }
                 } else {
-                  this._router.navigate(["/predictions/predictions"], {
-                    queryParams: { campaign_id: this.campaign_id },
-                  });
+                  // this._router.navigate(["/predictions/predictions"], {
+                  //   queryParams: { campaign_id: this.campaign_id },
+                  // });
+                  if(this.campaign_id){
+                  this._router.navigate(["/welcome"], {
+                    queryParams: { campaign_id: this.campaign_id,welcome_image:this.campaign_data?.welcome_image },
+                  });}
+                  else{
+                    this._router.navigate(["/welcome"], {
+                      queryParams: { campaign_id: this.campaign_id,},
+                    });
+                  }
                 }
               }
               this.main_loading = false;
@@ -483,11 +556,13 @@ export class LoginComponent implements OnInit {
         if (res == "nonet") {
         } else {
           if (res.status == false) {
+            this.login_cred=false;
             this._toastrService.error(res.msg, "Failed", {
               toastClass: "toast ngx-toastr",
               closeButton: true,
             });
           } else if (res.status == true) {
+            this.login_cred=true;
             this._toastrService.success(res.msg, "Success", {
               toastClass: "toast ngx-toastr",
               closeButton: true,

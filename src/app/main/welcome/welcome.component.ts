@@ -33,6 +33,7 @@ export class WelcomeComponent implements OnInit {
   public old_password:any;
   public new_password:any;
   public confirm_password:any;
+  public welcome_image:any;
   constructor(
     private _coreConfigService: CoreConfigService,
     private _toastrService: ToastrService,
@@ -41,7 +42,8 @@ export class WelcomeComponent implements OnInit {
     private _router: Router,
     private _route: ActivatedRoute,
   ) {
-    //  this.section=1;
+
+
     console.log("section", this.section);
 
     // Configure the layout
@@ -66,11 +68,17 @@ export class WelcomeComponent implements OnInit {
     this.apiUrl = environment.apiUrl;
     this.user_info = this.httpService.USERINFO;
     this.avatarImage = this.user_info.avatar;
+    if(this.avatarImage){
+      this.avatarImage= this.apiUrl +this.avatarImage;
+    }
     console.log("user infooo", this.user_info);
     this.section = 1;
     this._route.queryParams.subscribe((params) => {
       if (params) {
         this.campaign_id=params['campaign_id'];
+        if(params['welcome_image']){
+          this.welcome_image=params['welcome_image'];
+        }
       }});
   }
 
@@ -78,18 +86,19 @@ export class WelcomeComponent implements OnInit {
 
   goToNext() {
     if (this.section == 1) {
-      if (this.avatarImage == null || this.avatarImage == "defaultImage") {
-        this.section = 2;
-      } else {
-        if(this.httpService.USERINFO.user_type==1){
-          this._router.navigate(["/company/company"]);
-        }
-      else{
-        this._router.navigate(["/predictions/predictions"], {
-          queryParams: { campaign_id: this.campaign_id },
-        });
-      }
-      }
+      // if (this.avatarImage == null || this.avatarImage == "defaultImage") {
+      //   this.section = 2;
+      // } else {
+      //   if(this.httpService.USERINFO.user_type==1){
+      //     this._router.navigate(["/company/company"]);
+      //   }
+      // else{
+      //   this._router.navigate(["/predictions/predictions"], {
+      //     queryParams: { campaign_id: this.campaign_id },
+      //   });
+      // }
+      // }
+      this.section=2;
     } else if (this.section == 2) {
       if (this.avatarImage == null) {
         if(this.httpService.USERINFO.user_type==1){
@@ -131,6 +140,19 @@ export class WelcomeComponent implements OnInit {
     this.loading = true;
 
     const formData = new FormData();
+    if(this.image==undefined || this.image==null){
+      if(this.httpService.USERINFO.user_type==1){
+        this._router.navigate(["/company/company"]);
+      return;
+
+      }
+    else{
+      this._router.navigate(["/predictions/predictions"], {
+        queryParams: { campaign_id: this.campaign_id },
+      });
+      return;
+    }
+    }
     formData.append("image", this.image);
     formData.append("id", this.user_info.id);
     formData.append("email", this.user_info.email);

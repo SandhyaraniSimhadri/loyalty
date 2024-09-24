@@ -102,6 +102,7 @@ export class PredictionsListComponent implements OnInit {
     five: "assets/images/slider/05.jpg",
     six: "assets/images/slider/06.jpg",
   };
+  loginImage:any;
   showGif: boolean = false;
   @ViewChild("scrollableDiv") scrollableDiv: ElementRef;
   /**
@@ -239,6 +240,7 @@ export class PredictionsListComponent implements OnInit {
    * On init
    */
   ngOnInit(): void {
+   this. loginImage='../../../../../assets/images/pages/prediction/predict.png';
     this.apiUrl = environment.apiUrl;
     this.apiUrl_web = environment.apiUrl_web;
     this._route.queryParams.subscribe((params) => {

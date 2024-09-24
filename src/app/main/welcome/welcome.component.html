@@ -9,7 +9,12 @@
 >
   <div class="d-none d-lg-flex col-lg-4"></div>
   <div class="col-lg-4" style="margin-right: 0px !important;padding:0px !important">
-    <div class="welcome-container" *ngIf="!loading">
+    <div
+  class="welcome-container"
+  *ngIf="!loading"
+  [ngStyle]="{
+    'background-image': welcome_image ? 'url(' + apiUrl + welcome_image + ')' : 'url(../../../assets/images/pages/welcome/background1.jpg)'
+  }">
       <div class="welcome-section" *ngIf="section == 1">
         <div class="welcome-text">
           <span class="welcome">WELCOME!</span>
@@ -45,7 +50,7 @@
         
         <div class="name" style="text-align: center;">{{ user_info.user_name }}</div>
 
-        <span style="color:rgb(148, 146, 146);margin-top: 16px;">Upload your profile picture</span>
+        <span style="color:rgb(148, 146, 146);margin-top: 16px;"  (click)="triggerFileInput()"   class="upload-img">Upload your profile picture</span>
       </div>
       <span class="next-button" (click)="goToNext()">
         <img src="../../../assets/images/pages/welcome/next.png" alt="Next Button" width="100"/>

@@ -13,7 +13,7 @@
 
 
 .welcome-container {
-  background-image: url('../../../assets/images/pages/welcome/background1.jpg');
+  
   background-size: cover;
   background-position: center;
   height: 100vh;
@@ -116,12 +116,13 @@
 }
 
 .welcome {
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: bold;
   // margin: 0;
   // padding-bottom: 20px !important;
   font-style: italic;
-  font-weight: bolder;
+  font-weight: bold;
+  font-family: 'Roboto Condensed', sans-serif;
 
 }
 
@@ -131,6 +132,7 @@
   font-size: 1rem;
   margin: 0;
   font-weight: bold;
+  font-family: 'Roboto Condensed', sans-serif;
 }
 
 .next-button {
@@ -206,4 +208,6 @@
   color: black;
   margin-top: 16px;
 }
-
+.upload-img{
+  cursor: pointer;
+}
