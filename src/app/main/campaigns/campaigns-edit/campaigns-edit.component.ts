@@ -33,7 +33,7 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
   public currentRow;
   public tempRow;
   public avatarImage: string;
-  public image: any='';
+  public image: any = "";
   public apiUrl: any;
   public loading: boolean = false;
   public churchData: any;
@@ -48,6 +48,11 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
   public duration: any = 0;
   public errorMsg: any = false;
   public durationMsg: any = false;
+  public logo_image: any;
+  public login_image: any;
+  public welcome_image: any;
+  public imageval: any;
+
   public games = [
     {
       id: 0,
@@ -72,7 +77,7 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
       response_b: "",
       response_c: "",
       response_d: "",
-      correct_answer:"",
+      correct_answer: "",
       points: "",
     },
   ];
@@ -92,14 +97,13 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
     team_b_image: null,
   };
 
-
   public question = {
     question: "",
     response_a: "",
     response_b: "",
     response_c: "",
     response_d: "",
-    correct_answer:"",
+    correct_answer: "",
     points: "",
   };
   public eventsData: any;
@@ -150,8 +154,7 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
   checkEvent(event_id: any) {
     if (event_id == 1) {
       this.currentRow.games = this.games;
-    }
-    else if (event_id == 2) {
+    } else if (event_id == 2) {
       this.currentRow.quizzes = this.questions;
     } else {
       this.currentRow.games = [
@@ -178,7 +181,7 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
           response_b: "",
           response_c: "",
           response_d: "",
-          correct_answer:"",
+          correct_answer: "",
           points: "",
         },
       ];
@@ -190,18 +193,33 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
    *
    * @param event
    */
-  uploadImage(event: any) {
+  uploadImage(event: any, type: any) {
     this.loading = true;
+    var imageValue='';
     if (event.target.files && event.target.files[0]) {
       let reader = new FileReader();
       reader.onload = (event: any) => {
-        this.avatarImage = event.target.result;
+        // this.avatarImage = event.target.result;
+        imageValue = event.target.result;
+
       };
 
       reader.readAsDataURL(event.target.files[0]);
+      
+    
+    if (type == "welcome") {
+      this.welcome_image = event.target.files[0];
+    } else if (type == "logo") {
+      this.logo_image = event.target.files[0];
+    } else if (type == "campaign") {
       this.currentRow.avatar = event.target.files[0].name;
       this.image = event.target.files[0];
+        this.avatarImage = event.target.result;
+
+    } else {
+      this.login_image = event.target.files[0];
     }
+  }
     this.loading = false;
     this.checkFormModified();
   }
@@ -245,7 +263,7 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
       response_b: "",
       response_c: "",
       response_d: "",
-      correct_answer:"",
+      correct_answer: "",
       points: "",
     });
     this.checkFormModified();
@@ -288,32 +306,33 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
             !question.response_b ||
             !question.response_c ||
             !question.response_d ||
-            !question.correct_answer || 
+            !question.correct_answer ||
             !question.points
         );
         if (hasEmptyFields) {
           this.errorMsg = true;
           return;
         }
-        if(this.currentRow.duration==0){
-          this.durationMsg= true;
+        if (this.currentRow.duration == 0) {
+          this.durationMsg = true;
           this._toastrService.error("Please fill all details", "Failed", {
             toastClass: "toast ngx-toastr",
             closeButton: true,
           });
           return;
-  
         }
       }
       this.errorMsg = false;
-      this.durationMsg=false;
+      this.durationMsg = false;
       this.buttonLoading = true;
-  
+
       const formData = new FormData();
       const games_data = this.games;
-      
 
-      formData.append("image", this.image);
+      formData.append("campaign_image", this.image);
+      formData.append("logo_image", this.logo_image);
+      formData.append("login_image", this.login_image);
+      formData.append("welcome_image", this.welcome_image);
       formData.append("id", this.currentRow.id);
 
       formData.append("campaign_title", this.currentRow.campaign_title);
@@ -322,20 +341,26 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
       formData.append("event_id", this.currentRow.event_id);
       formData.append("company_id", this.currentRow.company_id);
       formData.append("title", this.currentRow.title);
-      formData.append("terms_and_conditions", this.currentRow.terms_and_conditions);
+      formData.append(
+        "terms_and_conditions",
+        this.currentRow.terms_and_conditions
+      );
       formData.append("game_type", this.currentRow.game_type);
       formData.append("description", this.currentRow.description);
       formData.append("duration", this.currentRow.duration);
-      formData.append("calculatePoints", String(this.currentRow.calc_points_immediately));
+      formData.append(
+        "calculatePoints",
+        String(this.currentRow.calc_points_immediately)
+      );
 
-      if(this.currentRow.event_id==1){
+      if (this.currentRow.event_id == 1) {
         const gamesDataWithoutFiles = this.currentRow.games.map((game) => {
           const { team_b_image, team_a_image, ...rest } = game;
           return rest;
         });
-    
+
         formData.append("games", JSON.stringify(gamesDataWithoutFiles));
-    
+
         // Append each image file to the FormData object
         this.games.forEach((game, index) => {
           if (game.team_b_image) {
@@ -345,13 +370,11 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
           if (game.team_a_image) {
             formData.append(`team_a_image_${index}`, game.team_a_image);
           }
-        });}
-        if(this.currentRow.event_id==2){
-          
-          formData.append("questions",JSON.stringify(this.currentRow.quizzes));
-          
-    
-        }
+        });
+      }
+      if (this.currentRow.event_id == 2) {
+        formData.append("questions", JSON.stringify(this.currentRow.quizzes));
+      }
 
       this.currentRow.image = this.image;
       this.http
@@ -430,16 +453,18 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
         } else {
           if (res.status == false) {
           } else if (res.status == true) {
-            if(res.data[0].event_title=="PREDICTION EVENT"){
-            this.games = res.data[0].games;}
-            
-            if(res.data[0].event_title=="QUIZ"){
-              this.questions = res.data[0].quizzes;}
+            if (res.data[0].event_title == "PREDICTION EVENT") {
+              this.games = res.data[0].games;
+            }
+
+            if (res.data[0].event_title == "QUIZ") {
+              this.questions = res.data[0].quizzes;
+            }
             this.currentRow = this.modalsService.replaceNullsWithEmptyStrings(
               res.data[0]
             );
-            if(this.currentRow.calc_points_immediately=="false"){
-              this.currentRow.calc_points_immediately=false;
+            if (this.currentRow.calc_points_immediately == "false") {
+              this.currentRow.calc_points_immediately = false;
             }
             this.originalFormValues = { ...this.currentRow };
 

@@ -71,7 +71,7 @@
                             id="change-picture"
                             hidden
                             accept="image/png, image/jpeg, image/jpg"
-                            (change)="uploadImage($event)"
+                            (change)="uploadImage($event,'campaign')"
                           />
                           <span class="d-block d-sm-none">
                             <i class="mr-0" data-feather="edit"></i>
@@ -94,7 +94,6 @@
                     #accountForm="ngForm"
                   >
                     <div class="row">
-                      
                       <div class="col-md-6">
                         <div class="form-group">
                           <label class="form-label" for="user-plan"
@@ -104,7 +103,9 @@
                               >*</span
                             >
                             <span
-                              *ngIf="!accountForm.submitted || !TitleRef.invalid"
+                              *ngIf="
+                                !accountForm.submitted || !TitleRef.invalid
+                              "
                               >*</span
                             ></label
                           >
@@ -142,7 +143,9 @@
                           <label class="form-label" for="user-plan"
                             >Select Company
                             <span
-                              *ngIf="accountForm.submitted && CompanyRef.invalid"
+                              *ngIf="
+                                accountForm.submitted && CompanyRef.invalid
+                              "
                               class="text-danger"
                               >*</span
                             >
@@ -196,7 +199,9 @@
                               >*</span
                             >
                             <span
-                              *ngIf="!accountForm.submitted || !SDateRef.invalid"
+                              *ngIf="
+                                !accountForm.submitted || !SDateRef.invalid
+                              "
                               >*</span
                             ></label
                           >
@@ -238,7 +243,9 @@
                               >*</span
                             >
                             <span
-                              *ngIf="!accountForm.submitted || !EDateRef.invalid"
+                              *ngIf="
+                                !accountForm.submitted || !EDateRef.invalid
+                              "
                               >*</span
                             ></label
                           >
@@ -271,7 +278,6 @@
                         </div>
                       </div>
 
-
                       <div class="col-md-6">
                         <div class="form-group">
                           <label class="form-label" for="user-plan"
@@ -281,7 +287,9 @@
                               >*</span
                             >
                             <span
-                              *ngIf="!accountForm.submitted || !TandCRef.invalid"
+                              *ngIf="
+                                !accountForm.submitted || !TandCRef.invalid
+                              "
                               >*</span
                             ></label
                           >
@@ -314,23 +322,42 @@
                         </div>
                       </div>
 
-
                       <div class="col-md-6">
-                        <label class="form-label">Select Event Type <span *ngIf="accountForm.submitted && EventTypeRef.invalid" class="text-danger">*</span>
-                          <span *ngIf="!accountForm.submitted || !EventTypeRef.invalid">*</span></label>
+                        <label class="form-label"
+                          >Select Event Type
+                          <span
+                            *ngIf="
+                              accountForm.submitted && EventTypeRef.invalid
+                            "
+                            class="text-danger"
+                            >*</span
+                          >
+                          <span
+                            *ngIf="
+                              !accountForm.submitted || !EventTypeRef.invalid
+                            "
+                            >*</span
+                          ></label
+                        >
                         <select
                           id="basic-icon-default-event-type"
                           class="form-control dt-event-type"
                           aria-label=""
                           aria-describedby="basic-icon-default-event-type"
                           name="event-type"
-                          [class.error]="accountForm.submitted && EventTypeRef.invalid"
+                          [class.error]="
+                            accountForm.submitted && EventTypeRef.invalid
+                          "
                           #EventTypeRef="ngModel"
                           required
                           [(ngModel)]="currentRow.event_id"
-                          [ngModelOptions]="{ standalone: true }"   (ngModelChange)="checkEvent(currentRow.event_id)"
+                          [ngModelOptions]="{ standalone: true }"
+                          (ngModelChange)="checkEvent(currentRow.event_id)"
                         >
-                          <option *ngFor="let event of eventsData" [value]="event.id">
+                          <option
+                            *ngFor="let event of eventsData"
+                            [value]="event.id"
+                          >
                             {{ event.title }}
                           </option>
                         </select>
@@ -354,7 +381,9 @@
                               >*</span
                             >
                             <span
-                              *ngIf="!accountForm.submitted || !CTitleRef.invalid"
+                              *ngIf="
+                                !accountForm.submitted || !CTitleRef.invalid
+                              "
                               >*</span
                             ></label
                           >
@@ -386,14 +415,17 @@
                           </span>
                         </div>
                       </div>
-                      <div class="col-md-6" *ngIf="currentRow.event_id==2">
+                      <div class="col-md-6" *ngIf="currentRow.event_id == 2">
                         <label class="form-label" for="user-plan"
                           >Duration<span
                             *ngIf="accountForm.submitted && DurationRef.invalid"
                             class="text-danger"
                             >*</span
                           >
-                          <span *ngIf="!accountForm.submitted || !DurationRef.invalid"
+                          <span
+                            *ngIf="
+                              !accountForm.submitted || !DurationRef.invalid
+                            "
                             >*</span
                           ></label
                         >
@@ -406,7 +438,9 @@
                           aria-describedby="basic-icon-default-duration"
                           name="duration"
                           [(ngModel)]="currentRow.duration"
-                          [class.error]="accountForm.submitted && DurationRef.invalid"
+                          [class.error]="
+                            accountForm.submitted && DurationRef.invalid
+                          "
                           #DurationRef="ngModel"
                           required
                         />
@@ -420,37 +454,31 @@
                             >This field is required!</small
                           >
                         </span>
-                        <span
-                        *ngIf="durationMsg"
-                        class="invalid-form"
-                      >
-                        <small
-                          class="form-text text-danger"
-                        
-                          >Duration should more than 0</small
-                        >
-                      </span>
-  
-                     
-  
+                        <span *ngIf="durationMsg" class="invalid-form">
+                          <small class="form-text text-danger"
+                            >Duration should more than 0</small
+                          >
+                        </span>
                       </div>
-                      <div class="col-md-6 form-check mt-1 ml-1 mb-1" *ngIf="currentRow.event_id==2">
+                      <div
+                        class="col-md-6 form-check mt-1 ml-1 mb-1"
+                        *ngIf="currentRow.event_id == 2"
+                      >
                         <input
                           type="checkbox"
                           class="form-check-input"
                           id="calculatePointsCheckbox"
                           [(ngModel)]="currentRow.calc_points_immediately"
-                          name="calculatePoints" 
+                          name="calculatePoints"
                         />
-                        <label class="form-check-label" for="calculatePointsCheckbox">
-                          Calculate points instantly 
+                        <label
+                          class="form-check-label"
+                          for="calculatePointsCheckbox"
+                        >
+                          Calculate points instantly
                         </label>
                       </div>
 
-
-                     
-
-                      
                       <div class="col-md-6">
                         <div class="form-group">
                           <label class="form-label" for="user-plan"
@@ -460,7 +488,9 @@
                               >*</span
                             >
                             <span
-                              *ngIf="!accountForm.submitted || !GTypeRef.invalid"
+                              *ngIf="
+                                !accountForm.submitted || !GTypeRef.invalid
+                              "
                               >*</span
                             ></label
                           >
@@ -493,7 +523,6 @@
                         </div>
                       </div>
 
-
                       <div class="col-md-6">
                         <div class="form-group">
                           <label class="form-label" for="user-plan"
@@ -508,20 +537,78 @@
                             aria-describedby="basic-icon-default-description"
                             name="description"
                             [(ngModel)]="currentRow.description"
-                           
-                          
                             (ngModelChange)="checkFormModified()"
                           />
-                        
                         </div>
                       </div>
 
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label
+                            class="form-label"
+                            for="basic-icon-default-author"
+                            >Select the login image</label
+                          >
+                          <input
+                            type="file"
+                            class="form-control dt-author"
+                            id="basic-icon-default-author"
+                            placeholder=""
+                            name="author"
+                            [(ngModel)]="imageval"
+                            (change)="uploadImage($event, 'login')"
+                          />
+                        </div>
+                      </div>
 
-                   
-                      <div class="form-group" *ngIf="currentRow.event_id==1">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label
+                            class="form-label"
+                            for="basic-icon-default-author"
+                            >Select the logo image</label
+                          >
+                          <input
+                            type="file"
+                            class="form-control dt-author"
+                            id="basic-icon-default-author"
+                            placeholder=""
+                            name="author"
+                            [(ngModel)]="imageval"
+                            (change)="uploadImage($event, 'logo')"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label
+                            class="form-label"
+                            for="basic-icon-default-author"
+                            >Select the welcome image</label
+                          >
+                          <input
+                            type="file"
+                            class="form-control dt-author"
+                            id="basic-icon-default-author"
+                            placeholder=""
+                            name="author"
+                            [(ngModel)]="imageval"
+                            (change)="uploadImage($event, 'welcome')"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="form-group" *ngIf="currentRow.event_id == 1">
                         <div class="card-body">
                           <form action="#" class="invoice-repeater">
-                            <div *ngFor="let item of currentRow.games; let i = index" @heightIn>
+                            <div
+                              *ngFor="
+                                let item of currentRow.games;
+                                let i = index
+                              "
+                              @heightIn
+                            >
                               <div class="row d-flex align-items-end">
                                 <div class="col-md-3 col-12">
                                   <div class="form-group">
@@ -536,7 +623,7 @@
                                     />
                                   </div>
                                 </div>
-            
+
                                 <div class="col-md-3 col-12">
                                   <div class="form-group">
                                     <label for="itemCost">Team A *</label>
@@ -551,7 +638,7 @@
                                     />
                                   </div>
                                 </div>
-            
+
                                 <div class="col-md-3 col-12">
                                   <div class="form-group">
                                     <label for="teamb{{ i }}">Team B *</label>
@@ -565,7 +652,7 @@
                                     />
                                   </div>
                                 </div>
-            
+
                                 <div class="col-md-3 col-12">
                                   <div class="form-group">
                                     <label for="points{{ i }}">Points *</label>
@@ -579,10 +666,12 @@
                                     />
                                   </div>
                                 </div>
-            
+
                                 <div class="col-md-3 col-12">
                                   <div class="form-group">
-                                    <label for="startDate{{ i }}">Start Date *</label>
+                                    <label for="startDate{{ i }}"
+                                      >Start Date *</label
+                                    >
                                     <input
                                       type="date"
                                       class="form-control"
@@ -593,10 +682,12 @@
                                     />
                                   </div>
                                 </div>
-                                
+
                                 <div class="col-md-3 col-12">
                                   <div class="form-group">
-                                    <label for="startTime{{ i }}">Start Time *</label>
+                                    <label for="startTime{{ i }}"
+                                      >Start Time *</label
+                                    >
                                     <input
                                       type="time"
                                       class="form-control"
@@ -609,7 +700,9 @@
                                 </div>
                                 <div class="col-md-3 col-12">
                                   <div class="form-group">
-                                    <label for="endDate{{ i }}">End Date *</label>
+                                    <label for="endDate{{ i }}"
+                                      >End Date *</label
+                                    >
                                     <input
                                       type="date"
                                       class="form-control"
@@ -620,10 +713,12 @@
                                     />
                                   </div>
                                 </div>
-                                
+
                                 <div class="col-md-3 col-12">
                                   <div class="form-group">
-                                    <label for="endTime{{ i }}">End Time *</label>
+                                    <label for="endTime{{ i }}"
+                                      >End Time *</label
+                                    >
                                     <input
                                       type="time"
                                       class="form-control"
@@ -636,35 +731,40 @@
                                 </div>
                                 <div class="col-md-5 col-12">
                                   <div class="form-group">
-                                    <label for="teamAImage{{ i }}">Team A Image</label>
+                                    <label for="teamAImage{{ i }}"
+                                      >Team A Image</label
+                                    >
                                     <input
                                       type="file"
-                                    
                                       class="form-control-file"
                                       id="teamAImage{{ i }}"
                                       name="teamAImage{{ i }}"
                                       accept="image/png, image/jpeg, image/jpg"
-                                      (change)="uploadTeamAImage(i,$event)"
+                                      (change)="uploadTeamAImage(i, $event)"
                                     />
                                   </div>
                                 </div>
-                                
+
                                 <div class="col-md-5 col-12">
                                   <div class="form-group">
-                                    <label for="teamBImage{{ i }}">Team B Image</label>
+                                    <label for="teamBImage{{ i }}"
+                                      >Team B Image</label
+                                    >
                                     <input
                                       type="file"
                                       class="form-control-file"
                                       id="teamBImage{{ i }}"
                                       name="teamBImage{{ i }}"
                                       accept="image/png, image/jpeg, image/jpg"
-                                      (change)="uploadTeamBImage(i,$event)"
+                                      (change)="uploadTeamBImage(i, $event)"
                                     />
                                   </div>
                                 </div>
-                                                                        
-            
-                                <div class="col-md-2 col-12 mb-50" *ngIf="currentRow.games.length>1">
+
+                                <div
+                                  class="col-md-2 col-12 mb-50"
+                                  *ngIf="currentRow.games.length > 1"
+                                >
                                   <div class="form-group">
                                     <button
                                       class="btn btn-outline-danger text-nowrap px-1"
@@ -677,34 +777,47 @@
                                   </div>
                                 </div>
                               </div>
-                          <small *ngIf="errorMsg" class="form-text text-danger">All fields are required!</small>
-            
+                              <small
+                                *ngIf="errorMsg"
+                                class="form-text text-danger"
+                                >All fields are required!</small
+                              >
+
                               <hr />
                             </div>
                           </form>
                           <div class="row">
                             <div class="col-12">
-                              <button class="btn btn-icon btn-primary" type="button" (click)="addItem()" rippleEffect>
+                              <button
+                                class="btn btn-icon btn-primary"
+                                type="button"
+                                (click)="addItem()"
+                                rippleEffect
+                              >
                                 <i data-feather="plus" class="mr-25"></i>
                                 <span>Add New</span>
                               </button>
                             </div>
                           </div>
-                         
                         </div>
-          
                       </div>
 
-
-
-                      <div class="form-group" *ngIf="currentRow.event_id==2">
+                      <div class="form-group" *ngIf="currentRow.event_id == 2">
                         <div class="card-body">
                           <form action="#" class="invoice-repeater">
-                            <div *ngFor="let question of currentRow.quizzes; let i = index" @heightIn>
+                            <div
+                              *ngFor="
+                                let question of currentRow.quizzes;
+                                let i = index
+                              "
+                              @heightIn
+                            >
                               <div class="row d-flex align-items-end">
                                 <div class="col-12">
                                   <div class="form-group">
-                                    <label for="question{{ i }}">Question {{i+1}}*</label>
+                                    <label for="question{{ i }}"
+                                      >Question {{ i + 1 }}*</label
+                                    >
                                     <textarea
                                       type="text"
                                       class="form-control"
@@ -715,7 +828,7 @@
                                     ></textarea>
                                   </div>
                                 </div>
-            
+
                                 <div class="col-md-3 col-12">
                                   <div class="form-group">
                                     <label for="responsea">Response A *</label>
@@ -730,7 +843,7 @@
                                     />
                                   </div>
                                 </div>
-            
+
                                 <div class="col-md-3 col-12">
                                   <div class="form-group">
                                     <label for="responseb">Response B *</label>
@@ -746,7 +859,6 @@
                                   </div>
                                 </div>
 
-                                
                                 <div class="col-md-3 col-12">
                                   <div class="form-group">
                                     <label for="responsec">Response C *</label>
@@ -761,7 +873,7 @@
                                     />
                                   </div>
                                 </div>
-                                             
+
                                 <div class="col-md-3 col-12">
                                   <div class="form-group">
                                     <label for="responsed">Response D *</label>
@@ -805,7 +917,10 @@
                                   </div>
                                 </div>
 
-                                <div class="col-md-2 col-12 mb-50" *ngIf="currentRow.quizzes.length>1">
+                                <div
+                                  class="col-md-2 col-12 mb-50"
+                                  *ngIf="currentRow.quizzes.length > 1"
+                                >
                                   <div class="form-group">
                                     <button
                                       class="btn btn-outline-danger text-nowrap px-1"
@@ -818,25 +933,31 @@
                                   </div>
                                 </div>
                               </div>
-                          <small *ngIf="errorMsg" class="form-text text-danger">All fields are required!</small>
-            
+                              <small
+                                *ngIf="errorMsg"
+                                class="form-text text-danger"
+                                >All fields are required!</small
+                              >
+
                               <hr />
                             </div>
                           </form>
                           <div class="row">
                             <div class="col-12">
-                              <button class="btn btn-icon btn-primary" type="button" (click)="addQuestion()" rippleEffect>
+                              <button
+                                class="btn btn-icon btn-primary"
+                                type="button"
+                                (click)="addQuestion()"
+                                rippleEffect
+                              >
                                 <i data-feather="plus" class="mr-25"></i>
                                 <span>Add New</span>
                               </button>
                             </div>
                           </div>
-                         
                         </div>
-          
                       </div>
 
-                    
                       <div class="col-12 d-flex flex-sm-row flex-column mt-2">
                         <button
                           [disabled]="!formModified || buttonLoading"
@@ -859,10 +980,7 @@
                           Reset
                         </button>
                       </div>
-                    
                     </div>
-
-                   
                   </form>
                   <!-- users edit account form ends -->
                 </div>

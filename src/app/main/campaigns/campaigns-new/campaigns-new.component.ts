@@ -37,22 +37,20 @@ export class CampaignsNewComponent implements OnInit {
   public campaign_title: any;
   public terms_and_conditions: any;
   public description: any;
-  public welcome_image:any;
-  public logo_image:any;
+  public welcome_image: any;
+  public logo_image: any;
 
-  public login_image:any;
-  public campaign_image:any;
+  public login_image: any;
+  public campaign_image: any;
 
   public game_type: any;
-
-
 
   public start_date: any;
   public end_date: any;
   public event_id: any;
   public eventsData: any;
   public company_id: any;
-  public title:any;
+  public title: any;
   public errorMsg: any = false;
   public durationMsg: any = false;
 
@@ -83,7 +81,7 @@ export class CampaignsNewComponent implements OnInit {
       response_b: "",
       response_c: "",
       response_d: "",
-      answer:"",
+      answer: "",
       points: "",
     },
   ];
@@ -107,7 +105,7 @@ export class CampaignsNewComponent implements OnInit {
     response_b: "",
     response_c: "",
     response_d: "",
-    answer:"",
+    answer: "",
     points: "",
   };
   public companyData: any;
@@ -178,7 +176,7 @@ export class CampaignsNewComponent implements OnInit {
       response_b: "",
       response_c: "",
       response_d: "",
-      answer:"",
+      answer: "",
       points: "",
     });
   }
@@ -219,25 +217,24 @@ export class CampaignsNewComponent implements OnInit {
           !question.response_b ||
           !question.response_c ||
           !question.response_d ||
-          !question.answer || 
+          !question.answer ||
           !question.points
       );
       if (hasEmptyFields) {
         this.errorMsg = true;
         return;
       }
-      if(this.duration==0){
-        this.durationMsg= true;
+      if (this.duration == 0) {
+        this.durationMsg = true;
         this._toastrService.error("Please fill all details", "Failed", {
           toastClass: "toast ngx-toastr",
           closeButton: true,
         });
         return;
-
       }
     }
     this.errorMsg = false;
-    this.durationMsg=false;
+    this.durationMsg = false;
 
     this.loading = true;
     const formData = new FormData();
@@ -253,39 +250,34 @@ export class CampaignsNewComponent implements OnInit {
     formData.append("terms_and_conditions", this.terms_and_conditions);
     formData.append("game_type", this.game_type);
     formData.append("description", this.description);
-    formData.append('logo_image', this.logo_image);
-    formData.append('login_image', this.login_image);
-    formData.append('welcome_image', this.welcome_image);
-    formData.append('campaign_image', this.campaign_image);
+    formData.append("logo_image", this.logo_image);
+    formData.append("login_image", this.login_image);
+    formData.append("welcome_image", this.welcome_image);
+    formData.append("campaign_image", this.campaign_image);
 
+    formData.append("calculatePoints", this.calculatePoints.toString());
 
+    if (this.event_id == 1) {
+      const gamesDataWithoutFiles = this.games.map((game) => {
+        const { team_b_image, team_a_image, ...rest } = game;
+        return rest;
+      });
 
+      formData.append("games", JSON.stringify(gamesDataWithoutFiles));
 
-    formData.append("calculatePoints",this.calculatePoints.toString());
-
-    if(this.event_id==1){
-    const gamesDataWithoutFiles = this.games.map((game) => {
-      const { team_b_image, team_a_image, ...rest } = game;
-      return rest;
-    });
-
-    formData.append("games", JSON.stringify(gamesDataWithoutFiles));
-
-    // Append each image file to the FormData object
-    this.games.forEach((game, index) => {
-      if (game.team_b_image) {
-        formData.append(`team_b_image_${index}`, game.team_b_image);
-      }
-      // Similarly, append team_a_image if you have it
-      if (game.team_a_image) {
-        formData.append(`team_a_image_${index}`, game.team_a_image);
-      }
-    });}
-    if(this.event_id==2){
-      
-      formData.append("questions",JSON.stringify(this.questions));
-      
-
+      // Append each image file to the FormData object
+      this.games.forEach((game, index) => {
+        if (game.team_b_image) {
+          formData.append(`team_b_image_${index}`, game.team_b_image);
+        }
+        // Similarly, append team_a_image if you have it
+        if (game.team_a_image) {
+          formData.append(`team_a_image_${index}`, game.team_a_image);
+        }
+      });
+    }
+    if (this.event_id == 2) {
+      formData.append("questions", JSON.stringify(this.questions));
     }
 
     if (form.valid) {
@@ -344,19 +336,18 @@ export class CampaignsNewComponent implements OnInit {
     this.apiUrl = environment.apiUrl;
   }
 
-  uploadImage(event: any,type) {
+  uploadImage(event: any, type) {
     this.loading = true;
-    if(type=='welcome'){
-      this.welcome_image=event.target.files[0];
-    }else if(type=='logo'){
-      this.logo_image=event.target.files[0];
-    }
-    else if(type=='campaign'){
-      this.campaign_image=event.target.files[0];
-    }else{
+    if (type == "welcome") {
+      this.welcome_image = event.target.files[0];
+    } else if (type == "logo") {
+      this.logo_image = event.target.files[0];
+    } else if (type == "campaign") {
+      this.campaign_image = event.target.files[0];
+    } else {
       this.login_image = event.target.files[0];
     }
-    
+
     this.loading = false;
   }
   getData() {
@@ -397,8 +388,7 @@ export class CampaignsNewComponent implements OnInit {
     this.loading = true;
     if (event.target.files && event.target.files[0]) {
       let reader = new FileReader();
-      reader.onload = (event: any) => {
-      };
+      reader.onload = (event: any) => {};
       reader.readAsDataURL(event.target.files[0]);
       this.games[i].team_a_image = event.target.files[0];
       console.log("valueee will be", event.target.files[0]);
@@ -411,9 +401,7 @@ export class CampaignsNewComponent implements OnInit {
     this.loading = true;
     if (event.target.files && event.target.files[0]) {
       let reader = new FileReader();
-      reader.onload = (event: any) => {
- 
-      };
+      reader.onload = (event: any) => {};
       reader.readAsDataURL(event.target.files[0]);
       this.games[i].team_b_image = event.target.files[0];
       console.log("image value", this.games[i].team_b_image);
