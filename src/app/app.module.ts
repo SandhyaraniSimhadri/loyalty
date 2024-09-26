@@ -224,7 +224,7 @@ const appRoutes: Routes = [
     GoogleSigninButtonModule,
     RecaptchaModule,
     RecaptchaFormsModule,
-    UserIdleModule.forRoot({ idle: 60, timeout: 5, ping: 1 }),
+    UserIdleModule.forRoot({ idle: 900, timeout: 15, ping: 120 }),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
   providers: [

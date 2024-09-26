@@ -17,7 +17,7 @@ export class AuthenticationService {
   public currentUser: Observable<User>;
   public role_data: any;
   public role:any;
-  private readonly sessionDuration: number = 1 * 60 * 1000;
+  private readonly sessionDuration: number = 15 * 60 * 1000;
 
   //private
   private currentUserSubject: BehaviorSubject<User>;
