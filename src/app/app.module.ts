@@ -50,7 +50,7 @@ import {
 } from '@abacritt/angularx-social-login';
 import { environment } from "environments/environment";
 import { WelcomeComponent } from "./main/welcome/welcome.component";
-
+import { UserIdleModule } from 'angular-user-idle';
 const appRoutes: Routes = [
 
   {
@@ -224,6 +224,7 @@ const appRoutes: Routes = [
     GoogleSigninButtonModule,
     RecaptchaModule,
     RecaptchaFormsModule,
+    UserIdleModule.forRoot({ idle: 60, timeout: 5, ping: 1 }),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
   providers: [

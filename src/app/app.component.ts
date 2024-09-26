@@ -2,7 +2,7 @@ import { Component, Inject, OnDestroy, OnInit, ElementRef, Renderer2 } from '@an
 import { DOCUMENT } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import * as Waves from 'node-waves';
@@ -18,7 +18,11 @@ import { locale as menuEnglish } from 'app/menu/i18n/en';
 import { locale as menuFrench } from 'app/menu/i18n/fr';
 import { locale as menuGerman } from 'app/menu/i18n/de';
 import { locale as menuPortuguese } from 'app/menu/i18n/pt';
-
+import { UserIdleService } from 'angular-user-idle';
+import { User } from './auth/models';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { AuthenticationService } from './auth/service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -29,6 +33,8 @@ export class AppComponent implements OnInit, OnDestroy {
   menu: any;
   defaultLanguage: 'en'; // This language will be used as a fallback when a translation isn't found in the current language
   appLanguage: 'en'; // Set application default language i.e fr
+  public currentUser: Observable<User>;
+  private currentUserSubject: BehaviorSubject<User>;
 
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -57,11 +63,18 @@ export class AppComponent implements OnInit, OnDestroy {
     private _coreLoadingScreenService: CoreLoadingScreenService,
     private _coreMenuService: CoreMenuService,
     private _coreTranslationService: CoreTranslationService,
-    private _translateService: TranslateService
+    private _translateService: TranslateService,
+    private userIdle: UserIdleService,
+    private _toastrService: ToastrService,
+    private _router: Router,
+    public authService:AuthenticationService
   ) {
     // Get the application main menu
     this.menu = menu;
-
+    this.currentUserSubject = new BehaviorSubject<User>(
+      JSON.parse(localStorage.getItem("currentUser"))
+    );
+    this.currentUser = this.currentUserSubject.asObservable();
     // Register the menu to the menu service
     this._coreMenuService.register('main', this.menu);
 
@@ -88,7 +101,22 @@ export class AppComponent implements OnInit, OnDestroy {
    * On init
    */
   ngOnInit(): void {
-    // Init wave effect (Ripple effect)
+    this.authService.checkSessionOnPageLoad();
+
+ 
+    console.log("component useridle");
+    this.userIdle.startWatching();
+    console.log("component start useridle");
+
+    this.userIdle.onTimerStart().subscribe(count => {
+      console.log(`Idle timeout countdown: ${count}`);
+    });
+
+    this.userIdle.onTimeout().subscribe(() => {
+      console.log('User timed out due to inactivity.');
+      // Perform your logout logic here
+      this.authService.logout();
+    });
     Waves.init();
 
     // Subscribe to config changes
@@ -259,4 +287,31 @@ export class AppComponent implements OnInit, OnDestroy {
   toggleSidebar(key): void {
     this._coreSidebarService.getSidebarRegistry(key).toggleOpen();
   }
+  // logout() {
+  //   // remove user from local storage to log user out
+  //   localStorage.removeItem("currentUser");
+  //   localStorage.clear();
+  //   // this.socialAuthService.signOut();
+  //   // notify
+  //   this.currentUser = null;
+  //   this.currentUserSubject.next(null);
+  //   this.currentUserSubject = null;
+  //   this._router.navigate(["/"]);
+  //   this.clearAllCookies();
+  //   setTimeout(() => {
+  //     window.location.href="/";
+  // }, 500);
+  // this._toastrService.success("Thank you", "Success", {
+  //   toastClass: "toast ngx-toastr",
+  //   closeButton: true,
+  // });
+
+  // }
+  clearAllCookies() {
+    document.cookie.split(";").forEach(cookie => {
+        const cookieParts = cookie.split("=");
+        const cookieName = cookieParts[0].trim();
+        document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    });
+}
 }

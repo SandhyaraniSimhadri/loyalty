@@ -451,6 +451,9 @@ THE SOFTWARE.
 angular-shepherd
 MIT
 
+angular-user-idle
+MIT
+
 apexcharts
 MIT
 The MIT License (MIT)

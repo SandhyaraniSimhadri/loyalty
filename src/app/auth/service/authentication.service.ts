@@ -17,6 +17,7 @@ export class AuthenticationService {
   public currentUser: Observable<User>;
   public role_data: any;
   public role:any;
+  private readonly sessionDuration: number = 1 * 60 * 1000;
 
   //private
   private currentUserSubject: BehaviorSubject<User>;
@@ -95,12 +96,24 @@ export class AuthenticationService {
             this.httpService.loginuserid = user_data.user_id;
             this.currentUserSubject.next(user.data);
           }
-
+          this.setLoginTime();
           return user;
         })
       );
   }
-
+  setLoginTime() {
+    const loginTime = new Date().getTime();
+    localStorage.setItem('loginTime', loginTime.toString());
+  }
+  isSessionExpired(): boolean {
+    const loginTime = localStorage.getItem('loginTime');
+    if (loginTime) {
+      const currentTime = new Date().getTime();
+      const timeElapsed = currentTime - parseInt(loginTime);
+      return timeElapsed >= this.sessionDuration;
+    }
+    return false; // If there's no login time, consider the session expired
+  }
   /**
    * User logout
    *
@@ -108,6 +121,7 @@ export class AuthenticationService {
   logout() {
     // remove user from local storage to log user out
     localStorage.removeItem("currentUser");
+    localStorage.removeItem('loginTime');
     localStorage.clear();
     this.socialAuthService.signOut();
     // notify
@@ -131,5 +145,10 @@ export class AuthenticationService {
         const cookieName = cookieParts[0].trim();
         document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
     });
+}
+checkSessionOnPageLoad() {
+  if (this.isSessionExpired()) {
+    this.logout();
+  }
 }
 }
