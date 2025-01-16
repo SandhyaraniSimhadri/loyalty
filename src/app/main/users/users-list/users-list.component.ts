@@ -347,7 +347,7 @@ export class UsersListComponent implements OnInit {
     );
   }
   copyLink(data: any) {
-    const url = `${environment.apiUrl_fe}login?type=1&email=${data.email}&user_name=${data.user_name}`;
+    const url = `${environment.apiUrl_fe}login?type=1&email=${data.email}&user_name=${data.user_name}&company_id=${data.company_id}`;
     console.log("urlll",url);
     // navigator.clipboard.writeText(url).then(
     //   () => {

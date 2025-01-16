@@ -312,6 +312,7 @@
         </div>
         <div *ngIf="!loading && rows.length == 0" style="color: white">
           Not yet participated in any Campaign..
+          <button (click)="tryAgain()">Try again</button>
         </div>
 
         <div
@@ -554,6 +555,7 @@
                       ><br />
                       <b>Current Rank: {{ campaign_data.self[0].rank }}</b>
                     </div>
+                    <button (click)="tryAgain()">Try again</button>
                   </div>
                 </div>
               </div>
@@ -803,4 +805,5 @@
       Yes
     </button>
   </div>
+  <div id="paymob-iframe"></div>
 </ng-template>

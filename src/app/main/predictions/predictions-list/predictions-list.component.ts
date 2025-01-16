@@ -25,6 +25,7 @@ import { colors } from "app/colors.const";
 import { User } from "app/auth/models";
 import { AuthenticationService } from "app/auth/service";
 import { ActivatedRoute, Router } from "@angular/router";
+import { PaymentService } from "app/auth/service/payment.service";
 export interface CarouselImages {
   one?: string;
   two?: string;
@@ -85,7 +86,6 @@ export class PredictionsListComponent implements OnInit {
   countdownTimeout: any; // Variable to store the interval ID
   // Decorator
   @ViewChild(DatatableComponent) table: DatatableComponent;
-
   // Private
   offset = 0;
   limit = 10;
@@ -122,7 +122,8 @@ export class PredictionsListComponent implements OnInit {
     private modalService: NgbModal,
     private _authenticationService: AuthenticationService,
     private _router: Router,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private paymentService: PaymentService
   ) {
     this.apiUrl = environment.apiUrl;
     this._authenticationService.currentUser.subscribe(
@@ -861,5 +862,49 @@ export class PredictionsListComponent implements OnInit {
     this.countdownTimeout = setTimeout(() => {
       this.goToNextQuestion();
     }, 3175);
+  }
+  tryAgain() {
+    const billingData = {
+      apartment: 'NA',
+      email: 'user@example.com',
+      floor: 'NA',
+      first_name: 'John',
+      last_name: 'Doe',
+      phone_number: '+201234567890',
+      street: 'NA',
+      building: 'NA',
+      shipping_method: 'NA',
+      postal_code: '12345',
+      city: 'Cairo',
+      country: 'EG',
+      state: 'NA',
+    };
+
+    // this.paymentService.createOrder({ items: [] }).subscribe((order) => {
+    //   this.paymentService.generatePaymentKey({
+    //     order_id: order.id,
+    //     amount: order.total,
+    //   }).subscribe((paymentKey) => {
+    //     // Initialize Paymob iframe
+    //     const iframe = window['Paymob'];
+    //     iframe.start({
+    //       iframeID: 'paymob-iframe',
+    //       integration_id: '31618',
+    //       iframeURL: 'https://accept.paymob.com/api/acceptance/iframes/your_iframe_id',
+    //       payment_key: paymentKey.token,
+    //     });
+    //   });
+    // });
+
+    this.paymentService.authenticate().subscribe((authResponse: any) => {
+      this.paymentService.createOrder(authResponse.token, 100).subscribe((orderResponse: any) => {
+        this.paymentService
+          .generatePaymentKey(authResponse.token, orderResponse.id, billingData, 100)
+          .subscribe((paymentKeyResponse: any) => {
+            const iframeUrl = `https://uae.paymob.com/api/acceptance/iframes/24232?payment_token=${paymentKeyResponse.token}`;
+            window.location.href = iframeUrl; // Redirect to Paymob iframe
+          });
+      });
+    });
   }
 }

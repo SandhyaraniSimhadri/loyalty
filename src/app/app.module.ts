@@ -51,6 +51,7 @@ import {
 import { environment } from "environments/environment";
 import { WelcomeComponent } from "./main/welcome/welcome.component";
 import { UserIdleModule } from 'angular-user-idle';
+import { PaymentComponent } from './payment/payment.component';
 const appRoutes: Routes = [
 
   {
@@ -192,6 +193,7 @@ const appRoutes: Routes = [
     BasicCustomContextMenuComponent,
     AnimatedCustomContextMenuComponent,
     SubMenuCustomContextMenuComponent,
+    PaymentComponent,
   ],
   imports: [
     CommonModule,

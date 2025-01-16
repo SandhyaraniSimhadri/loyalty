@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit {
   public logoIcon: string;
   public campaign_data:any;
   public api_url: any;
-
+  public company_id:any;
   // Private
   private _unsubscribeAll: Subject<any>;
 
@@ -215,7 +215,8 @@ export class LoginComponent implements OnInit {
                       });}
                       else{
                         this._router.navigate(["/welcome"], {
-                          queryParams: { campaign_id: this.campaign_id,},
+                          queryParams: {  campaign_id: this.campaign_id,
+                            company_id: this.company_id},
                         });
                       }
                   } else {
@@ -228,7 +229,8 @@ export class LoginComponent implements OnInit {
                     });}
                     else{
                       this._router.navigate(["/welcome"], {
-                        queryParams: { campaign_id: this.campaign_id,},
+                        queryParams: {  campaign_id: this.campaign_id,
+                          company_id: this.company_id},
                       });
                     }
                 }
@@ -296,6 +298,7 @@ export class LoginComponent implements OnInit {
         if (this.type == 1) {
           var email = params["email"];
           var userName = params["user_name"];
+          this.company_id = params["company_id"];
         } else {
           this.campaign_id = params["campaign_id"];
           this.get_campaign_details();
@@ -435,7 +438,8 @@ export class LoginComponent implements OnInit {
                     });}
                     else{
                       this._router.navigate(["/welcome"], {
-                        queryParams: { campaign_id: this.campaign_id,},
+                        queryParams: {  campaign_id: this.campaign_id,
+                          company_id: this.company_id},
                       });
                     }
                 } else {
@@ -449,7 +453,8 @@ export class LoginComponent implements OnInit {
                     });}
                     else{
                       this._router.navigate(["/welcome"], {
-                        queryParams: { campaign_id: this.campaign_id,},
+                        queryParams: {  campaign_id: this.campaign_id,
+                          company_id: this.company_id},
                       });
                     }
                 } else {
@@ -462,7 +467,8 @@ export class LoginComponent implements OnInit {
                   });}
                   else{
                     this._router.navigate(["/welcome"], {
-                      queryParams: { campaign_id: this.campaign_id,},
+                      queryParams: {  campaign_id: this.campaign_id,
+                        company_id: this.company_id},
                     });
                   }
                 }
@@ -503,6 +509,7 @@ export class LoginComponent implements OnInit {
       (error: any) => {
         this.main_loading = false;
       }
+      
     );
   }
 
@@ -547,6 +554,8 @@ export class LoginComponent implements OnInit {
         email: values.email,
         password: values.password,
         confirm_password: values.confirm_password,
+        company_id:this.company_id,
+
       },
       action_url: "set_password",
       method: "POST",
