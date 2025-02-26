@@ -602,6 +602,7 @@ export class LoginComponent implements OnInit {
     };
     this.httpService.doHttp(request).subscribe(
       (res: any) => {
+        console.log("status",res);
         if (res == "nonet") {
         } else {
           if (res.status == false) {
@@ -614,11 +615,16 @@ export class LoginComponent implements OnInit {
               toastClass: "toast ngx-toastr",
               closeButton: true,
             });
+            // setTimeout(() => {
+            //   window.location.reload();
+            // }, 500);
+            this.type = 0;
+            this.register_clicked=false;
             this._router.navigate(["/"], {
               queryParams: { campaign_id: this.campaign_id },
             });
             console.log("campaign id", this.campaign_id);
-            this.type = 0;
+            
           }
         }
         this.loading = false;
