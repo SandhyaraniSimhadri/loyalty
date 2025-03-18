@@ -1,17 +1,19 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, EventEmitter, OnInit, Output, ViewEncapsulation } from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output, ViewEncapsulation } from "@angular/core";
 import { Router } from "@angular/router";
 import { CoreSidebarService } from "@core/components/core-sidebar/core-sidebar.service";
 import { CoreHttpService } from "@core/services/http.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { environment } from "environments/environment";
 import { ToastrService } from "ngx-toastr";
+import { BehaviorSubject } from "rxjs";
 
 @Component({
   selector: "app-users-new",
   templateUrl: "./users-new.component.html",
   styleUrls: ["./users-new.component.scss"],
   encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush
  
 })
 export class UsersNewComponent implements OnInit {
@@ -33,7 +35,7 @@ export class UsersNewComponent implements OnInit {
   public description: any;
   public file:any;
   public api_url: any;
-
+  public onUserEditChanged: BehaviorSubject<any>;
 
   /**
    * Constructor
@@ -50,6 +52,7 @@ export class UsersNewComponent implements OnInit {
     public modalService: NgbModal,
 
   ) {
+    this.onUserEditChanged = new BehaviorSubject({});
     this.api_url = environment.apiUrl+'api/';
     if (this.httpService.USERINFO.role == "Sub Admin") {
     }

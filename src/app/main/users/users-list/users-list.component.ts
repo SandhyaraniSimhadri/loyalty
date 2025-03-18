@@ -21,7 +21,7 @@ import { env } from "process";
   selector: "app-users-list",
   templateUrl: "./users-list.component.html",
   styleUrls: ["./users-list.component.scss"],
-  encapsulation: ViewEncapsulation.None,
+  // encapsulation: ViewEncapsulation.None,
  
 })
 export class UsersListComponent implements OnInit {

@@ -2,3 +2,21 @@
 @import '@core/scss/angular/libs/select.component.scss';
 @import '@core/scss/base/pages/app-user.scss';
 @import '@core/scss/angular/libs/toastr.component.scss';
+@import '@core/scss/base/pages/app-invoice.scss';
+// @import '../../bootstrap-extended/include'; // Bootstrap includes
+// @import '../../components/include'; // Components includes
+// @import '../../../../../src/@core/scss/base/bootstrap-extended/include';
+// @import '../../../../../src/@core/scss/base/components/include';
+@import '@core/scss/base/bootstrap-extended/include.scss'; // Bootstrap includes
+@import '~@fullcalendar/daygrid/main.css';
+@import '@core/scss/angular/libs/datatables.component.scss';
+@import '@core/scss/angular/libs/select.component.scss';
+
+@import '@core/scss/angular/libs/form-wizard.component.scss';
+@import '@core/scss/base/bootstrap-extended/_include'; 
+@import '@core/scss/base/pages/page-blog';
+@import '@core/scss/angular/libs/quill-editor.component.scss';
+
+input{
+    width: 100% !important;
+}
