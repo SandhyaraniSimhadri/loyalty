@@ -110,7 +110,6 @@
                 <div
                   *ngIf="
                     row.avatar != null && row.avatar.length > 0;
-                    else customAvatar
                   "
                 >
                   <img
@@ -121,18 +120,9 @@
                     alt="datatable-avatar"
                   />
                 </div>
-                <ng-template #customAvatar>
-                  <div
-                    class="avatar mr-1 ml-0"
-                    [ngClass]="{
-                      'bg-light-success': row.status == 'active',
-                      'bg-light-secondary': row.status == 'inactive',
-                      'bg-light-warning': row.status == 'pending'
-                    }"
-                  >
-                    <div class="avatar-content">{{ name | initials }}</div>
-                  </div>
-                </ng-template>
+                <div *ngIf="row.avatar == null" class="avatar1 mr-1 centralize" style="width: 32px;height: 32px;justify-content: center;align-items: center;">
+                  <div class="avatar-content">{{ name | initials }}</div>
+                </div>
                 <div class="cell-line-height">
                   <a
                     routerLink="./../users-view/{{ row.id }}"
@@ -148,7 +138,7 @@
 
         
 
-          <ngx-datatable-column name="Email" prop="email">
+          <ngx-datatable-column name="Email" prop="email" [width]="200">
             <ng-template
               let-row="row"
               let-name="value"
@@ -163,7 +153,7 @@
             </ng-template>
           </ngx-datatable-column>
 
-          <ngx-datatable-column name="Company Name" prop="company_name">
+          <ngx-datatable-column name="Company Name" prop="company_name" [width]="220">
             <ng-template
               let-row="row"
               let-name="value"
@@ -178,7 +168,7 @@
             </ng-template>
           </ngx-datatable-column>
 
-          <ngx-datatable-column name="City" prop="city">
+          <ngx-datatable-column name="City" prop="city" [width]="200">
             <ng-template
               let-row="row"
               let-name="value"
@@ -192,7 +182,7 @@
               </div>
             </ng-template>
           </ngx-datatable-column>
-          <ngx-datatable-column name="Send Invitation" prop="is_email_sent">
+          <ngx-datatable-column name="Send Invitation" prop="is_email_sent" [width]="240" [sortable]="false">
             <ng-template
               let-row="row"
               let-name="value"
@@ -221,13 +211,13 @@
               </div>
             </ng-template>
           </ngx-datatable-column>
-          <ngx-datatable-column name="Copy Link">
+          <ngx-datatable-column name="Copy Link" [width]="200" [sortable]="false">
             <ng-template let-row="row" ngx-datatable-cell-template>
               <button class="btn btn-primary" (click)="copyLink(row)">    <i data-feather="clipboard" ></i></button>
             </ng-template>
           </ngx-datatable-column>
 
-          <ngx-datatable-column name="Actions" [width]="40" [sortable]="false">
+          <ngx-datatable-column name="Actions" [width]="100" [sortable]="false">
             <ng-template ngx-datatable-cell-template let-row="row">
               <div ngbDropdown container="body">
                 <button

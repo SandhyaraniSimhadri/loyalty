@@ -6,57 +6,7 @@
 
 <div class="content-wrapper container-xxl p-0" *ngIf="!loading">
   <div class="content-body">
-    <!-- User List -->
     <section class="users-list-wrapper">
-      <!-- users filter start -->
-      <!-- <div class="card">
-        <h5 class="card-header">Search Filter</h5>
-        <div class="card-body">
-          <div class="users-list-filter">
-            <form>
-              <div class="row">
-                <div class="col-12 col-md-4">
-                 <fieldset class="form-group">
-                    <ng-select
-                      [items]="selectChurch"
-                      [(ngModel)]="selectedChurch"
-                      name="selectedChurch"
-                      bindLabel="name"
-                      placeholder="Select church"
-                      (change)="filterByChurch($event)"
-                    ></ng-select>
-                  </fieldset> 
-                </div>
-                <div class="col-12 col-md-4">
-                  <fieldset class="form-group">
-                    <ng-select
-                      [items]="selectUsers"
-                      [(ngModel)]="selectedUsers"
-                      name="selectedUsers"
-                      bindLabel="name"
-                      placeholder="Select number of users"
-                      (change)="filterByUsers($event)"
-                    ></ng-select>
-                  </fieldset>
-                </div> <div class="col-12 col-md-4">
-                  <fieldset class="form-group">
-                    <ng-select
-                      [items]="selectLanguage"
-                      [(ngModel)]="selectedLanguage"
-                      name="selectedLanguage"
-                      bindLabel="name"
-                      placeholder="Select language"
-                      (change)="filterByLanguage($event)"
-                    ></ng-select>
-                  </fieldset>
-                </div> 
-              </div>
-            </form>
-          </div>
-        </div>
-      </div> -->
-      <!-- users filter end -->
-
       <div class="card">
         <div class="row">
           <div class="col-md-6 col-12">
@@ -91,13 +41,6 @@
                 (keyup)="filterUpdate($event)"
                 (search)="filterUpdate($event)"
               />
-              <!-- <button
-                class="btn btn-primary ml-1 d-flex w-100 justify-content-center align-items-center"
-                rippleEffect
-                (click)="toggleSidebar('new-user-sidebar')"
-              >
-                <span class="d-none d-sm-inline-block">Add New Company</span>
-              </button> -->
             </div>
           </div>
         </div>
@@ -121,12 +64,7 @@
               ngx-datatable-cell-template
             >
               <div class="d-flex align-items-center">
-                <div
-                  *ngIf="
-                    row.avatar != null && row.avatar.length > 0;
-                    else customAvatar
-                  "
-                >
+                <div *ngIf="row.avatar != null">
                   <img
                     class="rounded-circle mr-1"
                     src="{{ apiUrl + row.avatar }}"
@@ -135,18 +73,11 @@
                     alt="datatable-avatar"
                   />
                 </div>
-                <ng-template #customAvatar>
-                  <div
-                    class="avatar mr-1 ml-0"
-                    [ngClass]="{
-                      'bg-light-success': row.status == 'active',
-                      'bg-light-secondary': row.status == 'inactive',
-                      'bg-light-warning': row.status == 'pending'
-                    }"
-                  >
-                    <div class="avatar-content">{{ name | initials }}</div>
-                  </div>
-                </ng-template>
+
+                <div *ngIf="row.avatar == null" class="avatar1 mr-1 centralize" style="width: 32px;height: 32px;justify-content: center;align-items: center;">
+                  <div class="avatar-content">{{ name | initials }}</div>
+                </div>
+
                 <div class="cell-line-height">
                   <a
                     routerLink="./../company-view/{{ row.id }}"
@@ -165,7 +96,10 @@
             </ng-template>
           </ngx-datatable-column>
 
-          <ngx-datatable-column name="Business Entity Type" prop="business_entity_type">
+          <ngx-datatable-column
+            name="Business Entity Type"
+            prop="business_entity_type" [width]="250"
+          >
             <ng-template
               let-row="row"
               let-name="value"
@@ -181,7 +115,7 @@
             </ng-template>
           </ngx-datatable-column>
 
-          <ngx-datatable-column name="Full name" prop="full_name">
+          <ngx-datatable-column name="Full name" prop="full_name" [width]="180">
             <ng-template
               let-row="row"
               let-name="value"
@@ -197,7 +131,7 @@
             </ng-template>
           </ngx-datatable-column>
 
-          <ngx-datatable-column name="Title" prop="title">
+          <ngx-datatable-column name="Title" prop="title" [width]="140">
             <ng-template
               let-row="row"
               let-name="value"
@@ -212,8 +146,8 @@
               </div>
             </ng-template>
           </ngx-datatable-column>
-       
-          <ngx-datatable-column name="Actions" [width]="40" [sortable]="false">
+
+          <ngx-datatable-column name="Actions" [width]="100" [sortable]="false" [cellClass]="'text-left'">
             <ng-template ngx-datatable-cell-template let-row="row">
               <div ngbDropdown container="body">
                 <button
@@ -228,9 +162,7 @@
                   ></span>
                 </button>
                 <div ngbDropdownMenu>
-                  <a
-                    routerLink="./../company-view/{{ row.id }}"
-                    ngbDropdownItem
+                  <a routerLink="./../company-view/{{ row.id }}" ngbDropdownItem
                     ><span
                       [data-feather]="'file-text'"
                       [size]="16"
@@ -238,9 +170,7 @@
                     ></span>
                     Details</a
                   >
-                  <a
-                    routerLink="./../company-edit/{{ row.id }}"
-                    ngbDropdownItem
+                  <a routerLink="./../company-edit/{{ row.id }}" ngbDropdownItem
                     ><span
                       [data-feather]="'edit'"
                       [size]="16"
@@ -248,9 +178,7 @@
                     ></span>
                     Edit</a
                   >
-                  <!-- <a (click)="delete(row.id)" ngbDropdownItem
-                    ><span [data-feather]="'trash'" [size]="16" [class]="'mr-50'"></span> Delete</a
-                  > -->
+
                   <a
                     (click)="modalsService.modalOpenDanger(modalDanger, row)"
                     rippleEffect
@@ -274,9 +202,6 @@
   <ng-template #modalDanger let-modal>
     <div class="modal-header">
       <h5 class="modal-title" id="myModalLabel">Confirm</h5>
-      <!-- <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button> -->
     </div>
     <div class="modal-body" tabindex="0" ngbAutofocus>
       Are you sure you want to delete company -
@@ -305,7 +230,6 @@
     </div>
   </ng-template>
 
-  <!-- New User Sidebar -->
   <core-sidebar
     class="modal modal-slide-in sidebar-todo-modal fade"
     name="new-user-sidebar"
@@ -315,5 +239,4 @@
       (onCompanyAdded)="updateCompanyList($event)"
     ></app-new-user-sidebar>
   </core-sidebar>
-  <!--/ New User Sidebar -->
 </div>

@@ -6,6 +6,7 @@ import {
   Renderer2,
   ElementRef,
   AfterViewInit,
+  HostListener 
 } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import {
@@ -73,6 +74,8 @@ export class LoginComponent implements OnInit {
   public company_id:any;
   // Private
   private _unsubscribeAll: Subject<any>;
+  showLoginForm: boolean = false;
+  screenSize: string = 'large'; // Default to large
 
   /**
    * Constructor
@@ -101,7 +104,7 @@ export class LoginComponent implements OnInit {
     // if (this._authenticationService.currentUserValue) {
     //   this._router.navigate(["/"]);
     // }
-
+    this.detectScreenSize();
     this._unsubscribeAll = new Subject();
     this.api_url = environment.apiUrl;
 
@@ -666,5 +669,15 @@ export class LoginComponent implements OnInit {
   registerBtn() {
     this.register_clicked=true;
     this.loginModify();
+  }
+  @HostListener('window:resize', ['$event'])
+  detectScreenSize() {
+    this.screenSize = window.innerWidth < 992 ? 'small' : 'large';
+  }
+
+  goToNext() {
+    if (this.screenSize === 'small') {
+      this.showLoginForm = true; // Hide the image section on small screens
+    }
   }
 }

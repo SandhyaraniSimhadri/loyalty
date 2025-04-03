@@ -48,9 +48,19 @@ input{
     color: #333;
     cursor: pointer;
     padding: 5px;
+    padding-left: 0px !important;
   }
   
   .simple-button:hover {
     text-decoration: underline;
   }
-  
+  .form-label {
+    align-items: center;
+     gap: 0px !important; 
+}
+.form-check{
+  padding-left: 0px !important;
+}
+.form-check-input{
+  // margin-left: -4rem;
+}

@@ -253,7 +253,7 @@ export class PredictionsListComponent implements OnInit {
         this.campaign_id = 0;
       }
     });
-    this.getPredictions();
+    this.getPredictions(this.campaign_id);
   }
 
   /**
@@ -266,13 +266,13 @@ export class PredictionsListComponent implements OnInit {
     this.countdownTimeout && clearTimeout(this.countdownTimeout);
   }
 
-  getPredictions() {
+  getPredictions(campaign_id) {
     this.loading = true;
     let request;
 
     request = {
       params: {
-        campaign_id: this.campaign_id,
+        campaign_id:campaign_id,
         offset: this.offset.toString(),
         limit: this.limit.toString(),
       },
@@ -321,7 +321,7 @@ export class PredictionsListComponent implements OnInit {
                   (answer) => answer.game_id === game.id
                 )
               );
-
+              console.log("self data",this.campaign_data.self);
               console.log(this.submitted); // Will be false because game_id 4 is missing
 
               const teamAPercentage =
@@ -542,12 +542,15 @@ export class PredictionsListComponent implements OnInit {
               this.campaign_data.quizzes != undefined &&
               this.campaign_data.quizzes.length > 0
             ) {
-              if(this.campaign_data.participants!=undefined){
-              this.submitted = this.campaign_data.quizzes.every((quiz) =>
-                this.campaign_data.self.some(
-                  (answer) => answer.game_id === quiz.id
-                )
-              );}
+              if (this.campaign_data.participants !== undefined && this.campaign_data.quizzes) {
+                this.submitted = this.campaign_data.quizzes.every((quiz) =>
+                  (this.campaign_data.self || []).some(
+                    (answer) => answer.game_id === quiz.id
+                  )
+                );
+              }
+              console.log("self data",this.campaign_data.self);
+              
               this.campaign_data.duration =
                 this.campaign_data.duration * 60 * 1000;
               this.remainingTime = this.campaign_data.duration;
@@ -641,7 +644,7 @@ export class PredictionsListComponent implements OnInit {
               closeButton: true,
             });
             this.modalService.dismissAll();
-            this.getPredictions();
+            this.getPredictions(this.campaign_data.id);
           }
         }
         this.loading = false;
@@ -759,7 +762,7 @@ export class PredictionsListComponent implements OnInit {
             //   clearTimeout(this.timer);
             // }
             this.modalService.dismissAll();
-            this.getPredictions();
+            this.getPredictions(this.campaign_data.id);
           }
         }
         this.loading = false;

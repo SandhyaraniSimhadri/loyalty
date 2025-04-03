@@ -91,17 +91,17 @@
                 </div>
                 <div class="col-xl-6 col-lg-12 mt-2 mt-xl-0">
                   <div class="user-info-wrapper"  style="word-break: break-all;">
+                   
                     <div class="d-flex flex-wrap my-50">
                       <div class="user-info-title">
                         <!-- <i data-feather="star" class="mr-1"></i> -->
                         <span
                           class="card-text user-info-title font-weight-bold mb-0"
-                          >Campaign Name</span
+                          >Campaign Title</span
                         >
                       </div>
                       <p class="card-text mb-0">{{ data.campaign_title }}</p>
                     </div>
-
                     <div class="d-flex flex-wrap my-50">
                       <div class="user-info-title">
                         <!-- <i data-feather="star" class="mr-1"></i> -->
@@ -111,6 +111,31 @@
                         >
                       </div>
                       <p class="card-text mb-0">{{ data.company_name }}</p>
+                    </div>
+                    <div class="d-flex flex-wrap my-50">
+                      <div class="user-info-title">
+                        <!-- <i data-feather="star" class="mr-1"></i> -->
+                        <span
+                          class="card-text user-info-title font-weight-bold mb-0"
+                          >Campaign Tag</span
+                        >
+                      </div>
+                      <p class="card-text mb-0">{{ data.campaign_tag }}
+                      <button class="btn" (click)="copyLink(data)">
+                        <i data-feather="clipboard"></i>
+                      </button></p>
+                    </div>
+
+                    <div class="d-flex flex-wrap my-50">
+                      <div class="user-info-title">
+                        <!-- <i data-feather="star" class="mr-1"></i> -->
+                        <span
+                          class="card-text user-info-title font-weight-bold mb-0"
+                          >Login Text</span
+                        >
+                      </div>
+                      <p class="card-text mb-0">{{ data.login_text }}
+                     </p>
                     </div>
                     <div class="d-flex flex-wrap my-50">
                       <div class="user-info-title">

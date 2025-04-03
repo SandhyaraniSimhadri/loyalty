@@ -45,6 +45,7 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
   public birthDateOptions: FlatpickrOptions = {
     altInput: true,
   };
+  public isInvalidTag = false;
   public duration: any = 0;
   public errorMsg: any = false;
   public durationMsg: any = false;
@@ -79,6 +80,10 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
       response_d: "",
       correct_answer: "",
       points: "",
+      selectedFile: null as File | null ,
+      file_name:"",
+      isDragging : false,
+      showUpload : false,
     },
   ];
 
@@ -278,134 +283,156 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
     this.checkFormModified();
   }
   submit(form) {
-    if (form.valid) {
-      if (this.currentRow.event_id == 1) {
-        const hasEmptyFields = this.currentRow.games.some(
-          (game) =>
-            !game.name ||
-            !game.team_a ||
-            !game.team_b ||
-            !game.points ||
-            !game.game_start_date ||
-            !game.game_start_time ||
-            !game.game_end_date ||
-            !game.game_end_time ||
-            !game.team_a_image ||
-            !game.team_b_image
-        );
-        if (hasEmptyFields) {
-          this.errorMsg = true;
-          return;
-        }
-      }
-      if (this.currentRow.event_id == 2) {
-        const hasEmptyFields = this.currentRow.quizzes.some(
-          (question) =>
-            !question.question ||
-            !question.response_a ||
-            !question.response_b ||
-            !question.response_c ||
-            !question.response_d ||
-            !question.correct_answer ||
-            !question.points
-        );
-        if (hasEmptyFields) {
-          this.errorMsg = true;
-          return;
-        }
-        if (this.currentRow.duration == 0) {
-          this.durationMsg = true;
-          this._toastrService.error("Please fill all details", "Failed", {
-            toastClass: "toast ngx-toastr",
-            closeButton: true,
-          });
-          return;
-        }
-      }
-      this.errorMsg = false;
-      this.durationMsg = false;
-      this.buttonLoading = true;
-
-      const formData = new FormData();
-      const games_data = this.games;
-
-      formData.append("campaign_image", this.image);
-      formData.append("logo_image", this.logo_image);
-      formData.append("login_image", this.login_image);
-      formData.append("welcome_image", this.welcome_image);
-      formData.append("id", this.currentRow.id);
-
-      formData.append("campaign_title", this.currentRow.campaign_title);
-      formData.append("start_date", this.currentRow.start_date);
-      formData.append("end_date", this.currentRow.end_date);
-      formData.append("event_id", this.currentRow.event_id);
-      formData.append("company_id", this.currentRow.company_id);
-      formData.append("title", this.currentRow.title);
-      formData.append(
-        "terms_and_conditions",
-        this.currentRow.terms_and_conditions
+    if (!form.valid) return;
+  
+    // Validate based on event_id
+    if (this.currentRow.event_id == 1) {
+      const hasEmptyFields = this.currentRow.games.some(
+        (game) =>
+          !game.name ||
+          !game.team_a ||
+          !game.team_b ||
+          !game.points ||
+          !game.game_start_date ||
+          !game.game_start_time ||
+          !game.game_end_date ||
+          !game.game_end_time ||
+          !game.team_a_image ||
+          !game.team_b_image
       );
-      formData.append("game_type", this.currentRow.game_type);
-      formData.append("description", this.currentRow.description);
-      formData.append("duration", this.currentRow.duration);
-      formData.append(
-        "calculatePoints",
-        String(this.currentRow.calc_points_immediately)
+      if (hasEmptyFields) {
+        this.errorMsg = true;
+        return;
+      }
+    }
+  
+    if (this.currentRow.event_id == 2) {
+      const hasEmptyFields = this.currentRow.quizzes.some(
+        (question) =>
+          !question.question ||
+          !question.response_a ||
+          !question.response_b ||
+          !question.response_c ||
+          !question.response_d ||
+          !question.correct_answer ||
+          !question.points
       );
-
-      if (this.currentRow.event_id == 1) {
-        const gamesDataWithoutFiles = this.currentRow.games.map((game) => {
-          const { team_b_image, team_a_image, ...rest } = game;
-          return rest;
-        });
-
-        formData.append("games", JSON.stringify(gamesDataWithoutFiles));
-
-        // Append each image file to the FormData object
-        this.games.forEach((game, index) => {
-          if (game.team_b_image) {
-            formData.append(`team_b_image_${index}`, game.team_b_image);
-          }
-          // Similarly, append team_a_image if you have it
-          if (game.team_a_image) {
-            formData.append(`team_a_image_${index}`, game.team_a_image);
-          }
-        });
+      if (hasEmptyFields) {
+        this.errorMsg = true;
+        return;
       }
-      if (this.currentRow.event_id == 2) {
-        formData.append("questions", JSON.stringify(this.currentRow.quizzes));
+      if (this.currentRow.duration == 0) {
+        this.durationMsg = true;
+        this._toastrService.error("Please fill all details", "Failed", {
+          toastClass: "toast ngx-toastr",
+          closeButton: true,
+        });
+        return;
       }
-
-      this.currentRow.image = this.image;
-      this.http
-        .post<any>(this.apiUrl + "api/update_campaign", formData)
-        .subscribe(
+    }
+  
+    this.errorMsg = false;
+    this.durationMsg = false;
+    this.buttonLoading = true;
+  
+    // Convert file to Base64
+    const convertFileToBase64 = (file) => {
+      return new Promise((resolve, reject) => {
+        if (!file) return resolve(null);
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = (error) => reject(error);
+      });
+    };
+  
+    const processFiles = async () => {
+      try {
+        const processedGames = this.currentRow.event_id == 1 
+          ? await Promise.all(this.currentRow.games.map(async (game) => ({
+              ...game,
+              team_a_image: game.team_a_image ? await convertFileToBase64(game.team_a_image) : null,
+              team_b_image: game.team_b_image ? await convertFileToBase64(game.team_b_image) : null,
+            })))
+          : [];
+  
+        const processedQuestions = this.currentRow.event_id == 2
+          ? await Promise.all(this.currentRow.quizzes.map(async (question) => ({
+              ...question,
+              selectedFile: question.selectedFile ? await convertFileToBase64(question.selectedFile) : null,
+            })))
+          : [];
+  
+        const payload = {
+          id: this.currentRow.id,
+          campaign_title: this.currentRow.campaign_title,
+          campaign_tag:this.currentRow.campaign_tag,
+          start_date: this.currentRow.start_date,
+          end_date: this.currentRow.end_date,
+          event_id: this.currentRow.event_id,
+          company_id: this.currentRow.company_id,
+          title: this.currentRow.title,
+          login_text:this.currentRow.login_text,
+          terms_and_conditions: this.currentRow.terms_and_conditions,
+          game_type: this.currentRow.game_type,
+          description: this.currentRow.description,
+          duration: this.currentRow.duration,
+          calculatePoints: String(this.currentRow.calc_points_immediately),
+          logo_image: this.logo_image ? await convertFileToBase64(this.logo_image) : null,
+          login_image: this.login_image ? await convertFileToBase64(this.login_image) : null,
+          welcome_image: this.welcome_image ? await convertFileToBase64(this.welcome_image) : null,
+          campaign_image: this.image ? await convertFileToBase64(this.image) : null,
+          games: this.currentRow.event_id == 1 ? processedGames : [],
+          questions: this.currentRow.event_id == 2 ? processedQuestions : [],
+        };
+  
+        this.http.post<any>(this.apiUrl + "api/update_campaign", payload).subscribe(
           (res: any) => {
-            if (res == "nonet") {
+            this.buttonLoading = false;
+            if (!res.status) {
+              this._toastrService.error(res.msg, "Failed", {
+                toastClass: "toast ngx-toastr",
+                closeButton: true,
+              });
             } else {
-              if (res.status == false) {
+             
+              if(res.tag=='Duplicate'){
                 this._toastrService.error(res.msg, "Failed", {
                   toastClass: "toast ngx-toastr",
                   closeButton: true,
                 });
-              } else if (res.status == true) {
+              }
+              else{
                 this._toastrService.success(res.msg, "Success", {
                   toastClass: "toast ngx-toastr",
                   closeButton: true,
                 });
                 this._router.navigate(["/campaigns/campaigns"]);
               }
+            
             }
-            this.buttonLoading = false;
           },
           (error: any) => {
             this.buttonLoading = false;
+            this._toastrService.error("An error occurred", "Failed", {
+              toastClass: "toast ngx-toastr",
+              closeButton: true,
+            });
           }
         );
-    } else {
-      this.buttonLoading = false;
-    }
+      } catch (error) {
+        this.buttonLoading = false;
+        console.error("Error processing files:", error);
+        this._toastrService.error("File processing failed", "Error", {
+          toastClass: "toast ngx-toastr",
+          closeButton: true,
+        });
+      }
+    };
+  
+    processFiles();
   }
+  
 
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
@@ -466,6 +493,13 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
             if (this.currentRow.calc_points_immediately == "false") {
               this.currentRow.calc_points_immediately = false;
             }
+            console.log("data before map",this.currentRow.quizzes);
+
+            this.currentRow.quizzes = this.currentRow.quizzes.map(item => ({
+              ...item,
+              updated: false
+            }));
+            console.log("data after map",this.currentRow.quizzes);
             this.originalFormValues = { ...this.currentRow };
 
             if (this.currentRow.avatar) {
@@ -544,4 +578,35 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
     this.loading = false;
     // this.checkFormModified();
   }
+  onFileSelected(event: any,question) {
+    const file = event.target.files[0];
+    if (file) {
+      
+        const reader = new FileReader();
+        
+        reader.onload = () => {
+          question.preview = reader.result; 
+        };
+    
+        reader.readAsDataURL(file);
+      
+      question.selectedFile = file;
+      question.updated=true;
+      console.log('File selected:', question.selectedFile);
+      question.file_name=question.selectedFile.name;
+    }
+  }
+  toggleUpload(question) {
+    question.file_name = !question.file_name;
+  }
+  
+onTagChange() {
+  this.validateTag();
+  this.checkFormModified(); // Ensure form modification is tracked
+}
+
+validateTag() {
+  const regex = /^[a-zA-Z0-9_]*$/;
+  this.isInvalidTag = !regex.test(this.currentRow.campaign_tag);
+}
 }

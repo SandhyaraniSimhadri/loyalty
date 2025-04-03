@@ -19,15 +19,13 @@
             <div class="col-12">
               <div class="form-group">
                 <label class="form-label" for="basic-icon-default-companyname"
-                  >Company name
-                  <span
+                  ><ng-container>Company name<span
                     *ngIf="newUserForm.submitted && CNameRef.invalid"
                     class="text-danger"
+                    >*</span> <span *ngIf="!newUserForm.submitted || !CNameRef.invalid"
                     >*</span
-                  >
-                  <span *ngIf="!newUserForm.submitted || !CNameRef.invalid"
-                    >*</span
-                  ></label
+                  ></ng-container>
+                 </label
                 >
                 <input
                   type="text"
@@ -61,12 +59,11 @@
                 <label
                   class="form-label"
                   for="basic-icon-default-business-entity"
-                  >Select Business Entity Type <span
+                  >Select Business Entity Type<span
                   *ngIf="newUserForm.submitted && EntTypeRef.invalid"
                   class="text-danger"
                   >*</span
-                >
-                <span *ngIf="!newUserForm.submitted || !EntTypeRef.invalid"
+                ><span *ngIf="!newUserForm.submitted || !EntTypeRef.invalid"
                   >*</span
                 ></label
                 >
@@ -105,8 +102,7 @@
                     *ngIf="newUserForm.submitted && BAddRef.invalid"
                     class="text-danger"
                     >*</span
-                  >
-                  <span *ngIf="!newUserForm.submitted || !BAddRef.invalid"
+                  ><span *ngIf="!newUserForm.submitted || !BAddRef.invalid"
                     >*</span
                   ></label
                 >
@@ -143,14 +139,8 @@
                 <label
                   class="form-label"
                   for="basic-icon-default-mailing-address"
-                  >Mailing Address (if different)<span
-                    *ngIf="newUserForm.submitted && MaddRef.invalid"
-                    class="text-danger"
-                    >*</span
-                  >
-                  <span *ngIf="!newUserForm.submitted || !MaddRef.invalid"
-                    >*</span
-                  ></label
+                  >Mailing Address (if different)
+                 </label
                 >
                 <input
                   type="text"
@@ -165,16 +155,7 @@
                   aria-label=""
                   aria-describedby="basic-icon-default-mailing-address"
                 />
-                <span
-                  *ngIf="newUserForm.submitted && MaddRef.invalid"
-                  class="invalid-form"
-                >
-                  <small
-                    class="form-text text-danger"
-                    *ngIf="MaddRef.errors.required"
-                    >This field is required!</small
-                  >
-                </span>
+              
               </div>
             </div>
           </div>
@@ -185,13 +166,11 @@
                 <label
                   class="form-label"
                   for="basic-icon-default-contact-number"
-                  >Business Phone Number
-                  <span
+                  >Business Phone Number<span
                     *ngIf="newUserForm.submitted && CNlRef.invalid"
                     class="text-danger"
                     >*</span
-                  >
-                  <span *ngIf="!newUserForm.submitted || !CNlRef.invalid"
+                  ><span *ngIf="!newUserForm.submitted || !CNlRef.invalid"
                     >*</span
                   ></label
                 >
@@ -229,8 +208,7 @@
                     *ngIf="newUserForm.submitted && FEmailRef.invalid"
                     class="text-danger"
                     >*</span
-                  >
-                  <span *ngIf="!newUserForm.submitted || !FEmailRef.invalid"
+                  ><span *ngIf="!newUserForm.submitted || !FEmailRef.invalid"
                     >*</span
                   ></label
                 >
@@ -263,14 +241,8 @@
           </div>
           <div class="form-group">
             <label class="form-label" for="basic-icon-default-address"
-              >Website (if applicable)<span
-                *ngIf="newUserForm.submitted && WebRef.invalid"
-                class="text-danger"
-                >*</span
-              >
-              <span *ngIf="!newUserForm.submitted || !WebRef.invalid"
-                >*</span
-              ></label
+              >Website (if applicable)
+             </label
             >
             <input
               type="text"
@@ -285,16 +257,7 @@
               #WebRef="ngModel"
               required
             />
-            <span
-              *ngIf="newUserForm.submitted && WebRef.invalid"
-              class="invalid-form"
-            >
-              <small
-                class="form-text text-danger"
-                *ngIf="WebRef.errors.required"
-                >This field is required!</small
-              >
-            </span>
+            
           </div>
           <br/>
           <label class="group-label" style="font-size: 12px;"><b>Primary Contact Information:</b></label>
@@ -303,13 +266,11 @@
             <div class="col-12">
               <div class="form-group">
                 <label class="form-label" for="basic-icon-default-fullname"
-                  >Full Name
-                  <span
+                  >Full Name<span
                     *ngIf="newUserForm.submitted && FNameRef.invalid"
                     class="text-danger"
                     >*</span
-                  >
-                  <span *ngIf="!newUserForm.submitted || !FNameRef.invalid"
+                  ><span *ngIf="!newUserForm.submitted || !FNameRef.invalid"
                     >*</span
                   ></label
                 >
@@ -344,13 +305,11 @@
             <div class="col-12">
               <div class="form-group">
                 <label class="form-label" for="basic-icon-default-title"
-                  >Title/Position
-                  <span
+                  >Title/Position<span
                     *ngIf="newUserForm.submitted && TNameRef.invalid"
                     class="text-danger"
                     >*</span
-                  >
-                  <span *ngIf="!newUserForm.submitted || !TNameRef.invalid"
+                  ><span *ngIf="!newUserForm.submitted || !TNameRef.invalid"
                     >*</span
                   ></label
                 >
@@ -389,8 +348,7 @@
                   *ngIf="newUserForm.submitted && PEmailRef.invalid"
                   class="text-danger"
                   >*</span
-                >
-                <span *ngIf="!newUserForm.submitted || !PEmailRef.invalid"
+                ><span *ngIf="!newUserForm.submitted || !PEmailRef.invalid"
                   >*</span
                 ></label
                 >
@@ -427,13 +385,11 @@
                 <label
                   class="form-label"
                   for="basic-icon-default-primary-contact-number"
-                  >Contact number
-                  <span
+                  >Contact number<span
                     *ngIf="newUserForm.submitted && PCNlRef.invalid"
                     class="text-danger"
                     >*</span
-                  >
-                  <span *ngIf="!newUserForm.submitted || !PCNlRef.invalid"
+                  ><span *ngIf="!newUserForm.submitted || !PCNlRef.invalid"
                     >*</span
                   ></label
                 >
@@ -475,8 +431,7 @@
                     *ngIf="newUserForm.submitted && BusNatureRef.invalid"
                     class="text-danger"
                     >*</span
-                  >
-                  <span *ngIf="!newUserForm.submitted || !BusNatureRef.invalid"
+                  ><span *ngIf="!newUserForm.submitted || !BusNatureRef.invalid"
                     >*</span
                   ></label
                 >
@@ -511,13 +466,11 @@
             <div class="col-12">
               <div class="form-group">
                 <label class="form-label" for="basic-icon-default-industry"
-                  >Industry Sector (e.g., Retail, Technology, Healthcare):
-                  <span
+                  >Industry Sector (e.g., Retail, Technology, Healthcare)<span
                     *ngIf="newUserForm.submitted && IndSecRef.invalid"
                     class="text-danger"
                     >*</span
-                  >
-                  <span *ngIf="!newUserForm.submitted || !IndSecRef.invalid"
+                  ><span *ngIf="!newUserForm.submitted || !IndSecRef.invalid"
                     >*</span
                   ></label
                 >
@@ -552,13 +505,11 @@
             <div class="col-12">
               <div class="form-group">
                 <label class="form-label" for="basic-icon-default-revenue"
-                  >Estimated Annual Revenue
-                  <span
+                  >Estimated Annual Revenue<span
                     *ngIf="newUserForm.submitted && RevRef.invalid"
                     class="text-danger"
                     >*</span
-                  >
-                  <span *ngIf="!newUserForm.submitted || !RevRef.invalid"
+                  ><span *ngIf="!newUserForm.submitted || !RevRef.invalid"
                     >*</span
                   ></label
                 >
@@ -593,13 +544,11 @@
             <div class="col-12">
               <div class="form-group">
                 <label class="form-label" for="basic-icon-default-employees"
-                  >Number of Employees
-                  <span
+                  >Number of Employees<span
                     *ngIf="newUserForm.submitted && EmpRef.invalid"
                     class="text-danger"
                     >*</span
-                  >
-                  <span *ngIf="!newUserForm.submitted || !EmpRef.invalid"
+                  ><span *ngIf="!newUserForm.submitted || !EmpRef.invalid"
                     >*</span
                   ></label
                 >
@@ -637,8 +586,7 @@
               class="btn btn-primary"
               (click)="submit(newUserForm)"
               rippleEffect
-            >
-              <span
+            ><span
                 *ngIf="loading"
                 class="spinner-border spinner-border-sm mr-1"
               ></span>

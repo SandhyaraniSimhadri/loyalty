@@ -86,18 +86,6 @@ export class WelcomeComponent implements OnInit {
 
   goToNext() {
     if (this.section == 1) {
-      // if (this.avatarImage == null || this.avatarImage == "defaultImage") {
-      //   this.section = 2;
-      // } else {
-      //   if(this.httpService.USERINFO.user_type==1){
-      //     this._router.navigate(["/company/company"]);
-      //   }
-      // else{
-      //   this._router.navigate(["/predictions/predictions"], {
-      //     queryParams: { campaign_id: this.campaign_id },
-      //   });
-      // }
-      // }
       this.section=2;
     } else if (this.section == 2) {
       if (this.avatarImage == null) {

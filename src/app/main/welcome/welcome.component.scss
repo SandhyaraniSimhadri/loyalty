@@ -70,7 +70,7 @@
   color:rgb(68, 68, 230);
   // padding: 4px;
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 1.5rem;
 
   // font-size: 8px;
 }
@@ -80,8 +80,8 @@
 }
 
 .profile-img {
-  width: 150px; /* Set the size of your profile picture */
-  height: 150px;
+  width: 220px; /* Set the size of your profile picture */
+  height: 220px;
   border-radius: 50%; /* Make it circular */
   object-fit: cover; /* Ensure the image fits well */
   cursor: pointer; /* Indicate it can be clicked */
@@ -210,4 +210,18 @@
 }
 .upload-img{
   cursor: pointer;
+  font-weight: 50px;
+}
+.custom-btn {
+  background: linear-gradient(90deg, #4A90E2, #7B61FF); /* Adjust colors as needed */
+  border: none;
+  color: white; /* Text color */
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 10px; /* Rounded corners */
+  transition: 0.3s ease-in-out;
+}
+
+.custom-btn:hover {
+  background: linear-gradient(90deg, #7B61FF, #4A90E2); /* Reverse gradient on hover */
 }

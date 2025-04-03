@@ -1,22 +1,12 @@
 <div class="slideout-content">
-  <!-- Modal to add new user starts-->
+
   <div>
-    <button
-    class="btn btn-primary ml-1 d-flex justify-content-center align-items-center"
-    rippleEffect (click)="modalOpenForm(modalForm)"
-   
-  >
- <span class="">Bulk Upload</span>
-  </button>
+
   <ng-template #modalForm let-modal>
     <div class="modal-header">
      
       <h4 class="modal-title" id="myModalLabel1">Upload CSV</h4>
-      <!-- <button  class="btn btn-primary ml-1 d-flex w-100 justify-content-center align-items-center"
-      rippleEffect >
-      
-      
-      </button> -->
+    
       <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -47,34 +37,7 @@
             </a>
           </span>
         </div>
-        <!-- <br/>
-        <p><b>Members data</b></p>
-        <div class="table-responsive">
-          <table class="table">
-           <tr>
-            <th>
-              Sno.
-            </th>
-            <th>
-             ID
-            </th>
-            <th>
-            Member
-            </th>
-           </tr>
-           <tr *ngFor="let member of members_data;let i = index">
-            <td>
-              {{i+1}}
-            </td>
-            <td>
-              {{member.id}}
-            </td>
-            <td>
-              {{member.user_name}}
-            </td>
-           </tr>
-          </table>
-        </div> -->
+       
         
       </form>
     </div>
@@ -85,6 +48,15 @@
     </div>
   </ng-template>
     <div class="modal-dialog">
+      <button
+      class="btn btn-primary d-flex justify-content-center align-items-center float-right mb-2 mt-n2"
+      rippleEffect (click)="modalOpenForm(modalForm)"
+     
+    >
+   <span class="">Bulk Upload</span>
+    </button>
+
+    
       <form
         class="add-new-user modal-content pt-0"
         (ngSubmit)="(newUserForm.form.valid)"
@@ -96,13 +68,11 @@
         <div class="modal-body flex-grow-1">
           <div class="form-group">
             <label class="form-label"
-              >Select Company
-              <span
+              >Select Company<span
                 *ngIf="newUserForm.submitted && CompanyRef.invalid"
                 class="text-danger"
                 >*</span
-              >
-              <span *ngIf="!newUserForm.submitted || !CompanyRef.invalid"
+              ><span *ngIf="!newUserForm.submitted || !CompanyRef.invalid"
                 >*</span
               ></label
             >

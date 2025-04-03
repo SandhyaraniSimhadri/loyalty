@@ -49,13 +49,9 @@ const routes: Routes = [
     path: "campaigns-view/:id",
     component: CampaignsViewComponent,
     resolve: {
-      data: UserViewService,
-      InvoiceListService,
+      ues: UserEditService,
     },
-    data: {
-      path: "view/:id",
-      animation: "CampaignsViewComponent",
-    },
+    data: { animation: "CampaignsViewComponent" },
   },
   {
     path: "campaigns-edit/:id",

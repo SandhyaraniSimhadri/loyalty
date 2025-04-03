@@ -320,7 +320,8 @@
             !loading &&
             rows.length > 0 &&
             campaign_data.quizzes != undefined &&
-            campaign_data.quizzes.length > 0
+            campaign_data.quizzes.length > 0 &&
+            campaign_data?.participants?.length == 0
           "
         >
           <div class="card earnings-card">
@@ -379,6 +380,22 @@
                     <h5 class="question-text">
                       {{ campaign_data.quizzes[currentQuestionIndex].question }}
                     </h5>
+                    <div
+                      *ngIf="
+                        campaign_data.quizzes[currentQuestionIndex].file_name
+                      "
+                      class="align-items-center justify-content-center d-flex"
+                    >
+                      <img
+                        [src]="
+                          apiUrl +
+                          campaign_data.quizzes[currentQuestionIndex].image
+                        "
+                        alt="Question Image"
+                        width="90%"
+                        height="90%"
+                      />
+                    </div>
                     <div class="demo-inline-spacing">
                       <label
                         class="custom-radio"
@@ -517,7 +534,11 @@
 
                       <img
                         class="col-12"
-                        [src]="campaign_data?.campaign_image ? apiUrl+campaign_data.campaign_image : loginImage"
+                        [src]="
+                          campaign_data?.campaign_image
+                            ? apiUrl + campaign_data.campaign_image
+                            : loginImage
+                        "
                         alt="Prediction"
                         style="object-fit: cover !important; width: 100%"
                       />
@@ -544,19 +565,30 @@
                       height="120"
                     />
                   </div>
-                  <div
-                    *ngIf="currentQuestionIndex == -1 && submitted"
-                    class="submission-container"
-                  >
-                    <div class="submission-text">
-                      <b>Submitted</b>
-                      <br />
-                      <b>Time Taken: {{ campaign_data.time_taken }}</b
-                      ><br />
-                      <b>Current Rank: {{ campaign_data.self[0].rank }}</b>
-                    </div>
-                    <button (click)="tryAgain()">Try again</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div
+            class="card-body"
+            style="padding: 0 !important; overflow: hidden"
+          >
+            <div class="row" style="padding: 1.5rem !important">
+              <div class="col-12">
+                <div
+                  *ngIf="campaign_data?.participants?.length > 0"
+                  class="submission-container"
+                >
+                  <div class="submission-text">
+                    <b>Submitted</b>
+                    <br />
+                    <b>Time Taken: {{ campaign_data?.total_time_taken }}</b
+                    ><br />
+                    <!-- <b>Current Rank: {{ campaign_data?.self[0]?.rank }}</b> -->
                   </div>
+                  <!-- <button (click)="tryAgain()">Try again</button> -->
                 </div>
               </div>
             </div>
@@ -770,7 +802,6 @@
         <div class="loader-container" *ngIf="refresh_loading">
           <div class="spinner"></div>
         </div>
-
       </div>
     </div>
     <div class="d-none d-lg-flex col-lg-4"></div>
@@ -780,7 +811,6 @@
 <ng-template #modalDanger let-modal>
   <div class="modal-header">
     <h5 class="modal-title"><span class="color-cls">Confirm</span></h5>
-
   </div>
   <div class="modal-body" tabindex="0" ngbAutofocus>
     Are you sure you want to submit your Prediction?

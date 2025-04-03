@@ -198,8 +198,7 @@ re-captcha, .re-captcha, #recaptcha {
 .bottom-align {
   // margin-top: -4px !important;
   position: absolute;
-  // bottom: 0;
-  width: 100%;
+ 
   margin-top: 20px !important;
 
   font-size: 12px;
@@ -237,3 +236,17 @@ re-captcha, .re-captcha, #recaptcha {
 }
 .nsm7Bb-HzV7m-LgbsSe {
   border:none !important;}
+  
+  .next-button {
+    position: absolute;
+    bottom: 20px;
+    font-weight: bold;
+    padding-left: 50px !important;
+    background-color: transparent;
+    font-style: italic;
+    color: white;
+    padding: 10px 20px;
+    font-size: 2rem;
+    cursor: pointer;
+    // transition: background-color 0.3s, color 0.3s;
+  }

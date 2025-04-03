@@ -18,7 +18,19 @@
 }
 .white-space{
     white-space: normal;
-}
+}  .avatar1 {
+    white-space: nowrap;
+    background-color: #c3c3c3;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    color: #fff;
+    display: inline-flex;
+    font-size: 1rem;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: 600;
+  }
 
 
 .count{

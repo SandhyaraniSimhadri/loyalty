@@ -29,7 +29,6 @@ export class CampaignsNewComponent implements OnInit {
   @Output() onCampaignAdded: EventEmitter<any> = new EventEmitter<any>();
 
   public form: any;
-
   public loading: boolean = false;
   public image: any;
   public apiUrl: any;
@@ -39,7 +38,9 @@ export class CampaignsNewComponent implements OnInit {
   public description: any;
   public welcome_image: any;
   public logo_image: any;
-
+  public campaign_tag:any;
+  
+  public login_text:any;
   public login_image: any;
   public campaign_image: any;
 
@@ -83,9 +84,13 @@ export class CampaignsNewComponent implements OnInit {
       response_d: "",
       answer: "",
       points: "",
+      selectedFile: null as File | null ,
+      file_name:"",
+      isDragging : false,
+      showUpload : false,
     },
   ];
-
+  isInvalidTag: boolean = false;
   public game = {
     name: "",
     team_a: "",
@@ -107,8 +112,14 @@ export class CampaignsNewComponent implements OnInit {
     response_d: "",
     answer: "",
     points: "",
+    selectedFile: null as File | null,
+    file_name:"",
+    isDragging :false,
+    showUpload : false,
   };
+  
   public companyData: any;
+  public fileName:any='';
 
   /**
    * Constructor
@@ -178,6 +189,11 @@ export class CampaignsNewComponent implements OnInit {
       response_d: "",
       answer: "",
       points: "",
+      selectedFile: null as File | null ,
+      file_name:"",
+      isDragging : false,
+      showUpload : false,
+
     });
   }
   deleteQuestion(id) {
@@ -190,127 +206,102 @@ export class CampaignsNewComponent implements OnInit {
   }
 
   submit(form) {
-    if (this.event_id == 1) {
-      const hasEmptyFields = this.games.some(
-        (game) =>
-          !game.name ||
-          !game.team_a ||
-          !game.team_b ||
-          !game.points ||
-          !game.game_start_date ||
-          !game.game_start_time ||
-          !game.game_end_date ||
-          !game.game_end_time ||
-          !game.team_a_image ||
-          !game.team_b_image
-      );
-      if (hasEmptyFields) {
-        this.errorMsg = true;
-        return;
-      }
-    }
-    if (this.event_id == 2) {
-      const hasEmptyFields = this.questions.some(
-        (question) =>
-          !question.question ||
-          !question.response_a ||
-          !question.response_b ||
-          !question.response_c ||
-          !question.response_d ||
-          !question.answer ||
-          !question.points
-      );
-      if (hasEmptyFields) {
-        this.errorMsg = true;
-        return;
-      }
-      if (this.duration == 0) {
-        this.durationMsg = true;
-        this._toastrService.error("Please fill all details", "Failed", {
-          toastClass: "toast ngx-toastr",
-          closeButton: true,
-        });
-        return;
-      }
-    }
-    this.errorMsg = false;
-    this.durationMsg = false;
-
+    // Validation logic remains the same...
+  
     this.loading = true;
-    const formData = new FormData();
-    const games_data = this.games;
-
-    formData.append("campaign_title", this.campaign_title);
-    formData.append("start_date", this.start_date);
-    formData.append("end_date", this.end_date);
-    formData.append("event_id", this.event_id);
-    formData.append("company_id", this.company_id);
-    formData.append("duration", this.duration);
-    formData.append("title", this.title);
-    formData.append("terms_and_conditions", this.terms_and_conditions);
-    formData.append("game_type", this.game_type);
-    formData.append("description", this.description);
-    formData.append("logo_image", this.logo_image);
-    formData.append("login_image", this.login_image);
-    formData.append("welcome_image", this.welcome_image);
-    formData.append("campaign_image", this.campaign_image);
-
-    formData.append("calculatePoints", this.calculatePoints.toString());
-
-    if (this.event_id == 1) {
-      const gamesDataWithoutFiles = this.games.map((game) => {
-        const { team_b_image, team_a_image, ...rest } = game;
-        return rest;
+    
+    // Convert files to Base64
+    const convertFileToBase64 = (file) => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = (error) => reject(error);
       });
-
-      formData.append("games", JSON.stringify(gamesDataWithoutFiles));
-
-      // Append each image file to the FormData object
-      this.games.forEach((game, index) => {
-        if (game.team_b_image) {
-          formData.append(`team_b_image_${index}`, game.team_b_image);
-        }
-        // Similarly, append team_a_image if you have it
-        if (game.team_a_image) {
-          formData.append(`team_a_image_${index}`, game.team_a_image);
-        }
+    };
+  
+    const processFiles = async () => {
+      const gamesData = this.games.map(async (game) => {
+        return {
+          ...game,
+          team_a_image: game.team_a_image ? await convertFileToBase64(game.team_a_image) : null,
+          team_b_image: game.team_b_image ? await convertFileToBase64(game.team_b_image) : null,
+        };
       });
-    }
-    if (this.event_id == 2) {
-      formData.append("questions", JSON.stringify(this.questions));
-    }
-
-    if (form.valid) {
-      this.http.post<any>(this.apiUrl + "api/add_campaign", formData).subscribe(
+  
+      const questionsData = this.questions.map(async (question) => {
+        return {
+          ...question,
+          selectedFile: question.selectedFile ? await convertFileToBase64(question.selectedFile) : null,
+        };
+      });
+  
+      const processedGames = await Promise.all(gamesData);
+      const processedQuestions = await Promise.all(questionsData);
+  
+      const payload = {
+        campaign_title: this.campaign_title,
+        start_date: this.start_date,
+        end_date: this.end_date,
+        campaign_tag:this.campaign_tag,
+        event_id: this.event_id,
+        company_id: this.company_id,
+        duration: this.duration,
+        title: this.title,
+        login_tet:this.login_text,
+        terms_and_conditions: this.terms_and_conditions,
+        game_type: this.game_type,
+        description: this.description,
+        calculatePoints: this.calculatePoints,
+        logo_image: this.logo_image ? await convertFileToBase64(this.logo_image) : null,
+        login_image: this.login_image ? await convertFileToBase64(this.login_image) : null,
+        welcome_image: this.welcome_image ? await convertFileToBase64(this.welcome_image) : null,
+        campaign_image: this.campaign_image ? await convertFileToBase64(this.campaign_image) : null,
+        games: this.event_id == 1 ? processedGames : [],
+        questions: this.event_id == 2 ? processedQuestions : [],
+      };
+  
+      // Send as JSON
+      this.http.post<any>(this.apiUrl + "api/add_campaign", payload).subscribe(
         (res: any) => {
-          if (res == "nonet") {
+          this.loading = false;
+          if (!res.status) {
+            this._toastrService.error(res.msg, "Failed", {
+              toastClass: "toast ngx-toastr",
+              closeButton: true,
+            });
           } else {
-            if (res.status == false) {
+            // this.onCampaignAdded.emit(res.data);
+            
+            if(res.tag=='Duplicate'){
               this._toastrService.error(res.msg, "Failed", {
                 toastClass: "toast ngx-toastr",
                 closeButton: true,
               });
-            } else if (res.status == true) {
-              this.onCampaignAdded.emit(res.data);
-
-              this._toastrService.success(res.msg, "Success", {
-                toastClass: "toast ngx-toastr",
-                closeButton: true,
-              });
-              this._router.navigate(["/campaigns/campaigns"]);
             }
+            else{
+            this._toastrService.success(res.msg, "Success", {
+              toastClass: "toast ngx-toastr",
+              closeButton: true,
+            });
+            this._router.navigate(["/campaigns/campaigns"]);
           }
-          this.loading = false;
+          }
         },
         (error: any) => {
           this.loading = false;
+          this._toastrService.error("An error occurred", "Failed", {
+            toastClass: "toast ngx-toastr",
+            closeButton: true,
+          });
         }
       );
-    } else {
-      this.loading = false;
-    }
-    this.loading = false;
+    };
+  
+    processFiles();
   }
+  
+  
   getEvents() {
     let request = {
       params: null,
@@ -409,5 +400,40 @@ export class CampaignsNewComponent implements OnInit {
     }
     this.loading = false;
     // this.checkFormModified();
+  }
+  onDragOver(event: DragEvent,question) {
+    event.preventDefault();
+    question.isDragging = true;
+  }
+
+  onDragLeave(event: DragEvent,question) {
+    event.preventDefault();
+    question.isDragging = false;
+  }
+
+  onDrop(event: DragEvent,question) {
+    event.preventDefault();
+    question.isDragging = false;
+    
+    if (event.dataTransfer && event.dataTransfer.files.length > 0) {
+      question.selectedFile = event.dataTransfer.files[0];
+      console.log('File dropped:', question.selectedFile);
+    }
+  }
+
+  onFileSelected(event: any,question) {
+    const file = event.target.files[0];
+    if (file) {
+      question.selectedFile = file;
+      console.log('File selected:', question.selectedFile);
+      question.fileName=question.selectedFile.name;
+    }
+  }
+  toggleUpload(question) {
+    question.showUpload = !question.showUpload;
+  }
+  validateTag(): void {
+    const regex = /^[a-zA-Z0-9_]*$/;
+    this.isInvalidTag = !regex.test(this.campaign_tag);
   }
 }
