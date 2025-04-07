@@ -6,7 +6,8 @@ import {
   Renderer2,
   ElementRef,
   AfterViewInit,
-  HostListener 
+  HostListener,
+  ViewChild
 } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import {
@@ -17,7 +18,7 @@ import {
 } from "@angular/forms";
 import { takeUntil, first } from "rxjs/operators";
 import { Subject } from "rxjs";
-
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthenticationService } from "app/auth/service";
 import { CoreConfigService } from "@core/services/config.service";
 import { CoreHttpService } from "@core/services/http.service";
@@ -76,7 +77,7 @@ export class LoginComponent implements OnInit {
   private _unsubscribeAll: Subject<any>;
   showLoginForm: boolean = false;
   screenSize: string = 'large'; // Default to large
-
+  @ViewChild('modalVC') modalVC: any;
   /**
    * Constructor
    *
@@ -84,7 +85,7 @@ export class LoginComponent implements OnInit {
    */
   //6LfhKxUqAAAAADTIEBB4IRPhETpFycTuWF0Svb-6
   //6LfhKxUqAAAAABeZappTk6Uv0ydQ9hRgDuJvl9tI
-  constructor(
+  constructor(private modalService: NgbModal,
     private _coreConfigService: CoreConfigService,
     private _formBuilder: UntypedFormBuilder,
     private _route: ActivatedRoute,
@@ -274,6 +275,11 @@ export class LoginComponent implements OnInit {
 
 
   ngOnInit(): void {
+    // setTimeout(() => {
+    //   if (this.modalVC) {
+    //     this.modalService.open(this.modalVC, { centered: true });
+    //   }
+    // }, 100);
     // const path = window.location.pathname; 
     // this.org = path.split('/')[1]; 
     // if (this.org === 'org1') {

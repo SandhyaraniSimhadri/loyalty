@@ -17,12 +17,28 @@
           alt="Logo Icon" />
       </div>
       <span class="next-button d-block d-lg-none" (click)="goToNext()">
-        <img
-          src="../../../assets/images/pages/welcome/next.png"
-          alt="Next Button"
-          width="100"
-        />
+        <img src="../../../assets/images/pages/welcome/next.png" alt="Next Button" width="100" />
       </span>
+    
+      <!-- NG Bootstrap Modal -->
+      <!-- <ng-template #modalVC let-modal>
+        <div class="modal-header">
+          <h5 class="modal-title">{{campaign_title}}</h5>
+          <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" tabindex="0" ngbAutofocus>
+          <p>
+           {{campaign_data.login_text}}
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="modal.close('Accept click')" rippleEffect>
+           PROCEED
+          </button>
+        </div>
+      </ng-template> -->
     </div>
     
     
@@ -160,7 +176,7 @@
             <p class="d-flex justify-content-center justify-content-center align-items-center mt-1"
               *ngIf="type == undefined || type == 0">
               <br />
-              <a routerLink="/pages/authentication/forgot-password-v2"><small>Forgot Password?</small></a>
+              <a routerLink="../forgot-password"><small>Forgot Password?</small></a>
             </p>
 
           </form>

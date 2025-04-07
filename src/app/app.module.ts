@@ -52,6 +52,7 @@ import { environment } from "environments/environment";
 import { WelcomeComponent } from "./main/welcome/welcome.component";
 import { UserIdleModule } from 'angular-user-idle';
 import { PaymentComponent } from './payment/payment.component';
+import { ForgotPasswordComponent } from "./main/forgot-password/forgot-password.component";
 const appRoutes: Routes = [
 
   {
@@ -158,6 +159,11 @@ const appRoutes: Routes = [
     redirectTo: "/dashboard",
     pathMatch: "full",
   },
+  
+  {
+    path: "forgot-password",
+    component: ForgotPasswordComponent,
+    pathMatch: "full", },
   // {
   //   path: "login",
   //   component: LoginComponent,
@@ -194,6 +200,7 @@ const appRoutes: Routes = [
     AnimatedCustomContextMenuComponent,
     SubMenuCustomContextMenuComponent,
     PaymentComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     CommonModule,
