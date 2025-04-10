@@ -189,6 +189,10 @@ button:focus {
   display: flex;
   flex-direction: column;
 }
+.demo-inline-spacing > * {
+  margin-right: 1.5rem;
+  margin-top: 0.6rem;
+}
 .form-check {
   margin-bottom: 10px; /* Adjust spacing between elements if needed */
 }
@@ -231,9 +235,9 @@ button:focus {
   margin-bottom: 20px;
   color:#8b99ae;
   font-weight: bold;
-  align-items: center;
-  justify-content: center;
-  display: flex;
+  // align-items: center;
+  // justify-content: center;
+  // display: flex;
  
 }
 .question-text::first-letter {
@@ -343,7 +347,7 @@ button:focus {
 }
 
 .submission-text {
-  font-weight: bold;
+ 
 }
 
 /* leaderboard.component.css */

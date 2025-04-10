@@ -47,15 +47,15 @@ const menuList: CoreMenu[] = [
   //   icon: "life-buoy",
   //   url: "users",
   // },
-  {
-    id: "predictions",
-    title: "Predictions",
-    translate: "MENU.PREDICTIONS.PREDICTIONS",
-    type: "item",
-    role:['Super Admin','User'],
-    icon: "life-buoy",
-    url: "predictions/predictions",
-  },
+  // {
+  //   id: "predictions",
+  //   title: "Predictions",
+  //   translate: "MENU.PREDICTIONS.PREDICTIONS",
+  //   type: "item",
+  //   role:['User'],
+  //   icon: "life-buoy",
+  //   url: "predictions/predictions",
+  // },
   
 
   {

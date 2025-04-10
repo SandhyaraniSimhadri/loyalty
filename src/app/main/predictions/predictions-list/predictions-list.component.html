@@ -6,7 +6,7 @@
   </div>
   <div
     class="row"
-    style="margin-right: 0px !important; margin-left: 0px !important"
+    style="margin-right: 0px !important; margin-left: 0px !important;font-family:'Roboto Condensed', sans-serif;"
   >
     <div class="d-none d-lg-flex col-lg-4"></div>
     <div class="col-lg-4" style="margin-right: 0px !important">
@@ -65,7 +65,7 @@
                       style="background-color: white"
                     />
                   </div>
-                  <div class="mt-1">
+                  <div class="mt-1" style="font-family: 'Roboto Condensed', sans-serif;">
                     <h3>
                       <b>{{ currentUser.user_name }}</b>
                     </h3>
@@ -357,7 +357,7 @@
                     style="color: blue; font-weight: 400"
                   >
                     <b>
-                      <i>{{ campaign_data.campaign_title }}</i></b
+                      <i><span style="font-size: 20px;">QUIZ QUEST:</span> {{ campaign_data.campaign_title }}</i></b
                     >
                   </h4>
                 </div>
@@ -368,7 +368,7 @@
                 class="d-flex card-title mb-0 mt-0 justify-content-center align-items-center"
                 style="color: blue; font-size: 1rem"
               >
-                <b> <i>QUIZ QUEST </i></b>
+             
               </span>
               <p class="mt-1">{{ campaign_data.description }}</p>
               <div class="row">
@@ -377,14 +377,14 @@
                     <!-- <div *ngIf="remainingTime">
                           Time Remaining: {{ formatTime(remainingTime) }}
                         </div> -->
-                    <h5 class="question-text">
+                    <h5 class="question-text" style="text-align: left;">
                       {{ campaign_data.quizzes[currentQuestionIndex].question }}
                     </h5>
                     <div
                       *ngIf="
                         campaign_data.quizzes[currentQuestionIndex].file_name
                       "
-                      class="align-items-center justify-content-center d-flex"
+                      class="align-items-center justify-content-center d-flex mb-1"
                     >
                       <img
                         [src]="
@@ -392,8 +392,8 @@
                           campaign_data.quizzes[currentQuestionIndex].image
                         "
                         alt="Question Image"
-                        width="90%"
-                        height="90%"
+                        width="100%"
+                        height="100%"
                       />
                     </div>
                     <div class="demo-inline-spacing">
@@ -570,25 +570,45 @@
             </div>
           </div>
         </div>
-        <div class="card">
+        <div class="card"  *ngIf="campaign_data?.participants?.length > 0">
+          <div
+            class="d-flex align-items-center justify-content-center mt-1 "
+          >
+            <h4
+              style="
+                color: blue;
+                font-weight: bold;
+                font-style: italic;
+                text-transform: uppercase;
+                font-family: 'Roboto Condensed';
+                font-size: 20px;
+              "
+            >
+              <b
+                ><i>{{ campaign_data.campaign_title }}</i></b
+              >
+            </h4>
+          </div>
+          <hr />
           <div
             class="card-body"
             style="padding: 0 !important; overflow: hidden"
           >
-            <div class="row" style="padding: 1.5rem !important">
+            <div class="row" style="padding-bottom: 1rem !important">
               <div class="col-12">
                 <div
-                  *ngIf="campaign_data?.participants?.length > 0"
+                 
                   class="submission-container"
                 >
                   <div class="submission-text">
+                    <p style="font-style: italic;   color: blue;padding-bottom: 0.1rem !important;font-size: 16px;"><b>QUIZ QUEST</b></p>
                     <b>Submitted</b>
                     <br />
                     <b>Time Taken: {{ campaign_data?.total_time_taken }}</b
                     ><br />
-                    <!-- <b>Current Rank: {{ campaign_data?.self[0]?.rank }}</b> -->
+                 
                   </div>
-                  <!-- <button (click)="tryAgain()">Try again</button> -->
+                 
                 </div>
               </div>
             </div>
@@ -624,8 +644,11 @@
                       class="card-title mb-0"
                       style="
                         color: blue;
-                        font-weight: 400;
+                        font-weight: bold;
+                        font-style: italic;
                         text-transform: uppercase;
+                        font-family: 'Roboto Condensed';
+                        font-size: 20px;
                       "
                     >
                       <b><i>Leaderboard</i></b>
@@ -645,8 +668,8 @@
               <div *ngIf="rows.length > 0">
                 <div
                   style="
-                    padding-left: 1.5rem;
-                    padding-right: 1.5rem;
+                    padding-left: 2rem !important;
+                    padding-right: 2rem !important;
                     margin: 0 !important;
                   "
                   *ngFor="

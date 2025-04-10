@@ -199,7 +199,7 @@ re-captcha, .re-captcha, #recaptcha {
   // margin-top: -4px !important;
   position: absolute;
  
-  margin-top: 20px !important;
+  margin-top: 1rem !important;
 
   font-size: 12px;
   text-align: center; /* Optional, for centering the text */
@@ -249,4 +249,50 @@ re-captcha, .re-captcha, #recaptcha {
     font-size: 2rem;
     cursor: pointer;
     // transition: background-color 0.3s, color 0.3s;
+  }.social-login-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
+  
+  .social-btn {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    transition: all 0.3s ease;
+  }
+  
+  .social-btn img {
+    width: 24px;
+    height: 24px;
+    margin-right: 12px;
+  }
+  
+  .social-btn span {
+    flex: 1;
+    text-align: left;
+  }
+  
+  /* Google-specific styles */
+  .google-btn {
+    border: 1px solid #ddd;
+  }
+  
+  /* Facebook-specific styles */
+  .facebook-btn {
+    color: #1877f2;
+    border: 1px solid #1877f2;
+    background-color: #fff;
+  }
+  
+  .facebook-btn:hover {
+    background-color: #f0f4ff;
+  }
+  

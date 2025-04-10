@@ -6,20 +6,39 @@
       </a> -->
     <!-- /Brand logo-->
     <!-- Left Text-->
-    <div class="col-12 col-lg-8 d-flex align-items-center img-class" *ngIf="screenSize !== 'small' || !showLoginForm">
+    <div
+      class="col-12 col-lg-8 d-flex align-items-center img-class"
+      *ngIf="screenSize !== 'small' || !showLoginForm"
+    >
       <div class="image-container">
-        <img class="img-fluid dynamic-image"
-          [src]="(campaign_id && campaign_data?.login_image) ? api_url+campaign_data.login_image : loginImage"
-          alt="Login" />
-    
-        <img class="center-logo"
-          [src]="(campaign_id && campaign_data?.logo_image) ? api_url+campaign_data.logo_image : logoIcon"
-          alt="Logo Icon" />
+        <img
+          class="img-fluid dynamic-image"
+          [src]="
+            campaign_id && campaign_data?.login_image
+              ? api_url + campaign_data.login_image
+              : loginImage
+          "
+          alt="Login"
+        />
+
+        <img
+          class="center-logo"
+          [src]="
+            campaign_id && campaign_data?.logo_image
+              ? api_url + campaign_data.logo_image
+              : logoIcon
+          "
+          alt="Logo Icon"
+        />
       </div>
       <span class="next-button d-block d-lg-none" (click)="goToNext()">
-        <img src="../../../assets/images/pages/welcome/next.png" alt="Next Button" width="100" />
+        <img
+          src="../../../assets/images/pages/welcome/next.png"
+          alt="Next Button"
+          width="100"
+        />
       </span>
-    
+
       <!-- NG Bootstrap Modal -->
       <!-- <ng-template #modalVC let-modal>
         <div class="modal-header">
@@ -40,8 +59,6 @@
         </div>
       </ng-template> -->
     </div>
-    
-    
 
     <!-- /Left Text-->
     <!-- Login-->
@@ -52,184 +69,286 @@
       <div class="effect-3 effects"></div>
     </div>
 
-    <div 
-  class="d-flex col-lg-4 align-items-center auth-bg pl-lg-5 pr-lg-5"
-  *ngIf="!main_loading && (showLoginForm || screenSize !== 'small')" 
-  style="max-height: 100%; overflow-y: scroll;"
->
+    <div
+      class="d-flex col-lg-4 align-items-center auth-bg pl-lg-5 pr-lg-5"
+      *ngIf="!main_loading && (showLoginForm || screenSize !== 'small')"
+      style="
+        max-height: 100%;
+        overflow-y: scroll;
+        font-family: 'Roboto Condensed', sans-serif;
+        padding-top: 0rem !important;
+      "
+    >
       <div class="col-12 col-sm-8 col-md-6 col-lg-12">
         <div class="login-container">
-          <div class="row d-flex justify-content-center">
-            <div class="col-3" style="float: right;
+          <div>
+            <!-- <div class="col-3" style="float: right;
             justify-content: flex-end;
             display: flex;">
               <div class="avatar">
                 <img src="../../../../../assets/images/profile/login_image.png" alt="avatar" width="60" />
               </div>
-            </div>
-            <div class="col-9 font-cls d-flex justify-content-center" style="float:left;">
-              <div class=" d-flex  justify-content-center" style="margin-bottom: 2px !important;flex-direction:column">
+            </div> -->
+            <div style="float: left; color: #7459dc">
+              <b style="font-size: 24px; font-weight: bold"><i>SIGN UP!</i></b
+              ><br />
+              Let the games begin.
+              <!-- <div class=" d-flex  justify-content-center" style="margin-bottom: 2px !important;flex-direction:column">
                 <b>Ready to Have Some Fun?</b>
                 First step - sign up or register, and we’ll meet you on the other
-                side! Let the fun begin!</div>
+                side! Let the fun begin!</div> -->
             </div>
           </div>
 
-          <form class="auth-login-form mt-1" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-            <div class="input-group" [ngStyle]="{
-              'border-bottom': login_cred === false ? '1px solid red' : '1px solid #98c6f1'
-            }" *ngIf="type == 2 || register_clicked==true">
+          <form
+            class="auth-login-form mt-1"
+            [formGroup]="loginForm"
+            (ngSubmit)="onSubmit()"
+          >
+            <div
+              class="input-group"
+              [ngStyle]="{
+                'border-bottom':
+                  login_cred === false ? '1px solid red' : '1px solid #98c6f1'
+              }"
+              *ngIf="type == 2 || register_clicked == true"
+            >
               <i data-feather="user" class="mr-1 mt-0 icon-cls"></i>
-              <input type="text" formControlName="user_name" class="" [ngClass]="{
+              <input
+                type="text"
+                formControlName="user_name"
+                class=""
+                [ngClass]="{
                   'is-invalid error': submitted && f.user_name?.errors
-                }" placeholder="User name" aria-describedby="login-user-name" />
-
-
+                }"
+                placeholder="User name"
+                aria-describedby="login-user-name"
+              />
             </div>
-            <div *ngIf="(type == 2 || register_clicked==true) && submitted && f.user_name?.errors"
-              class="invalid-feedback" [ngClass]="{ 'd-block': submitted && f.user_name?.errors }">
+            <div
+              *ngIf="
+                (type == 2 || register_clicked == true) &&
+                submitted &&
+                f.user_name?.errors
+              "
+              class="invalid-feedback"
+              [ngClass]="{ 'd-block': submitted && f.user_name?.errors }"
+            >
               <div *ngIf="f.user_name?.errors.required">
                 User name is required
               </div>
             </div>
-            <div class="input-group " [ngStyle]="{
-              'border-bottom': login_cred === false ? '1px solid red' : '1px solid #98c6f1'
-            }">
+            <div
+              class="input-group"
+              [ngStyle]="{
+                'border-bottom':
+                  login_cred === false ? '1px solid red' : '1px solid #98c6f1'
+              }"
+            >
               <i data-feather="mail" class="mr-1 mt-0 icon-cls"></i>
-              <input type="text" formControlName="email" placeholder="Email" [ngClass]="{
+              <input
+                type="text"
+                formControlName="email"
+                placeholder="Email"
+                [ngClass]="{
                   'is-invalid': submitted && loginForm.get('email').errors
-                }" />
-
+                }"
+              />
             </div>
 
-            <div *ngIf="submitted && f.email?.errors" class="invalid-feedback"
-              [ngClass]="{ 'd-block': submitted && f.email?.errors }">
+            <div
+              *ngIf="submitted && f.email?.errors"
+              class="invalid-feedback"
+              [ngClass]="{ 'd-block': submitted && f.email?.errors }"
+            >
               <div *ngIf="f.email?.errors.required">Email is required</div>
               <div *ngIf="f.email?.errors.email">
                 Email must be a valid email address
               </div>
             </div>
 
-            <div class="input-group" [ngStyle]="{
-              'border-bottom': login_cred === false ? '1px solid red' : '1px solid #98c6f1'
-            }">
+            <div
+              class="input-group"
+              [ngStyle]="{
+                'border-bottom':
+                  login_cred === false ? '1px solid red' : '1px solid #98c6f1'
+              }"
+            >
               <i data-feather="lock" class="mr-1 mt-0 icon-cls"></i>
-              <input type="password" formControlName="password" class="" [ngClass]="{
+              <input
+                type="password"
+                formControlName="password"
+                class=""
+                [ngClass]="{
                   'is-invalid error': submitted && f.password?.errors
-                }" placeholder="Password" aria-describedby="login-password" />
-
-
+                }"
+                placeholder="Password"
+                aria-describedby="login-password"
+              />
             </div>
-            <div *ngIf="submitted && f.password?.errors" class="invalid-feedback"
-              [ngClass]="{ 'd-block': submitted && f.password?.errors }">
+            <div
+              *ngIf="submitted && f.password?.errors"
+              class="invalid-feedback"
+              [ngClass]="{ 'd-block': submitted && f.password?.errors }"
+            >
               <div *ngIf="f.password?.errors.required">
                 Password is required
               </div>
             </div>
-            <div class="input-group" [ngStyle]="{
-              'border-bottom': login_cred === false ? '1px solid red' : '1px solid #98c6f1'
-            }" *ngIf="type == 1 || type == 2 || register_clicked==true">
+            <div
+              class="input-group"
+              [ngStyle]="{
+                'border-bottom':
+                  login_cred === false ? '1px solid red' : '1px solid #98c6f1'
+              }"
+              *ngIf="type == 1 || type == 2 || register_clicked == true"
+            >
               <i data-feather="lock" class="mr-1 mt-0 icon-cls"></i>
-              <input type="password" formControlName="confirm_password" class="" [ngClass]="{
+              <input
+                type="password"
+                formControlName="confirm_password"
+                class=""
+                [ngClass]="{
                   'is-invalid error': submitted && f.confirm_password?.errors
-                }" placeholder="Confirm Password" aria-describedby="login-password" />
-
-
+                }"
+                placeholder="Confirm Password"
+                aria-describedby="login-password"
+              />
             </div>
-            <div *ngIf="(type == 1 || type == 2 || register_clicked==true) && submitted && f.confirm_password?.errors "
-              class="invalid-feedback" [ngClass]="{
-              'd-block': submitted && f.confirm_password?.errors
-            }">
+            <div
+              *ngIf="
+                (type == 1 || type == 2 || register_clicked == true) &&
+                submitted &&
+                f.confirm_password?.errors
+              "
+              class="invalid-feedback"
+              [ngClass]="{
+                'd-block': submitted && f.confirm_password?.errors
+              }"
+            >
               <div *ngIf="f.confirm_password?.errors.required">
                 Password is required
               </div>
 
-              <div *ngIf="passwordNotSame==true ||
-                (f.confirm_password?.errors.required &&
-                f.confirm_password?.value != f.password?.value )
-              ">
+              <div
+                *ngIf="
+                  passwordNotSame == true ||
+                  (f.confirm_password?.errors.required &&
+                    f.confirm_password?.value != f.password?.value)
+                "
+              >
                 Password and Confirm password should be same
               </div>
             </div>
             <br />
 
             <div class="captcha-container mb-1">
-              <re-captcha class="re-captcha" id="recaptcha" (resolved)="onCaptchaResolved($event)" name="recaptcha"
-                #recaptcha="ngModel" [(ngModel)]="token" required [class.is-invalid]="
+              <re-captcha
+                class="re-captcha"
+                id="recaptcha"
+                (resolved)="onCaptchaResolved($event)"
+                name="recaptcha"
+                #recaptcha="ngModel"
+                [(ngModel)]="token"
+                required
+                [class.is-invalid]="
                   recaptcha.invalid && (recaptcha.dirty || recaptcha.touched)
-                "></re-captcha>
-              <div *ngIf="
+                "
+              ></re-captcha>
+              <div
+                *ngIf="
                   recaptcha.invalid && (recaptcha.dirty || recaptcha.touched)
-                " class="invalid-feedback">
+                "
+                class="invalid-feedback"
+              >
                 <div *ngIf="recaptcha.errors?.['required']">
                   This field is required.
                 </div>
               </div>
             </div>
+            <div
+              class="mb-1"
+              style="margin-top: -36px !important; float: right"
+              *ngIf="type == undefined || type == 0"
+            >
+              <br />
+              <a routerLink="../forgot-password"
+                ><small>Forgot Password?</small></a
+              >
+            </div>
             <button class="btn btn-primary btn-login" rippleEffect>
-              <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+              <span
+                *ngIf="loading"
+                class="spinner-border spinner-border-sm mr-1"
+              ></span>
               <span *ngIf="type == undefined || type == 0"> LOGIN </span>
               <span *ngIf="type == 1"> SET PASSWORD </span>
               <span *ngIf="type == 2"> PROCEED </span>
             </button>
-
-            <p class="d-flex justify-content-center justify-content-center align-items-center mt-1"
-              *ngIf="type == undefined || type == 0">
-              <br />
-              <a routerLink="../forgot-password"><small>Forgot Password?</small></a>
-            </p>
-
           </form>
-          <span class="d-flex justify-content-center justify-content-center align-items-center"
-            style="margin-top: 0px !important;" *ngIf="type == 1 || type == 2">
+
+          <div
+            class="d-flex justify-content-center justify-content-center align-items-center"
+            style="margin-top: 0px !important"
+            *ngIf="type == 1 || type == 2"
+          >
             <div class="text-center mt-1">
               If registered, please
-              <button style="border: none; background: none; color: blue;margin-left: -6px;" (click)="loginBtn()">
+              <button
+                style="
+                  border: none;
+                  background: none;
+                  color: blue;
+                  margin-left: -6px;
+                "
+                (click)="loginBtn()"
+              >
                 <b>Login</b>
               </button>
             </div>
-          </span>
-          <span class="d-flex justify-content-center justify-content-center align-items-center"
-            style="margin-top: 0px !important;" *ngIf="type == undefined || type == 0">
+          </div>
+          <span
+            class="d-flex justify-content-center align-items-center"
+            style="margin-top: 0px !important"
+            *ngIf="type == undefined || type == 0"
+          >
             <div class="text-center mt-2">
-              If not yet registered, please
-              <button style="border: none; background: none; color: blue;margin-left: -6px;" (click)="registerBtn()">
-                <b>Register</b>
+              Don't have an account?<br />
+              <button
+                style="
+                  border: none;
+                  background: none;
+                  color: #7459dc;
+                  /* margin-left: -6px; */
+                "
+                (click)="registerBtn()"
+              >
+                <b>SIGN UP</b>
               </button>
             </div>
+          
           </span>
-          <!-- <div class="auth-footer-btn d-flex mt-1 ">
-            <div 
-              >
-              <div id="google-login-btn" class="google-button" (click)="triggerGoogleLogin()">
-                <img src="../../../assets/images/icons/google.png" alt="Google Sign-In" />
-              </div>
-              
-              
-              <div style="
-                  transition: background-color 0.218s;
-                  -webkit-border-radius: 4px;
-                  -webkit-box-sizing: border-box;
-                  -webkit-transition: background-color 0.218s,
-                    border-color 0.218s;
-                  transition: background-color 0.218s, border-color 0.218s;
-                  background-color: #fff;
-                  border-radius: 4px;
-                  cursor: pointer;
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                  margin-top: 8px;
-                " (click)="loginWithFacebook()">
-                <img src="../../../assets/images/icons/facebook.png" style="width: 100%; height: 100%" />
-              </div>
-            </div>
+        <!-- Social login wrapper -->
+<div class="social-login-wrapper mt-3">
+  <!-- Google Button -->
+  <button class="social-btn google-btn" (click)="triggerGoogleLogin()">
+    <img src="../../../assets/images/icons/google.png" alt="Google" />
+    <span>Sign in with Google</span>
+  </button>
 
-            
-          </div> -->
-          <div class="bottom-align" style="font-weight: 100;">
-            Powered by Cazset LLC
-          </div>
+  <!-- Facebook Button -->
+  <button class="social-btn facebook-btn" (click)="loginWithFacebook()">
+    <img src="../../../assets/images/icons/facebook.png" alt="Facebook" />
+    <span>Login with Facebook</span>
+  </button>
+</div>
+
+          <div
+          class="d-flex justify-content-center align-items-center bottom-align"
+          style="font-weight: 100"
+        >
+          Powered by Cazset LLC
+        </div>
         </div>
       </div>
       <!-- /Login-->
