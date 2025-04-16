@@ -373,6 +373,7 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
           company_id: this.currentRow.company_id,
           title: this.currentRow.title,
           login_text:this.currentRow.login_text,
+          welcome_text:this.currentRow.welcome_text,
           terms_and_conditions: this.currentRow.terms_and_conditions,
           game_type: this.currentRow.game_type,
           description: this.currentRow.description,

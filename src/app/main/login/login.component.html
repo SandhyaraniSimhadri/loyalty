@@ -89,8 +89,10 @@
                 <img src="../../../../../assets/images/profile/login_image.png" alt="avatar" width="60" />
               </div>
             </div> -->
-            <div style="float: left; color: #7459dc">
-              <b style="font-size: 24px; font-weight: bold"><i>SIGN UP!</i></b
+            <div
+              style="float: left; color: #7459dc; margin-top: 5rem !important; font-family: 'Roboto Condensed', sans-serif;"
+            >
+              <b style="font-size: 24px; font-weight: bold; font-family: 'Roboto Condensed', sans-serif;"><i>SIGN UP!</i></b
               ><br />
               Let the games begin.
               <!-- <div class=" d-flex  justify-content-center" style="margin-bottom: 2px !important;flex-direction:column">
@@ -326,29 +328,41 @@
                 <b>SIGN UP</b>
               </button>
             </div>
-          
           </span>
-        <!-- Social login wrapper -->
-<div class="social-login-wrapper mt-3">
-  <!-- Google Button -->
-  <button class="social-btn google-btn" (click)="triggerGoogleLogin()">
-    <img src="../../../assets/images/icons/google.png" alt="Google" />
-    <span>Sign in with Google</span>
-  </button>
+          <!-- Social login wrapper -->
+          <div class="social-login-wrapper mt-3">
+            <!-- Google Button -->
+            <button
+              class="social-btn google-btn"
+              (click)="triggerGoogleLogin()"
+            >
+              <img src="../../../assets/images/login/google.png" alt="Google" />
+              <span>Sign in with Google</span>
+            </button>
 
-  <!-- Facebook Button -->
-  <button class="social-btn facebook-btn" (click)="loginWithFacebook()">
-    <img src="../../../assets/images/icons/facebook.png" alt="Facebook" />
-    <span>Login with Facebook</span>
-  </button>
-</div>
+            <!-- Facebook Button -->
+            <button
+              class="social-btn facebook-btn"
+              (click)="loginWithFacebook()"
+            >
+              <img
+                src="../../../assets/images/login/facebook.png"
+                alt="Facebook"
+              />
+              <span>Login with Facebook</span>
+            </button>
+          </div>
 
           <div
-          class="d-flex justify-content-center align-items-center bottom-align"
-          style="font-weight: 100"
-        >
-          Powered by Cazset LLC
-        </div>
+            class="d-flex justify-content-center align-items-center"
+            style="
+              font-weight: 100;
+              margin-bottom: 1rem !important;
+              margin-top: 1rem !important;
+            "
+          >
+            Powered by Cazset LLC
+          </div>
         </div>
       </div>
       <!-- /Login-->
