@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   hmr: false,
-  apiUrl: 'http://13.61.182.4/',
+  apiUrl: 'https://13.61.182.4/',
   apiUrl_web: "http://localhost:8000/",
   // apiUrl_fe:"http://localhost:4200/",
   apiUrl_fe:"https://16.16.79.221/",
