@@ -39,7 +39,7 @@ export class CampaignsNewComponent implements OnInit {
   public welcome_image: any;
   public logo_image: any;
   public campaign_tag:any;
-  
+  public welcome_text:any;
   public login_text:any;
   public login_image: any;
   public campaign_image: any;
@@ -249,6 +249,7 @@ export class CampaignsNewComponent implements OnInit {
         duration: this.duration,
         title: this.title,
         login_tet:this.login_text,
+        welcome_text:this.welcome_text,
         terms_and_conditions: this.terms_and_conditions,
         game_type: this.game_type,
         description: this.description,

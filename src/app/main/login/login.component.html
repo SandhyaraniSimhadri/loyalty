@@ -92,7 +92,9 @@
             <div
               style="float: left; color: #7459dc; margin-top: 5rem !important; font-family: 'Roboto Condensed', sans-serif;"
             >
-              <b style="font-size: 24px; font-weight: bold; font-family: 'Roboto Condensed', sans-serif;"><i>SIGN UP!</i></b
+              <b style="font-size: 24px; font-weight: bold; font-family: 'Roboto Condensed', sans-serif;">
+                <img *ngIf="register_clicked != true" src="../../../assets/images/login/signin.png"  style="margin-top: 5rem !important"/>
+                <img *ngIf="register_clicked == true" src="../../../assets/images/login/signup.png" style="margin-top: 10rem !important"/></b
               ><br />
               Let the games begin.
               <!-- <div class=" d-flex  justify-content-center" style="margin-bottom: 2px !important;flex-direction:column">
@@ -289,25 +291,56 @@
             </button>
           </form>
 
+          <div class="text-center  my-2 d-flex align-items-center">
+            <div class="flex-grow-1 border-bottom border-light"></div>
+            <span class="mx-1 text-muted">or continue with</span>
+            <div class="flex-grow-1 border-bottom border-light"></div>
+          </div>
+        
+          <div class="social-login-wrapper ">
+            <!-- Google Button -->
+            <button
+              class="social-btn google-btn"
+              (click)="triggerGoogleLogin()"
+            >
+              <img src="../../../assets/images/login/google.png" alt="Google" />
+              <span>Sign in with Google</span>
+            </button>
+
+            <!-- Facebook Button -->
+            <button
+              class="social-btn facebook-btn"
+              (click)="loginWithFacebook()"
+            >
+              <img
+                src="../../../assets/images/login/facebook.png"
+                alt="Facebook"
+              />
+              <span>Login with Facebook</span>
+            </button>
+          </div>
           <div
             class="d-flex justify-content-center justify-content-center align-items-center"
             style="margin-top: 0px !important"
             *ngIf="type == 1 || type == 2"
           >
-            <div class="text-center mt-1">
-              If registered, please
+         
+
+            <div class="text-center mt-2">
+              Already have an account?<br />
               <button
                 style="
                   border: none;
                   background: none;
-                  color: blue;
-                  margin-left: -6px;
+                  color: #7459dc;
+                  /* margin-left: -6px; */
                 "
                 (click)="loginBtn()"
               >
-                <b>Login</b>
+                <b>SIGN IN</b>
               </button>
             </div>
+
           </div>
           <span
             class="d-flex justify-content-center align-items-center"
@@ -330,28 +363,7 @@
             </div>
           </span>
           <!-- Social login wrapper -->
-          <div class="social-login-wrapper mt-3">
-            <!-- Google Button -->
-            <button
-              class="social-btn google-btn"
-              (click)="triggerGoogleLogin()"
-            >
-              <img src="../../../assets/images/login/google.png" alt="Google" />
-              <span>Sign in with Google</span>
-            </button>
-
-            <!-- Facebook Button -->
-            <button
-              class="social-btn facebook-btn"
-              (click)="loginWithFacebook()"
-            >
-              <img
-                src="../../../assets/images/login/facebook.png"
-                alt="Facebook"
-              />
-              <span>Login with Facebook</span>
-            </button>
-          </div>
+         
 
           <div
             class="d-flex justify-content-center align-items-center"

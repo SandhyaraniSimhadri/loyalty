@@ -34,6 +34,8 @@ export class WelcomeComponent implements OnInit {
   public new_password:any;
   public confirm_password:any;
   public welcome_image:any;
+  public welcome_text:any=null;
+
   constructor(
     private _coreConfigService: CoreConfigService,
     private _toastrService: ToastrService,
@@ -79,7 +81,11 @@ export class WelcomeComponent implements OnInit {
         if(params['welcome_image']){
           this.welcome_image=params['welcome_image'];
         }
+        if(params['welcome_text']){
+          this.welcome_text=params['welcome_text'];
+        }
       }});
+      console.log("welcome text",this.welcome_text);
   }
 
   ngOnDestroy(): void {}

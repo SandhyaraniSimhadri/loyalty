@@ -259,8 +259,7 @@
                 aria-describedby="basic-icon-default-logtext"
                 name="logtext"
                 [(ngModel)]="login_text"
-                [class.error]="newUserForm.submitted && logText.invalid"
-                #logText="ngModel"
+              
               ></textarea>
             
           </div>
@@ -279,6 +278,24 @@
               [(ngModel)]="imageval"
               (change)="uploadImage($event, 'logo')"
             />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="user-plan"
+              >Welcome Text</label
+            >
+            <textarea
+                type="text"
+                id="basic-icon-default-welcometext"
+                class="form-control dt-welcometext"
+                placeholder=""
+                aria-label=""
+                aria-describedby="basic-icon-default-welcometext"
+                name="welcometext"
+                [(ngModel)]="welcome_text"
+               
+              ></textarea>
+            
           </div>
 
           <div class="form-group">

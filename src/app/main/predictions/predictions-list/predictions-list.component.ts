@@ -542,13 +542,13 @@ export class PredictionsListComponent implements OnInit {
               this.campaign_data.quizzes != undefined &&
               this.campaign_data.quizzes.length > 0
             ) {
-              if (this.campaign_data.participants !== undefined && this.campaign_data.quizzes) {
-                this.submitted = this.campaign_data.quizzes.every((quiz) =>
-                  (this.campaign_data.self || []).some(
-                    (answer) => answer.game_id === quiz.id
-                  )
-                );
-              }
+              // if (this.campaign_data.participants !== undefined && this.campaign_data.quizzes) {
+              //   this.submitted = this.campaign_data.quizzes.every((quiz) =>
+              //     (this.campaign_data.self || []).some(
+              //       (answer) => answer.game_id === quiz.id
+              //     )
+              //   );
+              // }
               console.log("self data",this.campaign_data.self);
               
               this.campaign_data.duration =

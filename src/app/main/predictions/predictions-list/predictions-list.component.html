@@ -320,8 +320,8 @@
             !loading &&
             rows.length > 0 &&
             campaign_data.quizzes != undefined &&
-            campaign_data.quizzes.length > 0 &&
-            campaign_data?.participants?.length == 0
+            campaign_data.quizzes.length > 0
+            && campaign_data?.self==undefined
           "
         >
           <div class="card earnings-card">
@@ -570,7 +570,7 @@
             </div>
           </div>
         </div>
-        <div class="card"  *ngIf="campaign_data?.participants?.length > 0">
+        <div class="card" *ngIf="campaign_data?.self!=undefined"  >
           <div
             class="d-flex align-items-center justify-content-center mt-1 "
           >
@@ -592,7 +592,7 @@
           <hr />
           <div
             class="card-body"
-            style="padding: 0 !important; overflow: hidden"
+            style="padding: 0 !important; overflow: hidden" 
           >
             <div class="row" style="padding-bottom: 1rem !important">
               <div class="col-12">
