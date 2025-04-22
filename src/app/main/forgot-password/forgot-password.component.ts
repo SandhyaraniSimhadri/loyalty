@@ -6,6 +6,8 @@ import { Subject } from 'rxjs';
 
 import { CoreConfigService } from '@core/services/config.service';
 import { CoreHttpService } from '@core/services/http.service';
+import { ToastrService } from "ngx-toastr";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-forgot-password',
@@ -24,8 +26,9 @@ export class ForgotPasswordComponent implements OnInit {
   public logoIcon: string;
   // Private
   otp: string[] = ['', '', '', ''];
-  timer = 895; // 14:55 in seconds
+  timer = 45; // 14:55 in seconds
   timerDisplay: string = '';
+  resendEnabled: boolean = false;
   private _unsubscribeAll: Subject<any>;
   public screen:any='reset';
   newPassword: string = '';
@@ -39,7 +42,11 @@ export class ForgotPasswordComponent implements OnInit {
    * @param {FormBuilder} _formBuilder
    *
    */
-  constructor(private _coreConfigService: CoreConfigService,     public httpService: CoreHttpService,
+  private intervalId: any; // For clearing setInterval
+  constructor(private _coreConfigService: CoreConfigService, 
+    private _toastrService: ToastrService,    private _router: Router,
+    
+        public httpService: CoreHttpService,
   private _formBuilder: UntypedFormBuilder) {
     this._unsubscribeAll = new Subject();
     this.loginImage = '../../../../../assets/images/login/login.jpg';
@@ -71,44 +78,103 @@ export class ForgotPasswordComponent implements OnInit {
    * On Submit
    */
   onSubmit() {
+    this.main_loading = true;
     this.submitted = true;
+  
     if (this.forgotPasswordForm.invalid) {
       return;
     }
-    let request;
-
-    request = {
-      params: {email:this.forgotPasswordForm.value},
+  
+    const request = {
+      params: this.forgotPasswordForm.value,
       action_url: "forgot_password_mail",
       method: "POST",
     };
+  
     this.httpService.doHttp(request).subscribe(
       (res: any) => {
+        this.main_loading = false;
         if (res == "nonet") {
+          // handle no network
         } else {
           if (res.status == false) {
+            this._toastrService.error(res.msg, "Failed", {
+              toastClass: "toast ngx-toastr",
+              closeButton: true,
+            });
           } else if (res.status == true) {
-          
+            this.screen="otp";
+            this._toastrService.success("We've sent an OTP to your email address.", "OTP sent", {
+              toastClass: "toast ngx-toastr",
+              closeButton: true,
+            });
+            this.startTimer();
+
           }
         }
-        // this.image_loading=true;
       },
       (error: any) => {
-        // this.image_loading=true;
+        this.main_loading = false;
       }
     );
-    // stop here if form is invalid
-  
   }
   
+  
   onSubmitSet() {
+    this.main_loading=true;
     if (this.newPassword !== this.confirmPassword) {
-      alert('Passwords do not match!');
+      this._toastrService.error("Passwords did not match", "Failed", {
+        toastClass: "toast ngx-toastr",
+        closeButton: true,
+      });
+      this.main_loading=false;
       return;
     }
 
     console.log('New Password:', this.newPassword);
-    // TODO: Call API to update the password
+    const request = {
+      params: {password:this.newPassword,
+        email:this.forgotPasswordForm.value.email
+      },
+      action_url: "reset_password",
+      method: "POST",
+    };
+  
+    this.httpService.doHttp(request).subscribe(
+      (res: any) => {
+        this.main_loading = false;
+        if (res == "nonet") {
+          // handle no network
+        } else {
+          if (res.status == false) {
+            // handle failure
+          } else if (res.status == true) {
+            if(res.msg=='Password resetted'){
+              this._toastrService.success('Password updated successfully, please login', "Failed", {
+                toastClass: "toast ngx-toastr",
+                closeButton: true,
+              });
+              this._router.navigate(["/login"]);
+            }else{
+              this._toastrService.error(res.msg, "Failed", {
+                toastClass: "toast ngx-toastr",
+                closeButton: true,
+              });
+            }
+          }
+          else{
+            this._toastrService.error(res.msg, "Failed", {
+              toastClass: "toast ngx-toastr",
+              closeButton: true,
+            });
+          }
+        }
+      },
+      (error: any) => {
+        this.main_loading = false;
+      }
+    );
+    
   }
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
@@ -120,28 +186,27 @@ export class ForgotPasswordComponent implements OnInit {
     this.forgotPasswordForm = this._formBuilder.group({
       email: ['', [Validators.required, Validators.email]]
     });
-
+    
     // Subscribe to config changes
     this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
       this.coreConfig = config;
     });
-    this.updateTimer();
-    setInterval(() => {
-      if (this.timer > 0) {
-        this.timer--;
-        this.updateTimer();
-      }
-    }, 1000);
+  
   }
   updateTimer() {
     const minutes = Math.floor(this.timer / 60);
     const seconds = this.timer % 60;
     this.timerDisplay = `${this.pad(minutes)}:${this.pad(seconds)}`;
+  
+    if (this.timer === 0) {
+      this.resendEnabled = true; // Enable resend
+    } else {
+      this.resendEnabled = false;
+    }
   }
+  
 
-  pad(num: number): string {
-    return num < 10 ? '0' + num : '' + num;
-  }
+  
 
   autoFocus(event: KeyboardEvent, index: number) {
     const input = event.target as HTMLInputElement;
@@ -155,19 +220,99 @@ export class ForgotPasswordComponent implements OnInit {
   verifyCode() {
     const code = this.otp.join('');
     console.log('Entered OTP:', code);
-    // Add your verification logic here
+    const request = {
+      params: {otp:code,
+        email:this.forgotPasswordForm.value.email
+      },
+      action_url: "verify_otp",
+      method: "POST",
+    };
+  
+    this.httpService.doHttp(request).subscribe(
+      (res: any) => {
+        this.main_loading = false;
+        if (res == "nonet") {
+          // handle no network
+        } else {
+          if (res.status == false) {
+            // handle failure
+          } else if (res.status == true) {
+            if(res.msg=='OTP verified'){
+              this.screen='reset_password';
+              this._toastrService.success('OTP verified successfully', "Success", {
+                toastClass: "toast ngx-toastr",
+                closeButton: true,
+              });
+            }else{
+              this._toastrService.error(res.msg, "Failed", {
+                toastClass: "toast ngx-toastr",
+                closeButton: true,
+              });
+            }
+          }
+          else{
+            this._toastrService.error(res.msg, "Failed", {
+              toastClass: "toast ngx-toastr",
+              closeButton: true,
+            });
+          }
+        }
+      },
+      (error: any) => {
+        this.main_loading = false;
+      }
+    );
+  }
+
+
+
+  startTimer() {
+    this.timer = 45; // Reset timer to 45 seconds
+    this.resendEnabled = false;
+    this.updateTimerDisplay();
+
+    // Clear previous interval if any
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+
+    this.intervalId = setInterval(() => {
+      if (this.timer > 0) {
+        this.timer--;
+        this.updateTimerDisplay();
+      } else {
+        this.resendEnabled = true;
+        clearInterval(this.intervalId);
+      }
+    }, 1000);
+  }
+
+  updateTimerDisplay() {
+    const minutes = Math.floor(this.timer / 60);
+    const seconds = this.timer % 60;
+    this.timerDisplay = `${this.pad(minutes)}:${this.pad(seconds)}`;
+  }
+
+  pad(num: number): string {
+    return num < 10 ? '0' + num : num.toString();
   }
 
   resendCode() {
-    console.log('Resending code...');
-    this.timer = 895; // Reset timer
+    if (this.resendEnabled) {
+      this.onSubmit();
+      this.startTimer(); // Restart the timer
+      // Call API to resend OTP here if needed
+    }
   }
-  /**
-   * On destroy
-   */
+
+
+
   ngOnDestroy(): void {
-    // Unsubscribe from all subscriptions
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();
+    
   }
 }
