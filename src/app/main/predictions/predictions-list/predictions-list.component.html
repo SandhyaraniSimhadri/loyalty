@@ -377,9 +377,18 @@
                     <!-- <div *ngIf="remainingTime">
                           Time Remaining: {{ formatTime(remainingTime) }}
                         </div> -->
-                    <h5 class="question-text" style="text-align: left;">
-                      {{ campaign_data.quizzes[currentQuestionIndex].question }}
-                    </h5>
+                        <h5 class="question-text" style="text-align: left;">
+                          <ng-container *ngIf="isLink(campaign_data.quizzes[currentQuestionIndex].question); else normalText">
+                            <a [href]="campaign_data.quizzes[currentQuestionIndex]?.question + '?redirect_url=' + currentUrl" target="_blank">
+                              {{ campaign_data.quizzes[currentQuestionIndex]?.question }}
+                            </a>
+                            
+                          </ng-container>
+                          <ng-template #normalText>
+                            {{ campaign_data.quizzes[currentQuestionIndex].question }}
+                          </ng-template>
+                        </h5>
+                        
                     <div
                       *ngIf="
                         campaign_data.quizzes[currentQuestionIndex].file_name

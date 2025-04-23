@@ -102,6 +102,7 @@ export class PredictionsListComponent implements OnInit {
     five: "assets/images/slider/05.jpg",
     six: "assets/images/slider/06.jpg",
   };
+  public currentUrl:any;
   loginImage:any;
   showGif: boolean = false;
   @ViewChild("scrollableDiv") scrollableDiv: ElementRef;
@@ -125,6 +126,9 @@ export class PredictionsListComponent implements OnInit {
     private _route: ActivatedRoute,
     private paymentService: PaymentService
   ) {
+    this.currentUrl = window.location.href; 
+   console.log("url",this.currentUrl);
+
     this.apiUrl = environment.apiUrl;
     this._authenticationService.currentUser.subscribe(
       (x) => (this.currentUser = x)
@@ -577,6 +581,10 @@ export class PredictionsListComponent implements OnInit {
       }
     );
   }
+  isLink(text: string): boolean {
+    return /(http|https):\/\/[^\s]+/.test(text);
+  }
+  
   getParticipantsInfo() {
     // this.loading = true;
     this.refresh_loading = true;
