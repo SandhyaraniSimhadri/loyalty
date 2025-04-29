@@ -7,31 +7,30 @@
     <!-- /Brand logo-->
     <!-- Left Text-->
     <div
-    class="col-12 col-lg-8 d-flex align-items-center img-class"
-    *ngIf="screenSize !== 'small' || !showLoginForm"
-  >
-    <div class="image-container">
-      <img
-        class="img-fluid dynamic-image"
-        [src]="
-          campaign_id && campaign_data?.login_image
-            ? api_url + campaign_data.login_image
-            : loginImage
-        "
-        alt="Login"
-      />
-  
-      <img
-        class="center-logo"
-        [src]="
-          campaign_id && campaign_data?.logo_image
-            ? api_url + campaign_data.logo_image
-            : logoIcon
-        "
-        alt="Logo Icon"
-      />
-  
-      <!-- NEXT Button -->
+      class="col-12 col-lg-8 d-flex align-items-center img-class"
+      *ngIf="screenSize !== 'small' || !showLoginForm"
+    >
+      <div class="image-container">
+        <img
+          class="img-fluid dynamic-image"
+          [src]="
+            campaign_id && campaign_data?.login_image
+              ? api_url + campaign_data.login_image
+              : loginImage
+          "
+          alt="Login"
+        />
+
+        <img
+          class="center-logo"
+          [src]="
+            campaign_id && campaign_data?.logo_image
+              ? api_url + campaign_data.logo_image
+              : logoIcon
+          "
+          alt="Logo Icon"
+        />
+      </div>
       <span class="next-button d-block d-lg-none" (click)="goToNext()">
         <img
           src="../../../assets/images/pages/welcome/next.png"
@@ -39,9 +38,27 @@
           width="100"
         />
       </span>
+
+      <!-- NG Bootstrap Modal -->
+      <!-- <ng-template #modalVC let-modal>
+        <div class="modal-header">
+          <h5 class="modal-title">{{campaign_title}}</h5>
+          <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" tabindex="0" ngbAutofocus>
+          <p>
+           {{campaign_data.login_text}}
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="modal.close('Accept click')" rippleEffect>
+           PROCEED
+          </button>
+        </div>
+      </ng-template> -->
     </div>
-  </div>
-  
 
     <!-- /Left Text-->
     <!-- Login-->
