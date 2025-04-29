@@ -309,5 +309,28 @@ re-captcha, .re-captcha, #recaptcha {
   .gap-2 {
     gap: 0.5rem;
   }
-  
+  .next-button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10;
+  }
+  .img-class {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+  .image-container {
+    max-width: 100%;
+    overflow: hidden;
+  }
+  .dynamic-image {
+    width: 100%;
+    height: auto;
+  }
+  .next-button img {
+    width: 20vw;
+    max-width: 100px;
+  }
+        
   
