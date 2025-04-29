@@ -10,9 +10,9 @@
     class="col-12 col-lg-8 d-flex align-items-center img-class"
     *ngIf="screenSize !== 'small' || !showLoginForm"
   >
-    <div class="image-container position-relative w-100">
+    <div class="image-container">
       <img
-        class="img-fluid dynamic-image"
+        class="dynamic-image"
         [src]="
           campaign_id && campaign_data?.login_image
             ? api_url + campaign_data.login_image
@@ -31,12 +31,12 @@
         alt="Logo Icon"
       />
   
-      <!-- ✅ NEXT Button (Text Based) -->
       <span class="next-button-text d-block d-lg-none" (click)="goToNext()">
         NEXT &gt;
       </span>
     </div>
   </div>
+  
   
 
     <!-- /Left Text-->
