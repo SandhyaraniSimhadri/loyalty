@@ -28,9 +28,6 @@ re-captcha.is-invalid > div {
   border: 1px solid #dc3545 !important;
   border-radius: 0.2rem;
 }
-.image-container {
-  position: relative; /* This is important for absolute positioning inside */
-}
 
 .center-logo {
   position: absolute;
@@ -93,12 +90,6 @@ button:focus {
 .avatar {
   background-color: white !important;
 }
-// #0d00ff
-// #9b02fe
-.image-container {
-  max-width: 100%;
-  height: auto;
-}
 
 .dynamic-image {
   width: 100%;
@@ -110,11 +101,7 @@ button:focus {
   // z-index: 1;
 }
 
-// .img-class {
-//   height: 100vh; /* Full viewport height */
-//   padding: 0;
-//   margin: 0;
-// }
+
 
 .image-container {
   position: relative;
