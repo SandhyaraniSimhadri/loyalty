@@ -28,17 +28,8 @@ re-captcha.is-invalid > div {
   border: 1px solid #dc3545 !important;
   border-radius: 0.2rem;
 }
-.image-container {
-  position: relative; /* This is important for absolute positioning inside */
-}
 
-.center-logo {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); /* Center horizontally and vertically */
-  width: 100px; /* Adjust width as needed */
-}
+
 
 .btn-login {
   background: linear-gradient(90deg, #66b1f9 0%, #7459dc 50%);
@@ -95,17 +86,8 @@ button:focus {
 }
 // #0d00ff
 // #9b02fe
-.image-container {
-  max-width: 100%;
-  height: auto;
-}
 
-.dynamic-image {
-  width: 100%;
-  height: auto;
-  max-width: 100%;
-  object-fit: contain; /* Adjust the object-fit property as needed (e.g., contain, cover) */
-}
+
 
 .img-class {
   height: 100vh; /* Full viewport height */
@@ -113,29 +95,8 @@ button:focus {
   margin: 0;
 }
 
-.image-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
 
-.dynamic-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Ensures the image covers the container without gaps */
-}
 
-.center-logo {
-  position: absolute;
-  width: 150px; /* Adjust size as necessary */
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
 .icon-cls {
   font-size: 1.2em;
   color: #6c757d;
@@ -237,19 +198,7 @@ re-captcha, .re-captcha, #recaptcha {
 .nsm7Bb-HzV7m-LgbsSe {
   border:none !important;}
   
-  .next-button {
-    position: absolute;
-    bottom: 20px;
-    font-weight: bold;
-    padding-left: 50px !important;
-    background-color: transparent;
-    font-style: italic;
-    color: white;
-    padding: 10px 20px;
-    font-size: 2rem;
-    cursor: pointer;
-    // transition: background-color 0.3s, color 0.3s;
-  }.social-login-wrapper {
+.social-login-wrapper {
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -310,4 +259,41 @@ re-captcha, .re-captcha, #recaptcha {
     gap: 0.5rem;
   }
   
+  
+  .img-class {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  .image-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .dynamic-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Crucial to prevent scroll */
+    z-index: 1;
+  }
+  
+  .center-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+  }
+  
+  .next-button {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    z-index: 2;
+  }
   
