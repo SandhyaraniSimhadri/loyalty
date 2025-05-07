@@ -38,12 +38,16 @@ export class CampaignsNewComponent implements OnInit {
   public description: any;
   public welcome_image: any;
   public logo_image: any;
-  public campaign_tag:any;
-  public welcome_text:any;
-  public login_text:any;
+  public campaign_tag: any;
+  public welcome_text: any;
+  public login_text: any;
   public login_image: any;
   public campaign_image: any;
-
+  public game_welcome_image: any;
+  public game_end_image: any;
+  public game_start_image: any;
+  public game_welcome_text: any;
+  public game_url: any;
   public game_type: any;
 
   public start_date: any;
@@ -54,7 +58,8 @@ export class CampaignsNewComponent implements OnInit {
   public title: any;
   public errorMsg: any = false;
   public durationMsg: any = false;
-
+  public selected_primary_color: string = '#3c3da6';
+  public selected_secondary_color:string="#3c3da6"
   public duration: any = 0;
   public calculatePoints: boolean = false;
 
@@ -84,12 +89,39 @@ export class CampaignsNewComponent implements OnInit {
       response_d: "",
       answer: "",
       points: "",
-      selectedFile: null as File | null ,
-      file_name:"",
-      isDragging : false,
-      showUpload : false,
+      selectedFile: null as File | null,
+      file_name: "",
+      isDragging: false,
+      showUpload: false,
     },
   ];
+
+
+  public prizes = [
+    {
+      id: "",
+      prize_header: "",
+      prize_desc: "",
+      selectedFile: null as File | null,
+      file_name: "",
+      isDragging: false,
+      showUpload: false,
+    },
+  ];
+
+
+  public prize = [
+    {
+      prize_header: "",
+      prize_desc: "",
+      selectedFile: null as File | null,
+      file_name: "",
+      isDragging: false,
+      showUpload: false,
+    },
+  ];
+
+
   isInvalidTag: boolean = false;
   public game = {
     name: "",
@@ -113,13 +145,13 @@ export class CampaignsNewComponent implements OnInit {
     answer: "",
     points: "",
     selectedFile: null as File | null,
-    file_name:"",
-    isDragging :false,
-    showUpload : false,
+    file_name: "",
+    isDragging: false,
+    showUpload: false,
   };
-  
+
   public companyData: any;
-  public fileName:any='';
+  public fileName: any = "";
 
   /**
    * Constructor
@@ -189,11 +221,10 @@ export class CampaignsNewComponent implements OnInit {
       response_d: "",
       answer: "",
       points: "",
-      selectedFile: null as File | null ,
-      file_name:"",
-      isDragging : false,
-      showUpload : false,
-
+      selectedFile: null as File | null,
+      file_name: "",
+      isDragging: false,
+      showUpload: false,
     });
   }
   deleteQuestion(id) {
@@ -205,11 +236,36 @@ export class CampaignsNewComponent implements OnInit {
     }
   }
 
+
+
+
+  
+  addPrize() {
+    this.prizes.push({
+      id: "",
+      prize_header: "",
+      prize_desc: "",
+      selectedFile: null as File | null,
+      file_name: "",
+      isDragging: false,
+      showUpload: false,
+    });
+  }
+  deletePrize(id) {
+    for (let i = 0; i < this.prizes.length; i++) {
+      if (this.prizes.indexOf(this.prizes[i]) === id) {
+        this.prizes.splice(i, 1);
+        break;
+      }
+    }
+  }
+
+
   submit(form) {
     // Validation logic remains the same...
-  
+
     this.loading = true;
-    
+
     // Convert files to Base64
     const convertFileToBase64 = (file) => {
       return new Promise((resolve, reject) => {
@@ -219,49 +275,89 @@ export class CampaignsNewComponent implements OnInit {
         reader.onerror = (error) => reject(error);
       });
     };
-  
+
     const processFiles = async () => {
       const gamesData = this.games.map(async (game) => {
         return {
           ...game,
-          team_a_image: game.team_a_image ? await convertFileToBase64(game.team_a_image) : null,
-          team_b_image: game.team_b_image ? await convertFileToBase64(game.team_b_image) : null,
+          team_a_image: game.team_a_image
+            ? await convertFileToBase64(game.team_a_image)
+            : null,
+          team_b_image: game.team_b_image
+            ? await convertFileToBase64(game.team_b_image)
+            : null,
         };
       });
-  
+
       const questionsData = this.questions.map(async (question) => {
         return {
           ...question,
-          selectedFile: question.selectedFile ? await convertFileToBase64(question.selectedFile) : null,
+          selectedFile: question.selectedFile
+            ? await convertFileToBase64(question.selectedFile)
+            : null,
         };
       });
-  
+
+      
+      const prizesData = this.prizes.map(async (prize) => {
+        return {
+          ...prize,
+          selectedFile: prize.selectedFile
+            ? await convertFileToBase64(prize.selectedFile)
+            : null,
+        };
+      });
+
+
       const processedGames = await Promise.all(gamesData);
       const processedQuestions = await Promise.all(questionsData);
-  
+      const processedPrizes = await Promise.all(prizesData);
+
+
       const payload = {
         campaign_title: this.campaign_title,
         start_date: this.start_date,
         end_date: this.end_date,
-        campaign_tag:this.campaign_tag,
+        campaign_tag: this.campaign_tag,
         event_id: this.event_id,
         company_id: this.company_id,
         duration: this.duration,
         title: this.title,
-        login_tet:this.login_text,
-        welcome_text:this.welcome_text,
+        login_tet: this.login_text,
+        welcome_text: this.welcome_text,
+        game_welcome_text: this.game_welcome_text,
+        selected_primary_color:this.selected_primary_color,
+        selected_secondary_color:this.selected_secondary_color,
+        game_url: this.game_url,
         terms_and_conditions: this.terms_and_conditions,
         game_type: this.game_type,
         description: this.description,
         calculatePoints: this.calculatePoints,
-        logo_image: this.logo_image ? await convertFileToBase64(this.logo_image) : null,
-        login_image: this.login_image ? await convertFileToBase64(this.login_image) : null,
-        welcome_image: this.welcome_image ? await convertFileToBase64(this.welcome_image) : null,
-        campaign_image: this.campaign_image ? await convertFileToBase64(this.campaign_image) : null,
+        logo_image: this.logo_image
+          ? await convertFileToBase64(this.logo_image)
+          : null,
+        game_welcome_image: this.game_welcome_image
+          ? await convertFileToBase64(this.game_welcome_image)
+          : null,
+        login_image: this.login_image
+          ? await convertFileToBase64(this.login_image)
+          : null,
+        welcome_image: this.welcome_image
+          ? await convertFileToBase64(this.welcome_image)
+          : null,
+        campaign_image: this.campaign_image
+          ? await convertFileToBase64(this.campaign_image)
+          : null,
+
+          game_start_image: this.game_start_image? await convertFileToBase64(this.game_start_image): null,
+          game_end_image: this.game_end_image? await convertFileToBase64(this.game_end_image): null,
+
         games: this.event_id == 1 ? processedGames : [],
         questions: this.event_id == 2 ? processedQuestions : [],
+        prizes: this.event_id == 3 ? processedPrizes : [],
+
       };
-  
+
       // Send as JSON
       this.http.post<any>(this.apiUrl + "api/add_campaign", payload).subscribe(
         (res: any) => {
@@ -273,20 +369,19 @@ export class CampaignsNewComponent implements OnInit {
             });
           } else {
             // this.onCampaignAdded.emit(res.data);
-            
-            if(res.tag=='Duplicate'){
+
+            if (res.tag == "Duplicate") {
               this._toastrService.error(res.msg, "Failed", {
                 toastClass: "toast ngx-toastr",
                 closeButton: true,
               });
+            } else {
+              this._toastrService.success(res.msg, "Success", {
+                toastClass: "toast ngx-toastr",
+                closeButton: true,
+              });
+              this._router.navigate(["/campaigns/campaigns"]);
             }
-            else{
-            this._toastrService.success(res.msg, "Success", {
-              toastClass: "toast ngx-toastr",
-              closeButton: true,
-            });
-            this._router.navigate(["/campaigns/campaigns"]);
-          }
           }
         },
         (error: any) => {
@@ -298,11 +393,10 @@ export class CampaignsNewComponent implements OnInit {
         }
       );
     };
-  
+
     processFiles();
   }
-  
-  
+
   getEvents() {
     let request = {
       params: null,
@@ -336,6 +430,12 @@ export class CampaignsNewComponent implements OnInit {
       this.logo_image = event.target.files[0];
     } else if (type == "campaign") {
       this.campaign_image = event.target.files[0];
+    } else if (type == "game_start") {
+      this.game_start_image = event.target.files[0];
+    } else if (type == "game_end") {
+      this.game_end_image = event.target.files[0];
+    } else if (type == "welcome_game") {
+      this.game_welcome_image = event.target.files[0];
     } else {
       this.login_image = event.target.files[0];
     }
@@ -402,39 +502,40 @@ export class CampaignsNewComponent implements OnInit {
     this.loading = false;
     // this.checkFormModified();
   }
-  onDragOver(event: DragEvent,question) {
+  onDragOver(event: DragEvent, item) {
     event.preventDefault();
-    question.isDragging = true;
+    item.isDragging = true;
   }
 
-  onDragLeave(event: DragEvent,question) {
+  onDragLeave(event: DragEvent, item) {
     event.preventDefault();
-    question.isDragging = false;
+    item.isDragging = false;
   }
 
-  onDrop(event: DragEvent,question) {
+  onDrop(event: DragEvent, item) {
     event.preventDefault();
-    question.isDragging = false;
-    
+    item.isDragging = false;
+
     if (event.dataTransfer && event.dataTransfer.files.length > 0) {
-      question.selectedFile = event.dataTransfer.files[0];
-      console.log('File dropped:', question.selectedFile);
+      item.selectedFile = event.dataTransfer.files[0];
+      console.log("File dropped:", item.selectedFile);
     }
   }
 
-  onFileSelected(event: any,question) {
+  onFileSelected(event: any, item) {
     const file = event.target.files[0];
     if (file) {
-      question.selectedFile = file;
-      console.log('File selected:', question.selectedFile);
-      question.fileName=question.selectedFile.name;
+      item.selectedFile = file;
+      console.log("File selected:", item.selectedFile);
+      item.fileName = item.selectedFile.name;
     }
   }
-  toggleUpload(question) {
-    question.showUpload = !question.showUpload;
+  toggleUpload(item) {
+    item.showUpload = !item.showUpload;
   }
   validateTag(): void {
     const regex = /^[a-zA-Z0-9_]*$/;
     this.isInvalidTag = !regex.test(this.campaign_tag);
   }
+  
 }

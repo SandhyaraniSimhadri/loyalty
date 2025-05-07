@@ -215,7 +215,7 @@ export class LoginComponent implements OnInit {
                    
                     if(this.campaign_id){
                       this._router.navigate(["/welcome"], {
-                        queryParams: { campaign_id: this.campaign_id,welcome_image:this.campaign_data?.welcome_image,welcome_text:this.campaign_data?.welcome_text },
+                        queryParams: { campaign_id: this.campaign_id,welcome_image:this.campaign_data?.welcome_image,welcome_text:this.campaign_data?.welcome_text, event_id:this.campaign_data?.event_id},
                       });}
                       else{
                         this._router.navigate(["/welcome"], {
@@ -229,7 +229,7 @@ export class LoginComponent implements OnInit {
                 } else {
                   if(this.campaign_id){
                     this._router.navigate(["/welcome"], {
-                      queryParams: { campaign_id: this.campaign_id,welcome_image:this.campaign_data?.welcome_image,welcome_text:this.campaign_data?.welcome_text },
+                      queryParams: { campaign_id: this.campaign_id,welcome_image:this.campaign_data?.welcome_image,welcome_text:this.campaign_data?.welcome_text, event_id:this.campaign_data?.event_id },
                     });}
                     else{
                       this._router.navigate(["/welcome"], {
@@ -337,10 +337,6 @@ export class LoginComponent implements OnInit {
         this.coreConfig = config;
       });
 
-    // if( localStorage.getItem("currentUser")){
-    //   this._router.navigate(["/welcome"]);
-    // }
-    // else{
 
     this.socialAuthService.authState.subscribe((user) => {
       this.socialUser = user;
@@ -444,7 +440,9 @@ export class LoginComponent implements OnInit {
                 if (res.data.first_time_login == 1) {
                   if(this.campaign_id){
                     this._router.navigate(["/welcome"], {
-                      queryParams: { campaign_id: this.campaign_id,welcome_image:this.campaign_data?.welcome_image ,welcome_text:this.campaign_data?.welcome_text},
+                      queryParams: { campaign_id: this.campaign_id,welcome_image:this.campaign_data?.welcome_image ,welcome_text:this.campaign_data?.welcome_text,
+                        event_id:this.campaign_data?.event_id
+                      },
                     });}
                     else{
                       this._router.navigate(["/welcome"], {
@@ -459,7 +457,7 @@ export class LoginComponent implements OnInit {
                 if (res.data.first_time_login == 1) {
                   if(this.campaign_id){
                     this._router.navigate(["/welcome"], {
-                      queryParams: { campaign_id: this.campaign_id,welcome_image:this.campaign_data?.welcome_image,welcome_text:this.campaign_data?.welcome_text },
+                      queryParams: { campaign_id: this.campaign_id,welcome_image:this.campaign_data?.welcome_image,welcome_text:this.campaign_data?.welcome_text, event_id:this.campaign_data?.event_id},
                     });}
                     else{
                       this._router.navigate(["/welcome"], {
@@ -473,7 +471,7 @@ export class LoginComponent implements OnInit {
                   // });
                   if(this.campaign_id){
                   this._router.navigate(["/welcome"], {
-                    queryParams: { campaign_id: this.campaign_id,welcome_image:this.campaign_data?.welcome_image,welcome_text:this.campaign_data?.welcome_text },
+                    queryParams: { campaign_id: this.campaign_id,welcome_image:this.campaign_data?.welcome_image,welcome_text:this.campaign_data?.welcome_text, event_id:this.campaign_data?.event_id },
                   });}
                   else{
                     this._router.navigate(["/welcome"], {

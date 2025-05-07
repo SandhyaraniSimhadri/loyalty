@@ -176,9 +176,6 @@
               Only letters, numbers, and underscores (_) are allowed.
             </small>
           </div>
-          
-
-
 
           <div class="form-group">
             <label class="form-label" for="user-plan"
@@ -245,25 +242,19 @@
             />
           </div>
 
-
           <div class="form-group">
-            <label class="form-label" for="user-plan"
-              >Login Text</label
-            >
+            <label class="form-label" for="user-plan">Login Text</label>
             <textarea
-                type="text"
-                id="basic-icon-default-logtext"
-                class="form-control dt-logtext"
-                placeholder=""
-                aria-label=""
-                aria-describedby="basic-icon-default-logtext"
-                name="logtext"
-                [(ngModel)]="login_text"
-              
-              ></textarea>
-            
+              type="text"
+              id="basic-icon-default-logtext"
+              class="form-control dt-logtext"
+              placeholder=""
+              aria-label=""
+              aria-describedby="basic-icon-default-logtext"
+              name="logtext"
+              [(ngModel)]="login_text"
+            ></textarea>
           </div>
-
 
           <div class="form-group">
             <label class="form-label" for="basic-icon-default-author"
@@ -281,21 +272,17 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="user-plan"
-              >Welcome Text</label
-            >
+            <label class="form-label" for="user-plan">Welcome Text</label>
             <textarea
-                type="text"
-                id="basic-icon-default-welcometext"
-                class="form-control dt-welcometext"
-                placeholder=""
-                aria-label=""
-                aria-describedby="basic-icon-default-welcometext"
-                name="welcometext"
-                [(ngModel)]="welcome_text"
-               
-              ></textarea>
-            
+              type="text"
+              id="basic-icon-default-welcometext"
+              class="form-control dt-welcometext"
+              placeholder=""
+              aria-label=""
+              aria-describedby="basic-icon-default-welcometext"
+              name="welcometext"
+              [(ngModel)]="welcome_text"
+            ></textarea>
           </div>
 
           <div class="form-group">
@@ -350,7 +337,7 @@
               >
             </span>
           </div>
-       
+
           <div class="form-group" *ngIf="event_id == 1">
             <div class="card-body">
               <form action="#" class="invoice-repeater">
@@ -533,61 +520,64 @@
           </div>
           <div class="form-group" *ngIf="event_id == 2">
             <div class="card-body">
-            <div >
-              <label class="form-label" for="user-plan"
-                >Duration <span style="font-size:10px;">(in minutes)</span><span
+              <div>
+                <label class="form-label" for="user-plan"
+                  >Duration <span style="font-size: 10px">(in minutes)</span
+                  ><span
+                    *ngIf="newUserForm.submitted && DurationRef.invalid"
+                    class="text-danger"
+                    >*</span
+                  ><span *ngIf="!newUserForm.submitted || !DurationRef.invalid"
+                    >*</span
+                  ></label
+                >
+                <input
+                  type="text"
+                  id="basic-icon-default-duration"
+                  class="form-control dt-duration"
+                  placeholder=""
+                  aria-label=""
+                  aria-describedby="basic-icon-default-duration"
+                  name="duration"
+                  [(ngModel)]="duration"
+                  [class.error]="newUserForm.submitted && DurationRef.invalid"
+                  #DurationRef="ngModel"
+                  required
+                />
+                <span
                   *ngIf="newUserForm.submitted && DurationRef.invalid"
-                  class="text-danger"
-                  >*</span
-                ><span *ngIf="!newUserForm.submitted || !DurationRef.invalid"
-                  >*</span
-                ></label
-              >
-              <input
-                type="text"
-                id="basic-icon-default-duration"
-                class="form-control dt-duration"
-                placeholder=""
-                aria-label=""
-                aria-describedby="basic-icon-default-duration"
-                name="duration"
-                [(ngModel)]="duration"
-                [class.error]="newUserForm.submitted && DurationRef.invalid"
-                #DurationRef="ngModel"
-                required
-              />
-              <span
-                *ngIf="newUserForm.submitted && DurationRef.invalid"
-                class="invalid-form"
-              >
-                <small
-                  class="form-text text-danger"
-                  *ngIf="DurationRef.errors.required"
-                  >This field is required!</small
+                  class="invalid-form"
                 >
-              </span>
-              <span *ngIf="durationMsg" class="invalid-form">
-                <small class="form-text text-danger"
-                  >Duration should more than 0</small
-                >
-              </span>
-            
-            </div>
-            <div class="form-check mt-1">
-              <input
-                type="checkbox"
-                class="form-check-input"
-                id="calculatePointsCheckbox"
-                [(ngModel)]="calculatePoints"
-                name="calculatePoints"
-              />
-              <label class="form-check-label" for="calculatePointsCheckbox">
-                Calculate points instantly
-              </label>
-            </div>
-          
+                  <small
+                    class="form-text text-danger"
+                    *ngIf="DurationRef.errors.required"
+                    >This field is required!</small
+                  >
+                </span>
+                <span *ngIf="durationMsg" class="invalid-form">
+                  <small class="form-text text-danger"
+                    >Duration should more than 0</small
+                  >
+                </span>
+              </div>
+              <div class="form-check mt-1">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="calculatePointsCheckbox"
+                  [(ngModel)]="calculatePoints"
+                  name="calculatePoints"
+                />
+                <label class="form-check-label" for="calculatePointsCheckbox">
+                  Calculate points instantly
+                </label>
+              </div>
+
               <form action="#" class="invoice-repeater mt-1">
-                <div *ngFor="let question of questions; let i = index" @heightIn>
+                <div
+                  *ngFor="let question of questions; let i = index"
+                  @heightIn
+                >
                   <div class="row d-flex align-items-end">
                     <div class="col-12">
                       <div class="form-group">
@@ -601,36 +591,49 @@
                           placeholder="Question"
                         ></textarea>
                         <div>
-                          <button type="button" class="simple-button" (click)="toggleUpload(question)"><b>Upload Image +</b></button>
-                          <div *ngIf="question.showUpload" class="upload-container">
+                          <button
+                            type="button"
+                            class="simple-button"
+                            (click)="toggleUpload(question)"
+                          >
+                            <b>Upload Image +</b>
+                          </button>
+                          <div
+                            *ngIf="question.showUpload"
+                            class="upload-container"
+                          >
                             <label
                               class="upload-box"
-                              (dragover)="onDragOver($event,question)"
-                              (dragleave)="onDragLeave($event,question)"
-                              (drop)="onDrop($event,question)"
+                              (dragover)="onDragOver($event, question)"
+                              (dragleave)="onDragLeave($event, question)"
+                              (drop)="onDrop($event, question)"
                             >
                               <input
                                 type="file"
-                                (change)="onFileSelected($event,question)"
+                                (change)="onFileSelected($event, question)"
                                 hidden
                                 #fileInput
                               />
-  
+
                               <div class="upload-content">
                                 <p>Drag and drop your image here</p>
                                 <p>or</p>
-                                <button type="button" (click)="fileInput.click()">
+                                <button
+                                  type="button"
+                                  (click)="fileInput.click()"
+                                >
                                   Browse image
                                 </button>
-                              </div>
-                            </label><br/>
-                        
+                              </div> </label
+                            ><br />
                           </div>
-                          <p *ngIf="question.showUpload"> {{ question.fileName}}</p>
+                          <p *ngIf="question.showUpload">
+                            {{ question.fileName }}
+                          </p>
                         </div>
                       </div>
                     </div>
-  
+
                     <div class="col-md-3 col-12">
                       <div class="form-group">
                         <label for="itemCost">Response A*</label>
@@ -645,7 +648,7 @@
                         />
                       </div>
                     </div>
-  
+
                     <div class="col-md-3 col-12">
                       <div class="form-group">
                         <label for="itemCost">Response B*</label>
@@ -660,7 +663,7 @@
                         />
                       </div>
                     </div>
-  
+
                     <div class="col-md-3 col-12">
                       <div class="form-group">
                         <label for="itemCost">Response C*</label>
@@ -675,7 +678,7 @@
                         />
                       </div>
                     </div>
-  
+
                     <div class="col-md-3 col-12">
                       <div class="form-group">
                         <label for="itemCost">Response D*</label>
@@ -690,7 +693,7 @@
                         />
                       </div>
                     </div>
-  
+
                     <div class="col-md-6 col-12">
                       <div class="form-group">
                         <label for="points{{ i }}">Points*</label>
@@ -704,7 +707,7 @@
                         />
                       </div>
                     </div>
-  
+
                     <div class="col-md-6 col-12">
                       <div class="form-group">
                         <label for="answer{{ i }}">Answer*</label>
@@ -718,7 +721,7 @@
                         />
                       </div>
                     </div>
-  
+
                     <div
                       class="col-md-2 col-12 mb-50"
                       *ngIf="questions.length > 1"
@@ -738,11 +741,11 @@
                   <small *ngIf="errorMsg" class="form-text text-danger"
                     >All fields are required!</small
                   >
-  
+
                   <hr />
                 </div>
               </form>
-  
+
               <div class="row">
                 <div class="col-12">
                   <button
@@ -754,6 +757,284 @@
                     <i data-feather="plus" class="mr-25"></i>
                     <span>Add New</span>
                   </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" *ngIf="event_id == 3">
+            <div class="card-body">
+              <div>
+
+                <div class="form-group">
+                  <label class="form-label" for="user-plan"
+                    >Game  URL<span
+                      *ngIf="newUserForm.submitted && urlRef.invalid"
+                      class="text-danger"
+                      >*</span
+                    >
+                    <span *ngIf="!newUserForm.submitted || !urlRef.invalid"
+                      >*</span
+                    ></label
+                  >
+                  <input
+                    type="text"
+                    id="basic-icon-default-url"
+                    class="form-control dt-url"
+                    placeholder=""
+                    aria-label=""
+                    aria-describedby="basic-icon-default-url"
+                    name="url"
+                    [(ngModel)]="game_url"
+                    [class.error]="newUserForm.submitted && urlRef.invalid"
+                    #urlRef="ngModel"
+                    required
+                  />
+                  <span
+                    *ngIf="newUserForm.submitted && urlRef.invalid"
+                    class="invalid-form"
+                  >
+                    <small
+                      class="form-text text-danger"
+                      *ngIf="urlRef.errors.required"
+                      >This field is required!</small
+                    >
+                  </span>
+                </div>
+
+                  <div class="form-group">
+                  <label class="form-label" for="user-plan"
+                    >Game Welcome Text<span
+                      *ngIf="newUserForm.submitted && wgtRef.invalid"
+                      class="text-danger"
+                      >*</span
+                    >
+                    <span *ngIf="!newUserForm.submitted || !wgtRef.invalid"
+                      >*</span
+                    ></label
+                  >
+                  <input
+                    type="text"
+                    id="basic-icon-default-wgt"
+                    class="form-control dt-wgt"
+                    placeholder=""
+                    aria-label=""
+                    aria-describedby="basic-icon-default-wgt"
+                    name="wgt"
+                    [(ngModel)]="game_welcome_text"
+                    [class.error]="newUserForm.submitted && wgtRef.invalid"
+                    #wgtRef="ngModel"
+                    required
+                  />
+                  <span
+                    *ngIf="newUserForm.submitted && wgtRef.invalid"
+                    class="invalid-form"
+                  >
+                    <small
+                      class="form-text text-danger"
+                      *ngIf="wgtRef.errors.required"
+                      >This field is required!</small
+                    >
+                  </span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="basic-icon-default-author"
+                    >Select the welcome image</label
+                  >
+                  <input
+                    type="file"
+                    class="form-control dt-author"
+                    id="basic-icon-default-author"
+                    placeholder=""
+                    name="author"
+                    [(ngModel)]="imageval"
+                    (change)="uploadImage($event, 'welcome_game')"
+                  />
+                </div>
+
+              
+
+                <div class="form-group">
+                  <label class="form-label" for="basic-icon-default-author"
+                    >Select the game start image</label
+                  >
+                  <input
+                    type="file"
+                    class="form-control dt-author"
+                    id="basic-icon-default-author"
+                    placeholder=""
+                    name="author"
+                    [(ngModel)]="imageval"
+                    (change)="uploadImage($event, 'game_start')"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="basic-icon-default-author"
+                    >Select the game end image</label
+                  >
+                  <input
+                    type="file"
+                    class="form-control dt-author"
+                    id="basic-icon-default-author"
+                    placeholder=""
+                    name="author"
+                    [(ngModel)]="imageval"
+                    (change)="uploadImage($event, 'game_end')"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="basic-icon-default-author"
+                    >Pick a Primary Color</label
+                  >
+                  <input
+                    type="color"
+                    class="form-control dt-author"
+                    id="themeColor"
+                    placeholder=""
+                    name="author"
+                    [(ngModel)]="selected_primary_color"
+                 
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="basic-icon-default-author"
+                    >Pick a Secondary Color</label
+                  >
+                  <input
+                    type="color"
+                    class="form-control dt-author"
+                    id="themeColor"
+                    placeholder=""
+                    name="author"
+                    [(ngModel)]="selected_secondary_color"
+                 
+                  />
+                </div>
+
+                <form action="#" class="invoice-repeater mt-1">
+                  <div
+                    *ngFor="let prize of prizes; let i = index"
+                    @heightIn
+                  >
+                    <div class="row d-flex align-items-end">
+                      <div class="col-12">
+                        <div class="form-group">
+                          <label for="name{{ i }}">Prize {{ i + 1 }}*</label>
+
+                          <div class="col-12">
+                            <div class="form-group">
+                              <label for="itemCost">Prize Heading*</label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="prizeh"
+                                [(ngModel)]="prize.prize_header"
+                                name="prizeh{{ i }}"
+                                id="prizeh{{ i }}"
+                                placeholder="Prize Heading"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-12">
+                            <div class="form-group">
+                              <label for="itemCost">Prize Heading*</label>
+                          <textarea
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="prize.prize_desc"
+                            name="prize{{ i }}"
+                            id="prize{{ i }}"
+                            placeholder="Prize Description"
+                          ></textarea>
+                          </div>
+                          </div>
+                          <div>
+                            <button
+                              type="button"
+                              class="simple-button"
+                              (click)="toggleUpload(prize)"
+                            >
+                              <b>Upload Image +</b>
+                            </button>
+                            <div
+                              *ngIf="prize.showUpload"
+                              class="upload-container"
+                            >
+                              <label
+                                class="upload-box"
+                                (dragover)="onDragOver($event, prize)"
+                                (dragleave)="onDragLeave($event, prize)"
+                                (drop)="onDrop($event, prize)"
+                              >
+                                <input
+                                  type="file"
+                                  (change)="onFileSelected($event, prize)"
+                                  hidden
+                                  #fileInput
+                                />
+  
+                                <div class="upload-content">
+                                  <p>Drag and drop your image here</p>
+                                  <p>or</p>
+                                  <button
+                                    type="button"
+                                    (click)="fileInput.click()"
+                                  >
+                                    Browse image
+                                  </button>
+                                </div> </label
+                              ><br />
+                            </div>
+                            <p *ngIf="prize.showUpload">
+                              {{ prize.fileName }}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+  
+             
+  
+                  
+  
+                     
+                      <div
+                        class="col-md-2 col-12 mb-50"
+                        *ngIf="prizes.length > 1"
+                      >
+                        <div class="form-group">
+                          <button
+                            class="btn btn-outline-danger text-nowrap px-1"
+                            (click)="deletePrize(i)"
+                            rippleEffect
+                          >
+                            <i data-feather="x" class="mr-25"></i>
+                            <span>Delete</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <small *ngIf="errorMsg" class="form-text text-danger"
+                      >All fields are required!</small
+                    >
+  
+                    <hr />
+                  </div>
+                </form>
+                <div class="row">
+                  <div class="col-12">
+                    <button
+                      class="btn btn-icon btn-primary"
+                      type="button"
+                      (click)="addPrize()"
+                      rippleEffect
+                    >
+                      <i data-feather="plus" class="mr-25"></i>
+                      <span>Add New</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -843,12 +1124,7 @@
               required
             />
           </div>
-         
-
-        
         </div>
-
-      
 
         <div class="d-flex justify-content-between mt-2 mb-1 ml-2 mr-2">
           <button

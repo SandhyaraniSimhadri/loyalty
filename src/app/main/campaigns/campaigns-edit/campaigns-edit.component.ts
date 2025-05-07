@@ -80,15 +80,17 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
       response_d: "",
       correct_answer: "",
       points: "",
-      selectedFile: null as File | null ,
-      file_name:"",
-      isDragging : false,
-      showUpload : false,
+      selectedFile: null as File | null,
+      file_name: "",
+      isDragging: false,
+      showUpload: false,
     },
   ];
 
   public companyData: any;
-
+  public game_welcome_image: any;
+  public game_end_image: any;
+  public game_start_image: any;
   public game = {
     name: "",
     team_a: "",
@@ -111,6 +113,26 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
     correct_answer: "",
     points: "",
   };
+
+  public prizes={
+  id: 0,
+  prize_header: "",
+  prize_desc: "",
+  selectedFile: null as File | null,
+  file_name: "",
+  isDragging: false,
+  showUpload: false,
+};
+
+public prize={
+  prize_header: "",
+  prize_desc: "",
+  selectedFile: null as File | null,
+  file_name: "",
+  isDragging: false,
+  showUpload: false,
+};
+
   public eventsData: any;
 
   public selectMultiLanguages = [
@@ -200,31 +222,34 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
    */
   uploadImage(event: any, type: any) {
     this.loading = true;
-    var imageValue='';
+    var imageValue = "";
     if (event.target.files && event.target.files[0]) {
       let reader = new FileReader();
       reader.onload = (event: any) => {
         // this.avatarImage = event.target.result;
         imageValue = event.target.result;
-
       };
 
       reader.readAsDataURL(event.target.files[0]);
-      
-    
-    if (type == "welcome") {
-      this.welcome_image = event.target.files[0];
-    } else if (type == "logo") {
-      this.logo_image = event.target.files[0];
-    } else if (type == "campaign") {
-      this.currentRow.avatar = event.target.files[0].name;
-      this.image = event.target.files[0];
-        this.avatarImage = event.target.result;
 
-    } else {
-      this.login_image = event.target.files[0];
+      if (type == "welcome") {
+        this.welcome_image = event.target.files[0];
+      } else if (type == "logo") {
+        this.logo_image = event.target.files[0];
+      } else if (type == "campaign") {
+        this.currentRow.avatar = event.target.files[0].name;
+        this.image = event.target.files[0];
+        this.avatarImage = event.target.result;
+      } else if (type == "game_start") {
+        this.game_start_image = event.target.files[0];
+      } else if (type == "game_end") {
+        this.game_end_image = event.target.files[0];
+      } else if (type == "welcome_game") {
+        this.game_welcome_image = event.target.files[0];
+      } else {
+        this.login_image = event.target.files[0];
+      }
     }
-  }
     this.loading = false;
     this.checkFormModified();
   }
@@ -284,7 +309,7 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
   }
   submit(form) {
     if (!form.valid) return;
-  
+
     // Validate based on event_id
     if (this.currentRow.event_id == 1) {
       const hasEmptyFields = this.currentRow.games.some(
@@ -305,7 +330,7 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
         return;
       }
     }
-  
+
     if (this.currentRow.event_id == 2) {
       const hasEmptyFields = this.currentRow.quizzes.some(
         (question) =>
@@ -330,11 +355,11 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
         return;
       }
     }
-  
+
     this.errorMsg = false;
     this.durationMsg = false;
     this.buttonLoading = true;
-  
+
     // Convert file to Base64
     const convertFileToBase64 = (file) => {
       return new Promise((resolve, reject) => {
@@ -345,82 +370,121 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
         reader.onerror = (error) => reject(error);
       });
     };
-  
+
     const processFiles = async () => {
       try {
-        const processedGames = this.currentRow.event_id == 1 
-          ? await Promise.all(this.currentRow.games.map(async (game) => ({
-              ...game,
-              team_a_image: game.team_a_image ? await convertFileToBase64(game.team_a_image) : null,
-              team_b_image: game.team_b_image ? await convertFileToBase64(game.team_b_image) : null,
-            })))
-          : [];
-  
-        const processedQuestions = this.currentRow.event_id == 2
-          ? await Promise.all(this.currentRow.quizzes.map(async (question) => ({
-              ...question,
-              selectedFile: question.selectedFile ? await convertFileToBase64(question.selectedFile) : null,
-            })))
-          : [];
-  
+        const processedGames =
+          this.currentRow.event_id == 1
+            ? await Promise.all(
+                this.currentRow.games.map(async (game) => ({
+                  ...game,
+                  team_a_image: game.team_a_image
+                    ? await convertFileToBase64(game.team_a_image)
+                    : null,
+                  team_b_image: game.team_b_image
+                    ? await convertFileToBase64(game.team_b_image)
+                    : null,
+                }))
+              )
+            : [];
+
+        const processedQuestions =
+          this.currentRow.event_id == 2
+            ? await Promise.all(
+                this.currentRow.quizzes.map(async (question) => ({
+                  ...question,
+                  selectedFile: question.selectedFile
+                    ? await convertFileToBase64(question.selectedFile)
+                    : null,
+                }))
+              )
+            : [];
+
+        const processedPrizes =
+          this.currentRow.event_id == 3
+            ? await Promise.all(
+                this.currentRow.prizes.map(async (prize) => ({
+                  ...prize,
+                  selectedFile: prize.selectedFile
+                    ? await convertFileToBase64(prize.selectedFile)
+                    : null,
+                }))
+              )
+            : [];
+
         const payload = {
           id: this.currentRow.id,
           campaign_title: this.currentRow.campaign_title,
-          campaign_tag:this.currentRow.campaign_tag,
+          campaign_tag: this.currentRow.campaign_tag,
           start_date: this.currentRow.start_date,
           end_date: this.currentRow.end_date,
           event_id: this.currentRow.event_id,
           company_id: this.currentRow.company_id,
           title: this.currentRow.title,
-          login_text:this.currentRow.login_text,
-          welcome_text:this.currentRow.welcome_text,
+          login_text: this.currentRow.login_text,
+          welcome_text: this.currentRow.welcome_text,
           terms_and_conditions: this.currentRow.terms_and_conditions,
           game_type: this.currentRow.game_type,
           description: this.currentRow.description,
           duration: this.currentRow.duration,
           calculatePoints: String(this.currentRow.calc_points_immediately),
-          logo_image: this.logo_image ? await convertFileToBase64(this.logo_image) : null,
-          login_image: this.login_image ? await convertFileToBase64(this.login_image) : null,
-          welcome_image: this.welcome_image ? await convertFileToBase64(this.welcome_image) : null,
-          campaign_image: this.image ? await convertFileToBase64(this.image) : null,
+          logo_image: this.logo_image
+            ? await convertFileToBase64(this.logo_image)
+            : null,
+          login_image: this.login_image
+            ? await convertFileToBase64(this.login_image)
+            : null,
+          welcome_image: this.welcome_image
+            ? await convertFileToBase64(this.welcome_image)
+            : null,
+          campaign_image: this.image
+            ? await convertFileToBase64(this.image)
+            : null,
+
+            game_start_image: this.game_start_image? await convertFileToBase64(this.game_start_image): null,
+            game_end_image: this.game_end_image? await convertFileToBase64(this.game_end_image): null,
+            game_welcome_image: this.game_welcome_image
+            ? await convertFileToBase64(this.game_welcome_image)
+            : null,  
           games: this.currentRow.event_id == 1 ? processedGames : [],
           questions: this.currentRow.event_id == 2 ? processedQuestions : [],
+          prizes: this.currentRow.event_id == 3 ? processedPrizes : [],
+          html_games:this.currentRow.html_games
         };
-  
-        this.http.post<any>(this.apiUrl + "api/update_campaign", payload).subscribe(
-          (res: any) => {
-            this.buttonLoading = false;
-            if (!res.status) {
-              this._toastrService.error(res.msg, "Failed", {
-                toastClass: "toast ngx-toastr",
-                closeButton: true,
-              });
-            } else {
-             
-              if(res.tag=='Duplicate'){
+
+        this.http
+          .post<any>(this.apiUrl + "api/update_campaign", payload)
+          .subscribe(
+            (res: any) => {
+              this.buttonLoading = false;
+              if (!res.status) {
                 this._toastrService.error(res.msg, "Failed", {
                   toastClass: "toast ngx-toastr",
                   closeButton: true,
                 });
+              } else {
+                if (res.tag == "Duplicate") {
+                  this._toastrService.error(res.msg, "Failed", {
+                    toastClass: "toast ngx-toastr",
+                    closeButton: true,
+                  });
+                } else {
+                  this._toastrService.success(res.msg, "Success", {
+                    toastClass: "toast ngx-toastr",
+                    closeButton: true,
+                  });
+                  this._router.navigate(["/campaigns/campaigns"]);
+                }
               }
-              else{
-                this._toastrService.success(res.msg, "Success", {
-                  toastClass: "toast ngx-toastr",
-                  closeButton: true,
-                });
-                this._router.navigate(["/campaigns/campaigns"]);
-              }
-            
+            },
+            (error: any) => {
+              this.buttonLoading = false;
+              this._toastrService.error("An error occurred", "Failed", {
+                toastClass: "toast ngx-toastr",
+                closeButton: true,
+              });
             }
-          },
-          (error: any) => {
-            this.buttonLoading = false;
-            this._toastrService.error("An error occurred", "Failed", {
-              toastClass: "toast ngx-toastr",
-              closeButton: true,
-            });
-          }
-        );
+          );
       } catch (error) {
         this.buttonLoading = false;
         console.error("Error processing files:", error);
@@ -430,10 +494,9 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
         });
       }
     };
-  
+
     processFiles();
   }
-  
 
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
@@ -488,19 +551,27 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
             if (res.data[0].event_title == "QUIZ") {
               this.questions = res.data[0].quizzes;
             }
+
             this.currentRow = this.modalsService.replaceNullsWithEmptyStrings(
               res.data[0]
             );
+            if (res.data[0].event_title == "GAMES") {
+              this.currentRow.html_games = this.currentRow?.html_games[0];
+              console.log("this.current",this.currentRow.html_games);
+            }
             if (this.currentRow.calc_points_immediately == "false") {
               this.currentRow.calc_points_immediately = false;
             }
-            console.log("data before map",this.currentRow.quizzes);
+            if (
+              this.currentRow.quizzes != undefined &&
+              this.currentRow.quizzes.length > 0
+            ) {
+              this.currentRow.quizzes = this.currentRow.quizzes.map((item) => ({
+                ...item,
+                updated: false,
+              }));
+            }
 
-            this.currentRow.quizzes = this.currentRow.quizzes.map(item => ({
-              ...item,
-              updated: false
-            }));
-            console.log("data after map",this.currentRow.quizzes);
             this.originalFormValues = { ...this.currentRow };
 
             if (this.currentRow.avatar) {
@@ -515,6 +586,18 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
         this.loading = false;
       }
     );
+  }
+  addPrize() {
+    this.currentRow.prizes.push({
+      id: 0,
+      prize_header: "",
+      prize_desc: "",
+      selectedFile: null as File | null,
+      file_name: "",
+      isDragging: false,
+      showUpload: false,
+    });
+    this.checkFormModified();
   }
   getEvents() {
     let request = {
@@ -579,35 +662,43 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
     this.loading = false;
     // this.checkFormModified();
   }
-  onFileSelected(event: any,question) {
+  onFileSelected(event: any, item) {
     const file = event.target.files[0];
     if (file) {
-      
-        const reader = new FileReader();
-        
-        reader.onload = () => {
-          question.preview = reader.result; 
-        };
-    
-        reader.readAsDataURL(file);
-      
-      question.selectedFile = file;
-      question.updated=true;
-      console.log('File selected:', question.selectedFile);
-      question.file_name=question.selectedFile.name;
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        item.preview = reader.result;
+      };
+
+      reader.readAsDataURL(file);
+
+      item.selectedFile = file;
+      item.updated = true;
+      console.log("File selected:", item.selectedFile);
+      item.file_name = item.selectedFile.name;
     }
   }
-  toggleUpload(question) {
-    question.file_name = !question.file_name;
+  toggleUpload(item) {
+    item.file_name = !item.file_name;
+    console.log("upload",item.showUpload);
   }
-  
-onTagChange() {
-  this.validateTag();
-  this.checkFormModified(); // Ensure form modification is tracked
-}
 
-validateTag() {
-  const regex = /^[a-zA-Z0-9_]*$/;
-  this.isInvalidTag = !regex.test(this.currentRow.campaign_tag);
-}
+  onTagChange() {
+    this.validateTag();
+    this.checkFormModified(); // Ensure form modification is tracked
+  }
+
+  validateTag() {
+    const regex = /^[a-zA-Z0-9_]*$/;
+    this.isInvalidTag = !regex.test(this.currentRow.campaign_tag);
+  }
+  deletePrize(id: any) {
+    for (let i = 0; i < this.currentRow.prizes.length; i++) {
+      if (this.currentRow.prizes.indexOf(this.currentRow.prizes[i]) === id) {
+        this.currentRow.prizes.splice(i, 1);
+        break;
+      }
+    }
+  }
 }

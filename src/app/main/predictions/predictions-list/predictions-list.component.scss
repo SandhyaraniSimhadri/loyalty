@@ -144,9 +144,7 @@ button:focus {
   box-shadow: none !important;
 
 }
-.avatar{
-  background-color: white !important;
-}
+
 // #0d00ff
 // #9b02fe
 .image-container {
@@ -179,7 +177,19 @@ button:focus {
   width: 100%; /* Covers full width */
   margin: 0;
   padding: 0;
-  position: relative; /* Alternative: position: absolute; top: 0; left: 0; right: 0; bottom: 0; */
+  position: relative;
+  padding-right: 0rem !important;
+  padding-left: 0rem !important; /* Alternative: position: absolute; top: 0; left: 0; right: 0; bottom: 0; */
+}
+
+.bg-image-container {
+  height: 100vh;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
 
@@ -378,13 +388,8 @@ button:focus {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-.avatar {
-  display: inline-block;
-  position: relative;
-}
-.avatar img.round {
-  border-radius: 50%;
-}
+
+
 .badge {
   position: absolute;
   // top: 0;
@@ -398,10 +403,6 @@ button:focus {
 }
 .badge img {
   border-radius: 50%;
-}
-.card {
-  position: relative; /* To position the time-available-wrapper relative to the card */
-  // margin-top: 20px; /* Add some space at the top of the card */
 }
 
 .time-available-wrapper {
@@ -418,20 +419,26 @@ button:focus {
     width: 100%;
     left: 0px;
 }
+.leaderboard-card {
+  background-color: #ffffff;
+  // border-radius: 16px;
+  // padding: 24px;
+  // margin: 24px;
+  margin-top: 10px;
+  box-shadow: 1px 1px 0px 10px rgba(240, 237, 237, 0.5);
+  -webkit-box-shadow: 1px 1px 0px 10px rgba(248, 244, 244, 0.5);
+  -moz-box-shadow: 1px 1px 0px 10px rgba(247, 243, 243, 0.5);
+  // margin-left: -1.4rem !important;
+  // margin-right: -1.4rem !important;
+
+}
 
 
 // .time-available-wrapper img {
 //   margin-right: 10px; /* Space between the image and the text */
 // }
 
-.time-text {
-  font-weight: bold; /* Bold text */
-}
 
-.time-remaining {
-  color: black; /* Black text for remaining time */
-  font-weight: bold; /* Bold text */
-}
 .avatar-wrapper {
   display: inline-block;
   // padding: 3px; /* Adjust padding as needed */
@@ -442,10 +449,6 @@ button:focus {
 .round {
   border-radius: 50%;
 }
-.avatar {
-  display: block;
-  border-radius: 50%; /* Ensure the image inside is also round */
-}
 
 .gif-container {
   display: flex; 
@@ -453,8 +456,245 @@ button:focus {
   align-items: center; /* Vertically center */
   // height: 100vh; /* Full viewport height to center vertically */
 }
+.bg-image-container {
+  height: 100vh;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 0;
+  margin: 0;
+}
 
-// .gif-container img {
-//   width: 100px; /* Adjust size as needed */
-//   height: 100px; /* Adjust size as needed */
-// }
+.campaign-title {
+  color: white;
+  font-size: 30px;
+  font-weight: bold;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.go-button {
+  padding: 14px 32px;
+  background-color: #4b4fb4;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 14px;
+  border: none;
+  width: 80vw;
+  max-width: 350px;
+}
+
+.go-button-1 {
+  padding: 14px 32px;
+  background-color: #4b4fb4;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 14px;
+  border: none;
+  width: 80vw;
+  max-width: 350px;
+  align-self: flex-end;
+}
+.top-btn {
+  padding: 10px 16px;
+  background-color: #8e87e7; /* Light Blue by default */
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 14px;
+  // min-width: 90px;
+}
+
+.top-btn.active-btn {
+  background-color: #4e41aa; /* Darker Blue for active */
+}
+
+.podium-wrapper {
+  margin-top: 8rem;
+}
+.podium-1 {
+  position: relative;
+  height: 140px;
+  width: 120px;
+  padding-bottom: 6px !important;
+  z-index: 3;
+  overflow: visible;
+  background: transparent; /* Remove background from container */
+}
+
+/* Slanted background with white top shadow */
+.podium-1::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, #9d8cff, #bdb5ee);
+  clip-path: polygon(15% 0%, 85% 0%, 100% 20px, 100% 100%, 0% 100%, 0% 20px);
+  z-index: 0;
+}
+
+/* Optional: inner top white highlight */
+.podium-1::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 24px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.6);
+  clip-path: polygon(15% 0%, 85% 0%, 100% 20px, 0% 20px);
+  z-index: 1;
+}
+
+.podium-1 > * {
+  position: relative;
+  z-index: 2;
+}
+
+
+
+.podium-2 {
+  position: relative;
+  height: 110px;
+  width: 100px;
+  padding-bottom: 6px !important;
+  z-index: 2;
+  overflow: visible;
+  background: transparent;
+}
+
+.podium-2::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #9d8cff;
+  clip-path: polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 20px);
+  z-index: 0;
+}
+
+.podium-2::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 24px;
+  width: 100%;
+  background: #aea2f1;
+  clip-path:polygon(15% 0%, 100% 0%, 100% 20px, 0% 20px);
+  z-index: 1;
+}
+
+.podium-2 > * {
+  position: relative;
+  z-index: 2;
+}
+
+.podium-3 {
+  position: relative;
+  height: 90px;
+  width: 90px;
+  padding-bottom: 6px !important;
+  z-index: 1;
+  overflow: visible;
+  background: transparent;
+}
+
+.podium-3::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:#9d8cff;
+  clip-path:  polygon(0% 0%, 85% 0%, 100% 20px, 100% 100%, 0% 100%);
+  z-index: 0;
+}
+
+.podium-3::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 24px;
+  width: 100%;
+  background: #aea2f1;
+  clip-path:  polygon(0% 0%, 85% 0%, 100% 20px, 0% 20px);
+  z-index: 1;
+}
+
+.podium-3 > * {
+  position: relative;
+  z-index: 2;
+}
+
+
+
+
+.avatar {
+  background-color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: absolute;
+  top: -88px;
+  border: 3px solid white;
+  z-index: 5;
+}
+
+.position-label {
+  // font-size: 6rem;
+  font-weight: bold;
+  color: white;
+  // margin-bottom: 10px;
+}
+.position-label-1 {
+  font-size: 8rem;
+  font-weight: bold;
+  color: white;
+  margin-top: 2rem !important;
+  
+}
+
+.position-label-2 {
+  font-size: 6rem;
+  font-weight: bold;
+  color: white;
+  // margin-bottom: 12px;
+  margin-top: 2rem !important;
+
+}
+
+.position-label-3 {
+  font-size: 4rem;
+  font-weight: bold;
+  color: white;
+  // margin-bottom: -10px;
+  margin-top: 2rem !important;
+
+}
+.name {
+  font-weight: 400;
+  // margin-top: 5px;
+  color: #f3f3f3;
+  z-index: 999999;
+  position: absolute;
+  top: -1.8rem !important;
+}
+.white-title {
+  color: white;
+}
+
+.blue-title {
+  color: #4e41aa;
+}
+
+.prize-image{
+  border-radius: 15px;
+}

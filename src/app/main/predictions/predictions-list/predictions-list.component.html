@@ -1,12 +1,17 @@
-<div class="body-cls">
+<div>
   <div class="loading" *ngIf="loading">
     <div class="effect-1 effects"></div>
     <div class="effect-2 effects"></div>
     <div class="effect-3 effects"></div>
   </div>
   <div
-    class="row"
-    style="margin-right: 0px !important; margin-left: 0px !important;font-family:'Roboto Condensed', sans-serif;"
+    *ngIf="layout_type == 'others'"
+    class="row body-cls"
+    style="
+      margin-right: 0px !important;
+      margin-left: 0px !important;
+      font-family: 'Roboto Condensed', sans-serif;
+    "
   >
     <div class="d-none d-lg-flex col-lg-4"></div>
     <div class="col-lg-4" style="margin-right: 0px !important">
@@ -65,7 +70,10 @@
                       style="background-color: white"
                     />
                   </div>
-                  <div class="mt-1" style="font-family: 'Roboto Condensed', sans-serif;">
+                  <div
+                    class="mt-1"
+                    style="font-family: 'Roboto Condensed', sans-serif"
+                  >
                     <h3>
                       <b>{{ currentUser.user_name }}</b>
                     </h3>
@@ -320,8 +328,8 @@
             !loading &&
             rows.length > 0 &&
             campaign_data.quizzes != undefined &&
-            campaign_data.quizzes.length > 0
-            && campaign_data?.self==undefined
+            campaign_data.quizzes.length > 0 &&
+            campaign_data?.self == undefined
           "
         >
           <div class="card earnings-card">
@@ -357,7 +365,10 @@
                     style="color: blue; font-weight: 400"
                   >
                     <b>
-                      <i><span style="font-size: 20px;">QUIZ QUEST:</span> {{ campaign_data.campaign_title }}</i></b
+                      <i
+                        ><span style="font-size: 20px">QUIZ QUEST:</span>
+                        {{ campaign_data.campaign_title }}</i
+                      ></b
                     >
                   </h4>
                 </div>
@@ -368,7 +379,6 @@
                 class="d-flex card-title mb-0 mt-0 justify-content-center align-items-center"
                 style="color: blue; font-size: 1rem"
               >
-             
               </span>
               <p class="mt-1">{{ campaign_data.description }}</p>
               <div class="row">
@@ -377,18 +387,14 @@
                     <!-- <div *ngIf="remainingTime">
                           Time Remaining: {{ formatTime(remainingTime) }}
                         </div> -->
-                        <h5 class="question-text" style="text-align: left;">
-                          <ng-container *ngIf="isLink(campaign_data.quizzes[currentQuestionIndex].question); else normalText">
-                            <a [href]="campaign_data.quizzes[currentQuestionIndex]?.question + '?redirect_url=' + currentUrl" target="_blank">
-                              {{ campaign_data.quizzes[currentQuestionIndex]?.question }}
-                            </a>
-                            
-                          </ng-container>
-                          <ng-template #normalText>
-                            {{ campaign_data.quizzes[currentQuestionIndex].question }}
-                          </ng-template>
-                        </h5>
-                        
+                    <h5 class="question-text" style="text-align: left">
+                      <ng-template>
+                        {{
+                          campaign_data.quizzes[currentQuestionIndex].question
+                        }}
+                      </ng-template>
+                    </h5>
+
                     <div
                       *ngIf="
                         campaign_data.quizzes[currentQuestionIndex].file_name
@@ -579,10 +585,8 @@
             </div>
           </div>
         </div>
-        <div class="card" *ngIf="campaign_data?.self!=undefined"  >
-          <div
-            class="d-flex align-items-center justify-content-center mt-1 "
-          >
+        <div class="card" *ngIf="campaign_data?.self != undefined">
+          <div class="d-flex align-items-center justify-content-center mt-1">
             <h4
               style="
                 color: blue;
@@ -601,23 +605,27 @@
           <hr />
           <div
             class="card-body"
-            style="padding: 0 !important; overflow: hidden" 
+            style="padding: 0 !important; overflow: hidden"
           >
             <div class="row" style="padding-bottom: 1rem !important">
               <div class="col-12">
-                <div
-                 
-                  class="submission-container"
-                >
+                <div class="submission-container">
                   <div class="submission-text">
-                    <p style="font-style: italic;   color: blue;padding-bottom: 0.1rem !important;font-size: 16px;"><b>QUIZ QUEST</b></p>
+                    <p
+                      style="
+                        font-style: italic;
+                        color: blue;
+                        padding-bottom: 0.1rem !important;
+                        font-size: 16px;
+                      "
+                    >
+                      <b>QUIZ QUEST</b>
+                    </p>
                     <b>Submitted</b>
                     <br />
                     <b>Time Taken: {{ campaign_data?.total_time_taken }}</b
                     ><br />
-                 
                   </div>
-                 
                 </div>
               </div>
             </div>
@@ -838,34 +846,478 @@
     </div>
     <div class="d-none d-lg-flex col-lg-4"></div>
   </div>
-</div>
 
-<ng-template #modalDanger let-modal>
-  <div class="modal-header">
-    <h5 class="modal-title"><span class="color-cls">Confirm</span></h5>
-  </div>
-  <div class="modal-body" tabindex="0" ngbAutofocus>
-    Are you sure you want to submit your Prediction?
-    <br />
-    <span class="f-size-class"> This action will not be reversable.</span>
-  </div>
-  <div class="modal-footer">
-    <button
-      type="button"
-      class="btn"
-      (click)="modal.dismiss('Cross click')"
-      rippleEffect
+  <div
+    *ngIf="layout_type == 'HTML games'"
+    class="row"
+    style="
+      margin-right: 0px !important;
+      margin-left: 0px !important;
+      font-family: 'Roboto Condensed', sans-serif;
+      width: 100%;
+    "
+  >
+    <div class="d-none d-lg-flex col-lg-4"></div>
+    <div
+      *ngIf="gameStatus === 'none'"
+      class="bg-image-container d-flex flex-column justify-content-between align-items-center text-center"
+      [ngStyle]="
+        activeTab === 'home'
+          ? {
+              'background-image':
+                'url(' +
+                (campaign_id && campaign_data?.html_games?.game_welcome_image
+                  ? apiUrl + campaign_data.html_games.game_welcome_image
+                  : welcome_image) +
+                ')',
+              'background-size': 'cover',
+              'background-repeat': 'no-repeat',
+              'background-position': 'center'
+            }
+          : {
+              background: 'linear-gradient(to right, #CED2FA, #B7ACE2)',
+              'background-size': 'cover',
+              'background-repeat': 'no-repeat',
+              'background-position': 'center'
+            }
+      "
     >
-      No
-    </button>
-    <button
-      type="button"
-      class="btn btn-success"
-      (click)="selectWinner(modalsService.item)"
-      rippleEffect
+      <!-- Title -->
+      <div class="mt-4" style="width: 100%;">
+        <div
+        class="campaign-title"
+        [ngClass]="{ 'white-title': activeTab === 'home', 'blue-title': activeTab !== 'home' }"
+      >
+        {{ campaign_data?.campaign_title || 'WELCOME' }}
+      </div>
+      
+
+        <!-- Top Buttons -->
+        <div class="button-group mt-3" style="z-index: 99999">
+          <button
+            class="top-btn"
+            [ngClass]="{ 'active-btn': activeTab === 'home' }"
+            (click)="setTab('home')"
+          >
+            HOME
+          </button>
+          <button
+            class="top-btn"
+            [ngClass]="{ 'active-btn': activeTab === 'leaderboard' }"
+            (click)="setTab('leaderboard')"
+          >
+            LEADERBOARD
+          </button>
+          <button
+            class="top-btn"
+            [ngClass]="{ 'active-btn': activeTab === 'prizes' }"
+            (click)="setTab('prizes')"
+          >
+            PRIZES
+          </button>
+        </div>
+
+        <div
+          class="podium-wrapper d-flex justify-content-center align-items-end"
+          *ngIf="activeTab == 'leaderboard'"
+        >
+          <div
+            class="podium podium-2 text-center d-flex justify-content-center align-items-center"
+          >
+            <img
+              *ngIf="campaign_data?.participants[1]?.avatar"
+              class="round avatar"
+              [src]="apiUrl + campaign_data?.participants[1]?.avatar"
+              alt="avatar"
+              height="50"
+              width="50"
+            />
+            <img
+              *ngIf="!campaign_data?.participants[1]?.avatar"
+              class="round avatar"
+              src="assets/images/profile/person.png"
+              alt="avatar"
+              height="50"
+              width="50"
+            />
+            <p class="name">
+             <b> {{ campaign_data?.participants[1]?.user_name || "2nd place" }}</b>
+            </p>
+            <div
+              class="position-label position-label-2 d-flex align-items-center justify-content-center"
+            >
+              2
+            </div>
+          </div>
+
+          <div
+            class="podium podium-1 text-center d-flex justify-content-center align-items-center"
+          >
+            <img
+              *ngIf="campaign_data?.participants[0]?.avatar"
+              class="round avatar"
+              [src]="apiUrl + campaign_data?.participants[0]?.avatar"
+              alt="avatar"
+              height="50"
+              width="50"
+            />
+            <img
+              *ngIf="!campaign_data?.participants[0]?.avatar"
+              class="round avatar"
+              src="assets/images/profile/person.png"
+              alt="avatar"
+              height="50"
+              width="50"
+            />
+
+            <p class="name">
+             <b> {{ campaign_data?.participants[0]?.user_name || "1st place" }}</b>
+            </p>
+
+            <div
+              class="position-label position-label-1 d-flex align-items-center justify-content-center"
+            >
+              1
+            </div>
+          </div>
+
+          <div
+            class="podium podium-3 text-center d-flex justify-content-center align-items-center"
+          >
+            <img
+              *ngIf="campaign_data?.participants[2]?.avatar"
+              class="round avatar"
+              [src]="apiUrl + campaign_data?.participants[2]?.avatar"
+              alt="avatar"
+              height="50"
+              width="50"
+            />
+            <img
+              *ngIf="!campaign_data?.participants[2]?.avatar"
+              class="round avatar"
+              src="assets/images/profile/person.png"
+              alt="avatar"
+              height="50"
+              width="50"
+            />
+            <p class="name">
+             <b> {{ campaign_data?.participants[1]?.user_name || "3rd place" }}</b>
+            </p>
+            <div
+              class="position-label position-label-3 d-flex align-items-center justify-content-center"
+            >
+              3
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="card leaderboard-card"
+          *ngIf="activeTab == 'leaderboard'" style="margin-left: 2rem !important;margin-right: 2rem !important;"
+        >
+          <div class="card-body p-0 overflow-hidden" >
+            <div class="row px-1">
+              <div class="col-12">
+                <div class="leaderboard-header mt-1">
+                  <h4
+                    class="card-title mb-0"
+                    style="
+                      color: blue;
+                      font-weight: bold;
+                      font-style: italic;
+                      text-transform: uppercase;
+                      font-family: 'Roboto Condensed';
+                      font-size: 20px;
+                    "
+                  >
+                    <b><i>Leaderboard</i></b>
+                  </h4>
+                  <button
+                    (click)="getParticipantsInfo()"
+                    class="refresh-button"
+                  >
+                    <i data-feather="refresh-cw"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <hr />
+
+            <div *ngIf="rows.length > 0" class="px-4">
+              <div
+                *ngFor="
+                  let participant of campaign_data.participants;
+                  let i = index
+                "
+              >
+                <div class="row border-top">
+                  <div class="col-12 p-0">
+                    <div
+                      class="row py-2 px-2 align-items-center"
+                      [ngClass]="{
+                        highlight:
+                          participant.user_id == httpService.USERINFO.id
+                      }"
+                    >
+                      <!-- Avatar and Rank Icon -->
+                      <div class="col-2">
+                        <div class="avatar-wrapper position-relative">
+                          <img
+                            *ngIf="participant.avatar"
+                            class="round avatar"
+                            [src]="apiUrl + participant.avatar"
+                            alt="avatar"
+                            height="50"
+                            width="50"
+                          />
+                          <img
+                            *ngIf="!participant.avatar"
+                            class="round avatar"
+                            src="assets/images/profile/person.png"
+                            alt="avatar"
+                            height="50"
+                            width="50"
+                          />
+
+                          <img
+                            *ngIf="participant.rank == 1"
+                            class="rank-badge"
+                            src="assets/images/profile/first.png"
+                            alt="1st"
+                          />
+                          <img
+                            *ngIf="participant.rank == 2"
+                            class="rank-badge"
+                            src="assets/images/profile/second.png"
+                            alt="2nd"
+                          />
+                          <img
+                            *ngIf="participant.rank == 3"
+                            class="rank-badge"
+                            src="assets/images/profile/third.png"
+                            alt="3rd"
+                          />
+                        </div>
+                      </div>
+
+                      <!-- Name and Info -->
+                      <div class="col-8 d-flex align-items-center">
+                        <h4 class="card-title mb-0 ml-1">
+                          <span
+                            class="d-flex flex-row align-items-center"
+                            style="font-size: 14px"
+                          >
+                            <span class="d-none d-md-inline">{{
+                              participant.user_name
+                            }}</span>
+                            <span class="d-inline d-md-none">{{
+                              participant.user_name | truncate : 8
+                            }}</span>
+                            <span
+                              rippleEffect
+                              class="btn ml-1"
+                              [ngbTooltip]="
+                                'Time taken: ' + participant.time_taken
+                              "
+                            >
+                              <i
+                                data-feather="alert-circle"
+                                style="color: black"
+                              ></i>
+                            </span>
+                          </span>
+                        </h4>
+                      </div>
+
+                      <!-- Points -->
+                      <div
+                        class="col-2 d-flex align-items-center justify-content-center"
+                      >
+                        <span class="font-weight-bold" style="font-size: 14px">
+                          {{ participant.total_points || 0 }} pts
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="activeTab == 'prizes'">
+          <img
+            src="../../../../assets/images/prizes/trophy.png"
+            style="object-fit: cover !important; width: 100%"
+          />
+          <div style="margin-top: -4rem !important;">
+          <div
+            class="card leaderboard-card mb-3 ml-2 mr-2"
+            *ngFor="let prize of campaign_data.prizes; let i = index"
+          >
+            <div class="card-body p-0 overflow-hidden">
+              <div class="px-1">
+              
+                  <div class="leaderboard-header mt-1" >
+                    <div class="row pb-1" style="width: 100%;text-align: left;   font-family: 'Roboto Condensed', sans-serif;">
+                      <div class="col-8">
+                        <h4
+                          class="card-title mb-0"
+                          style="
+                            color: blue;
+                            font-weight: bold;
+                            font-style: italic;
+                            text-transform: uppercase;
+                            font-family: 'Roboto Condensed';
+                            font-size: 28px;
+                          "
+                        >
+                          {{ prize.prize_header }}
+                        </h4>                   
+                          <span style="font-size: 18px;"><i>{{ prize.prize_desc }}</i></span>
+                      </div>
+                      <div class="col-4" >
+                        <img class="prize-image"
+                          *ngIf="prize.image"
+                          [src]="apiUrl + prize?.image"
+                          alt="avatar"
+                          height="100"
+                          width="100"
+                        />
+                      </div>
+                    </div>
+                  </div>
+              
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Button -->
+      <div class="mb-5" *ngIf="activeTab == 'home'">
+        <button class="go-button" (click)="gotoGameStart()">LET'S GO</button>
+      </div>
+    </div>
+
+    <div
+      *ngIf="gameStatus == 'start'"
+      class="bg-image-container d-flex flex-column justify-content-between align-items-center text-center"
+      [style.backgroundImage]="
+        'url(' +
+        (campaign_id && campaign_data?.html_games?.game_start_image
+          ? apiUrl + campaign_data.html_games.game_start_image
+          : start_image) +
+        ')'
+      "
     >
-      Yes
-    </button>
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end;
+          height: 100%;
+        "
+      >
+        <div class="mb-5">
+          <button
+            class="go-button"
+            (click)="gotoHome()"
+            [style.backgroundColor]="
+              campaign_data?.html_games?.selected_secondary_color
+            "
+          >
+            BACK
+          </button>
+          <button
+            class="go-button mt-1"
+            (click)="gotoPlayGame(campaign_data.html_games.game_url)"
+            [style.backgroundColor]="
+              campaign_data?.html_games?.selected_primary_color
+            "
+          >
+            START
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div
+      *ngIf="gameStatus == 'end'"
+      class="bg-image-container d-flex flex-column justify-content-between align-items-center text-center"
+      [style.backgroundImage]="
+        'url(' +
+        (campaign_id && campaign_data?.html_games?.game_end_image
+          ? apiUrl + campaign_data.html_games.game_end_image
+          : end_image) +
+        ')'
+      "
+    >
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end;
+          height: 100%;
+        "
+      >
+        <div class="mb-5">
+          <button
+            class="go-button-1"
+            (click)="gotoPlayGame(campaign_data.html_games.game_url)"
+            [style.backgroundColor]="
+              campaign_data?.html_games?.selected_secondary_color
+            "
+          >
+            RETRY
+          </button>
+
+          <div class="mb-5">
+            <button
+              class="go-button-1 mt-1"
+              (click)="gotoLeaderboard()"
+              [style.backgroundColor]="
+                campaign_data?.html_games?.selected_primary_color
+              "
+            >
+              LEADERBOARD
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-none d-lg-flex col-lg-4"></div>
+    </div>
   </div>
-  <div id="paymob-iframe"></div>
-</ng-template>
+
+  <ng-template #modalDanger let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title"><span class="color-cls">Confirm</span></h5>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+      Are you sure you want to submit your Prediction?
+      <br />
+      <span class="f-size-class"> This action will not be reversable.</span>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn"
+        (click)="modal.dismiss('Cross click')"
+        rippleEffect
+      >
+        No
+      </button>
+      <button
+        type="button"
+        class="btn btn-success"
+        (click)="selectWinner(modalsService.item)"
+        rippleEffect
+      >
+        Yes
+      </button>
+    </div>
+    <div id="paymob-iframe"></div>
+  </ng-template>
+</div>

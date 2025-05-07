@@ -278,7 +278,6 @@
                         </div>
                       </div>
 
-
                       <div class="col-md-6">
                         <div class="form-group">
                           <label class="form-label" for="user-plan">Tag</label>
@@ -295,12 +294,11 @@
                             pattern="^[a-zA-Z0-9_]*$"
                           />
                           <small class="text-danger" *ngIf="isInvalidTag">
-                            Only letters, numbers, and underscores (_) are allowed.
+                            Only letters, numbers, and underscores (_) are
+                            allowed.
                           </small>
                         </div>
                       </div>
-                      
-
 
                       <div class="col-md-6">
                         <div class="form-group">
@@ -603,8 +601,6 @@
                           ></textarea>
                         </div>
                       </div>
-
-
 
                       <div class="col-md-6">
                         <div class="form-group">
@@ -1083,6 +1079,305 @@
                                 <i data-feather="plus" class="mr-25"></i>
                                 <span>Add New</span>
                               </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group" *ngIf="currentRow.event_id === 3 && currentRow.html_games">
+                        <div class="card-body">
+                          <div class="row d-flex align-items-end">
+                            <div class="col-12">
+                              <div class="form-group">
+                                <label class="form-label" for="user-plan"
+                                  >Game URL
+                                </label>
+                                <input
+                                  type="text"
+                                  id="basic-icon-default-url"
+                                  class="form-control dt-url"
+                                  placeholder=""
+                                  aria-label=""
+                                  aria-describedby="basic-icon-default-url"
+                                  name="url"
+                                  [(ngModel)]="currentRow.html_games.game_url"
+                                />
+                              </div>
+                            </div>
+                            <div class="col-12">
+                              <div class="form-group">
+                                <label class="form-label" for="user-plan"
+                                  >Game Welcome Text</label
+                                >
+                                <input
+                                  type="text"
+                                  id="basic-icon-default-wgt"
+                                  class="form-control dt-wgt"
+                                  placeholder=""
+                                  aria-label=""
+                                  aria-describedby="basic-icon-default-wgt"
+                                  name="wgt"
+                                  [(ngModel)]="
+                                    currentRow.html_games.game_welcome_text
+                                  "
+                                />
+                              </div>
+                            </div>
+                            <div class="col-md-4 col-12">
+                              <div class="form-group">
+                                <label
+                                  class="form-label"
+                                  for="basic-icon-default-author"
+                                  >Select the welcome image</label
+                                >
+                                <input
+                                  type="file"
+                                  class="form-control dt-author"
+                                  id="basic-icon-default-author"
+                                  placeholder=""
+                                  name="author"
+                                  [(ngModel)]="imageval"
+                                  (change)="uploadImage($event, 'welcome_game')"
+                                />
+                              </div>
+                            </div>
+                            <div class="col-md-4 col-12">
+                              <div class="form-group">
+                                <label
+                                  class="form-label"
+                                  for="basic-icon-default-author"
+                                  >Select the game start image</label
+                                >
+                                <input
+                                  type="file"
+                                  class="form-control dt-author"
+                                  id="basic-icon-default-author"
+                                  placeholder=""
+                                  name="author"
+                                  [(ngModel)]="imageval"
+                                  (change)="uploadImage($event, 'game_start')"
+                                />
+                              </div>
+                            </div>
+                            <div class="col-md-4 col-12">
+                              <div class="form-group">
+                                <label
+                                  class="form-label"
+                                  for="basic-icon-default-author"
+                                  >Select the game end image</label
+                                >
+                                <input
+                                  type="file"
+                                  class="form-control dt-author"
+                                  id="basic-icon-default-author"
+                                  placeholder=""
+                                  name="author"
+                                  [(ngModel)]="imageval"
+                                  (change)="uploadImage($event, 'game_end')"
+                                />
+                              </div>
+                            </div>
+
+                            <div class="col-md-6 col-12">
+                              <div class="form-group">
+                                <label
+                                  class="form-label"
+                                  for="basic-icon-default-author"
+                                  >Pick a Primary Color</label
+                                >
+                                <input
+                                  type="color"
+                                  class="form-control dt-author"
+                                  id="themeColor"
+                                  placeholder=""
+                                  name="author"
+                                  [(ngModel)]="
+                                    currentRow.html_games.selected_primary_color
+                                  "
+                                />
+                              </div>
+                            </div>
+
+                            <div class="col-md-6 col-12">
+                              <div class="form-group">
+                                <label
+                                  class="form-label"
+                                  for="basic-icon-default-author"
+                                  >Pick a Secondary Color</label
+                                >
+                                <input
+                                  type="color"
+                                  class="form-control dt-author"
+                                  id="themeColor"
+                                  placeholder=""
+                                  name="author"
+                                  [(ngModel)]="
+                                    currentRow.html_games
+                                      .selected_secondary_color
+                                  "
+                                />
+                              </div>
+                            </div>
+
+                            <div class="form-group col-12" >
+                              <form action="#" class="invoice-repeater mt-1">
+                                <div
+                                  *ngFor="
+                                    let prize of currentRow.prizes;
+                                    let i = index
+                                  "
+                                  @heightIn
+                                >
+                                  <div class="row d-flex">
+                                    <div class="col-12">
+                                    <label for="name{{ i }}"
+                                      >Prize {{ i + 1 }}*</label
+                                    >
+                                    </div>
+
+                                    <div class="col-md-6 col-12">
+                                      <div class="form-group">
+                                        <label for="itemCost"
+                                          >Prize Heading*</label
+                                        >
+                                        <input
+                                          type="text"
+                                          class="form-control"
+                                          id="prizeh"
+                                          [(ngModel)]="prize.prize_header"
+                                          name="prizeh{{ i }}"
+                                          id="prizeh{{ i }}"
+                                          placeholder="Prize Heading"
+                                        />
+                                      </div>
+                                    </div>
+
+                                    <div class="col-md-6 col-12">
+                                      <div class="form-group">
+                                        <label for="itemCost"
+                                          >Prize Description*</label
+                                        >
+                                        <textarea
+                                          type="text"
+                                          class="form-control"
+                                          [(ngModel)]="prize.prize_desc"
+                                          name="prize{{ i }}"
+                                          id="prize{{ i }}"
+                                          placeholder="Prize Description"
+                                        ></textarea>
+                                      </div>
+                                    </div>
+
+
+                                    <div class="col-md-6 col-12">
+                                      <button
+                                        type="button"
+                                        class="simple-button"
+                                        (click)="toggleUpload(prize)"
+                                      >
+                                        <b>Upload Image +</b>
+                                      </button>
+                                      <div
+                                        *ngIf="prize.file_name"
+                                        class="upload-container"
+                                      >
+                                        <label
+                                          class="upload-box"
+                                          (dragover)="onDragOver($event, prize)"
+                                          (dragleave)="
+                                            onDragLeave($event, prize)
+                                          "
+                                          (drop)="onDrop($event, prize)"
+                                        >
+                                          <input
+                                            type="file"
+                                            (change)="
+                                              onFileSelected($event, prize)
+                                            "
+                                            hidden
+                                            #fileInput
+                                          />
+    
+                                          <div class="upload-content">
+                                            <p>Drag and drop your image here</p>
+                                            <p>or</p>
+                                            <button
+                                              type="button"
+                                              (click)="fileInput.click()"
+                                            >
+                                              Browse image
+                                            </button>
+                                          </div> </label
+                                        ><br />
+                                      </div>
+                                      <!-- <p *ngIf="question.file_name"> {{ question.file_name}}</p> -->
+                                    </div>
+                                    <div
+                                      *ngIf="prize.file_name"
+                                      class="col-md-6 col-12 align-items-center justify-content-center d-flex"
+                                    >
+                                      <img
+                                        *ngIf="prize.preview; else serverImage"
+                                        [src]="prize.preview"
+                                        alt="Preview Image"
+                                        width="90%"
+                                        height="200px"
+                                      />
+    
+                                      <ng-template #serverImage>
+                                        <img
+                                          [src]="apiUrl + prize.image"
+                                          alt="Prize Image"
+                                          width="90%"
+                                          height="200px"
+                                        />
+                                      </ng-template>
+                                    </div>
+                                    <div
+                                      *ngIf="!prize.file_name"
+                                      class="col-md-6 col-12"
+                                    ></div>
+
+                                    <div
+                                      class="col-12 mb-50"
+                                      *ngIf="currentRow.prizes.length > 0"
+                                    >
+                                      <div class="form-group">
+                                        <button
+                                          class="btn btn-outline-danger text-nowrap px-1"
+                                          (click)="deletePrize(i)"
+                                          rippleEffect
+                                        >
+                                          <i data-feather="x" class="mr-25"></i>
+                                          <span>Delete</span>
+                                        </button>
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                  <small
+                                    *ngIf="errorMsg"
+                                    class="form-text text-danger"
+                                    >All fields are required!</small
+                                  >
+
+                                  <hr />
+                                </div>
+                              </form>
+                            </div>
+
+                            <div class="row">
+                              <div class="col-12">
+                                <button
+                                  class="btn btn-icon btn-primary"
+                                  type="button"
+                                  (click)="addPrize()"
+                                  rippleEffect
+                                >
+                                  <i data-feather="plus" class="mr-25"></i>
+                                  <span>Add New </span>
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>

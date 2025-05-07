@@ -51,7 +51,7 @@ export class PredictionsListComponent implements OnInit {
   private $earningsStrokeColor2 = "#28c76f66";
   private $earningsStrokeColor3 = "#28c76f33";
   public sidebarToggleRef = false;
-  public rows: any=[];
+  public rows: any = [];
   public selectedOption = 10;
   public ColumnMode = ColumnMode;
   public temp = [];
@@ -74,11 +74,12 @@ export class PredictionsListComponent implements OnInit {
   public buttonLoading: any = false;
   public currentUser: User;
   public selectedWinner: any = "";
-  public user_image: any="";
+  public user_image: any = "";
   public colors: any;
   public campaign_id: any = 0;
   public answers: string[] = [];
   public startTime: any;
+  public layout_type: any = "others";
   timer: any;
   remainingTime: number; // remaining time in milliseconds
   interval: any; // interval for updating the remaining time
@@ -91,6 +92,9 @@ export class PredictionsListComponent implements OnInit {
   limit = 10;
   isLoading = false;
   private tempData = [];
+  activeTab: string = 'home';
+  gameStatus:any='none';
+
   public submitted: any = false;
   public currentQuestionIndex: any = -1;
   private _unsubscribeAll: Subject<any>;
@@ -102,8 +106,8 @@ export class PredictionsListComponent implements OnInit {
     five: "assets/images/slider/05.jpg",
     six: "assets/images/slider/06.jpg",
   };
-  public currentUrl:any;
-  loginImage:any;
+  public currentUrl: any;
+  loginImage: any;
   showGif: boolean = false;
   @ViewChild("scrollableDiv") scrollableDiv: ElementRef;
   /**
@@ -126,8 +130,9 @@ export class PredictionsListComponent implements OnInit {
     private _route: ActivatedRoute,
     private paymentService: PaymentService
   ) {
-    this.currentUrl = window.location.href; 
-   console.log("url",this.currentUrl);
+   this.currentUrl = window.location.href;
+    this.currentUrl = window.location.href;
+    console.log("url", this.currentUrl);
 
     this.apiUrl = environment.apiUrl;
     this._authenticationService.currentUser.subscribe(
@@ -135,8 +140,7 @@ export class PredictionsListComponent implements OnInit {
     );
     console.log("current user", this.currentUser.avatar);
     this.user_image = this.apiUrl + this.httpService.USERINFO.avatar;
-    console.log("user image",this.user_image)
-
+    console.log("user image", this.user_image);
 
     this._unsubscribeAll = new Subject();
 
@@ -182,7 +186,27 @@ export class PredictionsListComponent implements OnInit {
     // Whenever The Filter Changes, Always Go Back To The First Page
     this.table.offset = 0;
   }
-
+  
+setTab(tab: string) {
+  this.activeTab = tab;
+  console.log("tabb",this.activeTab);
+}
+gotoGameStart()
+{
+  this.gameStatus='start';
+}
+gotoPlayGame(url) {
+  const urlObj = new URL(this.currentUrl);
+urlObj.searchParams.set('gameStatus', 'end');
+const redirectUrl = encodeURIComponent(urlObj.toString());
+const fullUrl = `${url}?redirect_url=${redirectUrl}&token=${this.httpService.APIToken}&campaign_id=${this.campaign_data.html_games.campaign_id}&game_id=${this.campaign_data.html_games.id}`;
+ window.location.href = fullUrl;
+}
+gotoLeaderboard(){
+this.activeTab='leaderboard';
+this.gameStatus='none';
+this.getPredictions(this.campaign_id);
+}
   /**
    * Toggle the sidebar
    *
@@ -245,14 +269,26 @@ export class PredictionsListComponent implements OnInit {
    * On init
    */
   ngOnInit(): void {
-   this. loginImage='../../../../../assets/images/pages/prediction/predict.png';
+    this.loginImage =
+      "../../../../../assets/images/pages/prediction/predict.png";
     this.apiUrl = environment.apiUrl;
     this.apiUrl_web = environment.apiUrl_web;
     this._route.queryParams.subscribe((params) => {
       if (params) {
         var campaign_id = params["campaign_id"];
         this.campaign_id = params["campaign_id"];
-        console.log("id", campaign_id);
+        if (params["event_id"]) {
+          if (params["event_id"] == 3) {
+            this.layout_type = "HTML games";
+          } else {
+            this.layout_type = "others";
+          }
+        } else {
+          this.layout_type = "others";
+        }
+        if(params['gameStatus']){
+          this.gameStatus="end";
+        }
       } else {
         this.campaign_id = 0;
       }
@@ -276,14 +312,14 @@ export class PredictionsListComponent implements OnInit {
 
     request = {
       params: {
-        campaign_id:campaign_id,
+        campaign_id: campaign_id,
         offset: this.offset.toString(),
         limit: this.limit.toString(),
       },
       action_url: "get_prediction_details",
       method: "POST",
     };
-    console.log("request",request);
+    console.log("request", request);
     this.httpService.doHttp(request).subscribe(
       (res: any) => {
         if (res == "nonet") {
@@ -292,287 +328,294 @@ export class PredictionsListComponent implements OnInit {
           } else if (res.status == true) {
             if (!this.rows) {
               this.rows = [];
+            }
+            this.rows[0] = res.data;
+            if (this.rows.length > 0) {
+              if (res.data.campaign_title == undefined) {
+                this.rows = [];
+                res.data = null;
+              }
+              if (res.data) {
+                this.campaign_data = this.rows[0];
+
+                console.log("res data", res.data);
+
+                this.campaign_data.end_date = this.formatDate(
+                  this.campaign_data.end_date
+                );
+                this.campaign_data.start_date = this.formatDate(
+                  this.campaign_data.start_date
+                );
+              }
+
+              this.tempData = this.rows;
+              if (
+                res.data &&
+                this.campaign_data.games != undefined &&
+                this.campaign_data.games.length > 0
+              ) {
+                // Step 2: Check if every quiz ID is present in self
+                this.submitted = this.campaign_data.games.every((game) =>
+                  this.campaign_data.self.some(
+                    (answer) => answer.game_id === game.id
+                  )
+                );
+                console.log("self data", this.campaign_data.self);
+                console.log(this.submitted); // Will be false because game_id 4 is missing
+
+                const teamAPercentage =
+                  this.campaign_data.games[0].team_a_percentage;
+                const teamBPercentage =
+                  this.campaign_data.games[0].team_b_percentage;
+                const teamASelectedPercentage = teamAPercentage;
+                const teamBSelectedPercentage = teamBPercentage;
+                const teamANotSelectedPercentage = 100 - teamAPercentage;
+                const teamBNotSelectedPercentage = 100 - teamBPercentage;
+
+                if (
+                  this.campaign_data.self.team_name ==
+                  this.campaign_data.games[0].team_a
+                ) {
+                  this.colors = [
+                    this.$earningsStrokeColor2,
+                    this.$earningsStrokeColor3,
+                    colors.solid.success,
+                  ];
+                } else {
+                  this.colors = ["#a6a6a666", "#a6a6a633", "#a6a6a6"];
+                }
+                this.teamAChartOptions = {
+                  chart: {
+                    type: "donut",
+                    height: 120,
+                    toolbar: {
+                      show: false,
+                    },
+                  },
+                  dataLabels: {
+                    enabled: false,
+                  },
+                  series: [teamASelectedPercentage, teamANotSelectedPercentage],
+                  legend: { show: false },
+                  comparedResult: [2, 0],
+                  labels: ["Selected", "Not Selected"],
+                  stroke: { width: 0 },
+                  colors: this.colors,
+                  grid: {
+                    padding: {
+                      right: -20,
+                      bottom: -8,
+                      left: -20,
+                    },
+                  },
+                  plotOptions: {
+                    pie: {
+                      // startAngle: -10,
+                      donut: {
+                        labels: {
+                          show: true,
+                          name: {
+                            // offsetY: 15
+                          },
+                          value: {
+                            // offsetY: -15,
+                            formatter: function (val) {
+                              return parseInt(val) + "%";
+                            },
+                          },
+                          total: {
+                            show: false,
+                            // offsetY: 15,
+                            label: this.campaign_data.games[0].team_a,
+                            formatter: function (w) {
+                              return `${teamAPercentage}%`;
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+
+                  responsive: [
+                    {
+                      breakpoint: 1325,
+                      options: {
+                        chart: {
+                          height: 100,
+                        },
+                      },
+                    },
+                    {
+                      breakpoint: 1200,
+                      options: {
+                        chart: {
+                          height: 120,
+                        },
+                      },
+                    },
+                    {
+                      breakpoint: 1065,
+                      options: {
+                        chart: {
+                          height: 100,
+                        },
+                      },
+                    },
+                    {
+                      breakpoint: 992,
+                      options: {
+                        chart: {
+                          height: 120,
+                        },
+                      },
+                    },
+                  ],
+                };
+                if (
+                  this.campaign_data.self.team_name ==
+                  this.campaign_data.games[0].team_b
+                ) {
+                  this.colors = [
+                    this.$earningsStrokeColor2,
+                    this.$earningsStrokeColor3,
+                    colors.solid.success,
+                  ];
+                } else {
+                  this.colors = ["#a6a6a666", "#a6a6a633", "#a6a6a6"];
+                }
+                this.teamBChartOptions = {
+                  chart: {
+                    type: "donut",
+                    height: 120,
+                    toolbar: {
+                      show: false,
+                    },
+                  },
+                  dataLabels: {
+                    enabled: false,
+                  },
+                  series: [teamBSelectedPercentage, teamBNotSelectedPercentage],
+                  legend: { show: false },
+                  comparedResult: [2, 0],
+                  labels: ["Selected", "Not Selected"],
+                  stroke: { width: 0 },
+                  // colors: [
+                  //   this.$earningsStrokeColor2,
+                  //   this.$earningsStrokeColor3,
+                  //   colors.solid.success,
+                  // ],
+                  colors: this.colors,
+                  grid: {
+                    padding: {
+                      right: -20,
+                      bottom: -8,
+                      left: -20,
+                    },
+                  },
+                  plotOptions: {
+                    pie: {
+                      // startAngle: -10,
+                      donut: {
+                        labels: {
+                          show: true,
+                          name: {
+                            // offsetY: 15
+                          },
+                          value: {
+                            // offsetY: -15,
+                            formatter: function (val) {
+                              return parseInt(val) + "%";
+                            },
+                          },
+                          total: {
+                            show: false,
+                            // offsetY: 15,
+                            label: this.campaign_data.games[0].team_b,
+                            formatter: function (w) {
+                              return `${teamBPercentage}%`;
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+
+                  responsive: [
+                    {
+                      breakpoint: 1325,
+                      options: {
+                        chart: {
+                          height: 100,
+                        },
+                      },
+                    },
+                    {
+                      breakpoint: 1200,
+                      options: {
+                        chart: {
+                          height: 120,
+                        },
+                      },
+                    },
+                    {
+                      breakpoint: 1065,
+                      options: {
+                        chart: {
+                          height: 100,
+                        },
+                      },
+                    },
+                    {
+                      breakpoint: 992,
+                      options: {
+                        chart: {
+                          height: 120,
+                        },
+                      },
+                    },
+                  ],
+                };
+              }
+              if (
+                res.data &&
+                this.campaign_data.quizzes != undefined &&
+                this.campaign_data.quizzes.length > 0
+              ) {
+                // if (this.campaign_data.participants !== undefined && this.campaign_data.quizzes) {
+                //   this.submitted = this.campaign_data.quizzes.every((quiz) =>
+                //     (this.campaign_data.self || []).some(
+                //       (answer) => answer.game_id === quiz.id
+                //     )
+                //   );
+                // }
+                console.log("self data", this.campaign_data.self);
+
+                this.campaign_data.duration =
+                  this.campaign_data.duration * 60 * 1000;
+                this.remainingTime = this.campaign_data.duration;
+                console.log(this.submitted);
+              }
+              if (
+                res.data &&
+                this.campaign_data.html_games != undefined &&
+                this.campaign_data.html_games.length > 0
+              ) {
+                this.campaign_data.html_games=this.campaign_data.html_games[0];
+              }
+            }
           }
-          this.rows[0] = res.data;
-            if(this.rows.length>0){
-            if (res.data.campaign_title == undefined) {
-              this.rows = [];
-              res.data = null;
-            }
-            if (res.data) {
-            
-              this.campaign_data = this.rows[0];
-
-              console.log("res data", res.data);
-
-              this.campaign_data.end_date = this.formatDate(
-                this.campaign_data.end_date
-              );
-              this.campaign_data.start_date = this.formatDate(
-                this.campaign_data.start_date
-              );
-            }
-
-            this.tempData = this.rows;
-            if (
-              res.data &&
-              this.campaign_data.games != undefined &&
-              this.campaign_data.games.length > 0
-            ) {
-              // Step 2: Check if every quiz ID is present in self
-              this.submitted = this.campaign_data.games.every((game) =>
-                this.campaign_data.self.some(
-                  (answer) => answer.game_id === game.id
-                )
-              );
-              console.log("self data",this.campaign_data.self);
-              console.log(this.submitted); // Will be false because game_id 4 is missing
-
-              const teamAPercentage =
-                this.campaign_data.games[0].team_a_percentage;
-              const teamBPercentage =
-                this.campaign_data.games[0].team_b_percentage;
-              const teamASelectedPercentage = teamAPercentage;
-              const teamBSelectedPercentage = teamBPercentage;
-              const teamANotSelectedPercentage = 100 - teamAPercentage;
-              const teamBNotSelectedPercentage = 100 - teamBPercentage;
-
-              if (
-                this.campaign_data.self.team_name ==
-                this.campaign_data.games[0].team_a
-              ) {
-                this.colors = [
-                  this.$earningsStrokeColor2,
-                  this.$earningsStrokeColor3,
-                  colors.solid.success,
-                ];
-              } else {
-                this.colors = ["#a6a6a666", "#a6a6a633", "#a6a6a6"];
-              }
-              this.teamAChartOptions = {
-                chart: {
-                  type: "donut",
-                  height: 120,
-                  toolbar: {
-                    show: false,
-                  },
-                },
-                dataLabels: {
-                  enabled: false,
-                },
-                series: [teamASelectedPercentage, teamANotSelectedPercentage],
-                legend: { show: false },
-                comparedResult: [2, 0],
-                labels: ["Selected", "Not Selected"],
-                stroke: { width: 0 },
-                colors: this.colors,
-                grid: {
-                  padding: {
-                    right: -20,
-                    bottom: -8,
-                    left: -20,
-                  },
-                },
-                plotOptions: {
-                  pie: {
-                    // startAngle: -10,
-                    donut: {
-                      labels: {
-                        show: true,
-                        name: {
-                          // offsetY: 15
-                        },
-                        value: {
-                          // offsetY: -15,
-                          formatter: function (val) {
-                            return parseInt(val) + "%";
-                          },
-                        },
-                        total: {
-                          show: false,
-                          // offsetY: 15,
-                          label: this.campaign_data.games[0].team_a,
-                          formatter: function (w) {
-                            return `${teamAPercentage}%`;
-                          },
-                        },
-                      },
-                    },
-                  },
-                },
-
-                responsive: [
-                  {
-                    breakpoint: 1325,
-                    options: {
-                      chart: {
-                        height: 100,
-                      },
-                    },
-                  },
-                  {
-                    breakpoint: 1200,
-                    options: {
-                      chart: {
-                        height: 120,
-                      },
-                    },
-                  },
-                  {
-                    breakpoint: 1065,
-                    options: {
-                      chart: {
-                        height: 100,
-                      },
-                    },
-                  },
-                  {
-                    breakpoint: 992,
-                    options: {
-                      chart: {
-                        height: 120,
-                      },
-                    },
-                  },
-                ],
-              };
-              if (
-                this.campaign_data.self.team_name ==
-                this.campaign_data.games[0].team_b
-              ) {
-                this.colors = [
-                  this.$earningsStrokeColor2,
-                  this.$earningsStrokeColor3,
-                  colors.solid.success,
-                ];
-              } else {
-                this.colors = ["#a6a6a666", "#a6a6a633", "#a6a6a6"];
-              }
-              this.teamBChartOptions = {
-                chart: {
-                  type: "donut",
-                  height: 120,
-                  toolbar: {
-                    show: false,
-                  },
-                },
-                dataLabels: {
-                  enabled: false,
-                },
-                series: [teamBSelectedPercentage, teamBNotSelectedPercentage],
-                legend: { show: false },
-                comparedResult: [2, 0],
-                labels: ["Selected", "Not Selected"],
-                stroke: { width: 0 },
-                // colors: [
-                //   this.$earningsStrokeColor2,
-                //   this.$earningsStrokeColor3,
-                //   colors.solid.success,
-                // ],
-                colors: this.colors,
-                grid: {
-                  padding: {
-                    right: -20,
-                    bottom: -8,
-                    left: -20,
-                  },
-                },
-                plotOptions: {
-                  pie: {
-                    // startAngle: -10,
-                    donut: {
-                      labels: {
-                        show: true,
-                        name: {
-                          // offsetY: 15
-                        },
-                        value: {
-                          // offsetY: -15,
-                          formatter: function (val) {
-                            return parseInt(val) + "%";
-                          },
-                        },
-                        total: {
-                          show: false,
-                          // offsetY: 15,
-                          label: this.campaign_data.games[0].team_b,
-                          formatter: function (w) {
-                            return `${teamBPercentage}%`;
-                          },
-                        },
-                      },
-                    },
-                  },
-                },
-
-                responsive: [
-                  {
-                    breakpoint: 1325,
-                    options: {
-                      chart: {
-                        height: 100,
-                      },
-                    },
-                  },
-                  {
-                    breakpoint: 1200,
-                    options: {
-                      chart: {
-                        height: 120,
-                      },
-                    },
-                  },
-                  {
-                    breakpoint: 1065,
-                    options: {
-                      chart: {
-                        height: 100,
-                      },
-                    },
-                  },
-                  {
-                    breakpoint: 992,
-                    options: {
-                      chart: {
-                        height: 120,
-                      },
-                    },
-                  },
-                ],
-              };
-            }
-            if (
-              res.data &&
-              this.campaign_data.quizzes != undefined &&
-              this.campaign_data.quizzes.length > 0
-            ) {
-              // if (this.campaign_data.participants !== undefined && this.campaign_data.quizzes) {
-              //   this.submitted = this.campaign_data.quizzes.every((quiz) =>
-              //     (this.campaign_data.self || []).some(
-              //       (answer) => answer.game_id === quiz.id
-              //     )
-              //   );
-              // }
-              console.log("self data",this.campaign_data.self);
-              
-              this.campaign_data.duration =
-                this.campaign_data.duration * 60 * 1000;
-              this.remainingTime = this.campaign_data.duration;
-              console.log(this.submitted);
-            }
-          }}
         }
-        if(this.rows>length){
-        setTimeout(() => {
-          // Get Dynamic Width for Charts
-          this.isMenuToggled = true;
-        
-          this.teamAChartOptions.chart.width =
-            this.earningChartRef?.nativeElement.offsetWidth;
-          this.teamBChartOptions.chart.width =
-            this.earningChartRef?.nativeElement.offsetWidth;
-        }, 500);
-      }
+        if (this.rows > length) {
+          setTimeout(() => {
+            // Get Dynamic Width for Charts
+            this.isMenuToggled = true;
+
+            this.teamAChartOptions.chart.width =
+              this.earningChartRef?.nativeElement.offsetWidth;
+            this.teamBChartOptions.chart.width =
+              this.earningChartRef?.nativeElement.offsetWidth;
+          }, 500);
+        }
         this.loading = false;
       },
 
@@ -584,7 +627,7 @@ export class PredictionsListComponent implements OnInit {
   isLink(text: string): boolean {
     return /(http|https):\/\/[^\s]+/.test(text);
   }
-  
+
   getParticipantsInfo() {
     // this.loading = true;
     this.refresh_loading = true;
@@ -678,6 +721,10 @@ export class PredictionsListComponent implements OnInit {
   }
   gotoProfile() {
     this._router.navigate(["../../pages/account-settings"]);
+  }
+  gotoHome(){
+    this.activeTab='home';
+    this.gameStatus='none';
   }
   goToNextQuestion() {
     console.log("next question clicked", this.currentQuestionIndex);
@@ -876,19 +923,19 @@ export class PredictionsListComponent implements OnInit {
   }
   tryAgain() {
     const billingData = {
-      apartment: 'NA',
-      email: 'user@example.com',
-      floor: 'NA',
-      first_name: 'John',
-      last_name: 'Doe',
-      phone_number: '+201234567890',
-      street: 'NA',
-      building: 'NA',
-      shipping_method: 'NA',
-      postal_code: '12345',
-      city: 'Cairo',
-      country: 'EG',
-      state: 'NA',
+      apartment: "NA",
+      email: "user@example.com",
+      floor: "NA",
+      first_name: "John",
+      last_name: "Doe",
+      phone_number: "+201234567890",
+      street: "NA",
+      building: "NA",
+      shipping_method: "NA",
+      postal_code: "12345",
+      city: "Cairo",
+      country: "EG",
+      state: "NA",
     };
 
     // this.paymentService.createOrder({ items: [] }).subscribe((order) => {
@@ -908,14 +955,21 @@ export class PredictionsListComponent implements OnInit {
     // });
 
     this.paymentService.authenticate().subscribe((authResponse: any) => {
-      this.paymentService.createOrder(authResponse.token, 100).subscribe((orderResponse: any) => {
-        this.paymentService
-          .generatePaymentKey(authResponse.token, orderResponse.id, billingData, 100)
-          .subscribe((paymentKeyResponse: any) => {
-            const iframeUrl = `https://uae.paymob.com/api/acceptance/iframes/24232?payment_token=${paymentKeyResponse.token}`;
-            window.location.href = iframeUrl; // Redirect to Paymob iframe
-          });
-      });
+      this.paymentService
+        .createOrder(authResponse.token, 100)
+        .subscribe((orderResponse: any) => {
+          this.paymentService
+            .generatePaymentKey(
+              authResponse.token,
+              orderResponse.id,
+              billingData,
+              100
+            )
+            .subscribe((paymentKeyResponse: any) => {
+              const iframeUrl = `https://uae.paymob.com/api/acceptance/iframes/24232?payment_token=${paymentKeyResponse.token}`;
+              window.location.href = iframeUrl; // Redirect to Paymob iframe
+            });
+        });
     });
   }
 }

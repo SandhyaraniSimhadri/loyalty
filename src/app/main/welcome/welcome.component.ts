@@ -35,6 +35,7 @@ export class WelcomeComponent implements OnInit {
   public confirm_password:any;
   public welcome_image:any;
   public welcome_text:any=null;
+  public event_id:any;
 
   constructor(
     private _coreConfigService: CoreConfigService,
@@ -84,6 +85,9 @@ export class WelcomeComponent implements OnInit {
         if(params['welcome_text']){
           this.welcome_text=params['welcome_text'];
         }
+        if(params['event_id']){
+          this.event_id=params['event_id'];
+        }
       }});
       console.log("welcome text",this.welcome_text);
   }
@@ -100,7 +104,7 @@ export class WelcomeComponent implements OnInit {
         }
       else{
         this._router.navigate(["/predictions/predictions"], {
-          queryParams: { campaign_id: this.campaign_id },
+          queryParams: { campaign_id: this.campaign_id, event_id:this.event_id },
         });
       }
       } else {
@@ -142,7 +146,7 @@ export class WelcomeComponent implements OnInit {
       }
     else{
       this._router.navigate(["/predictions/predictions"], {
-        queryParams: { campaign_id: this.campaign_id },
+        queryParams: { campaign_id: this.campaign_id , event_id:this.event_id},
       });
       return;
     }
@@ -181,7 +185,7 @@ export class WelcomeComponent implements OnInit {
             }
           else{
             this._router.navigate(["/predictions/predictions"], {
-              queryParams: { campaign_id: this.campaign_id },
+              queryParams: { campaign_id: this.campaign_id ,event_id:this.event_id },
             });
           }}
           }
