@@ -57,16 +57,14 @@
                       class="round"
                       [src]="user_image"
                       alt="avatar"
-                      height="100"
-                      width="100"
+                     
                     />
                     <img
                       *ngIf="httpService.USERINFO.avatar == null"
                       class="round"
-                      src="assets/images/profile/person.png"
+                      src="assets/images/leaderboard/person.png"
                       alt="avatar"
-                      height="90"
-                      width="90"
+                    
                       style="background-color: white"
                     />
                   </div>
@@ -388,11 +386,9 @@
                           Time Remaining: {{ formatTime(remainingTime) }}
                         </div> -->
                     <h5 class="question-text" style="text-align: left">
-                      <ng-template>
-                        {{
-                          campaign_data.quizzes[currentQuestionIndex].question
-                        }}
-                      </ng-template>
+                    
+                        {{campaign_data.quizzes[currentQuestionIndex].question}}
+                     
                     </h5>
 
                     <div
@@ -646,10 +642,11 @@
               ? onScroll($event)
               : null
           "
+          style=" width: 380px;"
         >
           <!-- Company Table -->
 
-          <div class="card">
+          <div class="card" style="border-radius: 0px !important;" style="width: 380px !important;">
             <div
               class="card-body"
               style="padding: 0 !important; overflow: hidden"
@@ -685,9 +682,7 @@
               <div *ngIf="rows.length > 0">
                 <div
                   style="
-                    padding-left: 2rem !important;
-                    padding-right: 2rem !important;
-                    margin: 0 !important;
+                    margin: 0 !important;border-top: 1px solid rgb(216, 212, 212);
                   "
                   *ngFor="
                     let participant of campaign_data.participants;
@@ -696,7 +691,13 @@
                 >
                   <div
                     class="row"
-                    style="border-top: 1px solid rgb(216, 212, 212)"
+                    style="padding-top: 12px;padding-bottom: 12px;padding-left: 2rem !important;padding-right: 2rem !important;"
+                     [ngStyle]="{
+                          'background-color':
+                            participant.user_id == httpService.USERINFO.id
+                              ? '#DFD8F7'
+                              : 'transparent'
+                        }"
                   >
                     <div
                       class="col-12"
@@ -709,12 +710,7 @@
                           border-top-width: 1px;
                           border-bottom-width: 1px;
                         "
-                        [ngStyle]="{
-                          'background-color':
-                            participant.user_id == httpService.USERINFO.id
-                              ? '#DFD8F7'
-                              : 'transparent'
-                        }"
+                       
                       >
                         <div class="col-2">
                           <span
@@ -738,7 +734,7 @@
                               style="background-color: none"
                               *ngIf="participant.avatar == null"
                               class="round avatar"
-                              src="assets/images/profile/person.png"
+                              src="assets/images/leaderboard/person.png"
                               alt="avatar"
                               height="50"
                               width="50"
@@ -892,8 +888,8 @@
       </div>
       
 
-        <!-- Top Buttons -->
-        <div class="button-group mt-3" style="z-index: 99999">
+     
+      <div class="same-width-container button-group mt-3" style="z-index: 99999;">
           <button
             class="top-btn"
             [ngClass]="{ 'active-btn': activeTab === 'home' }"
@@ -935,7 +931,7 @@
             <img
               *ngIf="!campaign_data?.participants[1]?.avatar"
               class="round avatar"
-              src="assets/images/profile/person.png"
+              src="assets/images/leaderboard/person.png"
               alt="avatar"
               height="50"
               width="50"
@@ -964,7 +960,7 @@
             <img
               *ngIf="!campaign_data?.participants[0]?.avatar"
               class="round avatar"
-              src="assets/images/profile/person.png"
+              src="assets/images/leaderboard/person.png"
               alt="avatar"
               height="50"
               width="50"
@@ -995,7 +991,7 @@
             <img
               *ngIf="!campaign_data?.participants[2]?.avatar"
               class="round avatar"
-              src="assets/images/profile/person.png"
+              src="assets/images/leaderboard/person.png"
               alt="avatar"
               height="50"
               width="50"
@@ -1013,9 +1009,9 @@
 
         <div
           class="card leaderboard-card"
-          *ngIf="activeTab == 'leaderboard'" style="margin-left: 2rem !important;margin-right: 2rem !important;"
+          *ngIf="activeTab == 'leaderboard'" style="margin-left: 2rem !important;margin-right: 2rem !important;margin-left: 2rem !important; margin-right: 2rem !important;border-radius:3px !important"
         >
-          <div class="card-body p-0 overflow-hidden" >
+          <div class="card-body p-0 overflow-hidden" style="border-radius: 5px !important;">
             <div class="row px-1">
               <div class="col-12">
                 <div class="leaderboard-header mt-1">
@@ -1073,7 +1069,7 @@
                           <img
                             *ngIf="!participant.avatar"
                             class="round avatar"
-                            src="assets/images/profile/person.png"
+                            src="assets/images/leaderboard/person.png"
                             alt="avatar"
                             height="50"
                             width="50"
@@ -1152,10 +1148,10 @@
           />
           <div style="margin-top: -4rem !important;">
           <div
-            class="card leaderboard-card mb-3 ml-2 mr-2"
+            class="card leaderboard-card mb-3 ml-2 mr-2" style="margin-left: 2rem !important; margin-right: 2rem !important;border-radius:3px !important"
             *ngFor="let prize of campaign_data.prizes; let i = index"
           >
-            <div class="card-body p-0 overflow-hidden">
+            <div class="card-body p-0 overflow-hidden"  style="border-radius: 5px !important;">
               <div class="px-1">
               
                   <div class="leaderboard-header mt-1" >
@@ -1195,8 +1191,7 @@
         </div>
       </div>
 
-      <!-- Bottom Button -->
-      <div class="mb-5" *ngIf="activeTab == 'home'">
+      <div class="same-width-container mb-5" *ngIf="activeTab == 'home'">
         <button class="go-button" (click)="gotoGameStart()">LET'S GO</button>
       </div>
     </div>

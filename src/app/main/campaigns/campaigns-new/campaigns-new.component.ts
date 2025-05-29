@@ -58,8 +58,8 @@ export class CampaignsNewComponent implements OnInit {
   public title: any;
   public errorMsg: any = false;
   public durationMsg: any = false;
-  public selected_primary_color: string = '#3c3da6';
-  public selected_secondary_color:string="#3c3da6"
+  public selected_primary_color: string = "#3c3da6";
+  public selected_secondary_color: string = "#3c3da6";
   public duration: any = 0;
   public calculatePoints: boolean = false;
 
@@ -96,7 +96,6 @@ export class CampaignsNewComponent implements OnInit {
     },
   ];
 
-
   public prizes = [
     {
       id: "",
@@ -109,7 +108,6 @@ export class CampaignsNewComponent implements OnInit {
     },
   ];
 
-
   public prize = [
     {
       prize_header: "",
@@ -120,7 +118,6 @@ export class CampaignsNewComponent implements OnInit {
       showUpload: false,
     },
   ];
-
 
   isInvalidTag: boolean = false;
   public game = {
@@ -236,10 +233,6 @@ export class CampaignsNewComponent implements OnInit {
     }
   }
 
-
-
-
-  
   addPrize() {
     this.prizes.push({
       id: "",
@@ -259,7 +252,6 @@ export class CampaignsNewComponent implements OnInit {
       }
     }
   }
-
 
   submit(form) {
     // Validation logic remains the same...
@@ -298,7 +290,6 @@ export class CampaignsNewComponent implements OnInit {
         };
       });
 
-      
       const prizesData = this.prizes.map(async (prize) => {
         return {
           ...prize,
@@ -308,11 +299,9 @@ export class CampaignsNewComponent implements OnInit {
         };
       });
 
-
       const processedGames = await Promise.all(gamesData);
       const processedQuestions = await Promise.all(questionsData);
       const processedPrizes = await Promise.all(prizesData);
-
 
       const payload = {
         campaign_title: this.campaign_title,
@@ -326,8 +315,8 @@ export class CampaignsNewComponent implements OnInit {
         login_tet: this.login_text,
         welcome_text: this.welcome_text,
         game_welcome_text: this.game_welcome_text,
-        selected_primary_color:this.selected_primary_color,
-        selected_secondary_color:this.selected_secondary_color,
+        selected_primary_color: this.selected_primary_color,
+        selected_secondary_color: this.selected_secondary_color,
         game_url: this.game_url,
         terms_and_conditions: this.terms_and_conditions,
         game_type: this.game_type,
@@ -349,13 +338,16 @@ export class CampaignsNewComponent implements OnInit {
           ? await convertFileToBase64(this.campaign_image)
           : null,
 
-          game_start_image: this.game_start_image? await convertFileToBase64(this.game_start_image): null,
-          game_end_image: this.game_end_image? await convertFileToBase64(this.game_end_image): null,
+        game_start_image: this.game_start_image
+          ? await convertFileToBase64(this.game_start_image)
+          : null,
+        game_end_image: this.game_end_image
+          ? await convertFileToBase64(this.game_end_image)
+          : null,
 
         games: this.event_id == 1 ? processedGames : [],
         questions: this.event_id == 2 ? processedQuestions : [],
         prizes: this.event_id == 3 ? processedPrizes : [],
-
       };
 
       // Send as JSON
@@ -537,5 +529,4 @@ export class CampaignsNewComponent implements OnInit {
     const regex = /^[a-zA-Z0-9_]*$/;
     this.isInvalidTag = !regex.test(this.campaign_tag);
   }
-  
 }

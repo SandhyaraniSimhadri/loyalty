@@ -727,6 +727,7 @@ this.getPredictions(this.campaign_id);
     this.gameStatus='none';
   }
   goToNextQuestion() {
+    // this.currentQuestionIndex=0;
     console.log("next question clicked", this.currentQuestionIndex);
     if (this.selectedWinner) {
       this.answers[this.currentQuestionIndex] = this.selectedWinner;
@@ -744,6 +745,8 @@ this.getPredictions(this.campaign_id);
         this.showGif = false;
         this.startTime = Date.now();
         this.currentQuestionIndex = 0;
+    console.log("next question clicked", this.currentQuestionIndex);
+
         this.remainingTime = this.campaign_data.duration;
         this.updateRemainingTime();
         this.interval = setInterval(() => {
@@ -849,7 +852,7 @@ this.getPredictions(this.campaign_id);
     this._router.navigate(["../../pages/account-settings"]);
   }
   logout() {
-    console.log("logout");
+
     this._authenticationService.logout();
   }
 

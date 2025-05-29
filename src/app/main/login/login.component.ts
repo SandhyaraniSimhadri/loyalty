@@ -197,14 +197,6 @@ export class LoginComponent implements OnInit {
                 this.httpService.APIToken = user_data.token;
                 this.httpService.loginuserid = user_data.user_id;
 
-                setTimeout(() => {
-                  this._toastrService.success(
-                    "You have successfully logged in. Now you can start to explore. Enjoy! 🎉",
-                    "👋 Welcome !",
-                    { toastClass: "toast ngx-toastr", closeButton: true }
-                  );
-                }, 4500);
-
                 // setTimeout(() => {
                 console.log(
                   "first time login",
@@ -483,13 +475,6 @@ export class LoginComponent implements OnInit {
               }
               this.main_loading = false;
 
-              setTimeout(() => {
-                this._toastrService.success(
-                  "You have successfully logged in. Now you can start to explore. Enjoy! 🎉",
-                  "👋 Welcome !",
-                  { toastClass: "toast ngx-toastr", closeButton: true }
-                );
-              }, 3500);
             } else {
               this._toastrService.success(
                 res.msg + " , Please login",

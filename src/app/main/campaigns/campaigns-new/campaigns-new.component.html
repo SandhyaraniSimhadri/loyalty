@@ -765,10 +765,9 @@
           <div class="form-group" *ngIf="event_id == 3">
             <div class="card-body">
               <div>
-
                 <div class="form-group">
                   <label class="form-label" for="user-plan"
-                    >Game  URL<span
+                    >Game URL<span
                       *ngIf="newUserForm.submitted && urlRef.invalid"
                       class="text-danger"
                       >*</span
@@ -802,7 +801,7 @@
                   </span>
                 </div>
 
-                  <div class="form-group">
+                <div class="form-group">
                   <label class="form-label" for="user-plan"
                     >Game Welcome Text<span
                       *ngIf="newUserForm.submitted && wgtRef.invalid"
@@ -852,8 +851,6 @@
                   />
                 </div>
 
-              
-
                 <div class="form-group">
                   <label class="form-label" for="basic-icon-default-author"
                     >Select the game start image</label
@@ -894,7 +891,6 @@
                     placeholder=""
                     name="author"
                     [(ngModel)]="selected_primary_color"
-                 
                   />
                 </div>
 
@@ -909,15 +905,11 @@
                     placeholder=""
                     name="author"
                     [(ngModel)]="selected_secondary_color"
-                 
                   />
                 </div>
 
                 <form action="#" class="invoice-repeater mt-1">
-                  <div
-                    *ngFor="let prize of prizes; let i = index"
-                    @heightIn
-                  >
+                  <div *ngFor="let prize of prizes; let i = index" @heightIn>
                     <div class="row d-flex align-items-end">
                       <div class="col-12">
                         <div class="form-group">
@@ -941,15 +933,15 @@
                           <div class="col-12">
                             <div class="form-group">
                               <label for="itemCost">Prize Heading*</label>
-                          <textarea
-                            type="text"
-                            class="form-control"
-                            [(ngModel)]="prize.prize_desc"
-                            name="prize{{ i }}"
-                            id="prize{{ i }}"
-                            placeholder="Prize Description"
-                          ></textarea>
-                          </div>
+                              <textarea
+                                type="text"
+                                class="form-control"
+                                [(ngModel)]="prize.prize_desc"
+                                name="prize{{ i }}"
+                                id="prize{{ i }}"
+                                placeholder="Prize Description"
+                              ></textarea>
+                            </div>
                           </div>
                           <div>
                             <button
@@ -975,7 +967,7 @@
                                   hidden
                                   #fileInput
                                 />
-  
+
                                 <div class="upload-content">
                                   <p>Drag and drop your image here</p>
                                   <p>or</p>
@@ -994,12 +986,7 @@
                           </div>
                         </div>
                       </div>
-  
-             
-  
-                  
-  
-                     
+
                       <div
                         class="col-md-2 col-12 mb-50"
                         *ngIf="prizes.length > 1"
@@ -1019,7 +1006,7 @@
                     <small *ngIf="errorMsg" class="form-text text-danger"
                       >All fields are required!</small
                     >
-  
+
                     <hr />
                   </div>
                 </form>

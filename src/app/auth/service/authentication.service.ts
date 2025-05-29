@@ -128,7 +128,6 @@ export class AuthenticationService {
     this.currentUser = null;
     this.currentUserSubject.next(null);
     this.currentUserSubject = null;
-    this._router.navigate(["/"]);
     this.clearAllCookies();
     setTimeout(() => {
       window.location.href="/";

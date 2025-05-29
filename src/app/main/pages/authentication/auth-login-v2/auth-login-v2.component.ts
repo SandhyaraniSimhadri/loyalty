@@ -108,14 +108,6 @@ export class AuthLoginV2Component implements OnInit {
           const user = data;
           if (data.status) {
             localStorage.setItem("currentUser", JSON.stringify(user.data));
-
-            setTimeout(() => {
-              this._toastrService.success(
-                "You have successfully logged in. Now you can start to explore. Enjoy! 🎉",
-                "👋 Welcome !",
-                { toastClass: "toast ngx-toastr", closeButton: true }
-              );
-            }, 2500);
             this._router.navigate([this.returnUrl]);
           } else {
             setTimeout(() => {
