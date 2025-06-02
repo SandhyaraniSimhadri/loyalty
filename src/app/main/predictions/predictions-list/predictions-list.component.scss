@@ -372,6 +372,17 @@ button:focus {
   border: none;
   width: 376px;
 }
+.go-button-1 {
+  padding: 14px 32px;
+  background-color: #4b4fb4;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 8px;
+  border: none;
+  width: 376px;
+}
+
 
 .top-btn {
   padding: 8px 12px;
@@ -495,7 +506,7 @@ button:focus {
   border-radius: 50%;
   object-fit: cover;
   position: absolute;
-  top: -11px;
+  top: -6rem;
   border: 3px solid white;
   z-index: 5;
 }
