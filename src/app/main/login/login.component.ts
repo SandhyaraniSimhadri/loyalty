@@ -54,6 +54,7 @@ export class LoginComponent implements OnInit {
   public loading = false;
   public submitted = false;
   public returnUrl: string;
+  public login_screen_image:any=true;
   public error = "";
   public passwordTextType: boolean;
   public role_data: any;
@@ -581,6 +582,9 @@ export class LoginComponent implements OnInit {
     );
   }
   setRegistration(values: any) {
+    console.log("vieww",this.login_screen_image);
+    // return; 
+
     this.loading = true;
     let request = {
       params: {
@@ -613,9 +617,9 @@ export class LoginComponent implements OnInit {
             // }, 500);
             this.type = 0;
             this.register_clicked=false;
-            this._router.navigate(["/"], {
-              queryParams: { campaign_id: this.campaign_id },
-            });
+            // this._router.navigate(["/"], {
+            //   queryParams: { campaign_id: this.campaign_id },
+            // });
             console.log("campaign id", this.campaign_id);
             
           }
@@ -626,6 +630,9 @@ export class LoginComponent implements OnInit {
         this.loading = false;
       }
     );
+    if(this.screenSize=='small'){
+    this.login_screen_image=false;}
+    console.log("login screen",this.login_screen_image);
   }
   onCaptchaResolved(response: any): void {
     // Use the response token as needed
@@ -666,6 +673,7 @@ export class LoginComponent implements OnInit {
   }
 
   goToNext() {
+    console.log("trueeee",this.showLoginForm);
     if (this.screenSize === 'small') {
       this.showLoginForm = true; // Hide the image section on small screens
     }
