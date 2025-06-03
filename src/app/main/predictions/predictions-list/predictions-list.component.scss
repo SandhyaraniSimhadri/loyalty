@@ -510,7 +510,17 @@ button:focus {
   border: 3px solid white;
   z-index: 5;
 }
-
+.avatar-image{
+  background-color: white;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: absolute;
+  top: -0.8rem;
+  border: 3px solid white;
+  z-index: 5;
+}
 .position-label-1 {
   font-size: 8rem;
   font-weight: bold;

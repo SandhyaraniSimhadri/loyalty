@@ -194,6 +194,7 @@ setTab(tab: string) {
 gotoGameStart()
 {
   this.gameStatus='start';
+  console.log("game status",this.gameStatus);
 }
 gotoPlayGame(url) {
   const urlObj = new URL(this.currentUrl);
