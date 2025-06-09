@@ -168,11 +168,13 @@ export class WelcomeComponent implements OnInit {
                 toastClass: "toast ngx-toastr",
                 closeButton: true,
               });
+               this.loading = false;
             } else if (res.status == true) {
               this._toastrService.success(res.msg, "Success", {
                 toastClass: "toast ngx-toastr",
                 closeButton: true,
               });
+               this.loading = false;
               this.httpService.USERINFO.avatar = res.data;
               localStorage.removeItem("currentUser");
               localStorage.clear();
@@ -189,7 +191,7 @@ export class WelcomeComponent implements OnInit {
             });
           }}
           }
-          this.loading = false;
+         
         },
         (error: any) => {}
       );

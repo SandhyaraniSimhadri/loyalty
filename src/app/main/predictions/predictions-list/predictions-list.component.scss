@@ -122,6 +122,7 @@ button:focus {
   object-fit: contain;
 }
 
+/* Ensures full-screen gradient background on all devices */
 .body-cls {
   background: linear-gradient(to right, rgb(168, 204, 238), #7459dc);
   min-height: 100vh;
@@ -129,19 +130,23 @@ button:focus {
   margin: 0;
   padding: 0;
   position: relative;
-  padding-right: 0 !important;
+  box-sizing: border-box;
   padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 
+/* Responsive full-screen background image container */
 .bg-image-container {
   height: 100vh;
   width: 100%;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  padding: 0 !important;
   margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box;
 }
+
 
 .demo-inline-spacing {
   display: flex;
