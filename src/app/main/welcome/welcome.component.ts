@@ -30,12 +30,12 @@ export class WelcomeComponent implements OnInit {
   public passwordTextTypeOld = false;
   public passwordTextTypeNew = false;
   public passwordTextTypeRetype = false;
-  public old_password:any;
-  public new_password:any;
-  public confirm_password:any;
-  public welcome_image:any;
-  public welcome_text:any=null;
-  public event_id:any;
+  public old_password: any;
+  public new_password: any;
+  public confirm_password: any;
+  public welcome_image: any;
+  public welcome_text: any = null;
+  public event_id: any;
 
   constructor(
     private _coreConfigService: CoreConfigService,
@@ -43,10 +43,8 @@ export class WelcomeComponent implements OnInit {
     private http: HttpClient,
     public httpService: CoreHttpService,
     private _router: Router,
-    private _route: ActivatedRoute,
+    private _route: ActivatedRoute
   ) {
-
-
     console.log("section", this.section);
 
     // Configure the layout
@@ -71,42 +69,45 @@ export class WelcomeComponent implements OnInit {
     this.apiUrl = environment.apiUrl;
     this.user_info = this.httpService.USERINFO;
     this.avatarImage = this.user_info.avatar;
-    if(this.avatarImage){
-      this.avatarImage= this.apiUrl +this.avatarImage;
+    if (this.avatarImage) {
+      this.avatarImage = this.apiUrl + this.avatarImage;
     }
     console.log("user infooo", this.user_info);
     this.section = 1;
     this._route.queryParams.subscribe((params) => {
       if (params) {
-        this.campaign_id=params['campaign_id'];
-        if(params['welcome_image']){
-          this.welcome_image=params['welcome_image'];
+        this.campaign_id = params["campaign_id"];
+        if (params["welcome_image"]) {
+          this.welcome_image = params["welcome_image"];
         }
-        if(params['welcome_text']){
-          this.welcome_text=params['welcome_text'];
+        if (params["welcome_text"]) {
+          this.welcome_text = params["welcome_text"];
         }
-        if(params['event_id']){
-          this.event_id=params['event_id'];
+        if (params["event_id"]) {
+          this.event_id = params["event_id"];
         }
-      }});
-      console.log("welcome text",this.welcome_text);
+      }
+    });
+    console.log("welcome text", this.welcome_text);
   }
 
   ngOnDestroy(): void {}
 
   goToNext() {
     if (this.section == 1) {
-      this.section=2;
+      this.section = 2;
     } else if (this.section == 2) {
       if (this.avatarImage == null) {
-        if(this.httpService.USERINFO.user_type==1){
+        if (this.httpService.USERINFO.user_type == 1) {
           this._router.navigate(["/company/company"]);
+        } else {
+          this._router.navigate(["/predictions/predictions"], {
+            queryParams: {
+              campaign_id: this.campaign_id,
+              event_id: this.event_id,
+            },
+          });
         }
-      else{
-        this._router.navigate(["/predictions/predictions"], {
-          queryParams: { campaign_id: this.campaign_id, event_id:this.event_id },
-        });
-      }
       } else {
         this.save();
       }
@@ -138,18 +139,19 @@ export class WelcomeComponent implements OnInit {
     this.loading = true;
 
     const formData = new FormData();
-    if(this.image==undefined || this.image==null){
-      if(this.httpService.USERINFO.user_type==1){
+    if (this.image == undefined || this.image == null) {
+      if (this.httpService.USERINFO.user_type == 1) {
         this._router.navigate(["/company/company"]);
-      return;
-
+        return;
+      } else {
+        this._router.navigate(["/predictions/predictions"], {
+          queryParams: {
+            campaign_id: this.campaign_id,
+            event_id: this.event_id,
+          },
+        });
+        return;
       }
-    else{
-      this._router.navigate(["/predictions/predictions"], {
-        queryParams: { campaign_id: this.campaign_id , event_id:this.event_id},
-      });
-      return;
-    }
     }
     formData.append("image", this.image);
     formData.append("id", this.user_info.id);
@@ -168,13 +170,13 @@ export class WelcomeComponent implements OnInit {
                 toastClass: "toast ngx-toastr",
                 closeButton: true,
               });
-               this.loading = false;
+              this.loading = false;
             } else if (res.status == true) {
               this._toastrService.success(res.msg, "Success", {
                 toastClass: "toast ngx-toastr",
                 closeButton: true,
               });
-               this.loading = false;
+
               this.httpService.USERINFO.avatar = res.data;
               localStorage.removeItem("currentUser");
               localStorage.clear();
@@ -182,33 +184,47 @@ export class WelcomeComponent implements OnInit {
                 "currentUser",
                 JSON.stringify(this.httpService.USERINFO)
               );
-              if(this.httpService.USERINFO.user_type==1){
-              this._router.navigate(["/company/company"]);
+              if (this.httpService.USERINFO.user_type == 1) {
+                this._router.navigate(["/company/company"]).then(() => {
+                  this.loading = false;
+                });
+              } else {
+                this._router.navigate(["/predictions/predictions"], {
+                  queryParams: {
+                    campaign_id: this.campaign_id,
+                    event_id: this.event_id,
+                  },
+                }).then(() => {
+                  this.loading = false;
+                });
+              }
             }
-          else{
-            this._router.navigate(["/predictions/predictions"], {
-              queryParams: { campaign_id: this.campaign_id ,event_id:this.event_id },
-            });
-          }}
           }
-         
         },
         (error: any) => {}
       );
   }
-  savePassword(){
-    if(this.new_password!=this.confirm_password){
-      this._toastrService.error("New password and Retype new password should be same", "Failed", {
-        toastClass: "toast ngx-toastr",
-        closeButton: true,
-      });
+  savePassword() {
+    if (this.new_password != this.confirm_password) {
+      this._toastrService.error(
+        "New password and Retype new password should be same",
+        "Failed",
+        {
+          toastClass: "toast ngx-toastr",
+          closeButton: true,
+        }
+      );
       return;
     }
     this.loading = true;
     let request;
 
     request = {
-      params: { old_password: this.old_password,new_password:this.new_password,confirm_password :this.confirm_password},
+      params: {
+        old_password: this.old_password,
+        new_password: this.new_password,
+        confirm_password: this.confirm_password,
+      },
       action_url: "update_user_password",
       method: "POST",
     };
@@ -225,11 +241,10 @@ export class WelcomeComponent implements OnInit {
             this._toastrService.success(res.msg, "Success", {
               toastClass: "toast ngx-toastr",
               closeButton: true,
-              
             });
-            this.old_password='';
-            this.new_password='';
-            this.confirm_password='';
+            this.old_password = "";
+            this.new_password = "";
+            this.confirm_password = "";
           }
         }
         this.loading = false;
@@ -256,5 +271,4 @@ export class WelcomeComponent implements OnInit {
   togglePasswordTextTypeRetype() {
     this.passwordTextTypeRetype = !this.passwordTextTypeRetype;
   }
-
 }
