@@ -53,6 +53,7 @@ import { WelcomeComponent } from "./main/welcome/welcome.component";
 import { UserIdleModule } from 'angular-user-idle';
 import { PaymentComponent } from './payment/payment.component';
 import { ForgotPasswordComponent } from "./main/forgot-password/forgot-password.component";
+import { SharedModule } from "./main/shared.module";
 const appRoutes: Routes = [
 
   {
@@ -200,9 +201,10 @@ const appRoutes: Routes = [
     AnimatedCustomContextMenuComponent,
     SubMenuCustomContextMenuComponent,
     PaymentComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
   ],
   imports: [
+    SharedModule,
     CommonModule,
     NgbModule,
     BrowserModule,

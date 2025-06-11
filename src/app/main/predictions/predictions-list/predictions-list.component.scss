@@ -334,7 +334,7 @@ button:focus {
 
 .avatar-wrapper {
   display: inline-block;
-  border: 2px solid orange;
+  // border: 2px solid orange;
   border-radius: 50%;
   background-clip: content-box;
 }
@@ -520,9 +520,10 @@ button:focus {
   width: 54px;
   height: 54px;
   border-radius: 50%;
-  object-fit: cover;
-  position: absolute;
-  top: -0.8rem;
+  // object-fit: cover;
+  // position: absolute;
+  // top: -0.6rem;
+  margin-top: -6px !important;
   border: 3px solid white;
   z-index: 5;
 }
@@ -551,7 +552,7 @@ button:focus {
   font-weight: 400;
   color: #f3f3f3;
   position: absolute;
-  top: -1.8rem !important;
+  margin-top: -2rem !important;
   z-index: 999999;
 }
 

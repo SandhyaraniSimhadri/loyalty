@@ -29,22 +29,24 @@
     >
       <div class="welcome-section" *ngIf="section == 1">
         <div class="welcome-text">
-          <span class="welcome" style="font-weight:bold;">WELCOME!</span>
+          <span class="welcome" style="font-weight: bold">WELCOME!</span>
           <p
             style="
               font-size: 18px;
               font-family: 'Roboto Condensed';
-              line-height: 30px;font-weight: 500;margin-top: 16px;
+              line-height: 30px;
+              font-weight: 500;
+              margin-top: 16px;
             "
           >
-          <span *ngIf="welcome_text == null || welcome_text == ''">
-            We're thrilled to have you on board! Enjoy exclusive rewards, earn
-            points, and unlock amazing offers today, while having fun with games
-            and quizzes.
-          </span>
-          <span *ngIf="welcome_text!=null">
-            {{welcome_text}}
-          </span>
+            <span *ngIf="welcome_text == null || welcome_text == ''">
+              We're thrilled to have you on board! Enjoy exclusive rewards, earn
+              points, and unlock amazing offers today, while having fun with
+              games and quizzes.
+            </span>
+            <span *ngIf="welcome_text != null">
+              {{ welcome_text }}
+            </span>
           </p>
         </div>
       </div>
@@ -81,7 +83,7 @@
             line-height: 30px;
           "
         >
-          {{ user_info.user_name }}
+          {{ user_info.user_name | truncate: 30 }}
         </div>
 
         <button

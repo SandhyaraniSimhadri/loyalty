@@ -71,7 +71,7 @@
                     style="font-family: 'Roboto Condensed', sans-serif"
                   >
                     <h3>
-                      <b>{{ currentUser.user_name }}</b>
+                      <b>{{ currentUser.user_name | truncate: 30 }}</b>
                     </h3>
                   </div>
                 </ng-container>
@@ -780,7 +780,7 @@
                                 "
                               >
                                 <div class="d-none d-md-flex">
-                                  {{ participant.user_name }}
+                                  {{ participant.user_name  | truncate: 15}}
                                 </div>
 
                                 <!-- Display on small and mobile screens (xs and sm) -->
@@ -854,7 +854,14 @@
     "
   >
     <div class="d-none d-lg-flex col-lg-4"></div>
-    <div class="col-lg-4" style="margin-right: 0px !important;padding-left: 0px !important;padding-right: 0px !important;">
+    <div
+      class="col-lg-4"
+      style="
+        margin-right: 0px !important;
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+      "
+    >
       <div
         *ngIf="gameStatus === 'none'"
         class="bg-image-container d-flex flex-column justify-content-between align-items-center text-center"
@@ -941,7 +948,7 @@
             </button>
             <div
               *ngIf="activeTab == 'home'"
-              style="position: absolute; bottom: 40px; "
+              style="position: absolute; bottom: 40px"
             >
               <div class="mb-5">
                 <button class="go-button" (click)="gotoGameStart()">
@@ -974,10 +981,16 @@
                 height="50"
                 width="50"
               />
-              <p class="name">
+              <p  style="
+                  top: -2rem !important;
+                  z-index: 999999999;
+                  font-weight: 400;
+                  color: #f3f3f3;
+                  position: absolute;
+                ">
                 <b>
                   {{
-                    campaign_data?.participants[1]?.user_name || "2nd place"
+                    campaign_data?.participants[1]?.user_name || "2nd place"  | truncate: 10
                   }}</b
                 >
               </p>
@@ -1008,10 +1021,18 @@
                 width="50"
               />
 
-              <p class="name">
+              <p
+                style="
+                  top: -2rem !important;
+                  z-index: 999999999;
+                  font-weight: 400;
+                  color: #f3f3f3;
+                  position: absolute;
+                "
+              >
                 <b>
                   {{
-                    campaign_data?.participants[0]?.user_name || "1st place"
+                    campaign_data?.participants[0]?.user_name || "1st place"  | truncate: 10
                   }}</b
                 >
               </p>
@@ -1042,10 +1063,16 @@
                 height="50"
                 width="50"
               />
-              <p class="name">
+              <p  style="
+                  top: -2rem !important;
+                  z-index: 999999999;
+                  font-weight: 400;
+                  color: #f3f3f3;
+                  position: absolute;
+                ">
                 <b>
                   {{
-                    campaign_data?.participants[1]?.user_name || "3rd place"
+                    campaign_data?.participants[2]?.user_name || "3rd place"  | truncate: 10
                   }}</b
                 >
               </p>
@@ -1097,9 +1124,9 @@
                   </div>
                 </div>
               </div>
-              <hr />
-
-              <div *ngIf="rows.length > 0">
+             
+              <!-- <hr/> -->
+              <div *ngIf="rows.length > 0" style="overflow-y: scroll;">
                 <div
                   style="
                     margin: 0 !important;
@@ -1117,6 +1144,7 @@
                       padding-bottom: 12px;
                       padding-left: 2rem !important;
                       padding-right: 2rem !important;
+                      height: 66px;justify-content: center;display: flex;align-items: center;
                     "
                     [ngStyle]="{
                       'background-color':
@@ -1132,7 +1160,6 @@
                       <div
                         class="row"
                         style="
-                          padding-top: 4px;
                           border-top-width: 1px;
                           border-bottom-width: 1px;
                           margin-left: -1.8rem !important;
@@ -1206,7 +1233,7 @@
                                 "
                               >
                                 <div class="d-none d-md-flex">
-                                  {{ participant.user_name }}
+                                  {{ participant.user_name  | truncate: 15}}
                                 </div>
 
                                 <!-- Display on small and mobile screens (xs and sm) -->
@@ -1214,26 +1241,7 @@
                                   {{ participant.user_name | truncate : 8 }}
                                 </div>
 
-                                <!-- <button
-                                  type="button"
-                                  rippleEffect
-                                  class="btn"
-                                  [ngbTooltip]="'Time taken: ' + participant.time_taken"
-                                  style="display: inline-flex; align-items: center;margin-left:-10px !important;width: 100%; "
-                                > -->
-                                <span
-                                  rippleEffect
-                                  class="btn"
-                                  [ngbTooltip]="
-                                    'Time taken: ' + participant.time_taken
-                                  "
-                                >
-                                  <i
-                                    data-feather="alert-circle"
-                                    style="color: black"
-                                  ></i>
-                                </span>
-                                <!-- </button> -->
+                                
                               </span>
                             </b>
                           </h4>

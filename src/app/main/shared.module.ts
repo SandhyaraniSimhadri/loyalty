@@ -4,7 +4,7 @@ import { TruncatePipe } from "./truncate.pipe";
 import { GoogleSigninComponent } from './google-signin/google-signin.component';
 
 @NgModule({
-  declarations: [TruncatePipe, GoogleSigninComponent],
-  exports: [TruncatePipe], // Make the pipe exportable
+  declarations: [GoogleSigninComponent, TruncatePipe],
+  exports: [TruncatePipe],
 })
 export class SharedModule {}

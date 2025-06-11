@@ -6,6 +6,7 @@ import { HttpClient } from "@angular/common/http";
 import { ToastrService } from "ngx-toastr";
 import { environment } from "environments/environment";
 import { ActivatedRoute, Router } from "@angular/router";
+import { SharedModule } from "../shared.module";
 
 @Component({
   selector: "app-welcome",
