@@ -71,7 +71,7 @@
                     style="font-family: 'Roboto Condensed', sans-serif"
                   >
                     <h3>
-                      <b>{{ currentUser.user_name | truncate: 30 }}</b>
+                      <b>{{ currentUser.user_name | truncate : 30 }}</b>
                     </h3>
                   </div>
                 </ng-container>
@@ -780,7 +780,7 @@
                                 "
                               >
                                 <div class="d-none d-md-flex">
-                                  {{ participant.user_name  | truncate: 15}}
+                                  {{ participant.user_name | truncate : 15 }}
                                 </div>
 
                                 <!-- Display on small and mobile screens (xs and sm) -->
@@ -876,7 +876,8 @@
                   ')'
               }
             : {
-                background: 'linear-gradient(to right, #CED2FA, #B7ACE2)'
+                background: 'linear-gradient(to right, #CED2FA, #B7ACE2)',
+                height: '100%'
               }
         "
       >
@@ -981,16 +982,19 @@
                 height="50"
                 width="50"
               />
-              <p  style="
+              <p
+                style="
                   top: -2rem !important;
                   z-index: 999999999;
                   font-weight: 400;
                   color: #f3f3f3;
                   position: absolute;
-                ">
+                "
+              >
                 <b>
                   {{
-                    campaign_data?.participants[1]?.user_name || "2nd place"  | truncate: 10
+                    campaign_data?.participants[1]?.user_name || "2nd place"
+                      | truncate : 10
                   }}</b
                 >
               </p>
@@ -1032,7 +1036,8 @@
               >
                 <b>
                   {{
-                    campaign_data?.participants[0]?.user_name || "1st place"  | truncate: 10
+                    campaign_data?.participants[0]?.user_name || "1st place"
+                      | truncate : 10
                   }}</b
                 >
               </p>
@@ -1063,16 +1068,19 @@
                 height="50"
                 width="50"
               />
-              <p  style="
+              <p
+                style="
                   top: -2rem !important;
                   z-index: 999999999;
                   font-weight: 400;
                   color: #f3f3f3;
                   position: absolute;
-                ">
+                "
+              >
                 <b>
                   {{
-                    campaign_data?.participants[2]?.user_name || "3rd place"  | truncate: 10
+                    campaign_data?.participants[2]?.user_name || "3rd place"
+                      | truncate : 10
                   }}</b
                 >
               </p>
@@ -1124,9 +1132,9 @@
                   </div>
                 </div>
               </div>
-             
+
               <!-- <hr/> -->
-              <div *ngIf="rows.length > 0" style="overflow-y: scroll;">
+              <div *ngIf="rows.length > 0" style="overflow-y: scroll">
                 <div
                   style="
                     margin: 0 !important;
@@ -1144,7 +1152,10 @@
                       padding-bottom: 12px;
                       padding-left: 2rem !important;
                       padding-right: 2rem !important;
-                      height: 66px;justify-content: center;display: flex;align-items: center;
+                      height: 66px;
+                      justify-content: center;
+                      display: flex;
+                      align-items: center;
                     "
                     [ngStyle]="{
                       'background-color':
@@ -1233,15 +1244,13 @@
                                 "
                               >
                                 <div class="d-none d-md-flex">
-                                  {{ participant.user_name  | truncate: 15}}
+                                  {{ participant.user_name | truncate : 15 }}
                                 </div>
 
                                 <!-- Display on small and mobile screens (xs and sm) -->
                                 <div class="d-flex d-md-none">
                                   {{ participant.user_name | truncate : 8 }}
                                 </div>
-
-                                
                               </span>
                             </b>
                           </h4>
