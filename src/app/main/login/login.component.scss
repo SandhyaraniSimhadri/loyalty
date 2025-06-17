@@ -269,3 +269,52 @@ re-captcha, .re-captcha, #recaptcha {
     z-index: 2;
   }
   
+  /* styles.css or component.css */
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.auth-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.auth-inner {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.login-container .content {
+  flex: 1;
+}
+
+.footer-powered {
+  text-align: center;
+  font-weight: 100;
+  font-family: 'Roboto Condensed', sans-serif;
+  background-color: white;
+  padding: 1rem;
+  z-index: 999;
+  width: 100%;
+}
+
+
+    .captcha-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.captcha-container {
+  display: inline-block;
+}

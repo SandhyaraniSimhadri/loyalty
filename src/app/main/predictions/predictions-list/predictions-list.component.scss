@@ -146,7 +146,13 @@ button:focus {
   padding: 0 !important;
   box-sizing: border-box;
 }
+.dropdown-toggle::after {
+  display: none !important;
+}
 
+.btn-link i {
+  vertical-align: middle;
+}
 
 .demo-inline-spacing {
   display: flex;

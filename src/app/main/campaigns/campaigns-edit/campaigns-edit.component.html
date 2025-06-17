@@ -1123,24 +1123,22 @@
                                 />
                               </div>
                             </div>
-                            <div class="col-md-4 col-12">
-                              <div class="form-group">
-                                <label
-                                  class="form-label"
-                                  for="basic-icon-default-author"
-                                  >Select the welcome image</label
-                                >
-                                <input
-                                  type="file"
-                                  class="form-control dt-author"
-                                  id="basic-icon-default-author"
-                                  placeholder=""
-                                  name="author"
-                                  [(ngModel)]="imageval"
-                                  (change)="uploadImage($event, 'welcome_game')"
-                                />
-                              </div>
-                            </div>
+                        <div class="col-md-4 col-12">
+  <div class="form-group">
+    <label class="form-label" for="basic-icon-default-author">
+      Select the welcome image
+    </label>
+    <input
+      type="file"
+      class="form-control dt-author"
+      id="basic-icon-default-author"
+      placeholder=""
+      name="author"
+      (change)="uploadImage($event, 'welcome_game')"
+    />
+  </div>
+</div>
+
                             <div class="col-md-4 col-12">
                               <div class="form-group">
                                 <label
