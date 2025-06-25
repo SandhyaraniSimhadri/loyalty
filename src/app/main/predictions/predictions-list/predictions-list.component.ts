@@ -26,6 +26,7 @@ import { User } from "app/auth/models";
 import { AuthenticationService } from "app/auth/service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { PaymentService } from "app/auth/service/payment.service";
+
 export interface CarouselImages {
   one?: string;
   two?: string;
@@ -43,7 +44,7 @@ export interface CarouselImages {
 export class PredictionsListComponent implements OnInit {
   // Public
   public isMenuToggled = false;
-
+ @ViewChild('modalDanger') modalDanger: any;
   @ViewChild("earningChartRef") earningChartRef: any;
   public teamAChartOptions;
   public teamBChartOptions;
@@ -66,7 +67,7 @@ export class PredictionsListComponent implements OnInit {
   public selectLanguage: any = [];
   public loading: boolean = false;
   public refresh_loading: boolean = false;
-
+  public winner_selected:any="";
   public searchValue = "";
   public selectedChurch = [];
   public selectedUsers = [];
@@ -92,8 +93,8 @@ export class PredictionsListComponent implements OnInit {
   limit = 10;
   isLoading = false;
   private tempData = [];
-  activeTab: string = 'home';
-  gameStatus:any='none';
+  activeTab: string = "home";
+  gameStatus: any = "none";
 
   public submitted: any = false;
   public currentQuestionIndex: any = -1;
@@ -130,7 +131,7 @@ export class PredictionsListComponent implements OnInit {
     private _route: ActivatedRoute,
     private paymentService: PaymentService
   ) {
-   this.currentUrl = window.location.href;
+    this.currentUrl = window.location.href;
     this.currentUrl = window.location.href;
     console.log("url", this.currentUrl);
 
@@ -160,6 +161,11 @@ export class PredictionsListComponent implements OnInit {
       },
     };
   }
+  openDangerModal(game: any) {
+    this.modalService.open(this.modalDanger, { centered: true });
+    this.modalsService.item = game; // Store game for later use (e.g., selectWinner)
+  }
+
 
   // Public Methods
   // -----------------------------------------------------------------------------------------------------
@@ -186,28 +192,27 @@ export class PredictionsListComponent implements OnInit {
     // Whenever The Filter Changes, Always Go Back To The First Page
     this.table.offset = 0;
   }
-  
-setTab(tab: string) {
-  this.activeTab = tab;
-  console.log("tabb",this.activeTab);
-}
-gotoGameStart()
-{
-  this.gameStatus='start';
-  console.log("game status",this.gameStatus);
-}
-gotoPlayGame(url) {
-  const urlObj = new URL(this.currentUrl);
-urlObj.searchParams.set('gameStatus', 'end');
-const redirectUrl = encodeURIComponent(urlObj.toString());
-const fullUrl = `${url}?redirect_url=${redirectUrl}&token=${this.httpService.APIToken}&campaign_id=${this.campaign_data.html_games.campaign_id}&game_id=${this.campaign_data.html_games.id}`;
- window.location.href = fullUrl;
-}
-gotoLeaderboard(){
-this.activeTab='leaderboard';
-this.gameStatus='none';
-this.getPredictions(this.campaign_id);
-}
+
+  setTab(tab: string) {
+    this.activeTab = tab;
+    console.log("tabb", this.activeTab);
+  }
+  gotoGameStart() {
+    this.gameStatus = "start";
+    console.log("game status", this.gameStatus);
+  }
+  gotoPlayGame(url) {
+    const urlObj = new URL(this.currentUrl);
+    urlObj.searchParams.set("gameStatus", "end");
+    const redirectUrl = encodeURIComponent(urlObj.toString());
+    const fullUrl = `${url}?redirect_url=${redirectUrl}&token=${this.httpService.APIToken}&campaign_id=${this.campaign_data.html_games.campaign_id}&game_id=${this.campaign_data.html_games.id}`;
+    window.location.href = fullUrl;
+  }
+  gotoLeaderboard() {
+    this.activeTab = "leaderboard";
+    this.gameStatus = "none";
+    this.getPredictions(this.campaign_id);
+  }
   /**
    * Toggle the sidebar
    *
@@ -287,8 +292,8 @@ this.getPredictions(this.campaign_id);
         } else {
           this.layout_type = "others";
         }
-        if(params['gameStatus']){
-          this.gameStatus="end";
+        if (params["gameStatus"]) {
+          this.gameStatus = "end";
         }
       } else {
         this.campaign_id = 0;
@@ -320,7 +325,6 @@ this.getPredictions(this.campaign_id);
       action_url: "get_prediction_details",
       method: "POST",
     };
-    console.log("request", request);
     this.httpService.doHttp(request).subscribe(
       (res: any) => {
         if (res == "nonet") {
@@ -331,6 +335,7 @@ this.getPredictions(this.campaign_id);
               this.rows = [];
             }
             this.rows[0] = res.data;
+            console.log("rows", this.rows);
             if (this.rows.length > 0) {
               if (res.data.campaign_title == undefined) {
                 this.rows = [];
@@ -356,13 +361,13 @@ this.getPredictions(this.campaign_id);
                 this.campaign_data.games.length > 0
               ) {
                 // Step 2: Check if every quiz ID is present in self
-                this.submitted = this.campaign_data.games.every((game) =>
-                  this.campaign_data.self.some(
-                    (answer) => answer.game_id === game.id
-                  )
+                this.submitted = this.campaign_data.games.every(
+                  (game) =>
+                    Array.isArray(this.campaign_data.self) &&
+                    this.campaign_data.self.some(
+                      (answer) => answer.game_id === game.id
+                    )
                 );
-                console.log("self data", this.campaign_data.self);
-                console.log(this.submitted); // Will be false because game_id 4 is missing
 
                 const teamAPercentage =
                   this.campaign_data.games[0].team_a_percentage;
@@ -374,8 +379,12 @@ this.getPredictions(this.campaign_id);
                 const teamBNotSelectedPercentage = 100 - teamBPercentage;
 
                 if (
-                  this.campaign_data.self.team_name ==
-                  this.campaign_data.games[0].team_a
+                  this.campaign_data &&
+                  this.campaign_data.self &&
+                  this.campaign_data.games &&
+                  this.campaign_data.games.length > 0 &&
+                  this.campaign_data.self.team_name ===
+                    this.campaign_data.games[0].team_a
                 ) {
                   this.colors = [
                     this.$earningsStrokeColor2,
@@ -385,6 +394,7 @@ this.getPredictions(this.campaign_id);
                 } else {
                   this.colors = ["#a6a6a666", "#a6a6a633", "#a6a6a6"];
                 }
+
                 this.teamAChartOptions = {
                   chart: {
                     type: "donut",
@@ -473,8 +483,10 @@ this.getPredictions(this.campaign_id);
                   ],
                 };
                 if (
-                  this.campaign_data.self.team_name ==
-                  this.campaign_data.games[0].team_b
+                  this.campaign_data?.self?.team_name &&
+                  this.campaign_data?.games?.[0]?.team_b &&
+                  this.campaign_data.self.team_name ===
+                    this.campaign_data.games[0].team_b
                 ) {
                   this.colors = [
                     this.$earningsStrokeColor2,
@@ -484,6 +496,7 @@ this.getPredictions(this.campaign_id);
                 } else {
                   this.colors = ["#a6a6a666", "#a6a6a633", "#a6a6a6"];
                 }
+
                 this.teamBChartOptions = {
                   chart: {
                     type: "donut",
@@ -601,7 +614,8 @@ this.getPredictions(this.campaign_id);
                 this.campaign_data.html_games != undefined &&
                 this.campaign_data.html_games.length > 0
               ) {
-                this.campaign_data.html_games=this.campaign_data.html_games[0];
+                this.campaign_data.html_games =
+                  this.campaign_data.html_games[0];
               }
             }
           }
@@ -669,18 +683,36 @@ this.getPredictions(this.campaign_id);
     // If Menu Collapsed Changes
   }
   selectWinner(selectedWinner: any) {
-    console.log("test", selectedWinner);
+    console.log("test123", selectedWinner);
+    // selectedWinner.selected_winner=this.winner_selected;
     // return;
     this.loading = true;
+      this.loading = true;
+    var type = 0;
+    if (
+      this.campaign_data.quizzes != undefined &&
+      this.campaign_data.quizzes.length > 0
+    ) {
+      var type = 2;
+    }
+    if (
+      this.campaign_data.games != undefined &&
+      this.campaign_data.games.length > 0
+    ) {
+      var type = 1;
+    }
     let request = {
       params: {
         selected_winner: selectedWinner,
         campaign_id: this.campaign_data.id,
         game_id: this.campaign_data.games[0].id,
+        winner_selected:this.winner_selected,
+        type: type,
       },
       action_url: "add_prediction_winner",
       method: "POST",
     };
+    console.log("request data",request);
     this.httpService.doHttp(request).subscribe(
       (res: any) => {
         if (res == "nonet") {
@@ -723,9 +755,9 @@ this.getPredictions(this.campaign_id);
   gotoProfile() {
     this._router.navigate(["../../pages/account-settings"]);
   }
-  gotoHome(){
-    this.activeTab='home';
-    this.gameStatus='none';
+  gotoHome() {
+    this.activeTab = "home";
+    this.gameStatus = "none";
   }
   goToNextQuestion() {
     // this.currentQuestionIndex=0;
@@ -746,7 +778,7 @@ this.getPredictions(this.campaign_id);
         this.showGif = false;
         this.startTime = Date.now();
         this.currentQuestionIndex = 0;
-    console.log("next question clicked", this.currentQuestionIndex);
+        console.log("next question clicked", this.currentQuestionIndex);
 
         this.remainingTime = this.campaign_data.duration;
         this.updateRemainingTime();
@@ -853,7 +885,6 @@ this.getPredictions(this.campaign_id);
     this._router.navigate(["../../pages/account-settings"]);
   }
   logout() {
-
     this._authenticationService.logout();
   }
 
@@ -976,4 +1007,15 @@ this.getPredictions(this.campaign_id);
         });
     });
   }
+  openPredictionModal(game: any, modal: any): void {
+  if (!this.campaign_data?.self?.team_name) {
+    this.modalsService.modalOpenDanger(modal, game);
+  }
+}
+openModal(modalDanger, item:any,selected_winner:any): void{
+  if (this.campaign_data.self==undefined) {
+   this.modalsService.modalOpenDanger(modalDanger, item);
+   this.winner_selected=selected_winner;}
+   console.log("selected winner",selected_winner);
+}
 }

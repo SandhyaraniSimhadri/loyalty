@@ -163,8 +163,11 @@
                         class="col-6 d-flex justify-content-center align-items-center"
                       >
                         <div
-                          *ngIf="campaign_data.self.team_name == game.team_a"
-                          style="margin-bottom: 10px"
+                          *ngIf="
+                            campaign_data.self &&
+                            campaign_data.self.predicted_answers === game.team_a
+                          "
+                          style="margin-bottom: 10px;margin-left: -40px !important;"
                         >
                           <div class="badge badge-glow badge-success">
                             Predicted
@@ -175,8 +178,11 @@
                         class="col-6 d-flex justify-content-center align-items-center"
                       >
                         <div
-                          *ngIf="campaign_data.self.team_name == game.team_b"
-                          style="margin-bottom: 10px"
+                          *ngIf="
+                            campaign_data.self &&
+                            campaign_data.self.predicted_answers === game.team_b
+                          "
+                          style="margin-bottom: 10px;margin-left: -40px !important;"
                         >
                           <div class="badge badge-glow badge-success">
                             Predicted
@@ -184,10 +190,12 @@
                         </div>
                       </div>
                     </div>
+
                     <div
                       class="row pb-2"
-                      style="margin-bottom: 20px !important"
+                      style="margin-bottom: 20px !important "
                     >
+                      <!-- Team A Block -->
                       <div
                         class="col-6 d-flex justify-content-center align-items-center"
                       >
@@ -195,32 +203,36 @@
                           id="earnings-donut-chart"
                           class="d-flex align-items-center justify-content-center position-relative"
                           #earningChartRef
-                          style="
-                            width: 120px;
-                            height: 105px;
-                            border-radius: 50%;
-                            overflow: hidden;
-                            cursor: pointer;
-                          "
-                          (click)="
-                            campaign_data.self.team_name == null &&
-                              modalsService.modalOpenDanger(modalDanger, game)
-                          "
+                          [ngStyle]="{
+                            width: '120px',
+                            height: '105px',
+                            'border-radius': '50%',
+                            overflow: 'hidden',
+                            cursor: !campaign_data?.self?.team_name
+                              ? 'pointer'
+                              : 'not-allowed',
+                            'pointer-events': campaign_data?.self?.team_name
+                              ? 'none'
+                              : 'auto'
+                          }"
+                            [title]="campaign_data?.self?.team_name ? 'Already submitted' : ''"
+                          (click)="openModal(modalDanger, game, game.team_a);"
                         >
                           <img
-                            *ngIf="game.team_a_image"
+                            *ngIf="game.team_a_image; else defaultTeamA"
                             [src]="apiUrl + game.team_a_image"
-                            alt="Image"
+                            alt="Team A Image"
                             class="team-image"
                             style="width: 80%; height: auto"
                           />
-                          <img
-                            *ngIf="game.team_a_image == null"
-                            src="assets/images/profile/team.png"
-                            alt="Image"
-                            class="team-image"
-                            style="width: 80%; height: auto"
-                          />
+                          <ng-template #defaultTeamA>
+                            <img
+                              src="assets/images/profile/team.png"
+                              alt="Default Team A"
+                              class="team-image"
+                              style="width: 80%; height: auto"
+                            />
+                          </ng-template>
 
                           <apx-chart
                             [chart]="{
@@ -230,9 +242,7 @@
                                   ? earningChartRef.offsetWidth
                                   : teamBChartOptions.chart.width,
                               height: 120,
-                              toolbar: {
-                                show: false
-                              }
+                              toolbar: { show: false }
                             }"
                             [dataLabels]="teamAChartOptions.dataLabels"
                             [series]="teamAChartOptions.series"
@@ -245,6 +255,8 @@
                           ></apx-chart>
                         </div>
                       </div>
+
+                      <!-- Team B Block -->
                       <div
                         class="col-6 d-flex justify-content-center align-items-center"
                       >
@@ -252,32 +264,36 @@
                           id="earnings-donut-chart"
                           class="d-flex align-items-center justify-content-center position-relative"
                           #earningChartRef
-                          style="
-                            width: 120px;
-                            height: 105px;
-                            border-radius: 50%;
-                            overflow: hidden;
-                            cursor: pointer;
-                          "
-                          (click)="
-                            campaign_data.self.team_name == null &&
-                              modalsService.modalOpenDanger(modalDanger, game)
-                          "
+                          [ngStyle]="{
+                            width: '120px',
+                            height: '105px',
+                            'border-radius': '50%',
+                            overflow: 'hidden',
+                            cursor: !campaign_data?.self?.team_name
+                              ? 'pointer'
+                              : 'not-allowed',
+                            'pointer-events': campaign_data?.self?.team_name
+                              ? 'none'
+                              : 'auto'
+                          }"
+                           [title]="campaign_data?.self?.team_name ? 'Already submitted' : ''"
+                          (click)="openModal(modalDanger, game, game.team_b);"
                         >
                           <img
-                            *ngIf="game.team_b_image"
+                            *ngIf="game.team_b_image; else defaultTeamB"
                             [src]="apiUrl + game.team_b_image"
-                            alt="Image"
+                            alt="Team B Image"
                             class="team-image"
                             style="width: 80%; height: auto"
                           />
-                          <img
-                            *ngIf="game.team_b_image == null"
-                            src="assets/images/profile/team.png"
-                            alt="Image"
-                            class="team-image"
-                            style="width: 80%; height: auto"
-                          />
+                          <ng-template #defaultTeamB>
+                            <img
+                              src="assets/images/profile/team.png"
+                              alt="Default Team B"
+                              class="team-image"
+                              style="width: 80%; height: auto"
+                            />
+                          </ng-template>
 
                           <apx-chart
                             [chart]="{
@@ -287,9 +303,7 @@
                                   ? earningChartRef.offsetWidth
                                   : teamBChartOptions.chart.width,
                               height: 120,
-                              toolbar: {
-                                show: false
-                              }
+                              toolbar: { show: false }
                             }"
                             [dataLabels]="teamBChartOptions.dataLabels"
                             [series]="teamBChartOptions.series"
@@ -577,7 +591,14 @@
             </div>
           </div>
         </div>
-        <div class="card" *ngIf="campaign_data?.self != undefined">
+        <div
+          class="card"
+          *ngIf="
+            campaign_data?.self != undefined &&
+            (campaign_data.games == undefined ||
+              campaign_data?.games.length == 0)
+          "
+        >
           <div class="d-flex align-items-center justify-content-center mt-1">
             <h4
               style="
@@ -883,34 +904,35 @@
       >
         <!-- Title -->
         <div style="width: 100%">
-    <div
-  class="dropdown"
-  style="position: absolute; right: 16px; top: 16px"
-  ngbDropdown
->
-  <button
-    class="btn btn-link p-0 border-0 dropdown-toggle"
-    type="button"
-    id="dropdownMenuButton"
-    ngbDropdownToggle
-    aria-expanded="false"
-  >
-    <i data-feather="more-vertical" style="color: black"></i>
-  </button>
+          <div
+            class="dropdown"
+            style="position: absolute; right: 16px; top: 16px"
+            ngbDropdown
+          >
+            <button
+              class="btn btn-link p-0 border-0 dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton"
+              ngbDropdownToggle
+              aria-expanded="false"
+            >
+              <i data-feather="more-vertical" style="color: black"></i>
+            </button>
 
-  <ul
-    class="dropdown-menu dropdown-menu-right"
-    aria-labelledby="dropdownMenuButton"
-  >
-    <li>
-      <a class="dropdown-item" (click)="editProfile()">Profile Settings</a>
-    </li>
-    <li>
-      <a class="dropdown-item" (click)="logout()">Logout</a>
-    </li>
-  </ul>
-</div>
-
+            <ul
+              class="dropdown-menu dropdown-menu-right"
+              aria-labelledby="dropdownMenuButton"
+            >
+              <li>
+                <a class="dropdown-item" (click)="editProfile()"
+                  >Profile Settings</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" (click)="logout()">Logout</a>
+              </li>
+            </ul>
+          </div>
 
           <div
             class="campaign-title"
@@ -1432,39 +1454,38 @@
 
         <div class="d-none d-lg-flex col-lg-4"></div>
       </div>
-
-      <ng-template #modalDanger let-modal>
-        <div class="modal-header">
-          <h5 class="modal-title">
-            <span class="color-cls">Confirm</span>
-          </h5>
-        </div>
-        <div class="modal-body" tabindex="0" ngbAutofocus>
-          Are you sure you want to submit your Prediction?
-          <br />
-          <span class="f-size-class"> This action will not be reversable.</span>
-        </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn"
-            (click)="modal.dismiss('Cross click')"
-            rippleEffect
-          >
-            No
-          </button>
-          <button
-            type="button"
-            class="btn btn-success"
-            (click)="selectWinner(modalsService.item)"
-            rippleEffect
-          >
-            Yes
-          </button>
-        </div>
-        <div id="paymob-iframe"></div>
-      </ng-template>
     </div>
     <div class="d-none d-lg-flex col-lg-4"></div>
   </div>
 </div>
+<ng-template #modalDanger let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">
+      <span class="color-cls">Confirm</span>
+    </h5>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    Are you sure you want to submit your Prediction?
+    <br />
+    <span class="f-size-class"> This action will not be reversable.</span>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn"
+      (click)="modal.dismiss('Cross click')"
+      rippleEffect
+    >
+      No
+    </button>
+    <button
+      type="button"
+      class="btn btn-success"
+      (click)="selectWinner(modalsService.item)"
+      rippleEffect
+    >
+      Yes
+    </button>
+  </div>
+  <div id="paymob-iframe"></div>
+</ng-template>

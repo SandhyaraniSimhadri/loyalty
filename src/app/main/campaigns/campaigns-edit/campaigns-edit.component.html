@@ -192,8 +192,9 @@
 
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label class="form-label" for="user-plan"
-                            >Start Date<span
+                          <label class="form-label" for="user-plan">
+                            Start Date
+                            <span
                               *ngIf="accountForm.submitted && SDateRef.invalid"
                               class="text-danger"
                               >*</span
@@ -203,15 +204,12 @@
                                 !accountForm.submitted || !SDateRef.invalid
                               "
                               >*</span
-                            ></label
-                          >
+                            >
+                          </label>
                           <input
                             type="date"
                             id="basic-icon-default-start-date"
                             class="form-control dt-start-date"
-                            placeholder=""
-                            aria-label=""
-                            aria-describedby="basic-icon-default-start-date"
                             name="start-date"
                             [(ngModel)]="currentRow.start_date"
                             [class.error]="
@@ -227,7 +225,7 @@
                           >
                             <small
                               class="form-text text-danger"
-                              *ngIf="SDateRef.errors.required"
+                              *ngIf="SDateRef.errors?.required"
                               >This field is required!</small
                             >
                           </span>
@@ -1084,7 +1082,12 @@
                         </div>
                       </div>
 
-                      <div class="form-group" *ngIf="currentRow.event_id === 3 && currentRow.html_games">
+                      <div
+                        class="form-group"
+                        *ngIf="
+                          currentRow.event_id === 3 && currentRow.html_games
+                        "
+                      >
                         <div class="card-body">
                           <div class="row d-flex align-items-end">
                             <div class="col-12">
@@ -1123,21 +1126,24 @@
                                 />
                               </div>
                             </div>
-                        <div class="col-md-4 col-12">
-  <div class="form-group">
-    <label class="form-label" for="basic-icon-default-author">
-      Select the welcome image
-    </label>
-    <input
-      type="file"
-      class="form-control dt-author"
-      id="basic-icon-default-author"
-      placeholder=""
-      name="author"
-      (change)="uploadImage($event, 'welcome_game')"
-    />
-  </div>
-</div>
+                            <div class="col-md-4 col-12">
+                              <div class="form-group">
+                                <label
+                                  class="form-label"
+                                  for="basic-icon-default-author"
+                                >
+                                  Select the welcome image
+                                </label>
+                                <input
+                                  type="file"
+                                  class="form-control dt-author"
+                                  id="basic-icon-default-author"
+                                  placeholder=""
+                                  name="author"
+                                  (change)="uploadImage($event, 'welcome_game')"
+                                />
+                              </div>
+                            </div>
 
                             <div class="col-md-4 col-12">
                               <div class="form-group">
@@ -1217,7 +1223,7 @@
                               </div>
                             </div>
 
-                            <div class="form-group col-12" >
+                            <div class="form-group col-12">
                               <form action="#" class="invoice-repeater mt-1">
                                 <div
                                   *ngFor="
@@ -1228,9 +1234,9 @@
                                 >
                                   <div class="row d-flex">
                                     <div class="col-12">
-                                    <label for="name{{ i }}"
-                                      >Prize {{ i + 1 }}*</label
-                                    >
+                                      <label for="name{{ i }}"
+                                        >Prize {{ i + 1 }}*</label
+                                      >
                                     </div>
 
                                     <div class="col-md-6 col-12">
@@ -1266,7 +1272,6 @@
                                       </div>
                                     </div>
 
-
                                     <div class="col-md-6 col-12">
                                       <button
                                         type="button"
@@ -1295,7 +1300,7 @@
                                             hidden
                                             #fileInput
                                           />
-    
+
                                           <div class="upload-content">
                                             <p>Drag and drop your image here</p>
                                             <p>or</p>
@@ -1321,7 +1326,7 @@
                                         width="90%"
                                         height="200px"
                                       />
-    
+
                                       <ng-template #serverImage>
                                         <img
                                           [src]="apiUrl + prize.image"
@@ -1351,7 +1356,6 @@
                                         </button>
                                       </div>
                                     </div>
-
                                   </div>
                                   <small
                                     *ngIf="errorMsg"
