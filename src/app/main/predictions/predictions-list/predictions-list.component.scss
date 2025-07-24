@@ -360,29 +360,177 @@ button:focus {
   align-items: center;
 }
 
+.bg-home {
+  background-image: url('/assets/images/same.png'); /* fallback image */
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
+
+/* Apply the actual dynamic image in TS/Component via class if needed */
+
+/* For desktops (min-width: 768px and up), you can tweak behavior */
+@media (min-width: 768px) {
+  .bg-home {
+    background-size: stretch; /* or adjust this to 'cover' if cropping is better */
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-color: #fff; /* fallback bg if image doesn't cover full width */
+    // : 100%;
+  }
+}
+
+.bg-other {
+  background: linear-gradient(to right, #CED2FA, #B7ACE2);
+  height: 100%;
+}
+
+
 .campaign-title {
   color: white;
   font-size: 30px;
   font-weight: bold;
   font-family: 'Roboto Condensed', sans-serif;
 }
+.game-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+}
 
+.game-buttons-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  margin-top: 12px;
+}
+.button-group-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap:6px
+  
+}
+
+.top-btn {
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-weight: 400;
+  font-size: 14px;
+  white-space: nowrap;
+  min-width: 100px;
+}
+
+
+
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  // height: 100vh;
+  // align-items: center;
+  // padding: 20px;
+  box-sizing: border-box;
+}
+
+.content-top {
+  margin-top: 20px;
+}
+.game-section-wrapper {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 12px;
+  width: 95%;
+}
+
+/* Button group row */
+.button-group-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.top-btn {
+  flex: 1;
+  padding: 12px 16px;
+  font-size: 14px;
+  border-radius: 8px;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+/* Welcome Text and Image */
+.welcome-text {
+  display: block;
+  text-align: center;
+  font-size: 18px;
+  color: white;
+  margin-bottom: 8px;
+}
+
+.welcome-image {
+  width: 100%;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+/* LET'S GO Button */
+.lets-go-wrapper {
+  margin-top: 16px;
+  width: 100%;
+}
+
+
+.go-button {
+  background-color: #4e41aa;
+  color:white;
+  width: 100%; /* Match width of other elements */
+  padding: 12px 16px;
+  font-size: 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  outline: none !important;
+}
+
+
+
+.full-height-container {
+  min-height: 100vh; /* full viewport height */
+  height: 100%;
+}
+
+
+.podium-name {
+  top: -2rem !important;
+  z-index: 999999999;
+  font-weight: 400;
+  color: #4b4fb4;
+  position: absolute;
+}
 .button-group {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 10px;
+  // width: 94%;
 }
 
-.go-button {
-  padding: 14px 32px;
-  background-color: #4b4fb4;
-  color: white;
-  font-size: 18px;
-  font-weight: bold;
-  border-radius: 8px;
-  border: none;
-  width: 376px;
-}
+// .go-button {
+//   padding: 14px 32px;
+//   background-color: #4b4fb4;
+//   color: white;
+//   font-size: 18px;
+//   font-weight: bold;
+//   border-radius: 8px;
+//   border: none;
+//   width: 376px;
+// }
 .go-button-1 {
   padding: 14px 32px;
   background-color: #4b4fb4;
@@ -396,19 +544,20 @@ button:focus {
 
 
 .top-btn {
-  padding: 8px 12px;
-  background-color: #8e87e7;
+  
+  background-color: #FF69B4;
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  width: 120px;
+
 }
 
 .top-btn.active-btn {
-  background-color: #4e41aa;
+  background-color: #d90166;
 }
 
+.top-btn:hover {
+  background-color: #d90166;
+}
 .podium-wrapper {
   margin-top: 8rem;
 }
@@ -573,3 +722,37 @@ button:focus {
 .prize-image {
   border-radius: 10px;
 }
+
+div::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+div {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .outer-container {
+        display: flex;
+        flex-direction: column;
+        flex: 1; /* Fills remaining height */
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        flex: 1; /* Grows to take space between top and bottom */
+    }
+
+    .lets-go-wrapper {
+        text-align: center;
+    }

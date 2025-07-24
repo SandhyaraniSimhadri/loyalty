@@ -44,7 +44,7 @@ export interface CarouselImages {
 export class PredictionsListComponent implements OnInit {
   // Public
   public isMenuToggled = false;
- @ViewChild('modalDanger') modalDanger: any;
+  @ViewChild("modalDanger") modalDanger: any;
   @ViewChild("earningChartRef") earningChartRef: any;
   public teamAChartOptions;
   public teamBChartOptions;
@@ -67,7 +67,7 @@ export class PredictionsListComponent implements OnInit {
   public selectLanguage: any = [];
   public loading: boolean = false;
   public refresh_loading: boolean = false;
-  public winner_selected:any="";
+  public winner_selected: any = "";
   public searchValue = "";
   public selectedChurch = [];
   public selectedUsers = [];
@@ -166,7 +166,6 @@ export class PredictionsListComponent implements OnInit {
     this.modalsService.item = game; // Store game for later use (e.g., selectWinner)
   }
 
-
   // Public Methods
   // -----------------------------------------------------------------------------------------------------
 
@@ -202,6 +201,7 @@ export class PredictionsListComponent implements OnInit {
     console.log("game status", this.gameStatus);
   }
   gotoPlayGame(url) {
+    console.log("urlll",url);
     const urlObj = new URL(this.currentUrl);
     urlObj.searchParams.set("gameStatus", "end");
     const redirectUrl = encodeURIComponent(urlObj.toString());
@@ -247,6 +247,89 @@ export class PredictionsListComponent implements OnInit {
    * @param usersFilter
    * @param languageFilter
    */
+  // Computed properties for styles
+get baseRowStyles() {
+  return {
+    'margin-right': '0px',
+    'margin-left': '0px',
+    'font-family': '\'Roboto Condensed\', sans-serif',
+    'width': '100%'
+  };
+}
+
+get columnStyles() {
+  return {
+    'margin-right': '0px !important',
+    'padding-left': '0px !important',
+    'padding-right': '0px !important',
+    'background-color': this.activeTab === 'home' ? this.campaign_data?.html_games?.selected_primary_color : '#ffffff'
+  };
+}
+
+// Helper methods
+getWelcomeImage(): string {
+  return this.campaign_id && this.campaign_data?.html_games?.game_welcome_image
+    ? this.apiUrl + this.campaign_data.html_games.game_welcome_image
+    : '';
+}
+
+getGameStartImage(): string {
+  return this.campaign_id && this.campaign_data?.html_games?.game_start_image
+    ? this.apiUrl + this.campaign_data.html_games.game_start_image
+    : '';
+}
+
+getGameEndImage(): string {
+  return this.campaign_id && this.campaign_data?.html_games?.game_end_image
+    ? this.apiUrl + this.campaign_data.html_games.game_end_image
+    : '';
+}
+
+getParticipantAvatar(participant: any): string {
+  return participant?.avatar 
+    ? this.apiUrl + participant.avatar 
+    : 'assets/images/leaderboard/person.png';
+}
+
+getParticipantName(participant: any, rank: number): string {
+  return participant?.user_name || `${this.getOrdinal(rank)} place`;
+}
+
+getRankImage(rank: number): string {
+  const rankImages = {
+    1: 'assets/images/profile/first.png',
+    2: 'assets/images/profile/second.png',
+    3: 'assets/images/profile/third.png'
+  };
+  return rankImages[rank] || '';
+}
+
+getOrdinal(num: number): string {
+  const ordinals = { 1: '1st', 2: '2nd', 3: '3rd' };
+  return ordinals[num] || `${num}th`;
+}
+
+// TrackBy functions for performance
+trackByParticipant(index: number, participant: any): any {
+  return participant.user_id || index;
+}
+
+trackByPrize(index: number, prize: any): any {
+  return prize.id || index;
+}
+
+trackByPosition(index: number, position: any): any {
+  return position.rank;
+}
+
+// Computed property for podium positions
+get podiumPositions() {
+  return [
+    { rank: 2, participant: this.campaign_data?.participants[1] },
+    { rank: 1, participant: this.campaign_data?.participants[0] },
+    { rank: 3, participant: this.campaign_data?.participants[2] }
+  ];
+}
   filterRows(churchFilter, usersFilter, languageFilter): any[] {
     // Reset search on select change
     this.searchValue = "";
@@ -687,7 +770,7 @@ export class PredictionsListComponent implements OnInit {
     // selectedWinner.selected_winner=this.winner_selected;
     // return;
     this.loading = true;
-      this.loading = true;
+    this.loading = true;
     var type = 0;
     if (
       this.campaign_data.quizzes != undefined &&
@@ -706,13 +789,13 @@ export class PredictionsListComponent implements OnInit {
         selected_winner: selectedWinner,
         campaign_id: this.campaign_data.id,
         game_id: this.campaign_data.games[0].id,
-        winner_selected:this.winner_selected,
+        winner_selected: this.winner_selected,
         type: type,
       },
       action_url: "add_prediction_winner",
       method: "POST",
     };
-    console.log("request data",request);
+    console.log("request data", request);
     this.httpService.doHttp(request).subscribe(
       (res: any) => {
         if (res == "nonet") {
@@ -1008,14 +1091,15 @@ export class PredictionsListComponent implements OnInit {
     });
   }
   openPredictionModal(game: any, modal: any): void {
-  if (!this.campaign_data?.self?.team_name) {
-    this.modalsService.modalOpenDanger(modal, game);
+    if (!this.campaign_data?.self?.team_name) {
+      this.modalsService.modalOpenDanger(modal, game);
+    }
   }
-}
-openModal(modalDanger, item:any,selected_winner:any): void{
-  if (this.campaign_data.self==undefined) {
-   this.modalsService.modalOpenDanger(modalDanger, item);
-   this.winner_selected=selected_winner;}
-   console.log("selected winner",selected_winner);
-}
+  openModal(modalDanger, item: any, selected_winner: any): void {
+    if (this.campaign_data.self == undefined) {
+      this.modalsService.modalOpenDanger(modalDanger, item);
+      this.winner_selected = selected_winner;
+    }
+    console.log("selected winner", selected_winner);
+  }
 }

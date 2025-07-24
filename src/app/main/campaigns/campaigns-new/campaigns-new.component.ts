@@ -59,6 +59,8 @@ export class CampaignsNewComponent implements OnInit {
   public errorMsg: any = false;
   public durationMsg: any = false;
   public selected_primary_color: string = "#3c3da6";
+  public selected_page_color: string = "#3c3da6";
+
   public selected_secondary_color: string = "#3c3da6";
   public duration: any = 0;
   public calculatePoints: boolean = false;

@@ -1,4 +1,4 @@
-<div>
+<div class="full-height-container">
   <div class="loading" *ngIf="loading">
     <div class="effect-1 effects"></div>
     <div class="effect-2 effects"></div>
@@ -167,7 +167,10 @@
                             campaign_data.self &&
                             campaign_data.self.predicted_answers === game.team_a
                           "
-                          style="margin-bottom: 10px;margin-left: -40px !important;"
+                          style="
+                            margin-bottom: 10px;
+                            margin-left: -40px !important;
+                          "
                         >
                           <div class="badge badge-glow badge-success">
                             Predicted
@@ -182,7 +185,10 @@
                             campaign_data.self &&
                             campaign_data.self.predicted_answers === game.team_b
                           "
-                          style="margin-bottom: 10px;margin-left: -40px !important;"
+                          style="
+                            margin-bottom: 10px;
+                            margin-left: -40px !important;
+                          "
                         >
                           <div class="badge badge-glow badge-success">
                             Predicted
@@ -193,7 +199,7 @@
 
                     <div
                       class="row pb-2"
-                      style="margin-bottom: 20px !important "
+                      style="margin-bottom: 20px !important"
                     >
                       <!-- Team A Block -->
                       <div
@@ -215,8 +221,12 @@
                               ? 'none'
                               : 'auto'
                           }"
-                            [title]="campaign_data?.self?.team_name ? 'Already submitted' : ''"
-                          (click)="openModal(modalDanger, game, game.team_a);"
+                          [title]="
+                            campaign_data?.self?.team_name
+                              ? 'Already submitted'
+                              : ''
+                          "
+                          (click)="openModal(modalDanger, game, game.team_a)"
                         >
                           <img
                             *ngIf="game.team_a_image; else defaultTeamA"
@@ -276,8 +286,12 @@
                               ? 'none'
                               : 'auto'
                           }"
-                           [title]="campaign_data?.self?.team_name ? 'Already submitted' : ''"
-                          (click)="openModal(modalDanger, game, game.team_b);"
+                          [title]="
+                            campaign_data?.self?.team_name
+                              ? 'Already submitted'
+                              : ''
+                          "
+                          (click)="openModal(modalDanger, game, game.team_b)"
                         >
                           <img
                             *ngIf="game.team_b_image; else defaultTeamB"
@@ -867,429 +881,468 @@
   <div
     *ngIf="layout_type == 'HTML games'"
     class="row"
-    style="
-      margin-right: 0px !important;
-      margin-left: 0px !important;
-      font-family: 'Roboto Condensed', sans-serif;
-      width: 100%;
-    "
+    [ngStyle]="{
+      'margin-right': '0px',
+      'margin-left': '0px',
+      'font-family': '\'Roboto Condensed\', sans-serif',
+      width: '100%'
+    }"
   >
     <div class="d-none d-lg-flex col-lg-4"></div>
     <div
       class="col-lg-4"
-      style="
-        margin-right: 0px !important;
-        padding-left: 0px !important;
-        padding-right: 0px !important;
-      "
+      style="padding-left: 0rem !important; padding-right: 0rem !important"
+      [ngStyle]="{
+        'margin-right': '0px !important',
+        'padding-left': '0px !important',
+        'padding-right': '0px !important',
+        'min-height': '100% !important'
+      }"
     >
       <div
         *ngIf="gameStatus === 'none'"
-        class="bg-image-container d-flex flex-column justify-content-between align-items-center text-center"
-        [ngStyle]="
-          activeTab === 'home'
-            ? {
-                'background-image':
-                  'url(' +
-                  (campaign_id && campaign_data?.html_games?.game_welcome_image
-                    ? apiUrl + campaign_data.html_games.game_welcome_image
-                    : welcome_image) +
-                  ')'
-              }
-            : {
-                background: 'linear-gradient(to right, #CED2FA, #B7ACE2)',
-                height: '100%'
-              }
-        "
+        [ngStyle]="{
+          'margin-right': '0px !important',
+          'padding-left': '0px !important',
+          'padding-right': '0px !important',
+          'min-height': '100% !important',
+          'background':
+            activeTab === 'home'
+              ? campaign_data?.html_games?.selected_page_color
+              : 'linear-gradient(to right, #cbc4f6, #beb2fe)',
+          'overflow-y': 'scroll !important'
+        }"
+        style="overflow-y: scroll !important"
+        class="bg-image-container d-flex flex-column justify-content-between align-items-center text-center bg-home"
       >
         <!-- Title -->
-        <div style="width: 100%">
+        <div style="width: 100%; flex: 1">
           <div
-            class="dropdown"
-            style="position: absolute; right: 16px; top: 16px"
-            ngbDropdown
+            class="game-section-wrapper page-wrapper"
+            style="min-height: 100%"
           >
-            <button
-              class="btn btn-link p-0 border-0 dropdown-toggle"
-              type="button"
-              id="dropdownMenuButton"
-              ngbDropdownToggle
-              aria-expanded="false"
-            >
-              <i data-feather="more-vertical" style="color: black"></i>
-            </button>
-
-            <ul
-              class="dropdown-menu dropdown-menu-right"
-              aria-labelledby="dropdownMenuButton"
-            >
-              <li>
-                <a class="dropdown-item" (click)="editProfile()"
-                  >Profile Settings</a
+            <div>
+              <div
+                class="dropdown"
+                style="position: absolute; right: 16px; top: 20px"
+                ngbDropdown
+              >
+                <button
+                  class="btn btn-link p-0 border-0 dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  ngbDropdownToggle
+                  aria-expanded="false"
                 >
-              </li>
-              <li>
-                <a class="dropdown-item" (click)="logout()">Logout</a>
-              </li>
-            </ul>
-          </div>
+                  <i data-feather="more-vertical" style="color: black"></i>
+                </button>
 
-          <div
-            class="campaign-title"
-            [ngClass]="{
-              'white-title': activeTab === 'home',
-              'blue-title': activeTab !== 'home'
-            }"
-          >
-            WELCOME
-          </div>
+                <ul
+                  class="dropdown-menu dropdown-menu-right"
+                  aria-labelledby="dropdownMenuButton"
+                >
+                  <li>
+                    <a class="dropdown-item" (click)="editProfile()"
+                      >Profile Settings</a
+                    >
+                  </li>
+                  <li>
+                    <a class="dropdown-item" (click)="logout()">Logout</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="campaign-title" style="color:white">Get Ready to Dunk & Win!</div>
 
-          <div
-            class="same-width-container button-group mt-3"
-            style="z-index: 99999"
-          >
-            <button
-              class="top-btn"
-              [ngClass]="{ 'active-btn': activeTab === 'home' }"
-              (click)="setTab('home')"
+              <!-- Button Group -->
+              <div class="button-group-container mt-1">
+                <button
+                  class="top-btn btn"
+                  [ngClass]="{ 'active-btn': activeTab === 'home' }"
+                  (click)="setTab('home')"
+                >
+                  HOME
+                </button>
+                <button
+                  class="top-btn btn"
+                  [ngClass]="{ 'active-btn': activeTab === 'leaderboard' }"
+                  (click)="setTab('leaderboard')"
+                >
+                  LEADERBOARD
+                </button>
+                <button
+                  class="top-btn btn"
+                  [ngClass]="{ 'active-btn': activeTab === 'prizes' }"
+                  (click)="setTab('prizes')"
+                >
+                  PRIZES
+                </button>
+              </div>
+
+              <!-- Welcome Text + Image -->
+            </div>
+            <!-- <div
+              style="
+                background-color: green;
+                display: flex;
+                flex-direction: column;
+              "
             >
-              HOME
-            </button>
-            <button
-              class="top-btn"
-              [ngClass]="{ 'active-btn': activeTab === 'leaderboard' }"
-              (click)="setTab('leaderboard')"
-            >
-              LEADERBOARD
-            </button>
-            <button
-              class="top-btn"
-              [ngClass]="{ 'active-btn': activeTab === 'prizes' }"
-              (click)="setTab('prizes')"
-            >
-              PRIZES
-            </button>
-            <div
-              *ngIf="activeTab == 'home'"
-              style="position: absolute; bottom: 40px"
-            >
-              <div class="mb-5">
-                <button class="go-button" (click)="gotoGameStart()">
+              <div style="display: flex; flex-direction: column">
+                <div *ngIf="activeTab === 'home'">
+                  <span class="welcome-text" style="color: #4e41aa">
+                    <b>{{ campaign_data?.html_games?.welcome_text }} hellooo</b>
+                  </span>
+                  <img
+                    class="welcome-image"
+                    [src]="
+                      campaign_id &&
+                      campaign_data?.html_games?.game_welcome_image
+                        ? apiUrl + campaign_data.html_games.game_welcome_image
+                        : welcome_image
+                    "
+                    alt="Welcome Image"
+                  />
+                </div>
+              </div>
+              <div *ngIf="activeTab === 'home'" class="lets-go-wrapper">
+                <button class="go-button btn mb-1" (click)="gotoGameStart()">
                   LET'S GO
                 </button>
               </div>
-            </div>
-          </div>
-
-          <div
-            class="podium-wrapper d-flex justify-content-center align-items-end"
-            *ngIf="activeTab == 'leaderboard'"
-          >
-            <div
-              class="podium podium-2 text-center d-flex justify-content-center align-items-center"
-            >
-              <img
-                *ngIf="campaign_data?.participants[1]?.avatar"
-                class="round avatar"
-                [src]="apiUrl + campaign_data?.participants[1]?.avatar"
-                alt="avatar"
-                height="50"
-                width="50"
-              />
-              <img
-                *ngIf="!campaign_data?.participants[1]?.avatar"
-                class="round avatar"
-                src="assets/images/leaderboard/person.png"
-                alt="avatar"
-                height="50"
-                width="50"
-              />
-              <p
-                style="
-                  top: -2rem !important;
-                  z-index: 999999999;
-                  font-weight: 400;
-                  color: #f3f3f3;
-                  position: absolute;
-                "
-              >
-                <b>
-                  {{
-                    campaign_data?.participants[1]?.user_name || "2nd place"
-                      | truncate : 10
-                  }}</b
-                >
-              </p>
-              <div
-                class="position-label position-label-2 d-flex align-items-center justify-content-center"
-              >
-                2
+            </div> -->
+            <div class="outer-container" *ngIf="activeTab === 'home'">
+              <div class="inner-container">
+                <div *ngIf="activeTab === 'home'">
+                  <span class="welcome-text" style="color: #4e41aa"
+                    ><b>Ready to compete?</b></span
+                  >
+                  <img
+                    alt="Welcome Image"
+                    class="welcome-image"
+                    [src]="
+                      campaign_id &&
+                      campaign_data?.html_games?.game_welcome_image
+                        ? apiUrl + campaign_data.html_games.game_welcome_image
+                        : welcome_image
+                    "
+                  />
+                </div>
               </div>
             </div>
-
-            <div
-              class="podium podium-1 text-center d-flex justify-content-center align-items-center"
-            >
-              <img
-                *ngIf="campaign_data?.participants[0]?.avatar"
-                class="round avatar"
-                [src]="apiUrl + campaign_data?.participants[0]?.avatar"
-                alt="avatar"
-                height="50"
-                width="50"
-              />
-              <img
-                *ngIf="!campaign_data?.participants[0]?.avatar"
-                class="round avatar"
-                src="assets/images/leaderboard/person.png"
-                alt="avatar"
-                height="50"
-                width="50"
-              />
-
-              <p
-                style="
-                  top: -2rem !important;
-                  z-index: 999999999;
-                  font-weight: 400;
-                  color: #f3f3f3;
-                  position: absolute;
-                "
-              >
-                <b>
-                  {{
-                    campaign_data?.participants[0]?.user_name || "1st place"
-                      | truncate : 10
-                  }}</b
-                >
-              </p>
-
-              <div
-                class="position-label position-label-1 d-flex align-items-center justify-content-center"
-              >
-                1
-              </div>
+            <div *ngIf="activeTab === 'home'" class="lets-go-wrapper">
+              <button class="go-button btn mb-1" (click)="gotoGameStart()">
+                LET'S GO
+              </button>
             </div>
-
-            <div
-              class="podium podium-3 text-center d-flex justify-content-center align-items-center"
+            <div 
+              class="podium-wrapper d-flex justify-content-center align-items-end"
+              *ngIf="activeTab == 'leaderboard'"
             >
-              <img
-                *ngIf="campaign_data?.participants[2]?.avatar"
-                class="round avatar"
-                [src]="apiUrl + campaign_data?.participants[2]?.avatar"
-                alt="avatar"
-                height="50"
-                width="50"
-              />
-              <img
-                *ngIf="!campaign_data?.participants[2]?.avatar"
-                class="round avatar"
-                src="assets/images/leaderboard/person.png"
-                alt="avatar"
-                height="50"
-                width="50"
-              />
-              <p
-                style="
-                  top: -2rem !important;
-                  z-index: 999999999;
-                  font-weight: 400;
-                  color: #f3f3f3;
-                  position: absolute;
-                "
-              >
-                <b>
-                  {{
-                    campaign_data?.participants[2]?.user_name || "3rd place"
-                      | truncate : 10
-                  }}</b
-                >
-              </p>
               <div
-                class="position-label position-label-3 d-flex align-items-center justify-content-center"
+                class="podium podium-2 text-center d-flex justify-content-center align-items-center"
               >
-                3
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="card leaderboard-card"
-            *ngIf="activeTab == 'leaderboard'"
-            style="
-              margin-left: 2rem !important;
-              margin-right: 2rem !important;
-              margin-left: 2rem !important;
-              margin-right: 2rem !important;
-              border-radius: 3px !important;
-            "
-          >
-            <div
-              class="card-body p-0 overflow-hidden"
-              style="border-radius: 5px !important"
-            >
-              <div class="row px-1">
-                <div class="col-12">
-                  <div class="leaderboard-header mt-1">
-                    <h4
-                      class="card-title mb-0"
-                      style="
-                        color: blue;
-                        font-weight: bold;
-                        font-style: italic;
-                        text-transform: uppercase;
-                        font-family: 'Roboto Condensed';
-                        font-size: 20px;
-                      "
-                    >
-                      <b><i>Leaderboard</i></b>
-                    </h4>
-                    <button
-                      (click)="getParticipantsInfo()"
-                      class="refresh-button"
-                    >
-                      <i data-feather="refresh-cw"></i>
-                    </button>
-                  </div>
+                <img
+                  *ngIf="campaign_data?.participants[1]?.avatar"
+                  class="round avatar"
+                  [src]="apiUrl + campaign_data?.participants[1]?.avatar"
+                  alt="avatar"
+                  height="50"
+                  width="50"
+                />
+                <img
+                  *ngIf="!campaign_data?.participants[1]?.avatar"
+                  class="round avatar"
+                  src="assets/images/leaderboard/person.png"
+                  alt="avatar"
+                  height="50"
+                  width="50"
+                />
+                <p
+                  style="
+                    top: -2rem !important;
+                    z-index: 999999999;
+                    font-weight: 400;
+                    color: #4b4fb4;
+                    position: absolute;
+                  "
+                >
+                  <b>
+                    {{
+                      campaign_data?.participants[1]?.user_name || "2nd place"
+                        | truncate : 10
+                    }}</b
+                  >
+                </p>
+                <div
+                  class="position-label position-label-2 d-flex align-items-center justify-content-center"
+                >
+                  2
                 </div>
               </div>
 
-              <!-- <hr/> -->
-              <div *ngIf="rows.length > 0" style="overflow-y: scroll">
-                <div
+              <div
+                class="podium podium-1 text-center d-flex justify-content-center align-items-center"
+              >
+                <img
+                  *ngIf="campaign_data?.participants[0]?.avatar"
+                  class="round avatar"
+                  [src]="apiUrl + campaign_data?.participants[0]?.avatar"
+                  alt="avatar"
+                  height="50"
+                  width="50"
+                />
+                <img
+                  *ngIf="!campaign_data?.participants[0]?.avatar"
+                  class="round avatar"
+                  src="assets/images/leaderboard/person.png"
+                  alt="avatar"
+                  height="50"
+                  width="50"
+                />
+
+                <p
                   style="
-                    margin: 0 !important;
-                    border-top: 1px solid rgb(216, 212, 212);
-                  "
-                  *ngFor="
-                    let participant of campaign_data.participants;
-                    let i = index
+                    top: -2rem !important;
+                    z-index: 999999999;
+                    font-weight: 400;
+                    color: #4b4fb4;
+                    position: absolute;
                   "
                 >
-                  <div
-                    class="row"
-                    style="
-                      padding-top: 12px;
-                      padding-bottom: 12px;
-                      padding-left: 2rem !important;
-                      padding-right: 2rem !important;
-                      height: 66px;
-                      justify-content: center;
-                      display: flex;
-                      align-items: center;
-                    "
-                    [ngStyle]="{
-                      'background-color':
-                        participant.user_id == httpService.USERINFO.id
-                          ? '#DFD8F7'
-                          : 'transparent'
-                    }"
+                  <b>
+                    {{
+                      campaign_data?.participants[0]?.user_name || "1st place"
+                        | truncate : 10
+                    }}</b
                   >
-                    <div
-                      class="col-12"
-                      style="padding: 0 !important; margin: 0 !important"
-                    >
-                      <div
-                        class="row"
+                </p>
+
+                <div
+                  class="position-label position-label-1 d-flex align-items-center justify-content-center"
+                >
+                  1
+                </div>
+              </div>
+
+              <div
+                class="podium podium-3 text-center d-flex justify-content-center align-items-center"
+              >
+                <img
+                  *ngIf="campaign_data?.participants[2]?.avatar"
+                  class="round avatar"
+                  [src]="apiUrl + campaign_data?.participants[2]?.avatar"
+                  alt="avatar"
+                  height="50"
+                  width="50"
+                />
+                <img
+                  *ngIf="!campaign_data?.participants[2]?.avatar"
+                  class="round avatar"
+                  src="assets/images/leaderboard/person.png"
+                  alt="avatar"
+                  height="50"
+                  width="50"
+                />
+                <p
+                  style="
+                    top: -2rem !important;
+                    z-index: 999999999;
+                    font-weight: 400;
+                    color: #4b4fb4;
+                    position: absolute;
+                  "
+                >
+                  <b>
+                    {{
+                      campaign_data?.participants[2]?.user_name || "3rd place"
+                        | truncate : 10
+                    }}</b
+                  >
+                </p>
+                <div
+                  class="position-label position-label-3 d-flex align-items-center justify-content-center"
+                >
+                  3
+                </div>
+              </div>
+            </div>
+            <div
+              class="card leaderboard-card"
+              *ngIf="activeTab == 'leaderboard'"
+              style="
+                margin-left: 2rem !important;
+                margin-right: 2rem !important;
+                margin-left: 2rem !important;
+                margin-right: 2rem !important;
+                border-radius: 3px !important;
+              "
+            >
+              <div
+                class="card-body p-0 overflow-hidden"
+                style="border-radius: 5px !important"
+              >
+                <div class="row px-1">
+                  <div class="col-12">
+                    <div class="leaderboard-header mt-1">
+                      <h4
+                        class="card-title mb-0"
                         style="
-                          border-top-width: 1px;
-                          border-bottom-width: 1px;
-                          margin-left: -1.8rem !important;
+                          color: blue;
+                          font-weight: bold;
+                          font-style: italic;
+                          text-transform: uppercase;
+                          font-family: 'Roboto Condensed';
+                          font-size: 20px;
                         "
                       >
-                        <div class="col-2">
-                          <span
-                            [ngClass]="{
-                              'avatar-wrapper':
-                                participant.rank === 1 ||
-                                participant.rank === 2 ||
-                                participant.rank === 3
-                            }"
-                          >
-                            <img
-                              style="background-color: none"
-                              *ngIf="participant.avatar"
-                              class="round avatar-image"
-                              [src]="apiUrl + participant.avatar"
-                              alt="avatar"
-                              height="50"
-                              width="50"
-                            />
-                            <img
-                              style="background-color: none"
-                              *ngIf="participant.avatar == null"
-                              class="round avatar-image"
-                              src="assets/images/leaderboard/person.png"
-                              alt="avatar"
-                              height="50"
-                              width="50"
-                              style="background-color: white"
-                            />
-                          </span>
-                        </div>
-                        <div class="col-8 d-flex align-items-center">
-                          <!-- User name aligned to the center -->
-                          <img
-                            *ngIf="participant.rank == 1"
-                            class="ml-1"
-                            src="assets/images/profile/first.png"
-                            alt="avatar"
-                            width="26"
-                            style="background-color: transparent"
-                          />
-                          <img
-                            *ngIf="participant.rank == 2"
-                            class="ml-1"
-                            src="assets/images/profile/second.png"
-                            alt="avatar"
-                            width="26"
-                            style="background-color: transparent"
-                          />
-                          <img
-                            *ngIf="participant.rank == 3"
-                            class="ml-1"
-                            src="assets/images/profile/third.png"
-                            alt="avatar"
-                            width="26"
-                            style="background-color: transparent"
-                          />
-                          <h4 class="card-title mb-0 ml-1">
-                            <b>
-                              <span
-                                style="
-                                  font-size: 14px;
-                                  display: flex;
-                                  flex-direction: row;
-                                  align-items: center;
-                                  margin-top: -10px !important;
-                                "
-                              >
-                                <div class="d-none d-md-flex">
-                                  {{ participant.user_name | truncate : 15 }}
-                                </div>
+                        <b><i>Leaderboard</i></b>
+                      </h4>
+                      <button
+                        (click)="getParticipantsInfo()"
+                        class="refresh-button"
+                      >
+                        <i data-feather="refresh-cw"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
 
-                                <!-- Display on small and mobile screens (xs and sm) -->
-                                <div class="d-flex d-md-none">
-                                  {{ participant.user_name | truncate : 8 }}
-                                </div>
-                              </span>
-                            </b>
-                          </h4>
-                        </div>
+                <!-- <hr/> -->
+                <div *ngIf="rows.length > 0" style="overflow-y: scroll">
+                  <div
+                    style="
+                      margin: 0 !important;
+                      border-top: 1px solid rgb(216, 212, 212);
+                    "
+                    *ngFor="
+                      let participant of campaign_data.participants;
+                      let i = index
+                    "
+                  >
+                    <div
+                      class="row"
+                      style="
+                        padding-top: 12px;
+                        padding-bottom: 12px;
+                        padding-left: 2rem !important;
+                        padding-right: 2rem !important;
+                        height: 66px;
+                        justify-content: center;
+                        display: flex;
+                        align-items: center;
+                      "
+                      [ngStyle]="{
+                        'background-color':
+                          participant.user_id == httpService.USERINFO.id
+                            ? '#DFD8F7'
+                            : 'transparent'
+                      }"
+                    >
+                      <div
+                        class="col-12"
+                        style="padding: 0 !important; margin: 0 !important"
+                      >
                         <div
-                          class="col-2 d-flex align-items-center justify-content-center"
-                          style="margin-top: 0px !important"
+                          class="row"
+                          style="
+                            border-top-width: 1px;
+                            border-bottom-width: 1px;
+                            margin-left: -1.8rem !important;
+                          "
                         >
-                          <span
-                            *ngIf="participant.total_points > 0"
-                            style="margin-top: -10px !important"
+                          <div class="col-2">
+                            <span
+                              [ngClass]="{
+                                'avatar-wrapper':
+                                  participant.rank === 1 ||
+                                  participant.rank === 2 ||
+                                  participant.rank === 3
+                              }"
+                            >
+                              <img
+                                style="background-color: none"
+                                *ngIf="participant.avatar"
+                                class="round avatar-image"
+                                [src]="apiUrl + participant.avatar"
+                                alt="avatar"
+                                height="50"
+                                width="50"
+                              />
+                              <img
+                                style="background-color: none"
+                                *ngIf="participant.avatar == null"
+                                class="round avatar-image"
+                                src="assets/images/leaderboard/person.png"
+                                alt="avatar"
+                                height="50"
+                                width="50"
+                                style="background-color: white"
+                              />
+                            </span>
+                          </div>
+                          <div class="col-8 d-flex align-items-center">
+                            <!-- User name aligned to the center -->
+                            <img
+                              *ngIf="participant.rank == 1"
+                              class="ml-1"
+                              src="assets/images/profile/first.png"
+                              alt="avatar"
+                              width="26"
+                              style="background-color: transparent"
+                            />
+                            <img
+                              *ngIf="participant.rank == 2"
+                              class="ml-1"
+                              src="assets/images/profile/second.png"
+                              alt="avatar"
+                              width="26"
+                              style="background-color: transparent"
+                            />
+                            <img
+                              *ngIf="participant.rank == 3"
+                              class="ml-1"
+                              src="assets/images/profile/third.png"
+                              alt="avatar"
+                              width="26"
+                              style="background-color: transparent"
+                            />
+                            <h4 class="card-title mb-0 ml-1">
+                              <b>
+                                <span
+                                  style="
+                                    font-size: 14px;
+                                    display: flex;
+                                    flex-direction: row;
+                                    align-items: center;
+                                    margin-top: -10px !important;
+                                  "
+                                >
+                                  <div class="d-none d-md-flex">
+                                    {{ participant.user_name | truncate : 15 }}
+                                  </div>
+
+                                  <!-- Display on small and mobile screens (xs and sm) -->
+                                  <div class="d-flex d-md-none">
+                                    {{ participant.user_name | truncate : 8 }}
+                                  </div>
+                                </span>
+                              </b>
+                            </h4>
+                          </div>
+                          <div
+                            class="col-2 d-flex align-items-center justify-content-center"
+                            style="margin-top: 0px !important"
                           >
-                            {{ participant.total_points }} Pts
-                          </span>
-                          <span *ngIf="participant.total_points == 0">
-                            0 Pts
-                          </span>
+                            <span
+                              *ngIf="participant.total_points > 0"
+                              style="margin-top: -10px !important"
+                            >
+                              {{ participant.total_points }} Pts
+                            </span>
+                            <span *ngIf="participant.total_points == 0">
+                              0 Pts
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -1297,64 +1350,63 @@
                 </div>
               </div>
             </div>
-          </div>
-
-          <div *ngIf="activeTab == 'prizes'">
-            <img
-              src="../../../../assets/images/prizes/trophy.png"
-              style="object-fit: cover !important; width: 100%"
-            />
-            <div style="margin-top: -4rem !important">
-              <div
-                class="card leaderboard-card mb-3 ml-2 mr-2"
-                style="
-                  margin-left: 2rem !important;
-                  margin-right: 2rem !important;
-                  border-radius: 3px !important;
-                "
-                *ngFor="let prize of campaign_data.prizes; let i = index"
-              >
+            <div *ngIf="activeTab == 'prizes'">
+              <img
+                src="../../../../assets/images/prizes/trophy.png"
+                style="object-fit: cover !important; width: 100%"
+              />
+              <div style="margin-top: -4rem !important">
                 <div
-                  class="card-body p-0 overflow-hidden"
-                  style="border-radius: 5px !important"
+                  class="card leaderboard-card mb-3 ml-2 mr-2"
+                  style="
+                    margin-left: 2rem !important;
+                    margin-right: 2rem !important;
+                    border-radius: 3px !important;
+                  "
+                  *ngFor="let prize of campaign_data.prizes; let i = index"
                 >
-                  <div class="px-1">
-                    <div class="leaderboard-header mt-1">
-                      <div
-                        class="row pb-1"
-                        style="
-                          width: 100%;
-                          text-align: left;
-                          font-family: 'Roboto Condensed', sans-serif;
-                        "
-                      >
-                        <div class="col-8">
-                          <h4
-                            class="card-title mb-0"
-                            style="
-                              color: blue;
-                              font-weight: bold;
-                              font-style: italic;
-                              text-transform: uppercase;
-                              font-family: 'Roboto Condensed';
-                              font-size: 28px;
-                            "
-                          >
-                            {{ prize.prize_header }}
-                          </h4>
-                          <span style="font-size: 18px"
-                            ><i>{{ prize.prize_desc }}</i></span
-                          >
-                        </div>
-                        <div class="col-4">
-                          <img
-                            class="prize-image"
-                            *ngIf="prize.image"
-                            [src]="apiUrl + prize?.image"
-                            alt="avatar"
-                            height="100"
-                            width="100"
-                          />
+                  <div
+                    class="card-body p-0 overflow-hidden"
+                    style="border-radius: 5px !important"
+                  >
+                    <div class="px-1">
+                      <div class="leaderboard-header mt-1">
+                        <div
+                          class="row pb-1"
+                          style="
+                            width: 100%;
+                            text-align: left;
+                            font-family: 'Roboto Condensed', sans-serif;
+                          "
+                        >
+                          <div class="col-8">
+                            <h4
+                              class="card-title mb-0"
+                              style="
+                                color: blue;
+                                font-weight: bold;
+                                font-style: italic;
+                                text-transform: uppercase;
+                                font-family: 'Roboto Condensed';
+                                font-size: 28px;
+                              "
+                            >
+                              {{ prize.prize_header }}
+                            </h4>
+                            <span style="font-size: 18px"
+                              ><i>{{ prize.prize_desc }}</i></span
+                            >
+                          </div>
+                          <div class="col-4">
+                            <img
+                              class="prize-image"
+                              *ngIf="prize.image"
+                              [src]="apiUrl + prize?.image"
+                              alt="avatar"
+                              height="100"
+                              width="100"
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -1364,30 +1416,40 @@
             </div>
           </div>
         </div>
-      </div>
 
+        <!-- START END  -->
+      </div>
       <div
         *ngIf="gameStatus == 'start'"
         class="bg-image-container d-flex flex-column justify-content-between align-items-center text-center"
-        [style.backgroundImage]="
-          'url(' +
-          (campaign_id && campaign_data?.html_games?.game_start_image
-            ? apiUrl + campaign_data.html_games.game_start_image
-            : start_image) +
-          ')'
-        "
+        [ngStyle]="{
+          'margin-right': '0px !important',
+          'padding-left': '0px !important',
+          'padding-right': '0px !important',
+          'min-height': '100% !important',
+          'background-color':
+            activeTab === 'home'
+              ? campaign_data?.html_games?.selected_page_color
+              : '#ffffff'
+        }"
+        style="overflow-y: scroll !important;flex: 1;"
       >
-        <div
-          style="
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            height: 100%;
-          "
-        >
-          <div class="mb-5">
+        <div class="game-section-wrapper page-wrapper" style="flex: 1">
+          <div class="content-top" style="flex: 1">
+            <img
+              class="welcome-image"
+              [src]="
+                campaign_id && campaign_data?.html_games?.game_start_image
+                  ? apiUrl + campaign_data.html_games.game_start_image
+                  : start_image
+              "
+              alt="Start Image"
+            />
+          </div>
+
+          <div class="lets-go-wrapper">
             <button
-              class="go-button"
+              class="go-button btn"
               (click)="gotoHome()"
               [style.backgroundColor]="
                 campaign_data?.html_games?.selected_secondary_color
@@ -1396,7 +1458,7 @@
               BACK
             </button>
             <button
-              class="go-button mt-1"
+              class="go-button btn mt-1 mb-1"
               (click)="gotoPlayGame(campaign_data.html_games.game_url)"
               [style.backgroundColor]="
                 campaign_data?.html_games?.selected_primary_color
@@ -1411,25 +1473,35 @@
       <div
         *ngIf="gameStatus == 'end'"
         class="bg-image-container d-flex flex-column justify-content-between align-items-center text-center"
-        [style.backgroundImage]="
-          'url(' +
-          (campaign_id && campaign_data?.html_games?.game_end_image
-            ? apiUrl + campaign_data.html_games.game_end_image
-            : end_image) +
-          ')'
-        "
+        [ngStyle]="{
+          'margin-right': '0px !important',
+          'padding-left': '0px !important',
+          'padding-right': '0px !important',
+          'min-height': '100% !important',
+          'background-color':
+            activeTab === 'home'
+              ? campaign_data?.html_games?.selected_page_color
+              : '#ffffff',
+          'overflow-y': 'scroll !important'
+        }"
+        style="overflow-y: scroll !important;flex: 1"
       >
-        <div
-          style="
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            height: 100%;
-          "
-        >
-          <div class="mb-5">
+        <div class="game-section-wrapper page-wrapper" style="flex: 1">
+          <div class="content-top" style="flex: 1">
+            <img
+              class="welcome-image"
+              [src]="
+                campaign_id && campaign_data?.html_games?.game_end_image
+                  ? apiUrl + campaign_data.html_games.game_end_image
+                  : end_image
+              "
+              alt="End Image"
+            />
+          </div>
+
+          <div class="lets-go-wrapper">
             <button
-              class="go-button-1"
+              class="go-button btn"
               (click)="gotoPlayGame(campaign_data.html_games.game_url)"
               [style.backgroundColor]="
                 campaign_data?.html_games?.selected_secondary_color
@@ -1437,23 +1509,19 @@
             >
               RETRY
             </button>
-
-            <div class="mb-5">
-              <button
-                class="go-button-1 mt-1"
-                (click)="gotoLeaderboard()"
-                [style.backgroundColor]="
-                  campaign_data?.html_games?.selected_primary_color
-                "
-              >
-                LEADERBOARD
-              </button>
-            </div>
+            <button
+              class="go-button btn mt-1 mb-1"
+              (click)="gotoLeaderboard()"
+              [style.backgroundColor]="
+                campaign_data?.html_games?.selected_primary_color
+              "
+            >
+              LEADERBOARD
+            </button>
           </div>
         </div>
-
-        <div class="d-none d-lg-flex col-lg-4"></div>
       </div>
+
     </div>
     <div class="d-none d-lg-flex col-lg-4"></div>
   </div>
