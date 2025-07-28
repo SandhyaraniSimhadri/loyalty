@@ -956,45 +956,35 @@
               </div>
 
               <!-- Button Group -->
-              <div class="button-group-container mt-1">
-                <button
-                  class="top-btn btn"
-                  [ngClass]="{ 'active-btn': activeTab === 'home' }"
-                  [ngStyle]="{
-    'background-color': activeTab === 'home'
-      ? campaign_data?.html_games?.selected_welcomepage_button_color
-      : getLightShade(campaign_data?.html_games?.selected_welcomepage_button_color)
-  }"
-                  (click)="setTab('home')"
-                >
-                  HOME
-                </button>
-                <button
-                  class="top-btn btn"
-                  [ngClass]="{ 'active-btn': activeTab === 'leaderboard' }"
-                    [ngStyle]="{
-    'background-color': activeTab === 'leaderboard'
-      ? '##4e41aa'
-      : '#8e86e7'
-  }"
-                  (click)="setTab('leaderboard')"
-                >
-                  LEADERBOARD
-                </button>
-                <button
-  class="top-btn btn"
-  [ngClass]="{ 'active-btn': activeTab === 'prizes' }"
-  [ngStyle]="{
-    'background-color': activeTab === 'prizes'
-      ? '##4e41aa'
-      : '#8e86e7'
-  }"
-  (click)="setTab('prizes')"
->
-  PRIZES
-</button>
+            <div class="button-group-container mt-1">
+  <button
+    class="top-btn btn"
+    [ngClass]="{ 'active-btn': activeTab === 'home' }"
+    [ngStyle]="{ 'background-color': getButtonColor('home') }"
+    (click)="setTab('home')"
+  >
+    HOME
+  </button>
 
-              </div>
+  <button
+    class="top-btn btn"
+    [ngClass]="{ 'active-btn': activeTab === 'leaderboard' }"
+    [ngStyle]="{ 'background-color': getButtonColor('leaderboard') }"
+    (click)="setTab('leaderboard')"
+  >
+    LEADERBOARD
+  </button>
+
+  <button
+    class="top-btn btn"
+    [ngClass]="{ 'active-btn': activeTab === 'prizes' }"
+    [ngStyle]="{ 'background-color': getButtonColor('prizes') }"
+    (click)="setTab('prizes')"
+  >
+    PRIZES
+  </button>
+</div>
+
 
               <!-- Welcome Text + Image -->
             </div>

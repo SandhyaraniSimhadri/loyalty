@@ -395,8 +395,19 @@ get podiumPositions() {
     this.countdownTimeout && clearTimeout(this.countdownTimeout);
   }
 
-  getLightShade(hex: string, factor = 0.6): string {
-  if (!hex) return '#f0f0f0'; // fallback
+getButtonColor(tab: string): string {
+  const selectedColor = this.campaign_data?.html_games?.selected_welcomepage_button_color || '#4e41aa';
+
+  if (this.activeTab === 'home') {
+    return tab === 'home' ? selectedColor : this.getLightShade(selectedColor);
+  } else {
+    return tab === this.activeTab ? '#4e41aa' : '#8e86e7';
+  }
+}
+
+// Existing getLightShade function
+getLightShade(hex: string, factor = 0.6): string {
+  if (!hex) return '#f0f0f0';
 
   hex = hex.replace('#', '');
 
@@ -404,12 +415,11 @@ get podiumPositions() {
     hex = hex.split('').map(c => c + c).join('');
   }
 
-  const r = Math.round(parseInt(hex.substring(0, 2), 16));
-  const g = Math.round(parseInt(hex.substring(2, 4), 16));
-  const b = Math.round(parseInt(hex.substring(4, 6), 16));
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
 
-  const lighten = (channel: number) =>
-    Math.min(255, Math.round(channel + (255 - channel) * factor));
+  const lighten = (c: number) => Math.min(255, Math.round(c + (255 - c) * factor));
 
   const lightR = lighten(r).toString(16).padStart(2, '0');
   const lightG = lighten(g).toString(16).padStart(2, '0');
@@ -417,6 +427,7 @@ get podiumPositions() {
 
   return `#${lightR}${lightG}${lightB}`;
 }
+
 
 
   getPredictions(campaign_id) {
