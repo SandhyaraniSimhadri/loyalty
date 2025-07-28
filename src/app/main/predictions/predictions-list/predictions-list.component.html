@@ -906,7 +906,7 @@
           'padding-left': '0px !important',
           'padding-right': '0px !important',
           'min-height': '100% !important',
-          'background':
+          background:
             activeTab === 'home'
               ? campaign_data?.html_games?.selected_page_color
               : 'linear-gradient(to right, #cbc4f6, #beb2fe)',
@@ -951,13 +951,20 @@
                   </li>
                 </ul>
               </div>
-              <div class="campaign-title" style="color:white">Get Ready to Dunk & Win!</div>
+              <div class="campaign-title" style="color: white">
+                Get Ready to Dunk & Win!
+              </div>
 
               <!-- Button Group -->
               <div class="button-group-container mt-1">
                 <button
                   class="top-btn btn"
                   [ngClass]="{ 'active-btn': activeTab === 'home' }"
+                  [ngStyle]="{
+    'background-color': activeTab === 'home'
+      ? campaign_data?.html_games?.selected_welcomepage_button_color
+      : getLightShade(campaign_data?.html_games?.selected_welcomepage_button_color)
+  }"
                   (click)="setTab('home')"
                 >
                   HOME
@@ -965,17 +972,28 @@
                 <button
                   class="top-btn btn"
                   [ngClass]="{ 'active-btn': activeTab === 'leaderboard' }"
+                    [ngStyle]="{
+    'background-color': activeTab === 'leaderboard'
+      ? campaign_data?.html_games?.selected_welcomepage_button_color
+      : getLightShade(campaign_data?.html_games?.selected_welcomepage_button_color)
+  }"
                   (click)="setTab('leaderboard')"
                 >
                   LEADERBOARD
                 </button>
                 <button
-                  class="top-btn btn"
-                  [ngClass]="{ 'active-btn': activeTab === 'prizes' }"
-                  (click)="setTab('prizes')"
-                >
-                  PRIZES
-                </button>
+  class="top-btn btn"
+  [ngClass]="{ 'active-btn': activeTab === 'prizes' }"
+  [ngStyle]="{
+    'background-color': activeTab === 'prizes'
+      ? campaign_data?.html_games?.selected_welcomepage_button_color
+      : getLightShade(campaign_data?.html_games?.selected_welcomepage_button_color)
+  }"
+  (click)="setTab('prizes')"
+>
+  PRIZES
+</button>
+
               </div>
 
               <!-- Welcome Text + Image -->
@@ -1030,11 +1048,17 @@
               </div>
             </div>
             <div *ngIf="activeTab === 'home'" class="lets-go-wrapper">
-              <button class="go-button btn mb-1" (click)="gotoGameStart()">
+              <button class="go-button btn mb-1" (click)="gotoGameStart()"  [ngStyle]="{
+                    'background-color':
+                      activeTab === 'home'
+                        ? campaign_data?.html_games
+                            ?.selected_welcomepage_button_color
+                        : '#FF69B4'
+                  }">
                 LET'S GO
               </button>
             </div>
-            <div 
+            <div
               class="podium-wrapper d-flex justify-content-center align-items-end"
               *ngIf="activeTab == 'leaderboard'"
             >
@@ -1432,7 +1456,7 @@
               ? campaign_data?.html_games?.selected_page_color
               : '#ffffff'
         }"
-        style="overflow-y: scroll !important;flex: 1;"
+        style="overflow-y: scroll !important; flex: 1"
       >
         <div class="game-section-wrapper page-wrapper" style="flex: 1">
           <div class="content-top" style="flex: 1">
@@ -1484,7 +1508,7 @@
               : '#ffffff',
           'overflow-y': 'scroll !important'
         }"
-        style="overflow-y: scroll !important;flex: 1"
+        style="overflow-y: scroll !important; flex: 1"
       >
         <div class="game-section-wrapper page-wrapper" style="flex: 1">
           <div class="content-top" style="flex: 1">
@@ -1521,7 +1545,6 @@
           </div>
         </div>
       </div>
-
     </div>
     <div class="d-none d-lg-flex col-lg-4"></div>
   </div>

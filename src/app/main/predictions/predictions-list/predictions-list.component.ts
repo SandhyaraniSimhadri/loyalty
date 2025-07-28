@@ -395,6 +395,30 @@ get podiumPositions() {
     this.countdownTimeout && clearTimeout(this.countdownTimeout);
   }
 
+  getLightShade(hex: string, factor = 0.6): string {
+  if (!hex) return '#f0f0f0'; // fallback
+
+  hex = hex.replace('#', '');
+
+  if (hex.length === 3) {
+    hex = hex.split('').map(c => c + c).join('');
+  }
+
+  const r = Math.round(parseInt(hex.substring(0, 2), 16));
+  const g = Math.round(parseInt(hex.substring(2, 4), 16));
+  const b = Math.round(parseInt(hex.substring(4, 6), 16));
+
+  const lighten = (channel: number) =>
+    Math.min(255, Math.round(channel + (255 - channel) * factor));
+
+  const lightR = lighten(r).toString(16).padStart(2, '0');
+  const lightG = lighten(g).toString(16).padStart(2, '0');
+  const lightB = lighten(b).toString(16).padStart(2, '0');
+
+  return `#${lightR}${lightG}${lightB}`;
+}
+
+
   getPredictions(campaign_id) {
     this.loading = true;
     let request;
