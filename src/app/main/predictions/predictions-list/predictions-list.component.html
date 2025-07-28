@@ -974,8 +974,8 @@
                   [ngClass]="{ 'active-btn': activeTab === 'leaderboard' }"
                     [ngStyle]="{
     'background-color': activeTab === 'leaderboard'
-      ? campaign_data?.html_games?.selected_welcomepage_button_color
-      : getLightShade(campaign_data?.html_games?.selected_welcomepage_button_color)
+      ? '##4e41aa'
+      : '#8e86e7'
   }"
                   (click)="setTab('leaderboard')"
                 >
@@ -986,8 +986,8 @@
   [ngClass]="{ 'active-btn': activeTab === 'prizes' }"
   [ngStyle]="{
     'background-color': activeTab === 'prizes'
-      ? campaign_data?.html_games?.selected_welcomepage_button_color
-      : getLightShade(campaign_data?.html_games?.selected_welcomepage_button_color)
+      ? '##4e41aa'
+      : '#8e86e7'
   }"
   (click)="setTab('prizes')"
 >
