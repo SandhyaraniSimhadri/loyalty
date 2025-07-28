@@ -6,6 +6,13 @@
 @import '@core/scss/base/plugins/charts/chart-apex.scss';
 @import '@core/scss/angular/libs/toastr.component.scss';
 
+@font-face {
+  font-family: 'Aldo the Apache';
+  src: url('../../../../assets/fonts/AldotheApache.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 #earnings-donut-chart .apexcharts-tooltip.apexcharts-theme-dark {
   background: rgba($black, 0.8) !important;
 }
@@ -388,10 +395,9 @@ button:focus {
 
 
 .campaign-title {
+  font-size: 28px;
   color: white;
-  font-size: 30px;
-  font-weight: bold;
-  font-family: 'Roboto Condensed', sans-serif;
+  font-family: 'Aldo the Apache' !important;
 }
 .game-image-container {
   display: flex;
