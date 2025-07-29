@@ -952,7 +952,9 @@
                 </ul>
               </div>
               <div class="campaign-title">
-                GET READY TO DUNK AND WIN!
+                <span *ngIf=" activeTab === 'home'">GET READY TO DUNK AND WIN!</span>
+                <span *ngIf=" activeTab !== 'home'">THE DONUT CHALLENGE</span>
+
               </div>
 
               <!-- Button Group -->
