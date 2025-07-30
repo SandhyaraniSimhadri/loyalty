@@ -91,7 +91,7 @@
             </div>
 
             <!-- reCAPTCHA -->
-         <div class="captcha-wrapper">
+         <!-- <div class="captcha-wrapper">
   <div class="captcha-container">
     <re-captcha
       class="re-captcha"
@@ -104,7 +104,7 @@
       [class.is-invalid]="recaptcha.invalid && (recaptcha.dirty || recaptcha.touched)"
     ></re-captcha>
   </div>
-</div>
+</div> -->
 
             <!-- Forgot password -->
             <div class="mb-1 text-center" *ngIf="type === undefined || type === 0">
@@ -112,7 +112,7 @@
             </div>
 
             <!-- Login Button -->
-            <button class="btn btn-primary btn-login" rippleEffect>
+            <button class="btn btn-primary btn-login mt-2" rippleEffect>
               <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
               <span *ngIf="type === undefined || type === 0">LOGIN</span>
               <span *ngIf="type === 1">SET PASSWORD</span>

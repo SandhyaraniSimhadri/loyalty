@@ -8,7 +8,7 @@ import { User, Role } from "app/auth/models";
 import { ToastrService } from "ngx-toastr";
 import { CoreHttpService } from "@core/services/http.service";
 import { Router } from "@angular/router";
-import { SocialAuthService } from "@abacritt/angularx-social-login";
+// import { SocialAuthService } from "@abacritt/angularx-social-login";
 
 
 @Injectable({ providedIn: "root" })
@@ -31,7 +31,7 @@ export class AuthenticationService {
     private _http: HttpClient,
     private _toastrService: ToastrService,
     private _router: Router,
-    private socialAuthService: SocialAuthService,
+    // private socialAuthService: SocialAuthService,
 
     public httpService: CoreHttpService
   ) {
@@ -123,7 +123,7 @@ export class AuthenticationService {
     localStorage.removeItem("currentUser");
     localStorage.removeItem('loginTime');
     localStorage.clear();
-    this.socialAuthService.signOut();
+    // this.socialAuthService.signOut();
     // notify
     this.currentUser = null;
     this.currentUserSubject.next(null);

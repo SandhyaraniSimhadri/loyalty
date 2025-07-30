@@ -40,14 +40,14 @@ import { LoginComponent } from "./main/login/login.component";
 import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RECAPTCHA_SETTINGS, RecaptchaFormsModule, RecaptchaModule, RecaptchaSettings } from 'ng-recaptcha';
-import {
-  SocialLoginModule,
-  SocialAuthServiceConfig,
-  GoogleLoginProvider,
-  FacebookLoginProvider,
-  GoogleSigninButtonDirective,
-  GoogleSigninButtonModule,
-} from '@abacritt/angularx-social-login';
+// import {
+//   SocialLoginModule,
+//   SocialAuthServiceConfig,
+//   GoogleLoginProvider,
+//   FacebookLoginProvider,
+//   GoogleSigninButtonDirective,
+//   GoogleSigninButtonModule,
+// } from '@abacritt/angularx-social-login';
 import { environment } from "environments/environment";
 import { WelcomeComponent } from "./main/welcome/welcome.component";
 import { UserIdleModule } from 'angular-user-idle';
@@ -231,8 +231,8 @@ const appRoutes: Routes = [
     CardSnippetModule,
     LayoutModule,
     ContentHeaderModule,
-    SocialLoginModule,
-    GoogleSigninButtonModule,
+    // SocialLoginModule,
+    // GoogleSigninButtonModule,
     RecaptchaModule,
     RecaptchaFormsModule,
     UserIdleModule.forRoot({ idle: 900, timeout: 15, ping: 120 }),
@@ -249,26 +249,26 @@ const appRoutes: Routes = [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     // ! IMPORTANT: Provider used to create fake backend, comment while using real API
-    {
-    provide: 'SocialAuthServiceConfig',
-      useValue: {
-        autoLogin: false,
-        providers: [
-          {
-            id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider('681421590057-15n2t6a166aae9id7gaus5tggdtuoggb.apps.googleusercontent.com'),
-          },
-          {
-            id: FacebookLoginProvider.PROVIDER_ID,
-            provider: new FacebookLoginProvider('951516716413548'),
-          },
-        ],
-        onError: (err) => {
-          console.error("@log SocialAuthServiceConfig Error: ", err);
-        }
-      } as SocialAuthServiceConfig,
-    },
-    GoogleSigninButtonDirective,
+    // {
+    // provide: 'SocialAuthServiceConfig',
+    //   useValue: {
+    //     autoLogin: false,
+    //     providers: [
+    //       {
+    //         id: GoogleLoginProvider.PROVIDER_ID,
+    //         provider: new GoogleLoginProvider('681421590057-15n2t6a166aae9id7gaus5tggdtuoggb.apps.googleusercontent.com'),
+    //       },
+    //       {
+    //         id: FacebookLoginProvider.PROVIDER_ID,
+    //         provider: new FacebookLoginProvider('951516716413548'),
+    //       },
+    //     ],
+    //     onError: (err) => {
+    //       console.error("@log SocialAuthServiceConfig Error: ", err);
+    //     }
+    //   } as SocialAuthServiceConfig,
+    // },
+    // GoogleSigninButtonDirective,
 
 
   ],

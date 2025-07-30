@@ -134,77 +134,84 @@ export class WelcomeComponent implements OnInit {
     }
     this.loading = false;
   }
-  save() {
-    var i = 0;
+ save() {
+  this.loading = true;
 
-    this.loading = true;
+  const formData = new FormData();
 
-    const formData = new FormData();
-    if (this.image == undefined || this.image == null) {
-      if (this.httpService.USERINFO.user_type == 1) {
-        this._router.navigate(["/company/company"]);
-        return;
-      } else {
-        this._router.navigate(["/predictions/predictions"], {
-          queryParams: {
-            campaign_id: this.campaign_id,
-            event_id: this.event_id,
-          },
+  // ✅ Optional client-side check to avoid uploading large files
+  if (this.image && this.image.size > 2 * 1024 * 1024) { // 2MB
+    this._toastrService.error("Image must be below 2MB", "Validation Error", {
+      toastClass: "toast ngx-toastr",
+      closeButton: true,
+    });
+    this.loading = false;
+    return;
+  }
+
+  // Append only if image exists
+  if (this.image) {
+    formData.append("image", this.image);
+  }
+
+  formData.append("id", this.user_info.id);
+  formData.append("email", this.user_info.email);
+  formData.append("phone_number", this.user_info.mobile_no);
+  formData.append("user_name", this.user_info.user_name);
+  formData.append("name", this.user_info.name);
+
+  this.http.post<any>(this.apiUrl + "api/update_user_info", formData).subscribe(
+    (res: any) => {
+      if (res.status === false) {
+        this._toastrService.error(res.msg, "Failed", {
+          toastClass: "toast ngx-toastr",
+          closeButton: true,
         });
-        return;
+      } else if (res.status === true) {
+        this._toastrService.success(res.msg, "Success", {
+          toastClass: "toast ngx-toastr",
+          closeButton: true,
+        });
+
+        this.httpService.USERINFO.avatar = res.data;
+
+        localStorage.removeItem("currentUser");
+        localStorage.clear();
+        localStorage.setItem("currentUser", JSON.stringify(this.httpService.USERINFO));
+
+        const navTarget = this.httpService.USERINFO.user_type == 1
+          ? ["/company/company"]
+          : ["/predictions/predictions"];
+
+        const navParams = this.httpService.USERINFO.user_type == 1
+          ? {}
+          : { queryParams: { campaign_id: this.campaign_id, event_id: this.event_id } };
+
+        this._router.navigate(navTarget, navParams).then(() => {
+          this.loading = false;
+        });
+      }
+    },
+    (error: any) => {
+      this.loading = false;
+
+      if (error.status === 422 && error.error && error.error.errors) {
+        if (error.error.errors.image) {
+          this._toastrService.error(error.error.errors.image[0], "Upload Error", {
+            toastClass: "toast ngx-toastr",
+            closeButton: true,
+          });
+        }
+      } else {
+        this._toastrService.error("Something went wrong!", "Error", {
+          toastClass: "toast ngx-toastr",
+          closeButton: true,
+        });
       }
     }
-    formData.append("image", this.image);
-    formData.append("id", this.user_info.id);
-    formData.append("email", this.user_info.email);
-    formData.append("phone_number", this.user_info.mobile_no);
-    formData.append("user_name", this.user_info.user_name);
-    formData.append("name", this.user_info.name);
-    this.http
-      .post<any>(this.apiUrl + "api/update_user_info", formData)
-      .subscribe(
-        (res: any) => {
-          if (res == "nonet") {
-          } else {
-            if (res.status == false) {
-              this._toastrService.error(res.msg, "Failed", {
-                toastClass: "toast ngx-toastr",
-                closeButton: true,
-              });
-              this.loading = false;
-            } else if (res.status == true) {
-              this._toastrService.success(res.msg, "Success", {
-                toastClass: "toast ngx-toastr",
-                closeButton: true,
-              });
+  );
+}
 
-              this.httpService.USERINFO.avatar = res.data;
-              localStorage.removeItem("currentUser");
-              localStorage.clear();
-              localStorage.setItem(
-                "currentUser",
-                JSON.stringify(this.httpService.USERINFO)
-              );
-              if (this.httpService.USERINFO.user_type == 1) {
-                this._router.navigate(["/company/company"]).then(() => {
-                  this.loading = false;
-                });
-              } else {
-                this._router.navigate(["/predictions/predictions"], {
-                  queryParams: {
-                    campaign_id: this.campaign_id,
-                    event_id: this.event_id,
-                  },
-                }).then(() => {
-                  this.loading = false;
-                });
-              }
-            }
-          }
-        },
-        (error: any) => {}
-      );
-  }
   savePassword() {
     if (this.new_password != this.confirm_password) {
       this._toastrService.error(

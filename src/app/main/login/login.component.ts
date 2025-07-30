@@ -25,12 +25,12 @@ import { CoreHttpService } from "@core/services/http.service";
 import { ToastrService } from "ngx-toastr";
 import { FormBuilder, FormGroup } from "@angular/forms";
 // import { GoogleLoginProvider, SocialAuthService } from "angularx-social-login";
-import {
-  SocialAuthService,
-  GoogleLoginProvider,
-  SocialUser,
-  FacebookLoginProvider,
-} from "@abacritt/angularx-social-login";
+// import {
+//   SocialAuthService,
+//   GoogleLoginProvider,
+//   SocialUser,
+//   FacebookLoginProvider,
+// } from "@abacritt/angularx-social-login";
 import { environment } from "environments/environment";
 // import { ReCaptchaVService } from 'ng-recaptcha';
 @Component({
@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
    * @param {ToastrService} _toastrService
    */
 
-  socialUser!: SocialUser;
+  // socialUser!: SocialUser;
   isLoggedin?: boolean;
   public coreConfig: any;
   loginForm: FormGroup;
@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
   public type: any = 0;
   public campaign_id: any = null;
   token: string | undefined;
-  captcha_token: any = null;
+  // captcha_token: any = null;
   passwordNotSame:any=false;
   public register_clicked:any=false;
   public org: string;
@@ -96,7 +96,7 @@ export class LoginComponent implements OnInit {
     private _toastrService: ToastrService,
     // private recaptchaV2Service: ReCaptchaV2Service,
     private formBuilder: FormBuilder,
-    private socialAuthService: SocialAuthService,
+    // private socialAuthService: SocialAuthService,
     private _zone: NgZone,
     private renderer: Renderer2,
     private el: ElementRef
@@ -183,7 +183,7 @@ export class LoginComponent implements OnInit {
     let pwd = user_val.password;
     if (this.type == undefined || this.type == 0) {
       console.log("login type", this.type);
-      if (this.captcha_token != null) {
+      // if (this.captcha_token != null) {
         this._authenticationService
           .login(email, pwd)
           .pipe(first())
@@ -250,13 +250,13 @@ export class LoginComponent implements OnInit {
           );
 
         return;
-      } else {
-        this._toastrService.error("Please verify captcha", "Failed", {
-          toastClass: "toast ngx-toastr",
-          closeButton: true,
-        });
-        this.loading = false;
-      }
+      // } else {
+      //   this._toastrService.error("Please verify captcha", "Failed", {
+      //     toastClass: "toast ngx-toastr",
+      //     closeButton: true,
+      //   });
+      //   this.loading = false;
+      // }
     } else if (this.type == 2) {
       user_val.campaign_id = this.campaign_id;
       console.log("set registration");
@@ -331,16 +331,16 @@ export class LoginComponent implements OnInit {
       });
 
 
-    this.socialAuthService.authState.subscribe((user) => {
-      this.socialUser = user;
-      console.log("@log user: ", user);
-      // this.isLoggedin = user != null;
-      console.log("logged user", this.socialUser);
-      if (!!this.socialUser) {
-        console.log("@log authstate user: ", user);
-        this.checkUser();
-      }
-    });
+    // this.socialAuthService.authState.subscribe((user) => {
+    //   this.socialUser = user;
+    //   console.log("@log user: ", user);
+    //   // this.isLoggedin = user != null;
+    //   console.log("logged user", this.socialUser);
+    //   if (!!this.socialUser) {
+    //     console.log("@log authstate user: ", user);
+    //     this.checkUser();
+    //   }
+    // });
     // }
   }
   get_campaign_details(){
@@ -396,129 +396,129 @@ export class LoginComponent implements OnInit {
     
   }
 
-  checkUser() {
-    // window.location.reload();
+  // checkUser() {
+  //   // window.location.reload();
 
-    console.log("@log called checkUser");
-    this.main_loading = true;
-    let request = {
-      params: { email: this.socialUser.email, name: this.socialUser.name },
-      action_url: "check_user",
-      method: "POST",
-    };
-    this.httpService.doHttp(request).subscribe(
-      (res: any) => {
-        if (res == "nonet") {
-        } else {
-          if (res.status == false) {
-            this._toastrService.error(res.msg, "Failed", {
-              toastClass: "toast ngx-toastr",
-              closeButton: true,
-            });
-          } else if (res.status == true) {
-            console.log("@log res status true");
-            if (res.user_status == "existed") {
-              if (res.data.user_type == 1) {
-                res.data.role = "Super Admin";
-              } else {
-                res.data.role = "User";
-              }
+  //   console.log("@log called checkUser");
+  //   this.main_loading = true;
+  //   let request = {
+  //     params: { email: this.socialUser.email, name: this.socialUser.name },
+  //     action_url: "check_user",
+  //     method: "POST",
+  //   };
+  //   this.httpService.doHttp(request).subscribe(
+  //     (res: any) => {
+  //       if (res == "nonet") {
+  //       } else {
+  //         if (res.status == false) {
+  //           this._toastrService.error(res.msg, "Failed", {
+  //             toastClass: "toast ngx-toastr",
+  //             closeButton: true,
+  //           });
+  //         } else if (res.status == true) {
+  //           console.log("@log res status true");
+  //           if (res.user_status == "existed") {
+  //             if (res.data.user_type == 1) {
+  //               res.data.role = "Super Admin";
+  //             } else {
+  //               res.data.role = "User";
+  //             }
 
-              localStorage.setItem("currentUser", JSON.stringify(res.data));
-              // let user_data = JSON.parse(localStorage.getItem("currentUser"));
-              this.httpService.USERINFO = res?.data;
-              this.httpService.APIToken = res?.data?.token;
-              this.httpService.loginuserid = res?.data?.user_id;
-              if (res.data.user_type == 1) {
-                if (res.data.first_time_login == 1) {
-                  if(this.campaign_id){
-                    this._router.navigate(["/welcome"], {
-                      queryParams: { campaign_id: this.campaign_id,welcome_image:this.campaign_data?.welcome_image ,welcome_text:this.campaign_data?.welcome_text,
-                        event_id:this.campaign_data?.event_id
-                      },
-                    });}
-                    else{
-                      this._router.navigate(["/welcome"], {
-                        queryParams: {  campaign_id: this.campaign_id,
-                          company_id: this.company_id},
-                      });
-                    }
-                } else {
-                  this._router.navigate(["/company/company"]);
-                }
-              } else {
-                if (res.data.first_time_login == 1) {
-                  if(this.campaign_id){
-                    this._router.navigate(["/welcome"], {
-                      queryParams: { campaign_id: this.campaign_id,welcome_image:this.campaign_data?.welcome_image,welcome_text:this.campaign_data?.welcome_text, event_id:this.campaign_data?.event_id},
-                    });}
-                    else{
-                      this._router.navigate(["/welcome"], {
-                        queryParams: {  campaign_id: this.campaign_id,
-                          company_id: this.company_id},
-                      });
-                    }
-                } else {
-                  // this._router.navigate(["/predictions/predictions"], {
-                  //   queryParams: { campaign_id: this.campaign_id },
-                  // });
-                  if(this.campaign_id){
-                  this._router.navigate(["/welcome"], {
-                    queryParams: { campaign_id: this.campaign_id,welcome_image:this.campaign_data?.welcome_image,welcome_text:this.campaign_data?.welcome_text, event_id:this.campaign_data?.event_id },
-                  });}
-                  else{
-                    this._router.navigate(["/welcome"], {
-                      queryParams: {  campaign_id: this.campaign_id,
-                        company_id: this.company_id},
-                    });
-                  }
-                }
-              }
-              this.main_loading = false;
+  //             localStorage.setItem("currentUser", JSON.stringify(res.data));
+  //             // let user_data = JSON.parse(localStorage.getItem("currentUser"));
+  //             this.httpService.USERINFO = res?.data;
+  //             this.httpService.APIToken = res?.data?.token;
+  //             this.httpService.loginuserid = res?.data?.user_id;
+  //             if (res.data.user_type == 1) {
+  //               if (res.data.first_time_login == 1) {
+  //                 if(this.campaign_id){
+  //                   this._router.navigate(["/welcome"], {
+  //                     queryParams: { campaign_id: this.campaign_id,welcome_image:this.campaign_data?.welcome_image ,welcome_text:this.campaign_data?.welcome_text,
+  //                       event_id:this.campaign_data?.event_id
+  //                     },
+  //                   });}
+  //                   else{
+  //                     this._router.navigate(["/welcome"], {
+  //                       queryParams: {  campaign_id: this.campaign_id,
+  //                         company_id: this.company_id},
+  //                     });
+  //                   }
+  //               } else {
+  //                 this._router.navigate(["/company/company"]);
+  //               }
+  //             } else {
+  //               if (res.data.first_time_login == 1) {
+  //                 if(this.campaign_id){
+  //                   this._router.navigate(["/welcome"], {
+  //                     queryParams: { campaign_id: this.campaign_id,welcome_image:this.campaign_data?.welcome_image,welcome_text:this.campaign_data?.welcome_text, event_id:this.campaign_data?.event_id},
+  //                   });}
+  //                   else{
+  //                     this._router.navigate(["/welcome"], {
+  //                       queryParams: {  campaign_id: this.campaign_id,
+  //                         company_id: this.company_id},
+  //                     });
+  //                   }
+  //               } else {
+  //                 // this._router.navigate(["/predictions/predictions"], {
+  //                 //   queryParams: { campaign_id: this.campaign_id },
+  //                 // });
+  //                 if(this.campaign_id){
+  //                 this._router.navigate(["/welcome"], {
+  //                   queryParams: { campaign_id: this.campaign_id,welcome_image:this.campaign_data?.welcome_image,welcome_text:this.campaign_data?.welcome_text, event_id:this.campaign_data?.event_id },
+  //                 });}
+  //                 else{
+  //                   this._router.navigate(["/welcome"], {
+  //                     queryParams: {  campaign_id: this.campaign_id,
+  //                       company_id: this.company_id},
+  //                   });
+  //                 }
+  //               }
+  //             }
+  //             this.main_loading = false;
 
-            } else {
-              this._toastrService.success(
-                res.msg + " , Please login",
-                "Success",
-                {
-                  toastClass: "toast ngx-toastr",
-                  closeButton: true,
-                }
-              );
-              this.loginForm = this._formBuilder.group({
-                email: [
-                  this.socialUser.email,
-                  [Validators.required, Validators.email],
-                ],
-                password: ["123456", Validators.required],
-                // username: ["", Validators.required],
-              });
-            }
-            // this.modalService.dismissAll();
-            // this.getEvents();
-          }
-        }
-        // this.main_loading = false;
-      },
-      (error: any) => {
-        this.main_loading = false;
-      }
+  //           } else {
+  //             this._toastrService.success(
+  //               res.msg + " , Please login",
+  //               "Success",
+  //               {
+  //                 toastClass: "toast ngx-toastr",
+  //                 closeButton: true,
+  //               }
+  //             );
+  //             this.loginForm = this._formBuilder.group({
+  //               email: [
+  //                 this.socialUser.email,
+  //                 [Validators.required, Validators.email],
+  //               ],
+  //               password: ["123456", Validators.required],
+  //               // username: ["", Validators.required],
+  //             });
+  //           }
+  //           // this.modalService.dismissAll();
+  //           // this.getEvents();
+  //         }
+  //       }
+  //       // this.main_loading = false;
+  //     },
+  //     (error: any) => {
+  //       this.main_loading = false;
+  //     }
       
-    );
-  }
+  //   );
+  // }
 
-  loginWithFacebook(): void {
-    this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);
-  }
-  signOut(): void {
-    this.socialAuthService.signOut();
-  }
-  loginWithGoogle(): void {
-    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
-  }
-  logOut(): void {
-    this.socialAuthService.signOut();
-  }
+  // loginWithFacebook(): void {
+  //   this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);
+  // }
+  // signOut(): void {
+  //   this.socialAuthService.signOut();
+  // }
+  // loginWithGoogle(): void {
+  //   this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
+  // }
+  // logOut(): void {
+  //   this.socialAuthService.signOut();
+  // }
   /**
    * On destroy
    */
@@ -634,17 +634,17 @@ export class LoginComponent implements OnInit {
     this.login_screen_image=false;}
     console.log("login screen",this.login_screen_image);
   }
-  onCaptchaResolved(response: any): void {
-    // Use the response token as needed
-    console.log("reCAPTCHA v2 Response:", response);
-    this.captcha_token = response;
-  }
+  // onCaptchaResolved(response: any): void {
+  //   // Use the response token as needed
+  //   console.log("reCAPTCHA v2 Response:", response);
+  //   this.captcha_token = response;
+  // }
   public send(): void {
     console.debug(`Token [${this.token}] generated`);
   }
-  resolved(captchaResponse: string) {
-    console.log(`Resolved captcha with response: ${captchaResponse}`);
-  }
+  // resolved(captchaResponse: string) {
+  //   console.log(`Resolved captcha with response: ${captchaResponse}`);
+  // }
   loginBtn() {
     this.register_clicked=false;
     if (this.type == 1 || this.type == 2) {
