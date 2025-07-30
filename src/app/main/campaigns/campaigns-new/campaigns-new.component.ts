@@ -62,6 +62,10 @@ export class CampaignsNewComponent implements OnInit {
   public selected_page_color: string = "#3c3da6";
   public selected_welcomepage_button_color:string = "#3c3da6";
   public selected_secondary_color: string = "#3c3da6";
+  public selected_startpage_color: string = "#3c3da6";
+  public selected_overpage_color: string = "#3c3da6";
+
+ 
   public duration: any = 0;
   public calculatePoints: boolean = false;
 
@@ -319,9 +323,10 @@ export class CampaignsNewComponent implements OnInit {
         game_welcome_text: this.game_welcome_text,
         selected_primary_color: this.selected_primary_color,
         selected_secondary_color: this.selected_secondary_color,
+        selected_startpage_color: this.selected_startpage_color,
+        selected_overpage_color: this.selected_overpage_color,
         selected_page_color: this.selected_page_color,
         selected_welcomepage_button_color:this.selected_welcomepage_button_color,
-
         game_url: this.game_url,
         terms_and_conditions: this.terms_and_conditions,
         game_type: this.game_type,
