@@ -98,7 +98,7 @@ export class WelcomeComponent implements OnInit {
     if (this.section == 1) {
       this.section = 2;
     } else if (this.section == 2) {
-      if (this.avatarImage == null || this.avatarImage == this.user_info.avatar) {
+      if (this.avatarImage == null || (this.avatarImage && this.avatarImage.includes(this.apiUrl))) {
         if (this.httpService.USERINFO.user_type == 1) {
           this._router.navigate(["/company/company"]);
         } else {
