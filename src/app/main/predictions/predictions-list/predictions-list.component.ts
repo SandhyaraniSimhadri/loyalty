@@ -197,20 +197,19 @@ export class PredictionsListComponent implements OnInit {
     console.log("tabb", this.activeTab);
   }
   gotoGameStart() {
-    this.gameStatus = "start";
-    console.log("game status", this.gameStatus);
+    this.activeTab = "start";
+    console.log("game status", this.activeTab);
   }
   gotoPlayGame(url) {
     console.log("urlll",url);
     const urlObj = new URL(this.currentUrl);
-    urlObj.searchParams.set("gameStatus", "end");
+    urlObj.searchParams.set("activeTab", "end");
     const redirectUrl = encodeURIComponent(urlObj.toString());
     const fullUrl = `${url}?redirect_url=${redirectUrl}&token=${this.httpService.APIToken}&campaign_id=${this.campaign_data.html_games.campaign_id}&game_id=${this.campaign_data.html_games.id}`;
     window.location.href = fullUrl;
   }
   gotoLeaderboard() {
     this.activeTab = "leaderboard";
-    this.gameStatus = "none";
     this.getPredictions(this.campaign_id);
   }
   /**
@@ -375,8 +374,8 @@ get podiumPositions() {
         } else {
           this.layout_type = "others";
         }
-        if (params["gameStatus"]) {
-          this.gameStatus = "end";
+        if (params["activeTab"]) {
+          this.activeTab = "end";
         }
       } else {
         this.campaign_id = 0;
@@ -875,7 +874,7 @@ getLightShade(hex: string, factor = 0.6): string {
   }
   gotoHome() {
     this.activeTab = "home";
-    this.gameStatus = "none";
+    
   }
   goToNextQuestion() {
     // this.currentQuestionIndex=0;

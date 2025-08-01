@@ -890,45 +890,21 @@
   >
     <div class="d-none d-lg-flex col-lg-4"></div>
     <div
-      class="col-lg-4"
-      style="padding-left: 0rem !important; padding-right: 0rem !important"
-      [ngStyle]="{
-        'margin-right': '0px !important',
-        'padding-left': '0px !important',
-        'padding-right': '0px !important',
-        'min-height': '100% !important'
-      }"
+     class="col-lg-4 d-flex flex-column text-center justify-content-between align-items-center"
+  style="padding-left: 0 !important; padding-right: 0 !important; overflow-y: auto; flex: 1; min-height: 100vh;"
+  [ngStyle]="{
+    'margin-right': '0px',
+    'padding-left': '0px',
+    'padding-right': '0px',
+    'background':
+      activeTab === 'home'
+        ? campaign_data?.html_games?.selected_page_color
+        : 'linear-gradient(to right, #cbc4f6, #beb2fe)'
+  }"
     >
-      <div
-        *ngIf="gameStatus === 'none'"
-        [ngStyle]="{
-          'margin-right': '0px !important',
-          'padding-left': '0px !important',
-          'padding-right': '0px !important',
-          'min-height': '100% !important',
-          background:
-            activeTab === 'home'
-              ? campaign_data?.html_games?.selected_page_color
-              : 'linear-gradient(to right, #cbc4f6, #beb2fe)',
-          'overflow-y': 'scroll !important'
-        }"
-        style="overflow-y: scroll !important"
-        class="bg-image-container d-flex flex-column justify-content-between align-items-center text-center bg-home"
-      >
-        <!-- Title -->
-        <div style="width: 100%; flex: 1">
-          <div
-            class="game-section-wrapper page-wrapper"
-            style="min-height: 100%"
-          >
-            <div
-              *ngIf="
-                (activeTab == 'home' &&
-                  (gameStatus != 'start' || gameStatus != 'end')) ||
-                activeTab == 'leaderboard' ||
-                activeTab == 'prizes'
-              "
-            >
+      
+       
+            <div *ngIf="activeTab == 'home' || activeTab == 'leaderboard' || activeTab == 'prizes'">
               <div
                 class="dropdown"
                 style="position: absolute; right: 16px; top: 20px"
@@ -1000,8 +976,9 @@
               <!-- Welcome Text + Image -->
             </div>
 
-            <div class="outer-container" *ngIf="activeTab === 'home'">
-              <div class="inner-container">
+            <div style="flex-grow: 1;">
+          
+             
                 <div *ngIf="activeTab === 'home'">
                   <span class="welcome-text" style="color: white"
                     ><b>Ready to compete?</b></span
@@ -1017,8 +994,7 @@
                     "
                   />
                 </div>
-              </div>
-            </div>
+             
 
             <div *ngIf="activeTab == 'leaderboard'">
               <div
@@ -1404,7 +1380,70 @@
               </div>
             </div>
 
-            <div *ngIf="activeTab === 'home'" class="lets-go-wrapper">
+            <div *ngIf="activeTab == 'start'"
+              class=" justify-content-between align-items-center text-center"
+              [ngStyle]="{
+                'margin-right': '0px !important',
+                'padding-left': '0px !important',
+                'padding-right': '0px !important',
+                'min-height': '100% !important',
+                'background-color':
+                  activeTab === 'home'
+                    ? campaign_data?.html_games?.selected_startpage_color
+                    : '#ffffff'
+              }"
+              style="overflow-y: scroll !important; flex: 1"
+            >
+              <div class="game-section-wrapper page-wrapper" style="flex: 1">
+                <div class="content-top" style="flex: 1">
+                  <img
+                    class="welcome-image"
+                    [src]="
+                      campaign_id && campaign_data?.html_games?.game_start_image
+                        ? apiUrl + campaign_data.html_games.game_start_image
+                        : start_image
+                    "
+                    alt="Start Image"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div 
+              *ngIf="activeTab == 'end'"
+              class="justify-content-between align-items-center text-center"
+              [ngStyle]="{
+                'margin-right': '0px !important',
+                'padding-left': '0px !important',
+                'padding-right': '0px !important',
+                'min-height': '100% !important',
+                'background-color':
+                  activeTab === 'home'
+                    ? campaign_data?.html_games?.selected_overpage_color
+                    : '#ffffff',
+                'overflow-y': 'scroll !important'
+              }"
+              style="overflow-y: scroll !important; flex: 1"
+            >
+              <div class="game-section-wrapper page-wrapper" style="flex: 1">
+                <div class="content-top" style="flex: 1">
+                  <img
+                    class="welcome-image"
+                    [src]="
+                      campaign_id && campaign_data?.html_games?.game_end_image
+                        ? apiUrl + campaign_data.html_games.game_end_image
+                        : end_image
+                    "
+                    alt="End Image"
+                  />
+                </div>
+              </div>
+            </div>
+            </div>
+
+
+            <div style="margin-top: auto;">
+            <div *ngIf="activeTab == 'home'" class="lets-go-wrapper">
               <button
                 class="go-button btn mb-1"
                 (click)="gotoGameStart()"
@@ -1419,116 +1458,52 @@
                 LET'S GO
               </button>
             </div>
-          </div>
-        </div>
-      </div>
-    
-    
-    
-      <div
-        *ngIf="gameStatus == 'start'"
-        class="bg-image-container d-flex flex-column justify-content-between align-items-center text-center"
-        [ngStyle]="{
-          'margin-right': '0px !important',
-          'padding-left': '0px !important',
-          'padding-right': '0px !important',
-          'min-height': '100% !important',
-          'background-color':
-            activeTab === 'home'
-              ? campaign_data?.html_games?.selected_startpage_color
-              : '#ffffff'
-        }"
-        style="overflow-y: scroll !important; flex: 1"
-      >
-        <div class="game-section-wrapper page-wrapper" style="flex: 1">
-          <div class="content-top" style="flex: 1">
-            <img
-              class="welcome-image"
-              [src]="
-                campaign_id && campaign_data?.html_games?.game_start_image
-                  ? apiUrl + campaign_data.html_games.game_start_image
-                  : start_image
-              "
-              alt="Start Image"
-            />
-          </div>
 
-          <div class="lets-go-wrapper">
-            <button
-              class="go-button btn"
-              (click)="gotoHome()"
-              [style.backgroundColor]="
-                campaign_data?.html_games?.selected_secondary_color
-              "
-            >
-              BACK
-            </button>
-            <button
-              class="go-button btn mt-1 mb-1"
-              (click)="gotoPlayGame(campaign_data.html_games.game_url)"
-              [style.backgroundColor]="
-                campaign_data?.html_games?.selected_primary_color
-              "
-            >
-              START
-            </button>
-          </div>
-        </div>
-      </div>
+            <div *ngIf="activeTab == 'start'" class="lets-go-wrapper">
+              <button
+                class="go-button btn"
+                (click)="gotoHome()"
+                [style.backgroundColor]="
+                  campaign_data?.html_games?.selected_secondary_color
+                "
+              >
+                BACK
+              </button>
+              <button
+                class="go-button btn mt-1 mb-1"
+                (click)="gotoPlayGame(campaign_data.html_games.game_url)"
+                [style.backgroundColor]="
+                  campaign_data?.html_games?.selected_primary_color
+                "
+              >
+                START
+              </button>
+            </div>
 
-      <div
-        *ngIf="gameStatus == 'end'"
-        class="bg-image-container d-flex flex-column justify-content-between align-items-center text-center"
-        [ngStyle]="{
-          'margin-right': '0px !important',
-          'padding-left': '0px !important',
-          'padding-right': '0px !important',
-          'min-height': '100% !important',
-          'background-color':
-            activeTab === 'home'
-              ? campaign_data?.html_games?.selected_overpage_color
-              : '#ffffff',
-          'overflow-y': 'scroll !important'
-        }"
-        style="overflow-y: scroll !important; flex: 1"
-      >
-        <div class="game-section-wrapper page-wrapper" style="flex: 1">
-          <div class="content-top" style="flex: 1">
-            <img
-              class="welcome-image"
-              [src]="
-                campaign_id && campaign_data?.html_games?.game_end_image
-                  ? apiUrl + campaign_data.html_games.game_end_image
-                  : end_image
-              "
-              alt="End Image"
-            />
-          </div>
-
-          <div class="lets-go-wrapper">
-            <button
-              class="go-button btn"
-              (click)="gotoPlayGame(campaign_data.html_games.game_url)"
-              [style.backgroundColor]="
-                campaign_data?.html_games?.selected_secondary_color
-              "
-            >
-              RETRY
-            </button>
-            <button
-              class="go-button btn mt-1 mb-1"
-              (click)="gotoLeaderboard()"
-              [style.backgroundColor]="
-                campaign_data?.html_games?.selected_primary_color
-              "
-            >
-              LEADERBOARD
-            </button>
-          </div>
-        </div>
-      </div>
-
+            <div class="lets-go-wrapper" *ngIf="activeTab == 'end'">
+              <button
+                class="go-button btn"
+                (click)="gotoPlayGame(campaign_data.html_games.game_url)"
+                [style.backgroundColor]="
+                  campaign_data?.html_games?.selected_secondary_color
+                "
+              >
+                RETRY
+              </button>
+              <button
+                class="go-button btn mt-1 mb-1"
+                (click)="gotoLeaderboard()"
+                [style.backgroundColor]="
+                  campaign_data?.html_games?.selected_primary_color
+                "
+              >
+                LEADERBOARD
+              </button>
+            </div>
+            </div>
+         
       
+     
     </div>
     <div class="d-none d-lg-flex col-lg-4"></div>
   </div>
