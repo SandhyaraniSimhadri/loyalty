@@ -1,4 +1,6 @@
-<div class="full-height-container">
+<div class="full-height-container"  [ngStyle]="{
+        background: getPageBackground()
+      }">
   <div class="loading" *ngIf="loading">
     <div class="effect-1 effects"></div>
     <div class="effect-2 effects"></div>
@@ -27,6 +29,7 @@
                 ngbDropdown
               >
                 <button
+                  style="box-shadow: none !important"
                   class="btn btn-link p-0 border-0"
                   type="button"
                   id="dropdownMenuButton"
@@ -897,12 +900,11 @@
         min-height: calc(var(--vh, 1vh) * 100);
         padding-top: 16px !important;
       "
-     [ngStyle]="{
-  'margin-right': '0px',
-  'padding-top': '16px !important',
-  'background': getPageBackground()
-}"
-
+      [ngStyle]="{
+        'margin-right': '0px',
+        'padding-top': '16px !important',
+        background: getPageBackground()
+      }"
     >
       <div
         *ngIf="
@@ -917,6 +919,7 @@
           ngbDropdown
         >
           <button
+            style="box-shadow: none !important"
             class="btn btn-link p-0 border-0 dropdown-toggle"
             type="button"
             id="dropdownMenuButton"
