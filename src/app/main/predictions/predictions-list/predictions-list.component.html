@@ -895,15 +895,14 @@
         overflow-y: auto;
         flex: 1;
         min-height: calc(var(--vh, 1vh) * 100);
+        padding-top: 16px !important;
       "
-      [ngStyle]="{
-        'margin-right': '0px',
-        'padding-top': '16px !important',
-        background:
-          activeTab === 'home'
-            ? campaign_data?.html_games?.selected_page_color
-            : 'linear-gradient(to right, #cbc4f6, #beb2fe)'
-      }"
+     [ngStyle]="{
+  'margin-right': '0px',
+  'padding-top': '16px !important',
+  'background': getPageBackground()
+}"
+
     >
       <div
         *ngIf="
@@ -1386,11 +1385,7 @@
             'margin-right': '0px !important',
             'padding-left': '0px !important',
             'padding-right': '0px !important',
-            'min-height': '100% !important',
-            'background-color':
-              activeTab === 'home'
-                ? campaign_data?.html_games?.selected_startpage_color
-                : '#ffffff'
+            'min-height': '100% !important'
           }"
           style="overflow-y: scroll !important; flex: 1"
         >
@@ -1417,10 +1412,6 @@
             'padding-left': '0px !important',
             'padding-right': '0px !important',
             'min-height': '100% !important',
-            'background-color':
-              activeTab === 'home'
-                ? campaign_data?.html_games?.selected_overpage_color
-                : '#ffffff',
             'overflow-y': 'scroll !important'
           }"
           style="overflow-y: scroll !important; flex: 1"

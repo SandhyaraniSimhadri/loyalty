@@ -876,6 +876,21 @@ getLightShade(hex: string, factor = 0.6): string {
     this.activeTab = "home";
     
   }
+  getPageBackground(): string {
+  const gameColors = this.campaign_data?.html_games;
+
+  switch (this.activeTab) {
+    case 'home':
+      return gameColors?.selected_page_color || 'linear-gradient(to right, #cbc4f6, #beb2fe)';
+    case 'start':
+      return gameColors?.selected_startpage_color || 'linear-gradient(to right, #cbc4f6, #beb2fe)';
+    case 'end':
+      return gameColors?.selected_overpage_color || 'linear-gradient(to right, #cbc4f6, #beb2fe)';
+    default:
+      return 'linear-gradient(to right, #cbc4f6, #beb2fe)';
+  }
+}
+
   goToNextQuestion() {
     // this.currentQuestionIndex=0;
     console.log("next question clicked", this.currentQuestionIndex);
