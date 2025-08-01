@@ -119,6 +119,12 @@ export class AppComponent implements OnInit, OnDestroy {
     });
     Waves.init();
 
+    // Call on load
+this.setVhUnit();
+
+// Update on resize
+window.addEventListener('resize', this.setVhUnit);
+
     // Subscribe to config changes
     this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
       this.coreConfig = config;
@@ -287,6 +293,11 @@ export class AppComponent implements OnInit, OnDestroy {
   toggleSidebar(key): void {
     this._coreSidebarService.getSidebarRegistry(key).toggleOpen();
   }
+
+  setVhUnit() {
+  const vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
   // logout() {
   //   // remove user from local storage to log user out
   //   localStorage.removeItem("currentUser");
