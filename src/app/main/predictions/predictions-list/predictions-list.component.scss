@@ -587,6 +587,31 @@ button:focus {
 .top-btn:hover {
   background-color: #d90166;
 }
+
+
+
+.go-button:active{
+  color:white !important;
+}
+.go-button:focus{
+  color:white !important;
+}
+.go-button:hover {
+  background-color: #d90166;
+}
+
+
+.top-btn:active{
+  color:white !important;
+}
+.top-btn:focus{
+  color:white !important;
+}
+.top-btn:hover {
+  background-color: #d90166;
+}
+
+
 .podium-wrapper {
   margin-top: 8rem;
 }
