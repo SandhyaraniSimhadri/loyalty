@@ -588,6 +588,22 @@ button:focus {
   background-color: #d90166;
 }
 
+.image-wrapper {
+  line-height: 0;
+  margin: 0;
+  padding: 0;
+}
+.welcome-image {
+  background-color:transparent !important; /* or match page bg */
+}
+.image-wrapper {
+  background-color: transparent !important;
+}
+
+.welcome-image {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
 
 
 .go-button:active{
