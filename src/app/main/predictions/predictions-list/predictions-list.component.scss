@@ -588,17 +588,19 @@ button:focus {
   background-color: #d90166;
 }
 
-.image-wrapper {
-  line-height: 0;
-  margin: 0;
-  padding: 0;
+
+
+
+.top-btn {
+  color: white !important;        /* Default text color */
+  background-color: #4b4fb4;      /* Example bg color */
 }
-.welcome-image {
-  background-color:transparent !important; /* or match page bg */
+
+.top-btn:hover {
+  color: white !important;        /* Force white text on hover */
+     /* Optional: darker bg on hover */
 }
-.image-wrapper {
-  background-color: transparent !important;
-}
+
 
 .welcome-image {
   -webkit-backface-visibility: hidden;
@@ -791,6 +793,8 @@ button:focus {
 
 .prize-image {
   border-radius: 10px;
+  width: 100px;
+  height: 'auto'
 }
 
 div::-webkit-scrollbar {

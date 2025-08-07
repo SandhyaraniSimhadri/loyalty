@@ -834,7 +834,7 @@
                                   style="display: inline-flex; align-items: center;margin-left:-10px !important;width: 100%; "
                                 > -->
                                 <span
-                                  rippleEffect
+                                  rippleEffect    style="box-shadow: none !important"
                                   class="btn"
                                   [ngbTooltip]="
                                     'Time taken: ' + participant.time_taken
@@ -988,15 +988,19 @@
           <span class="welcome-text" style="color: white"
             ><b>Ready to compete?</b></span
           >
-          <img
-            alt="Welcome Image"
-            class="welcome-image"
-            [src]="
-              campaign_id && campaign_data?.html_games?.game_welcome_image
-                ? apiUrl + campaign_data.html_games.game_welcome_image
-                : welcome_image
-            "
-          />
+<div class="image-wrapper">
+  <img
+    class="welcome-image"
+    [src]="
+      campaign_id && campaign_data?.html_games?.game_welcome_image
+        ? apiUrl + campaign_data.html_games.game_welcome_image
+        : welcome_image
+    "
+    alt="Welcome Image"
+  />
+</div>
+
+
         </div>
 
         <div *ngIf="activeTab == 'leaderboard'">
@@ -1359,7 +1363,7 @@
                         >
                           {{ prize.prize_header }}
                         </h4>
-                        <span style="font-size: 18px"
+                        <span style="font-size: 12px;color:black"
                           ><i>{{ prize.prize_desc }}</i></span
                         >
                       </div>
@@ -1369,8 +1373,6 @@
                           *ngIf="prize.image"
                           [src]="apiUrl + prize?.image"
                           alt="avatar"
-                          height="100"
-                          width="100"
                         />
                       </div>
                     </div>
