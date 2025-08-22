@@ -1,11 +1,191 @@
-<div class="full-height-container"  [ngStyle]="{
-        background: getPageBackground()
-      }">
+<div
+  class="full-height-container"
+
+  [ngStyle]="layout_type !== 'list' ? { background: getPageBackground() } : null">
+
   <div class="loading" *ngIf="loading">
     <div class="effect-1 effects"></div>
     <div class="effect-2 effects"></div>
     <div class="effect-3 effects"></div>
   </div>
+
+  <div
+    *ngIf="layout_type == 'list'"
+    class="row body-cls"
+    style="
+      margin-right: 0px !important;
+      margin-left: 0px !important;
+      font-family: 'Roboto Condensed', sans-serif;
+    "
+  >
+    <div class="d-none d-lg-flex col-lg-4"></div>
+    <div class="col-lg-4" style="margin-right: 0px !important">
+      <div>
+        <div class="mt-1">
+          <!-- Medal Card -->
+          <div class="card" style="padding: 5px">
+            <div class="card-body position-relative">
+              <!-- Three Dots Menu -->
+              <div
+                class="dropdown"
+                style="position: absolute; right: 16px; top: 16px"
+                ngbDropdown
+              >
+                <button
+                  style="box-shadow: none !important"
+                  class="btn btn-link p-0 border-0"
+                  type="button"
+                  id="dropdownMenuButton"
+                  ngbDropdownToggle
+                  aria-expanded="false"
+                >
+                  <i data-feather="more-vertical" style="color: black"></i>
+                </button>
+                <ul
+                  class="dropdown-menu dropdown-menu-right"
+                  aria-labelledby="dropdownMenuButton"
+                >
+                  <li>
+                    <a class="dropdown-item" (click)="editProfile()"
+                      >Profile Settings</a
+                    >
+                  </li>
+                  <li>
+                    <a class="dropdown-item" (click)="logout()">Logout</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="text-center">
+                <ng-container *ngIf="currentUser">
+                  <div (click)="gotoProfile()">
+                    <img
+                      *ngIf="httpService.USERINFO.avatar"
+                      class="round"
+                      [src]="user_image"
+                      alt="avatar"
+                    />
+                    <img
+                      *ngIf="httpService.USERINFO.avatar == null"
+                      class="round"
+                      src="assets/images/leaderboard/person.png"
+                      alt="avatar"
+                      style="background-color: white"
+                    />
+                  </div>
+                  <div
+                    class="mt-1"
+                    style="font-family: 'Roboto Condensed', sans-serif"
+                  >
+                    <h3>
+                      <b>{{ currentUser.user_name | truncate : 30 }}</b>
+                    </h3>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="!loading && rows.length == 0" style="color: white">
+          Not yet participated in any Campaign..
+          <button (click)="tryAgain()">Try again</button>
+        </div>
+        <div class="ml-1 mr-1">
+          <div
+            class="card leaderboard-card mb-3"
+            style="
+              padding: 5px;
+              border-radius: 3px !important;
+              font-family: 'Roboto Condensed';
+            "
+          >
+            <div
+              class="card-body p-0 overflow-hidden"
+              style="
+                border-radius: 5px !important;
+                margin-left: 6px;
+                margin-right: 6px;
+              "
+            >
+              <span
+                style="
+                  color: #4e41aa;
+                  font-size: medium;
+                  font-weight: bold;
+                  font-family: 'Roboto Condensed';
+                  margin-top: 10px !important;
+                "
+              >
+                <i>CAMPAIGNS</i></span
+              >
+              <!-- <hr/> -->
+
+              <div *ngFor="let campaign of campaigns; let i = index">
+                <hr />
+                <div class="leaderboard-header mt-1">
+                  <div
+                    class="pb-1"
+                    style="
+                      width: 100%;
+                      text-align: left;
+                      font-family: 'Roboto Condensed', sans-serif;
+                    "
+                  >
+                    <h4
+                      class="card-title mb-0"
+                      style="
+                        color: #4e41aa;
+                        font-weight: bold;
+
+                        font-family: 'Roboto Condensed';
+                        font-size: 18px;
+                      "
+                    >
+                      {{ campaign.campaign_title }}
+                    </h4>
+                    <div
+                      style="
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                      "
+                    >
+                      <img
+                        [src]="
+                          apiUrl + campaign.thumbnail_image
+                        "
+                        alt="Game Image"
+                        width="50%"
+                        style="
+                          border-radius: 10px;
+                          margin-top: 8px;
+                          margin-bottom: 8px;
+                        "
+                      />
+                    </div>
+                    <div class="row">
+                      <div class="col col-8">
+                        <span style="font-size: 14px; color: black">{{
+                          campaign.description
+                        }}</span>
+
+                      </div>
+                      <div class="col col-4">
+                        <button class="btn btn-primary btn-primary-predict" style="font-size: 12px;" (click)="playNow(campaign)">Play now</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- <hr/> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-flex col-lg-4"></div>
+  </div>
+
   <div
     *ngIf="layout_type == 'others'"
     class="row body-cls"
@@ -85,7 +265,7 @@
 
         <div
           *ngIf="
-            !loading && rows.length > 0 && campaign_data.games != undefined
+            !loading  && campaign_data?.games != undefined
           "
         >
           <div class="card earnings-card">
@@ -353,9 +533,8 @@
         <div
           *ngIf="
             !loading &&
-            rows.length > 0 &&
-            campaign_data.quizzes != undefined &&
-            campaign_data.quizzes.length > 0 &&
+            campaign_data?.quizzes != undefined &&
+            campaign_data?.quizzes.length > 0 &&
             campaign_data?.self == undefined
           "
         >
@@ -663,16 +842,16 @@
         </div>
 
         <div
-          *ngIf="!loading && !refresh_loading && rows.length > 0"
+          *ngIf="!loading && !refresh_loading"
           #scrollableDiv
           [ngClass]="{
             'scrollable-container':
-              campaign_data.participants != undefied &&
-              campaign_data.participants.length > 10
+              campaign_data?.participants != undefied &&
+              campaign_data?.participants.length > 10
           }"
           (scroll)="
-            campaign_data.participants != undefied &&
-            campaign_data.participants.length > 10
+            campaign_data?.participants != undefied &&
+            campaign_data?.participants.length > 10
               ? onScroll($event)
               : null
           "
@@ -712,14 +891,14 @@
                 </div>
               </div>
 
-              <div *ngIf="rows.length > 0">
+              <div *ngIf="campaign_data?.participants.length > 0">
                 <div
                   style="
                     margin: 0 !important;
                     border-top: 1px solid rgb(216, 212, 212);
                   "
                   *ngFor="
-                    let participant of campaign_data.participants;
+                    let participant of campaign_data?.participants;
                     let i = index
                   "
                 >
@@ -834,7 +1013,8 @@
                                   style="display: inline-flex; align-items: center;margin-left:-10px !important;width: 100%; "
                                 > -->
                                 <span
-                                  rippleEffect    style="box-shadow: none !important"
+                                  rippleEffect
+                                  style="box-shadow: none !important"
                                   class="btn"
                                   [ngbTooltip]="
                                     'Time taken: ' + participant.time_taken
@@ -894,11 +1074,7 @@
     <div class="d-none d-lg-flex col-lg-4"></div>
     <div
       class="col-lg-4 d-flex flex-column text-center justify-content-between"
-      style="
-        overflow-y: auto;
-        flex: 1;
-        min-height: calc(var(--vh, 1vh) * 100);
-        padding-top: 16px !important;
+      style="overflow-y: auto;flex: 1;min-height: calc(var(--vh, 1vh) * 100);padding-top: 16px !important;
       "
       [ngStyle]="{
         'margin-right': '0px',
@@ -988,19 +1164,17 @@
           <span class="welcome-text" style="color: white"
             ><b>Ready to compete?</b></span
           >
-<div class="image-wrapper">
-  <img
-    class="welcome-image"
-    [src]="
-      campaign_id && campaign_data?.html_games?.game_welcome_image
-        ? apiUrl + campaign_data.html_games.game_welcome_image
-        : welcome_image
-    "
-    alt="Welcome Image"
-  />
-</div>
-
-
+          <div class="image-wrapper">
+            <img
+              class="welcome-image"
+              [src]="
+                campaign_id && campaign_data?.html_games?.game_welcome_image
+                  ? apiUrl + campaign_data.html_games.game_welcome_image
+                  : welcome_image
+              "
+              alt="Welcome Image"
+            />
+          </div>
         </div>
 
         <div *ngIf="activeTab == 'leaderboard'">
@@ -1176,14 +1350,14 @@
               </div>
 
               <!-- <hr/> -->
-              <div *ngIf="rows.length > 0" style="overflow-y: scroll">
+              <div *ngIf="campaign_data?.participants.length" style="overflow-y: scroll">
                 <div
                   style="
                     margin: 0 !important;
                     border-top: 1px solid rgb(216, 212, 212);
                   "
                   *ngFor="
-                    let participant of campaign_data.participants;
+                    let participant of campaign_data?.participants;
                     let i = index
                   "
                 >
@@ -1363,7 +1537,7 @@
                         >
                           {{ prize.prize_header }}
                         </h4>
-                        <span style="font-size: 12px;color:black"
+                        <span style="font-size: 12px; color: black"
                           ><i>{{ prize.prize_desc }}</i></span
                         >
                       </div>

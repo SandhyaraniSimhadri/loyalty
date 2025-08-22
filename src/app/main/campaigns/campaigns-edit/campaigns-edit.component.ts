@@ -89,6 +89,8 @@ export class CampaignsEditComponent implements OnInit, OnDestroy {
 
   public companyData: any;
   public game_welcome_image: any;
+  public thumbnail_image: any;
+
   public game_end_image: any;
   public game_start_image: any;
   public game = {
@@ -246,7 +248,11 @@ public prize={
         this.game_end_image = event.target.files[0];
       } else if (type == "welcome_game") {
         this.game_welcome_image = event.target.files[0];
-      } else {
+      }
+      else if (type == "thumbnail_image") {
+        this.thumbnail_image = event.target.files[0];
+      }
+       else {
         this.login_image = event.target.files[0];
       }
     }
@@ -443,8 +449,13 @@ public prize={
 
             game_start_image: this.game_start_image? await convertFileToBase64(this.game_start_image): null,
             game_end_image: this.game_end_image? await convertFileToBase64(this.game_end_image): null,
+
             game_welcome_image: this.game_welcome_image
             ? await convertFileToBase64(this.game_welcome_image)
+            : null,  
+
+              thumbnail_image: this.thumbnail_image
+            ? await convertFileToBase64(this.thumbnail_image)
             : null,  
           games: this.currentRow.event_id == 1 ? processedGames : [],
           questions: this.currentRow.event_id == 2 ? processedQuestions : [],

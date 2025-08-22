@@ -225,10 +225,12 @@ export class LoginComponent implements OnInit {
                       queryParams: { campaign_id: this.campaign_id,welcome_image:this.campaign_data?.welcome_image,welcome_text:this.campaign_data?.welcome_text, event_id:this.campaign_data?.event_id },
                     });}
                     else{
-                      this._router.navigate(["/welcome"], {
-                        queryParams: {  campaign_id: this.campaign_id,
-                          company_id: this.company_id},
-                      });
+                      // this._router.navigate(["/welcome"], {
+                      //   queryParams: {  campaign_id: this.campaign_id,
+                      //     company_id: this.company_id},
+                      // });
+
+                       this._router.navigate(["/welcome"]);
                     }
                 }
                 // }, 3000);
@@ -306,10 +308,8 @@ export class LoginComponent implements OnInit {
           this.get_campaign_details();
         }
 
-        // Use these parameters as needed
         console.log("Query Params:", { type, email, userName });
 
-        // Example: set the email field in the form
         if (email) {
           this.loginForm.patchValue({ email: email.trim() });
         }

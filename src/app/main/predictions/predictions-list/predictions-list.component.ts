@@ -80,7 +80,7 @@ export class PredictionsListComponent implements OnInit {
   public campaign_id: any = 0;
   public answers: string[] = [];
   public startTime: any;
-  public layout_type: any = "others";
+  public layout_type: any = "list";
   timer: any;
   remainingTime: number; // remaining time in milliseconds
   interval: any; // interval for updating the remaining time
@@ -95,7 +95,7 @@ export class PredictionsListComponent implements OnInit {
   private tempData = [];
   activeTab: string = "home";
   gameStatus: any = "none";
-
+  campaigns: any;
   public submitted: any = false;
   public currentQuestionIndex: any = -1;
   private _unsubscribeAll: Subject<any>;
@@ -132,8 +132,9 @@ export class PredictionsListComponent implements OnInit {
     private paymentService: PaymentService
   ) {
     this.currentUrl = window.location.href;
-    this.currentUrl = window.location.href;
     console.log("url", this.currentUrl);
+    console.log("layout type", this.layout_type);
+    console.log("active tab", this.activeTab);
 
     this.apiUrl = environment.apiUrl;
     this._authenticationService.currentUser.subscribe(
@@ -201,16 +202,18 @@ export class PredictionsListComponent implements OnInit {
     console.log("game status", this.activeTab);
   }
   gotoPlayGame(url) {
-    console.log("urlll",url);
+    console.log("urlll", url);
     const urlObj = new URL(this.currentUrl);
     urlObj.searchParams.set("activeTab", "end");
     const redirectUrl = encodeURIComponent(urlObj.toString());
+    console.log("redirectUrl", redirectUrl);
+
     const fullUrl = `${url}?redirect_url=${redirectUrl}&token=${this.httpService.APIToken}&campaign_id=${this.campaign_data.html_games.campaign_id}&game_id=${this.campaign_data.html_games.id}`;
     window.location.href = fullUrl;
   }
   gotoLeaderboard() {
     this.activeTab = "leaderboard";
-    this.getPredictions(this.campaign_id);
+    this.getSinglePredictions(this.campaign_id);
   }
   /**
    * Toggle the sidebar
@@ -247,88 +250,92 @@ export class PredictionsListComponent implements OnInit {
    * @param languageFilter
    */
   // Computed properties for styles
-get baseRowStyles() {
-  return {
-    'margin-right': '0px',
-    'margin-left': '0px',
-    'font-family': '\'Roboto Condensed\', sans-serif',
-    'width': '100%'
-  };
-}
+  get baseRowStyles() {
+    return {
+      "margin-right": "0px",
+      "margin-left": "0px",
+      "font-family": "'Roboto Condensed', sans-serif",
+      width: "100%",
+    };
+  }
 
-get columnStyles() {
-  return {
-    'margin-right': '0px !important',
-    'padding-left': '0px !important',
-    'padding-right': '0px !important',
-    'background-color': this.activeTab === 'home' ? this.campaign_data?.html_games?.selected_primary_color : '#ffffff'
-  };
-}
+  get columnStyles() {
+    return {
+      "margin-right": "0px !important",
+      "padding-left": "0px !important",
+      "padding-right": "0px !important",
+      "background-color":
+        this.activeTab === "home"
+          ? this.campaign_data?.html_games?.selected_primary_color
+          : "#ffffff",
+    };
+  }
 
-// Helper methods
-getWelcomeImage(): string {
-  return this.campaign_id && this.campaign_data?.html_games?.game_welcome_image
-    ? this.apiUrl + this.campaign_data.html_games.game_welcome_image
-    : '';
-}
+  // Helper methods
+  getWelcomeImage(): string {
+    return this.campaign_id &&
+      this.campaign_data?.html_games?.game_welcome_image
+      ? this.apiUrl + this.campaign_data.html_games.game_welcome_image
+      : "";
+  }
 
-getGameStartImage(): string {
-  return this.campaign_id && this.campaign_data?.html_games?.game_start_image
-    ? this.apiUrl + this.campaign_data.html_games.game_start_image
-    : '';
-}
+  getGameStartImage(): string {
+    return this.campaign_id && this.campaign_data?.html_games?.game_start_image
+      ? this.apiUrl + this.campaign_data.html_games.game_start_image
+      : "";
+  }
 
-getGameEndImage(): string {
-  return this.campaign_id && this.campaign_data?.html_games?.game_end_image
-    ? this.apiUrl + this.campaign_data.html_games.game_end_image
-    : '';
-}
+  getGameEndImage(): string {
+    return this.campaign_id && this.campaign_data?.html_games?.game_end_image
+      ? this.apiUrl + this.campaign_data.html_games.game_end_image
+      : "";
+  }
 
-getParticipantAvatar(participant: any): string {
-  return participant?.avatar 
-    ? this.apiUrl + participant.avatar 
-    : 'assets/images/leaderboard/person.png';
-}
+  getParticipantAvatar(participant: any): string {
+    return participant?.avatar
+      ? this.apiUrl + participant.avatar
+      : "assets/images/leaderboard/person.png";
+  }
 
-getParticipantName(participant: any, rank: number): string {
-  return participant?.user_name || `${this.getOrdinal(rank)} place`;
-}
+  getParticipantName(participant: any, rank: number): string {
+    return participant?.user_name || `${this.getOrdinal(rank)} place`;
+  }
 
-getRankImage(rank: number): string {
-  const rankImages = {
-    1: 'assets/images/profile/first.png',
-    2: 'assets/images/profile/second.png',
-    3: 'assets/images/profile/third.png'
-  };
-  return rankImages[rank] || '';
-}
+  getRankImage(rank: number): string {
+    const rankImages = {
+      1: "assets/images/profile/first.png",
+      2: "assets/images/profile/second.png",
+      3: "assets/images/profile/third.png",
+    };
+    return rankImages[rank] || "";
+  }
 
-getOrdinal(num: number): string {
-  const ordinals = { 1: '1st', 2: '2nd', 3: '3rd' };
-  return ordinals[num] || `${num}th`;
-}
+  getOrdinal(num: number): string {
+    const ordinals = { 1: "1st", 2: "2nd", 3: "3rd" };
+    return ordinals[num] || `${num}th`;
+  }
 
-// TrackBy functions for performance
-trackByParticipant(index: number, participant: any): any {
-  return participant.user_id || index;
-}
+  // TrackBy functions for performance
+  trackByParticipant(index: number, participant: any): any {
+    return participant.user_id || index;
+  }
 
-trackByPrize(index: number, prize: any): any {
-  return prize.id || index;
-}
+  trackByPrize(index: number, prize: any): any {
+    return prize.id || index;
+  }
 
-trackByPosition(index: number, position: any): any {
-  return position.rank;
-}
+  trackByPosition(index: number, position: any): any {
+    return position.rank;
+  }
 
-// Computed property for podium positions
-get podiumPositions() {
-  return [
-    { rank: 2, participant: this.campaign_data?.participants[1] },
-    { rank: 1, participant: this.campaign_data?.participants[0] },
-    { rank: 3, participant: this.campaign_data?.participants[2] }
-  ];
-}
+  // Computed property for podium positions
+  get podiumPositions() {
+    return [
+      { rank: 2, participant: this.campaign_data?.participants[1] },
+      { rank: 1, participant: this.campaign_data?.participants[0] },
+      { rank: 3, participant: this.campaign_data?.participants[2] },
+    ];
+  }
   filterRows(churchFilter, usersFilter, languageFilter): any[] {
     // Reset search on select change
     this.searchValue = "";
@@ -362,7 +369,9 @@ get podiumPositions() {
     this.apiUrl = environment.apiUrl;
     this.apiUrl_web = environment.apiUrl_web;
     this._route.queryParams.subscribe((params) => {
-      if (params) {
+      if (params && Object.keys(params).length > 0) {
+        // console.log("params hiiiiiiiiiiiiiiiii",params);
+
         var campaign_id = params["campaign_id"];
         this.campaign_id = params["campaign_id"];
         if (params["event_id"]) {
@@ -372,16 +381,25 @@ get podiumPositions() {
             this.layout_type = "others";
           }
         } else {
-          this.layout_type = "others";
+          this.layout_type = "list";
         }
         if (params["activeTab"]) {
           this.activeTab = "end";
+          this.layout_type = "HTML games";
+
+          this.getSinglePredictions(this.campaign_id);
+        }
+        if (params["event_id"]) {
+          this.getSinglePredictions(this.campaign_id);
         }
       } else {
+        console.log("hiiiiiiiiiiiiiiiii");
         this.campaign_id = 0;
+        this.getPredictions();
       }
+      console.log("layout type", this.layout_type);
+      console.log("active tab", this.activeTab);
     });
-    this.getPredictions(this.campaign_id);
   }
 
   /**
@@ -394,43 +412,49 @@ get podiumPositions() {
     this.countdownTimeout && clearTimeout(this.countdownTimeout);
   }
 
-getButtonColor(tab: string): string {
-  const selectedColor = this.campaign_data?.html_games?.selected_welcomepage_button_color || '#4e41aa';
+  getButtonColor(tab: string): string {
+    const selectedColor =
+      this.campaign_data?.html_games?.selected_welcomepage_button_color ||
+      "#4e41aa";
 
-  if (this.activeTab === 'home') {
-    return tab === 'home' ? selectedColor : this.getLightShade(selectedColor);
-  } else {
-    return tab === this.activeTab ? '#4e41aa' : '#8e86e7';
-  }
-}
-
-// Existing getLightShade function
-getLightShade(hex: string, factor = 0.6): string {
-  if (!hex) return '#f0f0f0';
-
-  hex = hex.replace('#', '');
-
-  if (hex.length === 3) {
-    hex = hex.split('').map(c => c + c).join('');
+    if (this.activeTab === "home") {
+      return tab === "home" ? selectedColor : this.getLightShade(selectedColor);
+    } else {
+      return tab === this.activeTab ? "#4e41aa" : "#8e86e7";
+    }
   }
 
-  const r = parseInt(hex.substring(0, 2), 16);
-  const g = parseInt(hex.substring(2, 4), 16);
-  const b = parseInt(hex.substring(4, 6), 16);
+  // Existing getLightShade function
+  getLightShade(hex: string, factor = 0.6): string {
+    if (!hex) return "#f0f0f0";
 
-  const lighten = (c: number) => Math.min(255, Math.round(c + (255 - c) * factor));
+    hex = hex.replace("#", "");
 
-  const lightR = lighten(r).toString(16).padStart(2, '0');
-  const lightG = lighten(g).toString(16).padStart(2, '0');
-  const lightB = lighten(b).toString(16).padStart(2, '0');
+    if (hex.length === 3) {
+      hex = hex
+        .split("")
+        .map((c) => c + c)
+        .join("");
+    }
 
-  return `#${lightR}${lightG}${lightB}`;
-}
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
 
+    const lighten = (c: number) =>
+      Math.min(255, Math.round(c + (255 - c) * factor));
 
+    const lightR = lighten(r).toString(16).padStart(2, "0");
+    const lightG = lighten(g).toString(16).padStart(2, "0");
+    const lightB = lighten(b).toString(16).padStart(2, "0");
 
-  getPredictions(campaign_id) {
+    return `#${lightR}${lightG}${lightB}`;
+  }
+  getSinglePredictions(campaign_id) {
+    console.log("campaign+id", campaign_id);
     this.loading = true;
+    this.refresh_loading = true;
+
     let request;
 
     request = {
@@ -439,41 +463,36 @@ getLightShade(hex: string, factor = 0.6): string {
         offset: this.offset.toString(),
         limit: this.limit.toString(),
       },
-      action_url: "get_prediction_details",
+      action_url: "get_single_prediction_details",
       method: "POST",
     };
     this.httpService.doHttp(request).subscribe(
       (res: any) => {
+        this.loading = false;
+        this.refresh_loading = false;
+
         if (res == "nonet") {
         } else {
+          console.log("resssssssss", res);
           if (res.status == false) {
           } else if (res.status == true) {
-            if (!this.rows) {
-              this.rows = [];
-            }
-            this.rows[0] = res.data;
+            this.rows = res.data;
             console.log("rows", this.rows);
-            if (this.rows.length > 0) {
-              if (res.data.campaign_title == undefined) {
-                this.rows = [];
-                res.data = null;
+
+            if (res.data) {
+              console.log("res data", res.data);
+              this.campaign_data = this.rows;
+              if (this.campaign_data.event_id == 3) {
+                this.campaign_data.html_games =
+                  this.campaign_data.html_games[0];
               }
-              if (res.data) {
-                this.campaign_data = this.rows[0];
-
-                console.log("res data", res.data);
-
-                this.campaign_data.end_date = this.formatDate(
-                  this.campaign_data.end_date
-                );
-                this.campaign_data.start_date = this.formatDate(
-                  this.campaign_data.start_date
-                );
-              }
-
-              this.tempData = this.rows;
+              this.campaign_data.end_date = this.formatDate(
+                this.campaign_data.end_date
+              );
+              this.campaign_data.start_date = this.formatDate(
+                this.campaign_data.start_date
+              );
               if (
-                res.data &&
                 this.campaign_data.games != undefined &&
                 this.campaign_data.games.length > 0
               ) {
@@ -708,7 +727,6 @@ getLightShade(hex: string, factor = 0.6): string {
                 };
               }
               if (
-                res.data &&
                 this.campaign_data.quizzes != undefined &&
                 this.campaign_data.quizzes.length > 0
               ) {
@@ -727,13 +745,73 @@ getLightShade(hex: string, factor = 0.6): string {
                 console.log(this.submitted);
               }
               if (
-                res.data &&
                 this.campaign_data.html_games != undefined &&
                 this.campaign_data.html_games.length > 0
               ) {
                 this.campaign_data.html_games =
                   this.campaign_data.html_games[0];
               }
+            }
+
+            this.tempData = this.rows;
+          }
+        }
+        if (this.rows > length) {
+          setTimeout(() => {
+            // Get Dynamic Width for Charts
+            this.isMenuToggled = true;
+
+            this.teamAChartOptions.chart.width =
+              this.earningChartRef?.nativeElement.offsetWidth;
+            this.teamBChartOptions.chart.width =
+              this.earningChartRef?.nativeElement.offsetWidth;
+          }, 500);
+        }
+        this.loading = false;
+      },
+
+      (error: any) => {
+        this.loading = false;
+        this.refresh_loading = false;
+      }
+    );
+  }
+  getPredictions() {
+    this.loading = true;
+    let request;
+
+    request = {
+      params: {
+       
+        offset: this.offset.toString(),
+        limit: this.limit.toString(),
+      },
+      action_url: "get_prediction_details",
+      method: "POST",
+    };
+    this.httpService.doHttp(request).subscribe(
+      (res: any) => {
+        if (res == "nonet") {
+        } else {
+          if (res.status == false) {
+          } else if (res.status == true) {
+            if (!this.rows) {
+              this.rows = [];
+            }
+            this.rows = res.data;
+            console.log("rows", this.rows);
+            if (this.rows.length > 0) {
+              if (res.data.length == 0) {
+                this.rows = [];
+                res.data = null;
+              }
+              if (res.data) {
+                this.campaigns = this.rows;
+
+                console.log("res data", res.data);
+              }
+
+              this.tempData = this.rows;
             }
           }
         }
@@ -845,7 +923,7 @@ getLightShade(hex: string, factor = 0.6): string {
               closeButton: true,
             });
             this.modalService.dismissAll();
-            this.getPredictions(this.campaign_data.id);
+            this.getSinglePredictions(this.campaign_data.id);
           }
         }
         this.loading = false;
@@ -874,22 +952,32 @@ getLightShade(hex: string, factor = 0.6): string {
   }
   gotoHome() {
     this.activeTab = "home";
-    
   }
   getPageBackground(): string {
-  const gameColors = this.campaign_data?.html_games;
+    const gameColors = this.campaign_data?.html_games;
+    // console.log("game colors",this.campaign_data.html_games);
+    // console.log("game taab",this.activeTab);
 
-  switch (this.activeTab) {
-    case 'home':
-      return gameColors?.selected_page_color || 'linear-gradient(to right, #cbc4f6, #beb2fe)';
-    case 'start':
-      return gameColors?.selected_startpage_color || 'linear-gradient(to right, #cbc4f6, #beb2fe)';
-    case 'end':
-      return gameColors?.selected_overpage_color || 'linear-gradient(to right, #cbc4f6, #beb2fe)';
-    default:
-      return 'linear-gradient(to right, #cbc4f6, #beb2fe)';
+    switch (this.activeTab) {
+      case "home":
+        return (
+          gameColors?.selected_page_color ||
+          "linear-gradient(to right, #cbc4f6, #beb2fe)"
+        );
+      case "start":
+        return (
+          gameColors?.selected_startpage_color ||
+          "linear-gradient(to right, #cbc4f6, #beb2fe)"
+        );
+      case "end":
+        return (
+          gameColors?.selected_overpage_color ||
+          "linear-gradient(to right, #cbc4f6, #beb2fe)"
+        );
+      default:
+        return "linear-gradient(to right, #cbc4f6, #beb2fe)";
+    }
   }
-}
 
   goToNextQuestion() {
     // this.currentQuestionIndex=0;
@@ -985,7 +1073,7 @@ getLightShade(hex: string, factor = 0.6): string {
             //   clearTimeout(this.timer);
             // }
             this.modalService.dismissAll();
-            this.getPredictions(this.campaign_data.id);
+            this.getSinglePredictions(this.campaign_data.id);
           }
         }
         this.loading = false;
@@ -1150,5 +1238,33 @@ getLightShade(hex: string, factor = 0.6): string {
       this.winner_selected = selected_winner;
     }
     console.log("selected winner", selected_winner);
+  }
+  playNow(campaign: any) {
+    this.campaign_data = campaign;
+    this.campaign_id = this.campaign_data.id;
+
+    console.log("campaign data: ", typeof this.campaign_data, typeof campaign);
+    this.getPageBackground();
+    console.log(this.campaign_data);
+    this.getSinglePredictions(this.campaign_id);
+      if (campaign.event_id == 3) {
+                this.layout_type = "HTML games";
+              } else {
+                this.layout_type = "others";
+              }
+              this._router
+                .navigate([], {
+                  queryParams: {
+                    campaign_id: this.campaign_id,
+                    event_id: this.campaign_data.event_id,
+                  },
+                  queryParamsHandling: "merge",
+                })
+                .then(() => {
+                  // After navigation finishes, grab the full URL
+                  this.currentUrl = window.location.origin + this._router.url;
+                  console.log("Final URL:", this.currentUrl);
+                });
+            
   }
 }

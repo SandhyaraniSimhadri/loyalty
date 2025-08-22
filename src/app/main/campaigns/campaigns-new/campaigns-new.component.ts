@@ -44,6 +44,7 @@ export class CampaignsNewComponent implements OnInit {
   public login_image: any;
   public campaign_image: any;
   public game_welcome_image: any;
+  public thumbnail_image:any;
   public game_end_image: any;
   public game_start_image: any;
   public game_welcome_text: any;
@@ -338,6 +339,9 @@ export class CampaignsNewComponent implements OnInit {
         game_welcome_image: this.game_welcome_image
           ? await convertFileToBase64(this.game_welcome_image)
           : null,
+              thumbnail_image: this.thumbnail_image
+          ? await convertFileToBase64(this.thumbnail_image)
+          : null,
         login_image: this.login_image
           ? await convertFileToBase64(this.login_image)
           : null,
@@ -438,6 +442,8 @@ export class CampaignsNewComponent implements OnInit {
       this.game_end_image = event.target.files[0];
     } else if (type == "welcome_game") {
       this.game_welcome_image = event.target.files[0];
+    } else if (type == "thumbnail_image") {
+      this.thumbnail_image = event.target.files[0];
     } else {
       this.login_image = event.target.files[0];
     }

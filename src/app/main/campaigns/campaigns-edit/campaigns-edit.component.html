@@ -581,25 +581,27 @@
                         </div>
                       </div>
 
-                      <div class="col-md-6">
+                          <div class="col-md-6">
                         <div class="form-group">
-                          <label class="form-label" for="user-plan"
-                            >Login Text</label
+                          <label
+                            class="form-label"
+                            for="basic-icon-default-author"
+                            >Select the thumbnail image</label
                           >
-                          <textarea
-                            type="text"
-                            id="basic-icon-default-logtext"
-                            class="form-control dt-logtext"
+                          <input
+                            type="file"
+                            class="form-control dt-author"
+                            id="basic-icon-default-author"
                             placeholder=""
-                            aria-label=""
-                            aria-describedby="basic-icon-default-logtext"
-                            name="logtext"
-                            [(ngModel)]="currentRow.login_text"
-                            (ngModelChange)="checkFormModified()"
-                          ></textarea>
+                            name="author"
+                            [(ngModel)]="imageval"
+                            (change)="uploadImage($event, 'thumbnail_image')"
+                          />
                         </div>
                       </div>
 
+
+                     
                       <div class="col-md-6">
                         <div class="form-group">
                           <label
@@ -635,6 +637,25 @@
                             [(ngModel)]="imageval"
                             (change)="uploadImage($event, 'welcome')"
                           />
+                        </div>
+                      </div>
+
+                       <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="form-label" for="user-plan"
+                            >Login Text</label
+                          >
+                          <textarea
+                            type="text"
+                            id="basic-icon-default-logtext"
+                            class="form-control dt-logtext"
+                            placeholder=""
+                            aria-label=""
+                            aria-describedby="basic-icon-default-logtext"
+                            name="logtext"
+                            [(ngModel)]="currentRow.login_text"
+                            (ngModelChange)="checkFormModified()"
+                          ></textarea>
                         </div>
                       </div>
 
@@ -1126,7 +1147,9 @@
                                 />
                               </div>
                             </div>
-                            <div class="col-md-4 col-12">
+                           
+
+                               <div class="col-md-4 col-12">
                               <div class="form-group">
                                 <label
                                   class="form-label"
@@ -1144,6 +1167,7 @@
                                 />
                               </div>
                             </div>
+
 
                             <div class="col-md-4 col-12">
                               <div class="form-group">
@@ -1181,6 +1205,7 @@
                                 />
                               </div>
                             </div>
+                               
 
                             <div class="col-md-6 col-12">
                               <div class="form-group">

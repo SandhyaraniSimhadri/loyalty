@@ -227,6 +227,21 @@
             />
           </div>
 
+            <div class="form-group">
+                  <label class="form-label" for="basic-icon-default-author"
+                    >Select the thumbnail image</label
+                  >
+                  <input
+                    type="file"
+                    class="form-control dt-author"
+                    id="basic-icon-default-author"
+                    placeholder=""
+                    name="author"
+                    [(ngModel)]="imageval"
+                    (change)="uploadImage($event, 'thumbnail_image')"
+                  />
+                </div>
+
           <div class="form-group">
             <label class="form-label" for="basic-icon-default-author"
               >Select the login image</label
@@ -836,7 +851,12 @@
                     >
                   </span>
                 </div>
-                <div class="form-group">
+
+
+              
+
+
+                 <div class="form-group">
                   <label class="form-label" for="basic-icon-default-author"
                     >Select the welcome image</label
                   >
@@ -850,6 +870,7 @@
                     (change)="uploadImage($event, 'welcome_game')"
                   />
                 </div>
+
 
                 <div class="form-group">
                   <label class="form-label" for="basic-icon-default-author"
