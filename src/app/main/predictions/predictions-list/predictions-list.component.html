@@ -1,7 +1,9 @@
 <div
   class="full-height-container"
+  [ngStyle]="{ 'background': 'white' }"
+>
 
-  [ngStyle]="layout_type !== 'list' ? { background: getPageBackground() } : null">
+
 
   <div class="loading" *ngIf="loading">
     <div class="effect-1 effects"></div>
@@ -151,11 +153,9 @@
                       "
                     >
                       <img
-                        [src]="
-                          apiUrl + campaign.thumbnail_image
-                        "
+                        [src]="apiUrl + campaign.thumbnail_image"
                         alt="Game Image"
-                        width="50%"
+                        width="100%"
                         style="
                           border-radius: 10px;
                           margin-top: 8px;
@@ -163,17 +163,19 @@
                         "
                       />
                     </div>
-                    <div class="row">
-                      <div class="col col-8">
-                        <span style="font-size: 14px; color: black">{{
+                      <div style="display: flex;align-items: center;">
+                        <span style="font-size: 14px; color: black; flex: 1">{{
                           campaign.description
                         }}</span>
 
+                        <button
+                          class="btn btn-primary btn-primary-predict"
+                          style="font-size: 12px;margin: auto;"
+                          (click)="playNow(campaign)"
+                        >
+                        {{campaign.event_id == 2 ? !campaign.self?.rank ? 'Play now' : 'Details' : 'Play now'}}
+                        </button>
                       </div>
-                      <div class="col col-4">
-                        <button class="btn btn-primary btn-primary-predict" style="font-size: 12px;" (click)="playNow(campaign)">Play now</button>
-                      </div>
-                    </div>
                   </div>
                 </div>
                 <!-- <hr/> -->
@@ -263,11 +265,7 @@
           </div>
         </div>
 
-        <div
-          *ngIf="
-            !loading  && campaign_data?.games != undefined
-          "
-        >
+        <div *ngIf="!loading && campaign_data?.games != undefined">
           <div class="card earnings-card">
             <div class="card-body">
               <!-- Title with line -->
@@ -1074,7 +1072,11 @@
     <div class="d-none d-lg-flex col-lg-4"></div>
     <div
       class="col-lg-4 d-flex flex-column text-center justify-content-between"
-      style="overflow-y: auto;flex: 1;min-height: calc(var(--vh, 1vh) * 100);padding-top: 16px !important;
+      style="
+        overflow-y: auto;
+        flex: 1;
+        min-height: calc(var(--vh, 1vh) * 100);
+        padding-top: 16px !important;
       "
       [ngStyle]="{
         'margin-right': '0px',
@@ -1350,7 +1352,10 @@
               </div>
 
               <!-- <hr/> -->
-              <div *ngIf="campaign_data?.participants.length" style="overflow-y: scroll">
+              <div
+                *ngIf="campaign_data?.participants.length"
+                style="overflow-y: scroll"
+              >
                 <div
                   style="
                     margin: 0 !important;
@@ -1650,16 +1655,17 @@
 
         <div class="lets-go-wrapper" *ngIf="activeTab == 'end'">
           <button
-            class="go-button btn"
+            class="go-button hover-btn btn"
             (click)="gotoPlayGame(campaign_data.html_games.game_url)"
             [style.backgroundColor]="
               campaign_data?.html_games?.selected_secondary_color
             "
+            style="color: white !important"
           >
             RETRY
           </button>
           <button
-            class="go-button btn mt-1 mb-1"
+            class="go-button hover-btn btn mt-1 mb-1"
             (click)="gotoLeaderboard()"
             [style.backgroundColor]="
               campaign_data?.html_games?.selected_primary_color

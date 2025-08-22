@@ -782,7 +782,6 @@ export class PredictionsListComponent implements OnInit {
 
     request = {
       params: {
-       
         offset: this.offset.toString(),
         limit: this.limit.toString(),
       },
@@ -953,6 +952,7 @@ export class PredictionsListComponent implements OnInit {
   gotoHome() {
     this.activeTab = "home";
   }
+
   getPageBackground(): string {
     const gameColors = this.campaign_data?.html_games;
     // console.log("game colors",this.campaign_data.html_games);
@@ -1247,24 +1247,23 @@ export class PredictionsListComponent implements OnInit {
     this.getPageBackground();
     console.log(this.campaign_data);
     this.getSinglePredictions(this.campaign_id);
-      if (campaign.event_id == 3) {
-                this.layout_type = "HTML games";
-              } else {
-                this.layout_type = "others";
-              }
-              this._router
-                .navigate([], {
-                  queryParams: {
-                    campaign_id: this.campaign_id,
-                    event_id: this.campaign_data.event_id,
-                  },
-                  queryParamsHandling: "merge",
-                })
-                .then(() => {
-                  // After navigation finishes, grab the full URL
-                  this.currentUrl = window.location.origin + this._router.url;
-                  console.log("Final URL:", this.currentUrl);
-                });
-            
+    if (campaign.event_id == 3) {
+      this.layout_type = "HTML games";
+    } else {
+      this.layout_type = "others";
+    }
+    this._router
+      .navigate([], {
+        queryParams: {
+          campaign_id: this.campaign_id,
+          event_id: this.campaign_data.event_id,
+        },
+        queryParamsHandling: "merge",
+      })
+      .then(() => {
+        // After navigation finishes, grab the full URL
+        this.currentUrl = window.location.origin + this._router.url;
+        console.log("Final URL:", this.currentUrl);
+      });
   }
 }
