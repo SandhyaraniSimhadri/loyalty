@@ -1122,7 +1122,7 @@
           </ul>
         </div>
         <div class="campaign-title">
-          <span *ngIf="activeTab === 'home'">GET READY TO DUNK AND WIN!</span>
+          <span *ngIf="activeTab === 'home'">{{campaign_data.title}}</span>
           <span *ngIf="activeTab !== 'home'">THE DONUT CHALLENGE</span>
         </div>
 
@@ -1164,7 +1164,7 @@
       <div style="flex-grow: 1">
         <div *ngIf="activeTab === 'home'">
           <span class="welcome-text" style="color: white"
-            ><b>Ready to compete?</b></span
+            ><b *ngIf="campaign_data.id!=31">Ready to compete?</b></span
           >
           <div class="image-wrapper">
             <img
