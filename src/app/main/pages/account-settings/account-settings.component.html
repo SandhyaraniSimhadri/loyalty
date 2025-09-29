@@ -3,41 +3,31 @@
     <!-- content-header component -->
     <app-content-header [contentHeader]="contentHeader"></app-content-header>
 
-    <!-- account setting page -->
-    <section id="page-account-settings">
       <div class="row nav-vertical d-flex">
-        <div class="col-md-3 mb-2 mb-md-0">
+        <div class="col-md-3 mb-2 mb-md-0 mt-n1">
           <ul ngbNav #navVertical="ngbNav" class="nav nav-pills flex-column nav-left">
             <li class="nav-item" ngbNavItem>
-              <a
-                ngbNavLink
-                class="nav-link d-flex py-75"
-                id="account-pill-general"
-                data-toggle="pill"
-                href="#account-vertical-general"
-                aria-expanded="true"
-              >
-                <i data-feather="user" class="font-medium-3 mr-1"></i>
-                <span class="font-weight-bold">General</span>
-              </a>
+           
               <ng-template ngbNavContent>
                 <div class="card">
                   <div class="card-body">
-                    <!-- header media -->
-                    <div class="media">
-                      <a href="javascript:void(0);" class="mr-25" *ngIf="avatarImage">
-                        <img [src]="avatarImage" class="rounded mr-50" alt="profile image" height="76" width="80" />
+                   
+                   
+                    <div class="media d-flex justify-content-center align-items-center">
+                      <a href="javascript:void(0);"  *ngIf="avatarImage">
+                        <img [src]="avatarImage" class="rounded" alt="profile image" height="120" width="120" />
                       </a>
 
-                      <a href="javascript:void(0);" class="mr-25" *ngIf="!avatarImage">
-                        <img src="assets/images/profile/person.png" class="rounded mr-50" alt="profile image" height="76" width="80" />
+                      <a href="javascript:void(0);" *ngIf="!avatarImage">
+                        <img src="assets/images/profile/person.png" class="rounded" alt="profile image" height="120" width="120" />
                       </a>
-                      <!-- upload and reset button -->
-                      <div class="media-body mt-75 ml-1">
+                       </div>
+                    
+                      <div class="media-body mt-75 d-flex justify-content-center align-items-center" style="margin-top: 16px !important;">
                         <button
                           (click)="file.click()"
                           for="account-upload"
-                          class="btn btn-sm btn-primary mb-75 mr-75"
+                          class="btn btn-primary mb-75 mr-3"
                           rippleEffect
                         >
                           Upload
@@ -50,16 +40,29 @@
                           accept="image/*"
                           (change)="uploadImage($event)"
                         />
-                        <button class="btn btn-sm btn-outline-secondary mb-75" rippleEffect>Reset</button>
-                        <p>Allowed JPG, GIF or PNG. Max size of 800kB</p>
+                        <button class="btn btn-outline-secondary mb-75" rippleEffect>Reset</button>
+                      
                       </div>
-                      <!--/ upload and reset button -->
-                    </div>
-                    <!--/ header media -->
-
-                    <!-- form -->
+                    
+                   </div>
+                   </div>
+                    <div class="card">
+                  <div class="card-body">
                     <form class="validate-form mt-2">
                       <div class="row">
+                         <div class="col-12 col-sm-6">
+                          <div class="form-group">
+                            <label for="account-name">Name</label>
+                            <input
+                              type="text"
+                              [(ngModel)]="user_info.name"
+                              class="form-control"
+                              id="account-name"
+                              name="name"
+                              placeholder="Name"
+                            />
+                          </div>
+                        </div>
                         <div class="col-12 col-sm-6">
                           <div class="form-group">
                             <label for="account-username">Username</label>
@@ -73,19 +76,7 @@
                             />
                           </div>
                         </div>
-                        <div class="col-12 col-sm-6">
-                          <div class="form-group">
-                            <label for="account-name">Name</label>
-                            <input
-                              type="text"
-                              [(ngModel)]="user_info.name"
-                              class="form-control"
-                              id="account-name"
-                              name="name"
-                              placeholder="Name"
-                            />
-                          </div>
-                        </div>
+                       
                         <div class="col-12 col-sm-6">
                           <div class="form-group">
                             <label for="account-e-mail">E-mail</label>
@@ -113,19 +104,7 @@
                           </div>
                         </div>
                       
-                        <div class="col-12 col-sm-6">
-                          <div class="form-group">
-                            <label for="account-company">Company</label>
-                            <input disabled
-                              type="text"
-                              [(ngModel)]="user_info.company_name"
-                              class="form-control"
-                              id="account-company"
-                              name="company"
-                              placeholder="Company name"
-                            />
-                          </div>
-                        </div>
+                       
                       
                         <div class="col-12">
                           <button type="submit" class="btn btn-primary mt-2 mr-1" rippleEffect (click)="save()">Save changes</button>
@@ -133,12 +112,12 @@
                         </div>
                       </div>
                     </form>
-                    <!--/ form -->
+                   
                   </div>
                 </div>
               </ng-template>
             </li>
-            <li class="nav-item" ngbNavItem>
+   <!-- <li class="nav-item" ngbNavItem>
               <a
                 ngbNavLink
                 class="nav-link d-flex py-75"
@@ -153,7 +132,7 @@
               <ng-template ngbNavContent>
                 <div class="card">
                   <div class="card-body">
-                    <!-- form -->
+                  
                     <form class="validate-form">
                       <div class="row">
                         <div class="col-12 col-sm-6">
@@ -242,7 +221,7 @@
                         </div>
                       </div>
                     </form>
-                    <!--/ form -->
+                   
                   </div>
                 </div>
               </ng-template>
@@ -262,7 +241,7 @@
               <ng-template ngbNavContent>
                 <div class="card">
                   <div class="card-body">
-                    <!-- form -->
+                  
                     <form class="validate-form">
                       <div class="row">
                         <div class="col-12">
@@ -337,7 +316,7 @@
                         </div>
                       </div>
                     </form>
-                    <!--/ form -->
+                 
                   </div>
                 </div>
               </ng-template>
@@ -357,17 +336,17 @@
               <ng-template ngbNavContent>
                 <div class="card">
                   <div class="card-body">
-                    <!-- form -->
+                  
                     <form class="validate-form">
                       <div class="row">
-                        <!-- social header -->
+                      
                         <div class="col-12">
                           <div class="d-flex align-items-center mb-2">
                             <i data-feather="link" class="font-medium-3"></i>
                             <h4 class="mb-0 ml-75">Social Links</h4>
                           </div>
                         </div>
-                        <!-- twitter link input -->
+                      
                         <div class="col-12 col-sm-6">
                           <div class="form-group">
                             <label for="account-twitter">Twitter</label>
@@ -381,7 +360,7 @@
                             />
                           </div>
                         </div>
-                        <!-- facebook link input -->
+                     
                         <div class="col-12 col-sm-6">
                           <div class="form-group">
                             <label for="account-facebook">Facebook</label>
@@ -395,7 +374,7 @@
                             />
                           </div>
                         </div>
-                        <!-- google plus input -->
+                    
                         <div class="col-12 col-sm-6">
                           <div class="form-group">
                             <label for="account-google">Google+</label>
@@ -409,7 +388,7 @@
                             />
                           </div>
                         </div>
-                        <!-- linkedin link input -->
+                      
                         <div class="col-12 col-sm-6">
                           <div class="form-group">
                             <label for="account-linkedin">LinkedIn</label>
@@ -423,7 +402,7 @@
                             />
                           </div>
                         </div>
-                        <!-- instagram link input -->
+                       
                         <div class="col-12 col-sm-6">
                           <div class="form-group">
                             <label for="account-instagram">Instagram</label>
@@ -437,7 +416,7 @@
                             />
                           </div>
                         </div>
-                        <!-- Quora link input -->
+                     
                         <div class="col-12 col-sm-6">
                           <div class="form-group">
                             <label for="account-quora">Quora</label>
@@ -452,71 +431,19 @@
                           </div>
                         </div>
 
-                        <!-- divider -->
+                      
                         <div class="col-12">
                           <hr class="my-2" />
                         </div>
 
-                        <!-- <div class="col-12 mt-1">
-                        
-                          <div class="d-flex align-items-center mb-3">
-                            <i data-feather="user" class="font-medium-3"></i>
-                            <h4 class="mb-0 ml-75">Profile Connections</h4>
-                          </div>
-
-                          <div class="row">
-                           
-                            <div class="col-6 col-md-3 text-center mb-1">
-                              <p class="font-weight-bold">Your Twitter</p>
-                              <div class="avatar mb-1">
-                                <span class="avatar-content">
-                                  <img
-                                    [src]="data.accountSetting.social.connections.twitter.profileImg"
-                                    alt="avatar img"
-                                    width="40"
-                                    height="40"
-                                  />
-                                </span>
-                              </div>
-                              <p class="mb-0">{{ data.accountSetting.social.connections.twitter.id }}</p>
-                              <a href="javascript:void(0)">Disconnect</a>
-                            </div>
-                            
-                            <div class="col-6 col-md-3 text-center mb-1">
-                              <p class="font-weight-bold mb-2">Your Facebook</p>
-                              <button class="btn btn-outline-primary" rippleEffect>Connect</button>
-                            </div>
-                        
-                            <div class="col-6 col-md-3 text-center mb-1">
-                              <p class="font-weight-bold">Your Google</p>
-                              <div class="avatar mb-1">
-                                <span class="avatar-content">
-                                  <img
-                                    [src]="data.accountSetting.social.connections.google.profileImg"
-                                    alt="avatar img"
-                                    width="40"
-                                    height="40"
-                                  />
-                                </span>
-                              </div>
-                              <p class="mb-0">{{ data.accountSetting.social.connections.google.id }}</p>
-                              <a href="javascript:void(0)">Disconnect</a>
-                            </div>
-                          
-                            <div class="col-6 col-md-3 text-center mb-2">
-                              <p class="font-weight-bold mb-1">Your GitHub</p>
-                              <button class="btn btn-outline-primary" rippleEffect>Connect</button>
-                            </div>
-                          </div>
-                        </div> -->
                         <div class="col-12">
-                          <!-- submit and cancel button -->
+                       
                           <button type="submit" class="btn btn-primary mr-1 mt-1" rippleEffect (click)="saveSocialMediaAccounts()">Save changes</button>
                           <button type="reset" class="btn btn-outline-secondary mt-1" rippleEffect>Cancel</button>
                         </div>
                       </div>
                     </form>
-                    <!--/ form -->
+                 
                   </div>
                 </div>
               </ng-template>
@@ -578,40 +505,7 @@
                           >
                         </div>
                       </div>
-                      <!-- <h6 class="section-label mx-1 mt-2">Application</h6>
-                      <div class="col-12 mt-1 mb-2">
-                        <div class="custom-control custom-switch">
-                          <input
-                            type="checkbox"
-                            class="custom-control-input"
-                            [checked]="data.accountSetting.notification.newAnnouncements"
-                            id="accountSwitch4"
-                          />
-                          <label class="custom-control-label" for="accountSwitch4">News and announcements</label>
-                        </div>
-                      </div>
-                      <div class="col-12 mb-2">
-                        <div class="custom-control custom-switch">
-                          <input
-                            type="checkbox"
-                            class="custom-control-input"
-                            [checked]="data.accountSetting.notification.productUpdates"
-                            id="accountSwitch6"
-                          />
-                          <label class="custom-control-label" for="accountSwitch6">Weekly product updates</label>
-                        </div>
-                      </div>
-                      <div class="col-12 mb-75">
-                        <div class="custom-control custom-switch">
-                          <input
-                            type="checkbox"
-                            class="custom-control-input"
-                            [checked]="data.accountSetting.notification.blogDigest"
-                            id="accountSwitch5"
-                          />
-                          <label class="custom-control-label" for="accountSwitch5">Weekly blog digest</label>
-                        </div>
-                      </div> -->
+                    
                       <div class="col-12">
                         <button type="submit" class="btn btn-primary mt-2 mr-1" rippleEffect>Save changes</button>
                         <button type="reset" class="btn btn-outline-secondary mt-2" rippleEffect>Cancel</button>
@@ -620,12 +514,11 @@
                   </div>
                 </div>
               </ng-template>
-            </li>
+            </li>          -->
           </ul>
         </div>
         <div [ngbNavOutlet]="navVertical" class="col-12 col-md-9"></div>
       </div>
-    </section>
-    <!--/ account setting page -->
+   
   </div>
 </div>
