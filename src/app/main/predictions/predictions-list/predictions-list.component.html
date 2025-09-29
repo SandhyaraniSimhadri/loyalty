@@ -1131,7 +1131,10 @@
         </div>
         <div class="campaign-title">
           <span *ngIf="activeTab === 'home'">{{campaign_data.title}}</span>
-          <span *ngIf="activeTab !== 'home'">THE DONUT CHALLENGE</span>
+          <span *ngIf="activeTab !== 'home' && campaign_id==28">THE DONUT CHALLENGE</span>
+          <span *ngIf="activeTab !== 'home' && campaign_id==31">
+INFINITE JUMP CHALLENGE</span>
+
         </div>
 
         <!-- Button Group -->
