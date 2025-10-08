@@ -81,23 +81,29 @@
             >
             <!-- <span class="user-status">{{ this.currentUser.role }}</span> -->
           </div>
-          <span class="avatar"
-            ><img *ngIf="currentUser.avatar"
-              class="round"
-              [src]="apiUrl +currentUser.avatar"
-              alt="avatar"
-              height="40"
-              width="40" />
-              
-              <img *ngIf="currentUser.avatar==null"
-              class="round"
-              src="assets/images/profile/person.png"
-              alt="avatar"
-              height="40"
-              width="40" style="background-color: white;"/>
-              
-              <span class="avatar-status-online"></span
-          ></span>
+<div class="header-user">
+  <span class="avatar">
+    <!-- User avatar -->
+    <img
+      *ngIf="currentUser?.avatar"
+      class="round"
+      [src]="apiUrl + '/' + currentUser.avatar"
+      alt="avatar"
+    />
+
+    <!-- Default placeholder -->
+    <img
+      *ngIf="!currentUser?.avatar"
+      class="round"
+      src="assets/images/profile/person.png"
+      alt="avatar"
+    />
+
+  </span>
+
+
+</div>
+
         </ng-container>
       </a>
       <div ngbDropdownMenu aria-labelledby="navbarUserDropdown" class="dropdown-menu dropdown-menu-right">
