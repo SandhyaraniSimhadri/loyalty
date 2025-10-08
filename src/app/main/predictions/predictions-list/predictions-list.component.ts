@@ -132,17 +132,12 @@ export class PredictionsListComponent implements OnInit {
     private paymentService: PaymentService
   ) {
     this.currentUrl = window.location.href;
-    console.log("url", this.currentUrl);
-    console.log("layout type", this.layout_type);
-    console.log("active tab", this.activeTab);
 
     this.apiUrl = environment.apiUrl;
     this._authenticationService.currentUser.subscribe(
       (x) => (this.currentUser = x)
     );
-    console.log("current user", this.currentUser.avatar);
     this.user_image = this.apiUrl + this.httpService.USERINFO.avatar;
-    console.log("user image", this.user_image);
 
     this._unsubscribeAll = new Subject();
 
@@ -162,6 +157,20 @@ export class PredictionsListComponent implements OnInit {
       },
     };
   }
+  campaignsList() {
+    const url = new URL(window.location.href);
+    url.searchParams.delete("activeTab");
+    url.searchParams.delete("campaign_id");
+    url.searchParams.delete("event_id");
+
+
+    window.history.replaceState({}, document.title, url.toString());
+    this.layout_type = "list";
+    this.activeTab = "home";
+    // this.gameStatus = "none";
+    this.getPredictions();
+  }
+
   openDangerModal(game: any) {
     this.modalService.open(this.modalDanger, { centered: true });
     this.modalsService.item = game; // Store game for later use (e.g., selectWinner)
@@ -195,24 +204,33 @@ export class PredictionsListComponent implements OnInit {
 
   setTab(tab: string) {
     this.activeTab = tab;
-    console.log("tabb", this.activeTab);
   }
   gotoGameStart() {
     this.activeTab = "start";
-    console.log("game status", this.activeTab);
   }
   gotoPlayGame(url) {
-    console.log("urlll", url);
+    // Start from currentUrl
     const urlObj = new URL(this.currentUrl);
-    urlObj.searchParams.set("activeTab", "end");
-    const redirectUrl = encodeURIComponent(urlObj.toString());
-    console.log("redirectUrl", redirectUrl);
 
+    // Add activeTab=end
+    urlObj.searchParams.set("activeTab", "end");
+
+    // Convert to string and encode for redirect_url param
+    const redirectUrl = encodeURIComponent(urlObj.toString());
+
+    // Build final URL
     const fullUrl = `${url}?redirect_url=${redirectUrl}&token=${this.httpService.APIToken}&campaign_id=${this.campaign_data.html_games.campaign_id}&game_id=${this.campaign_data.html_games.id}`;
+
     window.location.href = fullUrl;
   }
+
   gotoLeaderboard() {
     this.activeTab = "leaderboard";
+    const url = new URL(window.location.href);
+    url.searchParams.delete("activeTab");
+    window.history.replaceState({}, document.title, url.toString());
+
+
     this.getSinglePredictions(this.campaign_id);
   }
   /**
@@ -368,10 +386,10 @@ export class PredictionsListComponent implements OnInit {
       "../../../../../assets/images/pages/prediction/predict.png";
     this.apiUrl = environment.apiUrl;
     this.apiUrl_web = environment.apiUrl_web;
+    console;
     this._route.queryParams.subscribe((params) => {
+      console.log("paramss", params);
       if (params && Object.keys(params).length > 0) {
-        // console.log("params hiiiiiiiiiiiiiiiii",params);
-
         var campaign_id = params["campaign_id"];
         this.campaign_id = params["campaign_id"];
         if (params["event_id"]) {
@@ -393,12 +411,9 @@ export class PredictionsListComponent implements OnInit {
           this.getSinglePredictions(this.campaign_id);
         }
       } else {
-        console.log("hiiiiiiiiiiiiiiiii");
         this.campaign_id = 0;
         this.getPredictions();
       }
-      console.log("layout type", this.layout_type);
-      console.log("active tab", this.activeTab);
     });
   }
 
@@ -451,7 +466,6 @@ export class PredictionsListComponent implements OnInit {
     return `#${lightR}${lightG}${lightB}`;
   }
   getSinglePredictions(campaign_id) {
-    console.log("campaign+id", campaign_id);
     this.loading = true;
     this.refresh_loading = true;
 
@@ -473,14 +487,11 @@ export class PredictionsListComponent implements OnInit {
 
         if (res == "nonet") {
         } else {
-          console.log("resssssssss", res);
           if (res.status == false) {
           } else if (res.status == true) {
             this.rows = res.data;
-            console.log("rows", this.rows);
 
             if (res.data) {
-              console.log("res data", res.data);
               this.campaign_data = this.rows;
               if (this.campaign_data.event_id == 3) {
                 this.campaign_data.html_games =
@@ -737,12 +748,10 @@ export class PredictionsListComponent implements OnInit {
                 //     )
                 //   );
                 // }
-                console.log("self data", this.campaign_data.self);
 
                 this.campaign_data.duration =
                   this.campaign_data.duration * 60 * 1000;
                 this.remainingTime = this.campaign_data.duration;
-                console.log(this.submitted);
               }
               if (
                 this.campaign_data.html_games != undefined &&
@@ -798,7 +807,6 @@ export class PredictionsListComponent implements OnInit {
               this.rows = [];
             }
             this.rows = res.data;
-            console.log("rows", this.rows);
             if (this.rows.length > 0) {
               if (res.data.length == 0) {
                 this.rows = [];
@@ -806,8 +814,6 @@ export class PredictionsListComponent implements OnInit {
               }
               if (res.data) {
                 this.campaigns = this.rows;
-
-                console.log("res data", res.data);
               }
 
               this.tempData = this.rows;
@@ -877,7 +883,6 @@ export class PredictionsListComponent implements OnInit {
     // If Menu Collapsed Changes
   }
   selectWinner(selectedWinner: any) {
-    console.log("test123", selectedWinner);
     // selectedWinner.selected_winner=this.winner_selected;
     // return;
     this.loading = true;
@@ -906,7 +911,6 @@ export class PredictionsListComponent implements OnInit {
       action_url: "add_prediction_winner",
       method: "POST",
     };
-    console.log("request data", request);
     this.httpService.doHttp(request).subscribe(
       (res: any) => {
         if (res == "nonet") {
@@ -955,8 +959,6 @@ export class PredictionsListComponent implements OnInit {
 
   getPageBackground(): string {
     const gameColors = this.campaign_data?.html_games;
-    // console.log("game colors",this.campaign_data.html_games);
-    // console.log("game taab",this.activeTab);
 
     switch (this.activeTab) {
       case "home":
@@ -981,12 +983,15 @@ export class PredictionsListComponent implements OnInit {
 
   goToNextQuestion() {
     // this.currentQuestionIndex=0;
-    console.log("next question clicked", this.currentQuestionIndex);
+    console.log("selecte dwinner",this.selectedWinner);
     if (this.selectedWinner) {
       this.answers[this.currentQuestionIndex] = this.selectedWinner;
+    console.log("selecte dwinner",this.answers);
+    console.log("selecte dwinner answer",this.selectedWinner);
+
+
       this.selectedWinner = null;
       if (this.currentQuestionIndex < this.campaign_data.quizzes.length - 1) {
-        console.log("current index", this.currentQuestionIndex);
         this.currentQuestionIndex++;
       } else {
         this.goToSubmit();
@@ -998,7 +1003,6 @@ export class PredictionsListComponent implements OnInit {
         this.showGif = false;
         this.startTime = Date.now();
         this.currentQuestionIndex = 0;
-        console.log("next question clicked", this.currentQuestionIndex);
 
         this.remainingTime = this.campaign_data.duration;
         this.updateRemainingTime();
@@ -1018,7 +1022,8 @@ export class PredictionsListComponent implements OnInit {
     }
   }
   goToSubmit() {
-    console.log("submittttt");
+    console.log("selectedWinner",this.answers);
+    // return ;
     var time_taken = this.formatTimeMs(
       this.campaign_data.duration - this.remainingTime
     );
@@ -1046,10 +1051,12 @@ export class PredictionsListComponent implements OnInit {
         time_taken: time_taken,
         duration: this.formatTime(this.campaign_data.duration),
         points_calc: this.campaign_data.calc_points_immediately,
+        hi:'hello'
       },
       action_url: "add_prediction_winner",
       method: "POST",
     };
+    console.log("request",request);
     this.httpService.doHttp(request).subscribe(
       (res: any) => {
         if (res == "nonet") {
@@ -1237,18 +1244,22 @@ export class PredictionsListComponent implements OnInit {
       this.modalsService.modalOpenDanger(modalDanger, item);
       this.winner_selected = selected_winner;
     }
-    console.log("selected winner", selected_winner);
   }
+
   playNow(campaign: any) {
+    console.log("acmpaignsss");
     this.campaign_data = campaign;
     this.campaign_id = this.campaign_data.id;
+ const url = new URL(window.location.href);
+    url.searchParams.delete("activeTab");
+    window.history.replaceState({}, document.title, url.toString());
 
-    console.log("campaign data: ", typeof this.campaign_data, typeof campaign);
     this.getPageBackground();
-    console.log(this.campaign_data);
     this.getSinglePredictions(this.campaign_id);
     if (campaign.event_id == 3) {
       this.layout_type = "HTML games";
+    this.activeTab="home";
+
     } else {
       this.layout_type = "others";
     }
@@ -1261,9 +1272,14 @@ export class PredictionsListComponent implements OnInit {
         queryParamsHandling: "merge",
       })
       .then(() => {
+        this.activeTab='home';
+ const url = new URL(window.location.href);
+    url.searchParams.delete("activeTab");
+    window.history.replaceState({}, document.title, url.toString());
+
         // After navigation finishes, grab the full URL
         this.currentUrl = window.location.origin + this._router.url;
-        console.log("Final URL:", this.currentUrl);
+        console.log("campaugn current url",this.currentUrl);
       });
   }
 }
