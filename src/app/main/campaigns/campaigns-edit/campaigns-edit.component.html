@@ -343,6 +343,120 @@
                       </div>
 
                       <div class="col-md-6">
+                        <div class="form-group">
+                          <label
+                            class="form-label"
+                            for="basic-icon-default-author"
+                            >Select the login image</label
+                          >
+                          <input
+                            type="file"
+                            class="form-control dt-author"
+                            id="basic-icon-default-author"
+                            placeholder=""
+                            name="author"
+                            [(ngModel)]="imageval"
+                            (change)="uploadImage($event, 'login')"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label
+                            class="form-label"
+                            for="basic-icon-default-author"
+                            >Select the thumbnail image</label
+                          >
+                          <input
+                            type="file"
+                            class="form-control dt-author"
+                            id="basic-icon-default-author"
+                            placeholder=""
+                            name="author"
+                            [(ngModel)]="imageval"
+                            (change)="uploadImage($event, 'thumbnail_image')"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label
+                            class="form-label"
+                            for="basic-icon-default-author"
+                            >Select the logo image</label
+                          >
+                          <input
+                            type="file"
+                            class="form-control dt-author"
+                            id="basic-icon-default-author"
+                            placeholder=""
+                            name="author"
+                            [(ngModel)]="imageval"
+                            (change)="uploadImage($event, 'logo')"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label
+                            class="form-label"
+                            for="basic-icon-default-author"
+                            >Select the welcome image</label
+                          >
+                          <input
+                            type="file"
+                            class="form-control dt-author"
+                            id="basic-icon-default-author"
+                            placeholder=""
+                            name="author"
+                            [(ngModel)]="imageval"
+                            (change)="uploadImage($event, 'welcome')"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="form-label" for="user-plan"
+                            >Login Text</label
+                          >
+                          <textarea
+                            type="text"
+                            id="basic-icon-default-logtext"
+                            class="form-control dt-logtext"
+                            placeholder=""
+                            aria-label=""
+                            aria-describedby="basic-icon-default-logtext"
+                            name="logtext"
+                            [(ngModel)]="currentRow.login_text"
+                            (ngModelChange)="checkFormModified()"
+                          ></textarea>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="form-label" for="user-plan"
+                            >Welcome Text</label
+                          >
+                          <textarea
+                            type="text"
+                            id="basic-icon-default-welcometext"
+                            class="form-control dt-welcometext"
+                            placeholder=""
+                            aria-label=""
+                            aria-describedby="basic-icon-default-welcometext"
+                            name="welcometext"
+                            [(ngModel)]="currentRow.welcome_text"
+                            (ngModelChange)="checkFormModified()"
+                          ></textarea>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
                         <label class="form-label"
                           >Select Event Type
                           <span
@@ -391,291 +505,6 @@
                             >This field is required!</small
                           >
                         </span>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label class="form-label" for="user-plan"
-                            >Title<span
-                              *ngIf="accountForm.submitted && CTitleRef.invalid"
-                              class="text-danger"
-                              >*</span
-                            >
-                            <span
-                              *ngIf="
-                                !accountForm.submitted || !CTitleRef.invalid
-                              "
-                              >*</span
-                            ></label
-                          >
-                          <input
-                            type="text"
-                            id="basic-icon-default-ctitle"
-                            class="form-control dt-ctitle"
-                            placeholder=""
-                            aria-label=""
-                            aria-describedby="basic-icon-default-ctitle"
-                            name="ctitle"
-                            [(ngModel)]="currentRow.title"
-                            [class.error]="
-                              accountForm.submitted && CTitleRef.invalid
-                            "
-                            #CTitleRef="ngModel"
-                            required
-                            (ngModelChange)="checkFormModified()"
-                          />
-                          <span
-                            *ngIf="accountForm.submitted && CTitleRef.invalid"
-                            class="invalid-form"
-                          >
-                            <small
-                              class="form-text text-danger"
-                              *ngIf="CTitleRef.errors.required"
-                              >This field is required!</small
-                            >
-                          </span>
-                        </div>
-                      </div>
-                      <div class="col-md-6" *ngIf="currentRow.event_id == 2">
-                        <label class="form-label" for="user-plan"
-                          >Duration<span
-                            *ngIf="accountForm.submitted && DurationRef.invalid"
-                            class="text-danger"
-                            >*</span
-                          >
-                          <span
-                            *ngIf="
-                              !accountForm.submitted || !DurationRef.invalid
-                            "
-                            >*</span
-                          ></label
-                        >
-                        <input
-                          type="text"
-                          id="basic-icon-default-duration"
-                          class="form-control dt-duration"
-                          placeholder=""
-                          aria-label=""
-                          aria-describedby="basic-icon-default-duration"
-                          name="duration"
-                          [(ngModel)]="currentRow.duration"
-                          [class.error]="
-                            accountForm.submitted && DurationRef.invalid
-                          "
-                          #DurationRef="ngModel"
-                          required
-                        />
-                        <span
-                          *ngIf="accountForm.submitted && DurationRef.invalid"
-                          class="invalid-form"
-                        >
-                          <small
-                            class="form-text text-danger"
-                            *ngIf="DurationRef.errors.required"
-                            >This field is required!</small
-                          >
-                        </span>
-                        <span *ngIf="durationMsg" class="invalid-form">
-                          <small class="form-text text-danger"
-                            >Duration should more than 0</small
-                          >
-                        </span>
-                      </div>
-                      <div
-                        class="col-md-6 form-check mt-1 ml-1 mb-1"
-                        *ngIf="currentRow.event_id == 2"
-                      >
-                        <input
-                          type="checkbox"
-                          class="form-check-input"
-                          id="calculatePointsCheckbox"
-                          [(ngModel)]="currentRow.calc_points_immediately"
-                          name="calculatePoints"
-                        />
-                        <label
-                          class="form-check-label"
-                          for="calculatePointsCheckbox"
-                        >
-                          Calculate points instantly
-                        </label>
-                      </div>
-
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label class="form-label" for="user-plan"
-                            >Game Type<span
-                              *ngIf="accountForm.submitted && GTypeRef.invalid"
-                              class="text-danger"
-                              >*</span
-                            >
-                            <span
-                              *ngIf="
-                                !accountForm.submitted || !GTypeRef.invalid
-                              "
-                              >*</span
-                            ></label
-                          >
-                          <input
-                            type="text"
-                            id="basic-icon-default-gtype"
-                            class="form-control dt-gtype"
-                            placeholder=""
-                            aria-label=""
-                            aria-describedby="basic-icon-default-gtype"
-                            name="gtype"
-                            [(ngModel)]="currentRow.game_type"
-                            [class.error]="
-                              accountForm.submitted && GTypeRef.invalid
-                            "
-                            #GTypeRef="ngModel"
-                            required
-                            (ngModelChange)="checkFormModified()"
-                          />
-                          <span
-                            *ngIf="accountForm.submitted && GTypeRef.invalid"
-                            class="invalid-form"
-                          >
-                            <small
-                              class="form-text text-danger"
-                              *ngIf="GTypeRef.errors.required"
-                              >This field is required!</small
-                            >
-                          </span>
-                        </div>
-                      </div>
-
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label class="form-label" for="user-plan"
-                            >Description</label
-                          >
-                          <input
-                            type="text"
-                            id="basic-icon-default-description"
-                            class="form-control dt-description"
-                            placeholder=""
-                            aria-label=""
-                            aria-describedby="basic-icon-default-description"
-                            name="description"
-                            [(ngModel)]="currentRow.description"
-                            (ngModelChange)="checkFormModified()"
-                          />
-                        </div>
-                      </div>
-
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label
-                            class="form-label"
-                            for="basic-icon-default-author"
-                            >Select the login image</label
-                          >
-                          <input
-                            type="file"
-                            class="form-control dt-author"
-                            id="basic-icon-default-author"
-                            placeholder=""
-                            name="author"
-                            [(ngModel)]="imageval"
-                            (change)="uploadImage($event, 'login')"
-                          />
-                        </div>
-                      </div>
-
-                          <div class="col-md-6">
-                        <div class="form-group">
-                          <label
-                            class="form-label"
-                            for="basic-icon-default-author"
-                            >Select the thumbnail image</label
-                          >
-                          <input
-                            type="file"
-                            class="form-control dt-author"
-                            id="basic-icon-default-author"
-                            placeholder=""
-                            name="author"
-                            [(ngModel)]="imageval"
-                            (change)="uploadImage($event, 'thumbnail_image')"
-                          />
-                        </div>
-                      </div>
-
-
-                     
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label
-                            class="form-label"
-                            for="basic-icon-default-author"
-                            >Select the logo image</label
-                          >
-                          <input
-                            type="file"
-                            class="form-control dt-author"
-                            id="basic-icon-default-author"
-                            placeholder=""
-                            name="author"
-                            [(ngModel)]="imageval"
-                            (change)="uploadImage($event, 'logo')"
-                          />
-                        </div>
-                      </div>
-
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label
-                            class="form-label"
-                            for="basic-icon-default-author"
-                            >Select the welcome image</label
-                          >
-                          <input
-                            type="file"
-                            class="form-control dt-author"
-                            id="basic-icon-default-author"
-                            placeholder=""
-                            name="author"
-                            [(ngModel)]="imageval"
-                            (change)="uploadImage($event, 'welcome')"
-                          />
-                        </div>
-                      </div>
-
-                       <div class="col-md-6">
-                        <div class="form-group">
-                          <label class="form-label" for="user-plan"
-                            >Login Text</label
-                          >
-                          <textarea
-                            type="text"
-                            id="basic-icon-default-logtext"
-                            class="form-control dt-logtext"
-                            placeholder=""
-                            aria-label=""
-                            aria-describedby="basic-icon-default-logtext"
-                            name="logtext"
-                            [(ngModel)]="currentRow.login_text"
-                            (ngModelChange)="checkFormModified()"
-                          ></textarea>
-                        </div>
-                      </div>
-
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label class="form-label" for="user-plan"
-                            >Welcome Text</label
-                          >
-                          <textarea
-                            type="text"
-                            id="basic-icon-default-welcometext"
-                            class="form-control dt-welcometext"
-                            placeholder=""
-                            aria-label=""
-                            aria-describedby="basic-icon-default-welcometext"
-                            name="welcometext"
-                            [(ngModel)]="currentRow.welcome_text"
-                            (ngModelChange)="checkFormModified()"
-                          ></textarea>
-                        </div>
                       </div>
                       <div class="form-group" *ngIf="currentRow.event_id == 1">
                         <div class="card-body">
@@ -881,225 +710,218 @@
                       </div>
 
                       <div class="form-group" *ngIf="currentRow.event_id == 2">
+                        <div class="row">
+                          <div class="col-md-6 col-12">
+                            <div class="form-group">
+                              <label>Question Type *</label>
+                              <select
+                                class="form-control"
+                                [(ngModel)]="selectedType"
+                                name="type{{ i }}"
+                                (change)="onTypeSelectChange(question)"
+                              >
+                                <option value="">Select Type</option>
+                                <option value="mcq">MCQ</option>
+                                <option value="scenario">Scenario</option>
+                                <option value="roleplaying">Roleplaying</option>
+                                <option value="typing">Typing</option>
+                                <option value="audio">Audio</option>
+                                <option value="video">Video</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-6 col-12">
+                            <label class="form-label" for="user-plan">
+                              Duration
+                              <span
+                                *ngIf="
+                                  accountForm.submitted && DurationRef.invalid
+                                "
+                                class="text-danger"
+                                >*</span
+                              >
+                              <span
+                                *ngIf="
+                                  !accountForm.submitted || !DurationRef.invalid
+                                "
+                                >*</span
+                              >
+                            </label>
+                            <input
+                              type="number"
+                              id="basic-icon-default-duration"
+                              class="form-control dt-duration"
+                              placeholder="Enter duration in minutes"
+                              aria-label="Duration"
+                              name="duration"
+                              [(ngModel)]="currentRow.duration"
+                              [class.error]="
+                                accountForm.submitted && DurationRef.invalid
+                              "
+                              #DurationRef="ngModel"
+                              required
+                              min="1"
+                            />
+                            <span
+                              *ngIf="
+                                accountForm.submitted && DurationRef.invalid
+                              "
+                              class="invalid-form"
+                            >
+                              <small
+                                class="form-text text-danger"
+                                *ngIf="DurationRef.errors?.['required']"
+                                >This field is required!</small
+                              >
+                            </span>
+                            <span *ngIf="durationMsg" class="invalid-form">
+                              <small class="form-text text-danger"
+                                >Duration should be more than 0</small
+                              >
+                            </span>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6 form-check mt-1 ml-1 mb-1">
+                          <input
+                            type="checkbox"
+                            class="form-check-input"
+                            id="calculatePointsCheckbox"
+                            [(ngModel)]="currentRow.calc_points_immediately"
+                            name="calculatePoints"
+                          />
+                          <label
+                            class="form-check-label"
+                            for="calculatePointsCheckbox"
+                          >
+                            Calculate points instantly
+                          </label>
+                        </div>
+
                         <div class="card-body">
-                          <form action="#" class="invoice-repeater">
+                          <form class="invoice-repeater mt-2">
                             <div
                               *ngFor="
-                                let question of currentRow.quizzes;
-                                let i = index
+                                let question of questions;
+                                let i = index;
+                                trackBy: trackByIndex
                               "
-                              @heightIn
+                              class="mb-4"
                             >
-                              <div class="row d-flex align-items-end">
-                                <div class="col-12">
+                              <div class="row d-flex align-items-start">
+                                <!-- Question Text -->
+                                <div class="col-12 mb-2">
                                   <div class="form-group">
                                     <label for="question{{ i }}"
                                       >Question {{ i + 1 }}*</label
                                     >
                                     <textarea
-                                      type="text"
                                       class="form-control"
                                       [(ngModel)]="question.question"
                                       name="question{{ i }}"
                                       id="question{{ i }}"
-                                      placeholder="Question"
+                                      placeholder="Enter your question"
                                     ></textarea>
                                   </div>
                                 </div>
-                                <div class="col-md-6 col-12">
-                                  <button
-                                    type="button"
-                                    class="simple-button"
-                                    (click)="toggleUpload(question)"
-                                  >
-                                    <b>Upload Image +</b>
-                                  </button>
-                                  <div
-                                    *ngIf="question.file_name"
-                                    class="upload-container"
-                                  >
-                                    <label
-                                      class="upload-box"
-                                      (dragover)="onDragOver($event, question)"
-                                      (dragleave)="
-                                        onDragLeave($event, question)
-                                      "
-                                      (drop)="onDrop($event, question)"
-                                    >
-                                      <input
-                                        type="file"
-                                        (change)="
-                                          onFileSelected($event, question)
-                                        "
-                                        hidden
-                                        #fileInput
-                                      />
 
-                                      <div class="upload-content">
-                                        <p>Drag and drop your image here</p>
-                                        <p>or</p>
-                                        <button
-                                          type="button"
-                                          (click)="fileInput.click()"
-                                        >
-                                          Browse image
-                                        </button>
-                                      </div> </label
-                                    ><br />
-                                  </div>
-                                  <!-- <p *ngIf="question.file_name"> {{ question.file_name}}</p> -->
-                                </div>
-                                <div
-                                  *ngIf="question.file_name"
-                                  class="col-md-6 col-12 align-items-center justify-content-center d-flex"
+                                <!-- MCQ / Scenario / Roleplaying Options -->
+                                <ng-container
+                                  *ngIf="
+                                    ['mcq', 'scenario', 'roleplaying'].includes(
+                                      question.type
+                                    )
+                                  "
                                 >
-                                  <img
-                                    *ngIf="question.preview; else serverImage"
-                                    [src]="question.preview"
-                                    alt="Preview Image"
-                                    width="90%"
-                                    height="200px"
-                                  />
-
-                                  <ng-template #serverImage>
-                                    <img
-                                      [src]="apiUrl + question.image"
-                                      alt="Question Image"
-                                      width="90%"
-                                      height="200px"
-                                    />
-                                  </ng-template>
-                                </div>
-                                <div
-                                  *ngIf="!question.file_name"
-                                  class="col-md-6 col-12"
-                                ></div>
-                                <div class="col-md-3 col-12 mt-1">
-                                  <div class="form-group">
-                                    <label for="responsea">Response A *</label>
-                                    <input
-                                      type="text"
-                                      class="form-control"
-                                      id="responsea"
-                                      [(ngModel)]="question.response_a"
-                                      name="responsea{{ i }}"
-                                      id="responsea{{ i }}"
-                                      placeholder="Response A"
-                                    />
+                                  <div
+                                    class="col-md-3 col-12 mb-2"
+                                    *ngFor="
+                                      let opt of question.options;
+                                      let j = index
+                                    "
+                                  >
+                                    <div class="form-group">
+                                      <label
+                                        >Option
+                                        {{
+                                          opt.option_key.toUpperCase()
+                                        }}</label
+                                      >
+                                      <input
+                                        type="text"
+                                        class="form-control"
+                                        [(ngModel)]="opt.option_text"
+                                        name="option{{ opt.option_key }}{{ i }}"
+                                        placeholder="Option {{
+                                          opt.option_key.toUpperCase()
+                                        }}"
+                                      />
+                                    </div>
                                   </div>
-                                </div>
 
-                                <div class="col-md-3 col-12">
-                                  <div class="form-group">
-                                    <label for="responseb">Response B *</label>
-                                    <input
-                                      type="text"
-                                      class="form-control"
-                                      id="responseb"
-                                      [(ngModel)]="question.response_b"
-                                      name="responseb{{ i }}"
-                                      id="responseb{{ i }}"
-                                      placeholder="Response B"
-                                    />
+                                  <!-- Correct Answer -->
+                                  <div
+                                    class="col-md-6 col-12 mb-2"
+                                    *ngIf="question.type !== 'roleplaying'"
+                                  >
+                                    <div class="form-group">
+                                      <label>Correct Answer*</label>
+                                      <input
+                                        type="text"
+                                        class="form-control"
+                                        [(ngModel)]="question.correct_answer"
+                                        name="answer{{ i }}"
+                                        placeholder="Enter correct answer"
+                                      />
+                                    </div>
                                   </div>
-                                </div>
+                                </ng-container>
 
-                                <div class="col-md-3 col-12">
+                                <!-- Points -->
+                                <div class="col-md-6 col-12 mb-2">
                                   <div class="form-group">
-                                    <label for="responsec">Response C *</label>
-                                    <input
-                                      type="text"
-                                      class="form-control"
-                                      id="responsec"
-                                      [(ngModel)]="question.response_c"
-                                      name="responsec{{ i }}"
-                                      id="responsec{{ i }}"
-                                      placeholder="Response C"
-                                    />
-                                  </div>
-                                </div>
-
-                                <div class="col-md-3 col-12">
-                                  <div class="form-group">
-                                    <label for="responsed">Response D *</label>
-                                    <input
-                                      type="text"
-                                      class="form-control"
-                                      id="responsed"
-                                      [(ngModel)]="question.response_d"
-                                      name="responsed{{ i }}"
-                                      id="responsed{{ i }}"
-                                      placeholder="Response D"
-                                    />
-                                  </div>
-                                </div>
-
-                                <div class="col-md-6 col-12">
-                                  <div class="form-group">
-                                    <label for="points{{ i }}">Points *</label>
+                                    <label>Points*</label>
                                     <input
                                       type="number"
                                       class="form-control"
-                                      id="points{{ i }}"
-                                      name="points{{ i }}"
                                       [(ngModel)]="question.points"
+                                      name="points{{ i }}"
                                       placeholder="Points"
                                     />
                                   </div>
                                 </div>
 
-                                <div class="col-md-6 col-12">
-                                  <div class="form-group">
-                                    <label for="answer{{ i }}">Answer *</label>
-                                    <input
-                                      type="text"
-                                      class="form-control"
-                                      id="answer{{ i }}"
-                                      name="aswer{{ i }}"
-                                      [(ngModel)]="question.correct_answer"
-                                      placeholder="Answer"
-                                    />
-                                  </div>
-                                </div>
-
+                                <!-- Delete Question -->
                                 <div
-                                  class="col-md-2 col-12 mb-50"
+                                  class="col-md-2 col-12 mb-2"
                                   *ngIf="currentRow.quizzes.length > 1"
                                 >
-                                  <div class="form-group">
-                                    <button
-                                      class="btn btn-outline-danger text-nowrap px-1"
-                                      (click)="deleteQuestion(i)"
-                                      rippleEffect
-                                    >
-                                      <i data-feather="x" class="mr-25"></i>
-                                      <span>Delete</span>
-                                    </button>
-                                  </div>
+                                  <button
+                                    class="btn btn-outline-danger"
+                                    type="button"
+                                    (click)="deleteQuestion(i)"
+                                  >
+                                    Delete
+                                  </button>
                                 </div>
                               </div>
-                              <small
-                                *ngIf="errorMsg"
-                                class="form-text text-danger"
-                                >All fields are required!</small
-                              >
-
                               <hr />
                             </div>
-                          </form>
-                          <div class="row">
-                            <div class="col-12">
-                              <button
-                                class="btn btn-icon btn-primary"
-                                type="button"
-                                (click)="addQuestion()"
-                                rippleEffect
-                              >
-                                <i data-feather="plus" class="mr-25"></i>
-                                <span>Add New</span>
-                              </button>
+
+                            <!-- Add Question Button -->
+                            <div class="row mt-2">
+                              <div class="col-12">
+                                <button
+                                  class="btn btn-primary"
+                                  type="button"
+                                  (click)="addQuestion()"
+                                >
+                                  <i data-feather="plus" class="mr-25"></i>
+                                  Add New Question
+                                </button>
+                              </div>
                             </div>
-                          </div>
+                          </form>
                         </div>
                       </div>
 
@@ -1147,9 +969,8 @@
                                 />
                               </div>
                             </div>
-                           
 
-                               <div class="col-md-4 col-12">
+                            <div class="col-md-4 col-12">
                               <div class="form-group">
                                 <label
                                   class="form-label"
@@ -1167,7 +988,6 @@
                                 />
                               </div>
                             </div>
-
 
                             <div class="col-md-4 col-12">
                               <div class="form-group">
@@ -1205,7 +1025,6 @@
                                 />
                               </div>
                             </div>
-                               
 
                             <div class="col-md-6 col-12">
                               <div class="form-group">
@@ -1248,7 +1067,7 @@
                               </div>
                             </div>
 
-                                    <div class="col-md-6 col-12">
+                            <div class="col-md-6 col-12">
                               <div class="form-group">
                                 <label
                                   class="form-label"
@@ -1268,7 +1087,6 @@
                               </div>
                             </div>
 
-
                             <div class="col-md-6 col-12">
                               <div class="form-group">
                                 <label
@@ -1283,14 +1101,14 @@
                                   placeholder=""
                                   name="author"
                                   [(ngModel)]="
-                                    currentRow.html_games.selected_startpage_color
+                                    currentRow.html_games
+                                      .selected_startpage_color
                                   "
                                 />
                               </div>
                             </div>
 
-
-                             <div class="col-md-6 col-12">
+                            <div class="col-md-6 col-12">
                               <div class="form-group">
                                 <label
                                   class="form-label"
@@ -1304,16 +1122,14 @@
                                   placeholder=""
                                   name="author"
                                   [(ngModel)]="
-                                    currentRow.html_games.selected_overpage_color
+                                    currentRow.html_games
+                                      .selected_overpage_color
                                   "
                                 />
                               </div>
                             </div>
 
-
-
-
-                             <div class="col-md-6 col-12">
+                            <div class="col-md-6 col-12">
                               <div class="form-group">
                                 <label
                                   class="form-label"
@@ -1327,14 +1143,12 @@
                                   placeholder=""
                                   name="author"
                                   [(ngModel)]="
-                                    currentRow.html_games.selected_welcomepage_button_color
+                                    currentRow.html_games
+                                      .selected_welcomepage_button_color
                                   "
                                 />
                               </div>
                             </div>
-
-
-                            
 
                             <div class="form-group col-12">
                               <form action="#" class="invoice-repeater mt-1">
@@ -1495,6 +1309,113 @@
                               </div>
                             </div>
                           </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="form-label" for="user-plan"
+                            >Title<span
+                              *ngIf="accountForm.submitted && CTitleRef.invalid"
+                              class="text-danger"
+                              >*</span
+                            >
+                            <span
+                              *ngIf="
+                                !accountForm.submitted || !CTitleRef.invalid
+                              "
+                              >*</span
+                            ></label
+                          >
+                          <input
+                            type="text"
+                            id="basic-icon-default-ctitle"
+                            class="form-control dt-ctitle"
+                            placeholder=""
+                            aria-label=""
+                            aria-describedby="basic-icon-default-ctitle"
+                            name="ctitle"
+                            [(ngModel)]="currentRow.title"
+                            [class.error]="
+                              accountForm.submitted && CTitleRef.invalid
+                            "
+                            #CTitleRef="ngModel"
+                            required
+                            (ngModelChange)="checkFormModified()"
+                          />
+                          <span
+                            *ngIf="accountForm.submitted && CTitleRef.invalid"
+                            class="invalid-form"
+                          >
+                            <small
+                              class="form-text text-danger"
+                              *ngIf="CTitleRef.errors.required"
+                              >This field is required!</small
+                            >
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="form-label" for="user-plan"
+                            >Game Type<span
+                              *ngIf="accountForm.submitted && GTypeRef.invalid"
+                              class="text-danger"
+                              >*</span
+                            >
+                            <span
+                              *ngIf="
+                                !accountForm.submitted || !GTypeRef.invalid
+                              "
+                              >*</span
+                            ></label
+                          >
+                          <input
+                            type="text"
+                            id="basic-icon-default-gtype"
+                            class="form-control dt-gtype"
+                            placeholder=""
+                            aria-label=""
+                            aria-describedby="basic-icon-default-gtype"
+                            name="gtype"
+                            [(ngModel)]="currentRow.game_type"
+                            [class.error]="
+                              accountForm.submitted && GTypeRef.invalid
+                            "
+                            #GTypeRef="ngModel"
+                            required
+                            (ngModelChange)="checkFormModified()"
+                          />
+                          <span
+                            *ngIf="accountForm.submitted && GTypeRef.invalid"
+                            class="invalid-form"
+                          >
+                            <small
+                              class="form-text text-danger"
+                              *ngIf="GTypeRef.errors.required"
+                              >This field is required!</small
+                            >
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="form-label" for="user-plan"
+                            >Description</label
+                          >
+                          <input
+                            type="text"
+                            id="basic-icon-default-description"
+                            class="form-control dt-description"
+                            placeholder=""
+                            aria-label=""
+                            aria-describedby="basic-icon-default-description"
+                            name="description"
+                            [(ngModel)]="currentRow.description"
+                            (ngModelChange)="checkFormModified()"
+                          />
                         </div>
                       </div>
 
