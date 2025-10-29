@@ -593,18 +593,20 @@
               </div>
 
               <!-- Calculate Points Checkbox -->
-              <div class="form-check mb-3">
-                <input
-                  type="checkbox"
-                  class="form-check-input"
-                  id="calculatePointsCheckbox"
-                  [(ngModel)]="calculatePoints"
-                  name="calculatePoints"
-                />
-                <label class="form-check-label" for="calculatePointsCheckbox">
-                  Calculate points instantly
-                </label>
-              </div>
+             <div class="d-flex align-items-center mb-3">
+  <input
+    type="checkbox"
+    id="calculatePointsCheckbox"
+    [(ngModel)]="calculatePoints"
+    name="calculatePoints"
+    class="form-check-input"
+    style="margin-right: 8px;"
+  />
+  <label for="calculatePointsCheckbox" class="form-check-label">
+    Calculate points instantly
+  </label>
+</div>
+
 
               <!-- Questions Form -->
               <form class="invoice-repeater mt-2">
