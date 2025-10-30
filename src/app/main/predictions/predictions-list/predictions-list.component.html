@@ -605,9 +605,35 @@
           </ng-container>
 
           <!-- Audio / Video Answer Input (if required) -->
-          <ng-container *ngIf="['audio','video'].includes(campaign_data.quizzes[currentQuestionIndex].type)">
-            <input type="text" class="form-control mt-1" [(ngModel)]="selectedWinner" placeholder="Enter your answer" />
-          </ng-container>
+        <ng-container *ngIf="['audio', 'video'].includes(campaign_data.quizzes[currentQuestionIndex].type)">
+  <!-- Media Preview -->
+  <div class="media-preview mt-2">
+    <!-- Audio Preview -->
+    <audio
+      *ngIf="campaign_data.quizzes[currentQuestionIndex].type === 'audio'"
+      [src]="apiUrl + campaign_data.quizzes[currentQuestionIndex].file_name"
+      controls
+      style="width: 100%;"
+    ></audio>
+
+    <!-- Video Preview -->
+    <video
+      *ngIf="campaign_data.quizzes[currentQuestionIndex].type === 'video'"
+      [src]="apiUrl + '/' + campaign_data.quizzes[currentQuestionIndex].file_name"
+      controls
+      style="width: 100%; max-height: 300px; border-radius: 8px;"
+    ></video>
+  </div>
+
+  <!-- Text Answer Input -->
+  <input
+    type="text"
+    class="form-control mt-2"
+    [(ngModel)]="selectedWinner"
+    placeholder="Enter your answer"
+  />
+</ng-container>
+
 
         </div>
 
