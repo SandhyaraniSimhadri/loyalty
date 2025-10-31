@@ -708,222 +708,227 @@
                           </div>
                         </div>
                       </div>
-
-                      <div class="form-group" *ngIf="currentRow.event_id == 2">
-                        <div class="row">
-                          <div class="col-md-6 col-12">
-                            <div class="form-group">
-                              <label>Question Type *</label>
-                              <select
-                                class="form-control"
-                                [(ngModel)]="selectedType"
-                                name="type{{ i }}"
-                                (change)="onTypeSelectChange(question)"
-                              >
-                                <option value="">Select Type</option>
-                                <option value="mcq">MCQ</option>
-                                <option value="scenario">Scenario</option>
-                                <option value="roleplaying">Roleplaying</option>
-                                <option value="typing">Typing</option>
-                                <option value="audio">Audio</option>
-                                <option value="video">Video</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div class="col-md-6 col-12">
-                            <label class="form-label" for="user-plan">
-                              Duration
-                              <span
-                                *ngIf="
-                                  accountForm.submitted && DurationRef.invalid
-                                "
-                                class="text-danger"
-                                >*</span
-                              >
-                              <span
-                                *ngIf="
-                                  !accountForm.submitted || !DurationRef.invalid
-                                "
-                                >*</span
-                              >
-                            </label>
-                            <input
-                              type="number"
-                              id="basic-icon-default-duration"
-                              class="form-control dt-duration"
-                              placeholder="Enter duration in minutes"
-                              aria-label="Duration"
-                              name="duration"
-                              [(ngModel)]="currentRow.duration"
-                              [class.error]="
-                                accountForm.submitted && DurationRef.invalid
-                              "
-                              #DurationRef="ngModel"
-                              required
-                              min="1"
-                            />
-                            <span
-                              *ngIf="
-                                accountForm.submitted && DurationRef.invalid
-                              "
-                              class="invalid-form"
-                            >
-                              <small
-                                class="form-text text-danger"
-                                *ngIf="DurationRef.errors?.['required']"
-                                >This field is required!</small
-                              >
-                            </span>
-                            <span *ngIf="durationMsg" class="invalid-form">
-                              <small class="form-text text-danger"
-                                >Duration should be more than 0</small
-                              >
-                            </span>
-                          </div>
-                        </div>
-
-                        <div class="col-md-6 form-check mt-1 ml-1 mb-1">
-                          <input
-                            type="checkbox"
-                            class="form-check-input"
-                            id="calculatePointsCheckbox"
-                            [(ngModel)]="currentRow.calc_points_immediately"
-                            name="calculatePoints"
-                          />
-                          <label
-                            class="form-check-label"
-                            for="calculatePointsCheckbox"
+                    </div>
+                    <div class="row">
+                      <!-- Question Type -->
+                      <div
+                        class="col-md-6 mt-1"
+                        *ngIf="currentRow.event_id == 2"
+                      >
+                        <div class="form-group">
+                          <label class="form-label">Question Type *</label>
+                          <select
+                            class="form-control"
+                            [(ngModel)]="selectedType"
+                            name="type{{ i }}"
+                            (change)="onTypeSelectChange(question)"
                           >
-                            Calculate points instantly
-                          </label>
+                            <option value="">Select</option>
+                            <option value="mcq">Multiple Choice</option>
+                            <option value="typing">Word Guess / Typing</option>
+                            <!-- <option value="audio">Audio-Based Quiz</option>
+                            <option value="video">Video-Based Quiz</option> -->
+                            <option value="scenario">
+                              Scenario-Based Quiz
+                            </option>
+                            <option value="roleplaying">
+                              Role-Playing / Personality Quiz
+                            </option>
+                          </select>
                         </div>
+                      </div>
 
-                        <div class="card-body">
-                          <form class="invoice-repeater mt-2">
-                            <div
-                              *ngFor="
-                                let question of questions;
-                                let i = index;
-                                trackBy: trackByIndex
-                              "
-                              class="mb-4"
-                            >
-                              <div class="row d-flex align-items-start">
-                                <!-- Question Text -->
-                                <div class="col-12 mb-2">
-                                  <div class="form-group">
-                                    <label for="question{{ i }}"
-                                      >Question {{ i + 1 }}*</label
-                                    >
-                                    <textarea
-                                      class="form-control"
-                                      [(ngModel)]="question.question"
-                                      name="question{{ i }}"
-                                      id="question{{ i }}"
-                                      placeholder="Enter your question"
-                                    ></textarea>
-                                  </div>
-                                </div>
+                      <!-- Duration -->
+                      <div
+                        class="col-md-6 mt-1"
+                        *ngIf="currentRow.event_id == 2"
+                      >
+                        <div class="form-group">
+                          <label>
+                            Duration (minutes)
+                            <span class="text-danger">*</span>
+                          </label>
+                          <input
+                            type="number"
+                            class="form-control"
+                            placeholder="Enter duration"
+                            [(ngModel)]="currentRow.duration"
+                            name="duration"
+                            min="1"
+                            required
+                          />
+                          <small *ngIf="durationMsg" class="text-danger"
+                            >Duration should be more than 0</small
+                          >
+                        </div>
+                      </div>
 
-                                <!-- MCQ / Scenario / Roleplaying Options -->
-                                <ng-container
-                                  *ngIf="
-                                    ['mcq', 'scenario', 'roleplaying'].includes(
-                                      question.type
-                                    )
-                                  "
-                                >
-                                  <div
-                                    class="col-md-3 col-12 mb-2"
-                                    *ngFor="
-                                      let opt of question.options;
-                                      let j = index
-                                    "
+                      <!-- Checkbox -->
+
+                      <div class="d-flex align-items-center mb-1 ml-1">
+                        <input
+                          type="checkbox"
+                          class="form-check-input"
+                          id="calculatePointsCheckbox"
+                          [(ngModel)]="currentRow.calc_points_immediately"
+                          name="calculatePoints"
+                          style="margin-right: 8px"
+                        />
+                        <label
+                          for="calculatePointsCheckbox"
+                          class="form-check-label"
+                        >
+                          Calculate points instantly
+                        </label>
+                      </div>
+                      </div>
+                      
+                     
+                        <form class="invoice-repeater">
+                          <div
+                            *ngFor="
+                              let question of questions;
+                              let i = index;
+                              trackBy: trackByIndex
+                            "
+                            class="border-bottom"
+                          >
+                            <div class="row">
+                              <!-- Question -->
+                              <div class="col-12">
+                                <div class="form-group">
+                                  <label for="question{{ i }}"
+                                    >Question {{ i + 1 }} *</label
                                   >
-                                    <div class="form-group">
-                                      <label
-                                        >Option
-                                        {{
-                                          opt.option_key.toUpperCase()
-                                        }}</label
-                                      >
-                                      <input
-                                        type="text"
-                                        class="form-control"
-                                        [(ngModel)]="opt.option_text"
-                                        name="option{{ opt.option_key }}{{ i }}"
-                                        placeholder="Option {{
-                                          opt.option_key.toUpperCase()
-                                        }}"
-                                      />
-                                    </div>
-                                  </div>
-
-                                  <!-- Correct Answer -->
-                                  <div
-                                    class="col-md-6 col-12 mb-2"
-                                    *ngIf="question.type !== 'roleplaying'"
-                                  >
-                                    <div class="form-group">
-                                      <label>Correct Answer*</label>
-                                      <input
-                                        type="text"
-                                        class="form-control"
-                                        [(ngModel)]="question.correct_answer"
-                                        name="answer{{ i }}"
-                                        placeholder="Enter correct answer"
-                                      />
-                                    </div>
-                                  </div>
-                                </ng-container>
-
-                                <!-- Points -->
-                                <div class="col-md-6 col-12 mb-2">
-                                  <div class="form-group">
-                                    <label>Points*</label>
-                                    <input
-                                      type="number"
-                                      class="form-control"
-                                      [(ngModel)]="question.points"
-                                      name="points{{ i }}"
-                                      placeholder="Points"
-                                    />
-                                  </div>
-                                </div>
-
-                                <!-- Delete Question -->
-                                <div
-                                  class="col-md-2 col-12 mb-2"
-                                  *ngIf="currentRow.quizzes.length > 1"
-                                >
-                                  <button
-                                    class="btn btn-outline-danger"
-                                    type="button"
-                                    (click)="deleteQuestion(i)"
-                                  >
-                                    Delete
-                                  </button>
+                                  <textarea
+                                    class="form-control"
+                                    [(ngModel)]="question.question"
+                                    name="question{{ i }}"
+                                    id="question{{ i }}"
+                                    placeholder="Enter your question"
+                                  ></textarea>
                                 </div>
                               </div>
-                              <hr />
-                            </div>
 
-                            <!-- Add Question Button -->
-                            <div class="row mt-2">
-                              <div class="col-12">
-                                <button
-                                  class="btn btn-primary"
-                                  type="button"
-                                  (click)="addQuestion()"
+                              <!-- File Upload / Preview (Audio/Video) -->
+                              <div
+                                class="col-md-6 mb-3"
+                                *ngIf="
+                                  ['audio', 'video'].includes(question.type)
+                                "
+                              >
+                                <label>Upload {{ question.type }} File *</label>
+                                <input
+                                  type="file"
+                                  accept="{{ question.type }}/*"
+                                  (change)="onFileSelect($event, question)"
+                                  class="form-control"
+                                />
+
+                                <!-- Preview -->
+                                <div class="mt-2" *ngIf="question.file_name">
+                                  <audio
+                                    *ngIf="question.type === 'audio'"
+                                    [src]="apiUrl + question.file_name"
+                                    controls
+                                    class="w-100"
+                                  ></audio>
+
+                                  <video
+                                    *ngIf="question.type === 'video'"
+                                    [src]="apiUrl + question.file_name"
+                                    controls
+                                    class="w-100 rounded"
+                                    style="max-height: 240px"
+                                  ></video>
+                                </div>
+                              </div>
+
+                              <!-- Options for MCQ/Scenario/Roleplaying -->
+                              <ng-container
+                                *ngIf="
+                                  ['mcq', 'scenario', 'roleplaying'].includes(
+                                    question.type
+                                  )
+                                "
+                              >
+                                <div
+                                  class="col-md-3 mb-2"
+                                  *ngFor="
+                                    let opt of question.options;
+                                    let j = index
+                                  "
                                 >
-                                  <i data-feather="plus" class="mr-25"></i>
-                                  Add New Question
+                                  <label
+                                    >Option
+                                    {{ opt.option_key.toUpperCase() }}</label
+                                  >
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    [(ngModel)]="opt.option_text"
+                                    name="option{{ opt.option_key }}{{ i }}"
+                                    placeholder="Enter option"
+                                  />
+                                </div>
+
+                                <!-- Correct Answer -->
+                                <div
+                                  class="col-md-6 mb-2"
+                                  *ngIf="question.type !== 'roleplaying'"
+                                >
+                                  <label>Correct Answer *</label>
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    [(ngModel)]="question.correct_answer"
+                                    name="answer{{ i }}"
+                                    placeholder="Enter correct answer"
+                                  />
+                                </div>
+                              </ng-container>
+
+                              <!-- Points -->
+                              <div class="col-md-6">
+                                <label>Points *</label>
+                                <input
+                                  type="number"
+                                  class="form-control"
+                                  [(ngModel)]="question.points"
+                                  name="points{{ i }}"
+                                  placeholder="Points"
+                                />
+                              </div>
+
+                              <!-- Delete Button -->
+                              <div class="col-md-2 d-flex align-items-end">
+                                <button
+                                  *ngIf="questions.length > 1"
+                                  type="button"
+                                  class="btn btn-outline-danger w-100"
+                                  (click)="deleteQuestion(i)"
+                                >
+                                  Delete
                                 </button>
                               </div>
                             </div>
-                          </form>
-                        </div>
-                      </div>
+                          </div>
+
+                          <!-- Add Question -->
+                          <div class="row mt-1">
+                            <div class="col-12">
+                              <button
+                                class="btn btn-primary"
+                                type="button"
+                                (click)="addQuestion()"
+                              >
+                                <i data-feather="plus" class="mr-25"></i>
+                                Add New Question
+                              </button>
+                            </div>
+                          </div>
+                        </form>
+                    
 
                       <div
                         class="form-group"
@@ -1311,7 +1316,7 @@
                           </div>
                         </div>
                       </div>
-
+                      <div class="row mt-1">
                       <div class="col-md-6">
                         <div class="form-group">
                           <label class="form-label" for="user-plan"
@@ -1441,7 +1446,7 @@
                           Reset
                         </button>
                       </div>
-                    </div>
+                   </div>
                   </form>
                   <!-- users edit account form ends -->
                 </div>

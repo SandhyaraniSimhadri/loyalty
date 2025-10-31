@@ -1,10 +1,4 @@
-<div
-  class="full-height-container"
-  [ngStyle]="{ 'background': 'white' }"
->
-
-
-
+<div class="full-height-container" [ngStyle]="{ background: 'white' }">
   <div class="loading" *ngIf="loading">
     <div class="effect-1 effects"></div>
     <div class="effect-2 effects"></div>
@@ -52,8 +46,8 @@
                       >Profile Settings</a
                     >
                   </li>
-                
-                    <li>
+
+                  <li>
                     <a class="dropdown-item" (click)="logout()">Logout</a>
                   </li>
                 </ul>
@@ -142,7 +136,7 @@
 
                         font-family: 'Roboto Condensed';
                         font-size: 18px;
-                        text-transform:uppercase ;
+                        text-transform: uppercase;
                       "
                     >
                       {{ campaign.campaign_title }}
@@ -165,19 +159,31 @@
                         "
                       />
                     </div>
-                      <div style="display: flex;align-items: center;">
-                        <span style="font-size: 14px; color: black; flex: 1; text-transform:uppercase ;">{{
-                          campaign.description
-                        }}</span>
+                    <div style="display: flex; align-items: center">
+                      <span
+                        style="
+                          font-size: 14px;
+                          color: black;
+                          flex: 1;
+                          text-transform: uppercase;
+                        "
+                        >{{ campaign.description }}</span
+                      >
 
-                        <button
-                          class="btn btn-primary btn-primary-predict"
-                          style="font-size: 12px;margin: auto;"
-                          (click)="playNow(campaign)"
-                        >
-                        {{campaign.event_id == 2 ? !campaign.self?.rank ? 'Play now' : 'Details' : 'Play now'}}
-                        </button>
-                      </div>
+                      <button
+                        class="btn btn-primary btn-primary-predict"
+                        style="font-size: 12px; margin: auto"
+                        (click)="playNow(campaign)"
+                      >
+                        {{
+                          campaign.event_id == 2
+                            ? !campaign.self?.rank
+                              ? "Play now"
+                              : "Details"
+                            : "Play now"
+                        }}
+                      </button>
+                    </div>
                   </div>
                 </div>
                 <!-- <hr/> -->
@@ -227,7 +233,9 @@
                   aria-labelledby="dropdownMenuButton"
                 >
                   <li>
-                    <a class="dropdown-item" (click)="campaignsList()">Other Campaigns</a>
+                    <a class="dropdown-item" (click)="campaignsList()"
+                      >Other Campaigns</a
+                    >
                   </li>
                   <li>
                     <a class="dropdown-item" (click)="editProfile()"
@@ -533,156 +541,275 @@
           <button (click)="tryAgain()">Try again</button>
         </div>
 
- <div *ngIf="!loading && campaign_data?.quizzes?.length > 0 && !campaign_data?.self">
-  <div class="card earnings-card">
-    <div class="card-body">
+        <div
+          *ngIf="
+            !loading &&
+            campaign_data?.quizzes?.length > 0 &&
+            !campaign_data?.self
+          "
+        >
+          <div class="card earnings-card">
+            <div class="card-body">
+              <!-- Timer -->
+              <div class="row">
+                <div
+                  class="col-12"
+                  *ngIf="currentQuestionIndex == -1 && !submitted"
+                >
+                  <div class="time-available-wrapper">
+                    <div class="time-available">
+                      <div class="time-text">
+                        Available Time: {{ formatTime(remainingTime) }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col-12"
+                  *ngIf="remainingTime && currentQuestionIndex >= 0"
+                >
+                  <div class="time-available-wrapper">
+                    <div class="time-available">
+                      <div class="time-text">
+                        Time Remaining: {{ formatTime(remainingTime) }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-      <!-- Timer -->
-      <div class="row">
-        <div class="col-12" *ngIf="currentQuestionIndex == -1 && !submitted">
-          <div class="time-available-wrapper">
-            <div class="time-available">
-              <div class="time-text">
-                Available Time: {{ formatTime(remainingTime) }}
+              <!-- Quiz Title & Description -->
+              <h4
+                class="card-title text-center"
+                style="color: blue; font-weight: 400"
+              >
+                QUIZ QUEST: {{ campaign_data.campaign_title }}
+              </h4>
+              <p class="mt-1">{{ campaign_data.description }}</p>
+
+              <!-- Quiz Questions -->
+              <div *ngIf="currentQuestionIndex >= 0" class="container-new">
+                <h5 class="question-text">
+                  {{ campaign_data.quizzes[currentQuestionIndex].question }}
+                </h5>
+
+                <!-- Media Display -->
+                <!-- <div
+                  *ngIf="campaign_data.quizzes[currentQuestionIndex].media_path"
+                  class="d-flex justify-content-center mb-2"
+                >
+                  <ng-container
+                    [ngSwitch]="
+                      campaign_data.quizzes[currentQuestionIndex].type
+                    "
+                  >
+                    <audio *ngSwitchCase="'audio'" controls>
+                      <source
+                        [src]="
+                          apiUrl +
+                          campaign_data.quizzes[currentQuestionIndex].media_path
+                        "
+                        type="audio/mpeg"
+                      />
+                    </audio>
+                    <video
+                      *ngSwitchCase="'video'"
+                      controls
+                      width="100%"
+                      height="auto"
+                    >
+                      <source
+                        [src]="
+                          apiUrl +
+                          campaign_data.quizzes[currentQuestionIndex].media_path
+                        "
+                        type="video/mp4"
+                      />
+                    </video>
+                    <img
+                      *ngSwitchDefault
+                      [src]="
+                        apiUrl +
+                        campaign_data.quizzes[currentQuestionIndex].media_path
+                      "
+                      width="100%"
+                    />
+                  </ng-container>
+                </div> -->
+
+                <!-- Question Input Types -->
+                <div>
+                  <!-- MCQ / Scenario / Roleplaying -->
+                  <ng-container
+                    *ngIf="
+                      ['mcq', 'scenario', 'roleplaying'].includes(
+                        campaign_data.quizzes[currentQuestionIndex].type
+                      )
+                    "
+                  >
+                    <label
+                      *ngFor="
+                        let opt of campaign_data.quizzes[currentQuestionIndex]
+                          .options
+                      "
+                      class="custom-radio"
+                      [class.selected]="selectedWinner === opt.option_text"
+                    >
+                      <input
+                        type="radio"
+                        class="form-check-input"
+                        name="quizOption"
+                        [value]="opt.option_text"
+                        [(ngModel)]="selectedWinner"
+                      />
+                      <span>{{ opt.option_text }}</span>
+                    </label>
+                  </ng-container>
+
+                  <!-- Typing / Free-text -->
+                  <ng-container
+                    *ngIf="
+                      campaign_data.quizzes[currentQuestionIndex].type ===
+                      'typing'
+                    "
+                  >
+                    <input
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="selectedWinner"
+                      placeholder="Enter your answer"
+                    />
+                  </ng-container>
+
+                  <!-- Audio / Video Answer Input (if required) -->
+                  <ng-container
+                    *ngIf="
+                      ['audio', 'video'].includes(
+                        campaign_data.quizzes[currentQuestionIndex].type
+                      )
+                    "
+                  >
+                    <!-- Media Preview -->
+                    <div class="media-preview mt-2">
+                      <!-- Audio Preview -->
+                     
+                        <audio
+                          *ngIf="
+                            campaign_data.quizzes[currentQuestionIndex].type ===
+                            'audio'
+                          "
+                          [src]="
+                            apiUrl +
+                            campaign_data.quizzes[currentQuestionIndex]
+                              .file_name
+                          "
+                          controls
+                          style="width: 100%"
+                        ></audio>
+                    
+
+                      <!-- Video Preview -->
+                      <video
+                        *ngIf="
+                          campaign_data.quizzes[currentQuestionIndex].type ===
+                          'video'
+                        "
+                        [src]="
+                          apiUrl +
+                          '/' +
+                          campaign_data.quizzes[currentQuestionIndex].file_name
+                        "
+                        controls
+                        style="
+                          width: 100%;
+                          max-height: 300px;
+                          border-radius: 8px;
+                        "
+                      ></video>
+                    </div>
+
+                    <!-- Text Answer Input -->
+                    <input
+                      type="text"
+                      class="form-control mt-2"
+                      [(ngModel)]="selectedWinner"
+                      placeholder="Enter your answer" style="width: 100% !important;"
+                    />
+                  </ng-container>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="navigation-buttons mt-2">
+                  <button
+                    *ngIf="
+                      currentQuestionIndex != campaign_data.quizzes.length - 1
+                    "
+                    class="btn btn-primary"
+                    [disabled]="!selectedWinner"
+                    (click)="goToNextQuestion()"
+                  >
+                    Next
+                  </button>
+                  <button
+                    *ngIf="
+                      currentQuestionIndex == campaign_data.quizzes.length - 1
+                    "
+                    class="btn btn-primary"
+                    [disabled]="!selectedWinner"
+                    (click)="goToNextQuestion()"
+                  >
+                    Submit
+                  </button>
+                </div>
+
+                <!-- Question Count -->
+                <div class="row mt-2 float-right">
+                  <div class="col-12">
+                    {{ currentQuestionIndex + 1 }}/{{
+                      campaign_data.quizzes.length
+                    }}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Start Quiz Screen -->
+              <div
+                *ngIf="currentQuestionIndex == -1 && !submitted && !showGif"
+                class="text-center"
+              >
+                <img
+                  [src]="
+                    campaign_data?.campaign_image
+                      ? apiUrl + campaign_data.campaign_image
+                      : loginImage
+                  "
+                  alt="Quiz Start"
+                  width="100%"
+                  style="object-fit: cover"
+                />
+                <div class="row mt-2">
+                  <button class="col-6 btn btn-primary-TandC mb-1">T&Cs</button>
+                  <button
+                    class="col-6 btn btn-primary mb-1"
+                    (click)="startCountdown()"
+                  >
+                    Start
+                  </button>
+                </div>
+              </div>
+
+              <!-- Countdown GIF -->
+              <div *ngIf="showGif" class="gif-container text-center">
+                <img
+                  src="assets/images/pages/quiz_countdown.gif"
+                  alt="Starting GIF"
+                  width="120"
+                  height="120"
+                />
               </div>
             </div>
           </div>
         </div>
-        <div class="col-12" *ngIf="remainingTime && currentQuestionIndex >= 0">
-          <div class="time-available-wrapper">
-            <div class="time-available">
-              <div class="time-text">
-                Time Remaining: {{ formatTime(remainingTime) }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Quiz Title & Description -->
-      <h4 class="card-title text-center" style="color: blue; font-weight: 400">
-        QUIZ QUEST: {{ campaign_data.campaign_title }}
-      </h4>
-      <p class="mt-1">{{ campaign_data.description }}</p>
-
-      <!-- Quiz Questions -->
-      <div *ngIf="currentQuestionIndex >= 0" class="container-new">
-        <h5 class="question-text">{{ campaign_data.quizzes[currentQuestionIndex].question }}</h5>
-
-        <!-- Media Display -->
-        <div *ngIf="campaign_data.quizzes[currentQuestionIndex].media_path" class="d-flex justify-content-center mb-2">
-          <ng-container [ngSwitch]="campaign_data.quizzes[currentQuestionIndex].type">
-            <audio *ngSwitchCase="'audio'" controls>
-              <source [src]="apiUrl + campaign_data.quizzes[currentQuestionIndex].media_path" type="audio/mpeg" />
-            </audio>
-            <video *ngSwitchCase="'video'" controls width="100%" height="auto">
-              <source [src]="apiUrl + campaign_data.quizzes[currentQuestionIndex].media_path" type="video/mp4" />
-            </video>
-            <img *ngSwitchDefault [src]="apiUrl + campaign_data.quizzes[currentQuestionIndex].media_path" width="100%" />
-          </ng-container>
-        </div>
-
-        <!-- Question Input Types -->
-        <div class="demo-inline-spacing">
-
-          <!-- MCQ / Scenario / Roleplaying -->
-          <ng-container *ngIf="['mcq','scenario','roleplaying'].includes(campaign_data.quizzes[currentQuestionIndex].type)">
-            <label *ngFor="let opt of campaign_data.quizzes[currentQuestionIndex].options"
-                   class="custom-radio"
-                   [class.selected]="selectedWinner === opt.option_text">
-              <input type="radio"
-                     class="form-check-input"
-                     name="quizOption"
-                     [value]="opt.option_text"
-                     [(ngModel)]="selectedWinner" />
-              <span>{{ opt.option_text }}</span>
-            </label>
-          </ng-container>
-
-          <!-- Typing / Free-text -->
-          <ng-container *ngIf="campaign_data.quizzes[currentQuestionIndex].type === 'typing'">
-            <input type="text" class="form-control" [(ngModel)]="selectedWinner" placeholder="Enter your answer" />
-          </ng-container>
-
-          <!-- Audio / Video Answer Input (if required) -->
-        <ng-container *ngIf="['audio', 'video'].includes(campaign_data.quizzes[currentQuestionIndex].type)">
-  <!-- Media Preview -->
-  <div class="media-preview mt-2">
-    <!-- Audio Preview -->
-    <audio
-      *ngIf="campaign_data.quizzes[currentQuestionIndex].type === 'audio'"
-      [src]="apiUrl + campaign_data.quizzes[currentQuestionIndex].file_name"
-      controls
-      style="width: 100%;"
-    ></audio>
-
-    <!-- Video Preview -->
-    <video
-      *ngIf="campaign_data.quizzes[currentQuestionIndex].type === 'video'"
-      [src]="apiUrl + '/' + campaign_data.quizzes[currentQuestionIndex].file_name"
-      controls
-      style="width: 100%; max-height: 300px; border-radius: 8px;"
-    ></video>
-  </div>
-
-  <!-- Text Answer Input -->
-  <input
-    type="text"
-    class="form-control mt-2"
-    [(ngModel)]="selectedWinner"
-    placeholder="Enter your answer"
-  />
-</ng-container>
-
-
-        </div>
-
-        <!-- Navigation Buttons -->
-        <div class="navigation-buttons mt-2">
-          <button *ngIf="currentQuestionIndex != campaign_data.quizzes.length - 1"
-                  class="btn btn-primary"
-                  [disabled]="!selectedWinner"
-                  (click)="goToNextQuestion()">
-            Next
-          </button>
-          <button *ngIf="currentQuestionIndex == campaign_data.quizzes.length - 1"
-                  class="btn btn-primary"
-                  [disabled]="!selectedWinner"
-                  (click)="goToNextQuestion()">
-            Submit
-          </button>
-        </div>
-
-        <!-- Question Count -->
-        <div class="row mt-2 float-right">
-          <div class="col-12">
-            {{ currentQuestionIndex + 1 }}/{{ campaign_data.quizzes.length }}
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Start Quiz Screen -->
-      <div *ngIf="currentQuestionIndex == -1 && !submitted && !showGif" class="text-center">
-        <img [src]="campaign_data?.campaign_image ? apiUrl + campaign_data.campaign_image : loginImage"
-             alt="Quiz Start"
-             width="100%"
-             style="object-fit: cover;" />
-        <div class="row mt-2">
-          <button class="col-6 btn btn-primary-TandC mb-1">T&Cs</button>
-          <button class="col-6 btn btn-primary mb-1" (click)="startCountdown()">Start</button>
-        </div>
-      </div>
-
-      <!-- Countdown GIF -->
-      <div *ngIf="showGif" class="gif-container text-center">
-        <img src="assets/images/pages/quiz_countdown.gif" alt="Starting GIF" width="120" height="120" />
-      </div>
-
-    </div>
-  </div>
-</div>
-
 
         <div
           class="card"
@@ -1011,8 +1138,10 @@
             aria-labelledby="dropdownMenuButton"
           >
             <li>
-                    <a class="dropdown-item" (click)="campaignsList()">Other Campaigns</a>
-                  </li>
+              <a class="dropdown-item" (click)="campaignsList()"
+                >Other Campaigns</a
+              >
+            </li>
             <li>
               <a class="dropdown-item" (click)="editProfile()"
                 >Profile Settings</a
@@ -1024,11 +1153,13 @@
           </ul>
         </div>
         <div class="campaign-title">
-          <span *ngIf="activeTab === 'home'">{{campaign_data.title}}</span>
-          <span *ngIf="activeTab !== 'home' && campaign_id==28">THE DONUT CHALLENGE</span>
-          <span *ngIf="activeTab !== 'home' && campaign_id==31">
-INFINITE JUMP CHALLENGE</span>
-
+          <span *ngIf="activeTab === 'home'">{{ campaign_data.title }}</span>
+          <span *ngIf="activeTab !== 'home' && campaign_id == 28"
+            >THE DONUT CHALLENGE</span
+          >
+          <span *ngIf="activeTab !== 'home' && campaign_id == 31">
+            INFINITE JUMP CHALLENGE</span
+          >
         </div>
 
         <!-- Button Group -->
@@ -1069,7 +1200,7 @@ INFINITE JUMP CHALLENGE</span>
       <div style="flex-grow: 1">
         <div *ngIf="activeTab === 'home'">
           <span class="welcome-text" style="color: white"
-            ><b *ngIf="campaign_data.id!=31">Ready to compete?</b></span
+            ><b *ngIf="campaign_data.id != 31">Ready to compete?</b></span
           >
           <div class="image-wrapper">
             <img
@@ -1451,7 +1582,7 @@ INFINITE JUMP CHALLENGE</span>
                           ><i>{{ prize.prize_desc }}</i></span
                         >
                       </div>
-                      <div class="col-3" style="margin-left: -14px !important;">
+                      <div class="col-3" style="margin-left: -14px !important">
                         <img
                           class="prize-image"
                           *ngIf="prize.image"
@@ -1466,42 +1597,40 @@ INFINITE JUMP CHALLENGE</span>
             </div>
           </div>
         </div>
-<div
-  *ngIf="activeTab == 'start'"
-  class="justify-content-between align-items-center text-center start-container"
-  [ngStyle]="{
-    'margin-right': '0px !important',
-    'padding-left': '0px !important',
-    'padding-right': '0px !important',
-    'min-height': '100% !important'
-  }"
-  style="overflow-y: scroll !important; flex: 1"
->
-  <!-- Back Arrow -->
-<div class="back-arrow" (click)="gotoHome()">
-  <img 
-    src="../../../../assets/images/predictions/back_btn.png" 
-    alt="Back"
-    [style.fill]="campaign_data?.html_games?.selected_secondary_color" 
-  />
-</div>
+        <div
+          *ngIf="activeTab == 'start'"
+          class="justify-content-between align-items-center text-center start-container"
+          [ngStyle]="{
+            'margin-right': '0px !important',
+            'padding-left': '0px !important',
+            'padding-right': '0px !important',
+            'min-height': '100% !important'
+          }"
+          style="overflow-y: scroll !important; flex: 1"
+        >
+          <!-- Back Arrow -->
+          <div class="back-arrow" (click)="gotoHome()">
+            <img
+              src="../../../../assets/images/predictions/back_btn.png"
+              alt="Back"
+              [style.fill]="campaign_data?.html_games?.selected_secondary_color"
+            />
+          </div>
 
-
-  <div class="game-section-wrapper page-wrapper" style="flex: 1">
-    <div class="content-top" style="flex: 1">
-      <img
-        class="welcome-image"
-        [src]="
-          campaign_id && campaign_data?.html_games?.game_start_image
-            ? apiUrl + campaign_data.html_games.game_start_image
-            : start_image
-        "
-        alt="Start Image"
-      />
-    </div>
-  </div>
-</div>
-
+          <div class="game-section-wrapper page-wrapper" style="flex: 1">
+            <div class="content-top" style="flex: 1">
+              <img
+                class="welcome-image"
+                [src]="
+                  campaign_id && campaign_data?.html_games?.game_start_image
+                    ? apiUrl + campaign_data.html_games.game_start_image
+                    : start_image
+                "
+                alt="Start Image"
+              />
+            </div>
+          </div>
+        </div>
 
         <div
           *ngIf="activeTab == 'end'"
@@ -1625,4 +1754,3 @@ INFINITE JUMP CHALLENGE</span>
   </div>
   <div id="paymob-iframe"></div>
 </ng-template>
-          
