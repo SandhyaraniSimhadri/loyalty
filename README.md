@@ -1,4 +1,4 @@
-# Vuexy - Angular Admin Template
+# Thephoenixguild
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli).
 
