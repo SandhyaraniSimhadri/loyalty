@@ -6,6 +6,7 @@ export interface CoreConfig {
     appTitle    : string;
     appLogoImage: string;
     appLanguage :'en' | 'fr' | 'de' | 'pt';
+    appIcon: string;
   };
   layout: {
     skin : 'default' | 'bordered' | 'dark' | 'semi-dark';

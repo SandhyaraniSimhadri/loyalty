@@ -16,10 +16,12 @@ import { CoreConfig } from '@core/types';
 // prettier-ignore
 export const coreConfig: CoreConfig = {
   app: {
-    appName     : 'Vuexy',                                        // App Name
-    appTitle    : 'Vuexy', // App Title
-    appLogoImage: 'assets/images/logo/logo.svg',                  // App Logo
+    appName     : 'Thephoenixguild',                                        // App Name
+    appTitle    : 'Thephoenixguild', // App Title
+    appLogoImage: 'assets/images/ico/favicon.ico',                  // App Logo
+    appIcon: 'assets/images/ico/favicon.ico',                  // title Logo
     appLanguage : 'en',                                           // App Default Language (en, fr, de, pt etc..)
+
   },
   layout: {
     skin  : 'default',                        // default, dark, bordered, semi-dark
