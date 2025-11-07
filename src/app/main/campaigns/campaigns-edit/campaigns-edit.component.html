@@ -301,17 +301,8 @@
                       <div class="col-md-6">
                         <div class="form-group">
                           <label class="form-label" for="user-plan"
-                            >Terms and Conditions<span
-                              *ngIf="accountForm.submitted && TandCRef.invalid"
-                              class="text-danger"
-                              >*</span
-                            >
-                            <span
-                              *ngIf="
-                                !accountForm.submitted || !TandCRef.invalid
-                              "
-                              >*</span
-                            ></label
+                            >Terms and Conditions
+                            </label
                           >
                           <input
                             type="text"
@@ -322,23 +313,11 @@
                             aria-describedby="basic-icon-default-terms-and-conditions"
                             name="terms-and-conditions"
                             [(ngModel)]="currentRow.terms_and_conditions"
-                            [class.error]="
-                              accountForm.submitted && TandCRef.invalid
-                            "
-                            #TandCRef="ngModel"
-                            required
+                           
+                            
                             (ngModelChange)="checkFormModified()"
                           />
-                          <span
-                            *ngIf="accountForm.submitted && TandCRef.invalid"
-                            class="invalid-form"
-                          >
-                            <small
-                              class="form-text text-danger"
-                              *ngIf="TandCRef.errors.required"
-                              >This field is required!</small
-                            >
-                          </span>
+                      
                         </div>
                       </div>
 

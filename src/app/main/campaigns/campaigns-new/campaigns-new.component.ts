@@ -508,8 +508,25 @@ export class CampaignsNewComponent implements OnInit {
   // }
 
 
+
   submit(form) {
-    // return
+     if (
+    !this.campaign_title ||
+    !this.company_id ||
+    !this.start_date ||
+    !this.end_date ||
+    !this.terms_and_conditions ||
+    !this.event_id ||  !this.game_type ||  !this.title
+  ) {
+    
+     this._toastrService.error("Please fill all the required fields marked with * before submitting.", "Failed", {
+          toastClass: "toast ngx-toastr",
+          closeButton: true,
+        });
+    return ;
+  }
+
+    
   this.loading = true;
     let base64File: string = '';
 
@@ -651,6 +668,7 @@ const questionsData = await Promise.all(
         this.loading = false;
 
 console.log("payload",payload);
+
 // return;
     // send to API
     this.http.post<any>(this.apiUrl + "api/add_campaign", payload).subscribe(
