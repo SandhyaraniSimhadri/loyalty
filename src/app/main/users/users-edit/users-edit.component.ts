@@ -24,6 +24,7 @@ import { isEqual } from 'lodash';
   selector: "app-users-edit",
   templateUrl: "./users-edit.component.html",
   styleUrls: ["./users-edit.component.scss"],
+   encapsulation: ViewEncapsulation.None,
  
 })
 export class UsersEditComponent implements OnInit, OnDestroy {
@@ -141,7 +142,16 @@ export class UsersEditComponent implements OnInit, OnDestroy {
    * @param form
    */
   submit(form) {
+    if(this.currentRow.company_id==''){
+  
+      this._toastrService.warning("Please fill mandatory fields", "Failed", {
+                  toastClass: "toast ngx-toastr",
+                  closeButton: true,
+                });
+      return;
+    }
     this.buttonLoading=true;
+
     if (form.valid) {
       const formData = new FormData();
       formData.append("image", this.image);

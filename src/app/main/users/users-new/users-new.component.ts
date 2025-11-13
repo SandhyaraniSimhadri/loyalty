@@ -144,6 +144,7 @@ export class UsersNewComponent implements OnInit {
     this.loading = false;
   }
   modalOpenForm(modalForm) {
+    console.log("fomr");
     this.modalService.open(modalForm);
   }
   uploadFile() {

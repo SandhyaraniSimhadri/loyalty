@@ -40,11 +40,7 @@ import { environment } from "environments/environment";
   encapsulation: ViewEncapsulation.None,
 })
 export class LoginComponent implements OnInit {
-  /**
-   *
-   * @param {HttpClient} _http
-   * @param {ToastrService} _toastrService
-   */
+  
 
   // socialUser!: SocialUser;
   isLoggedin?: boolean;
