@@ -216,19 +216,28 @@ export class LoginComponent implements OnInit {
                     this._router.navigate(["/company/company"]);
                   }
                 } else {
+                  if (this.httpService.USERINFO.first_time_login == 1) {
                   if(this.campaign_id){
                     this._router.navigate(["/welcome"], {
                       queryParams: { campaign_id: this.campaign_id,welcome_image:this.campaign_data?.welcome_image,welcome_text:this.campaign_data?.welcome_text, event_id:this.campaign_data?.event_id },
                     });}
                     else{
-                      // this._router.navigate(["/welcome"], {
-                      //   queryParams: {  campaign_id: this.campaign_id,
-                      //     company_id: this.company_id},
-                      // });
+                     
 
                        this._router.navigate(["/welcome"]);
                     }
                 }
+              else{
+                if(this.campaign_id){
+                    this._router.navigate(["/predictions/predictions"], {
+                      queryParams: { campaign_id: this.campaign_id,welcome_image:this.campaign_data?.welcome_image,welcome_text:this.campaign_data?.welcome_text, event_id:this.campaign_data?.event_id },
+                    });}
+                    else{
+                     
+
+                       this._router.navigate(["/predictions/predictions"]);
+                    }
+              }}
                 // }, 3000);
               } else {
                 this.login_cred = false;
